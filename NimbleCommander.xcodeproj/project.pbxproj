@@ -72,6 +72,17 @@
 		8AF073172155177700895FEF /* unique_path.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF072FA215516E200895FEF /* unique_path.cpp */; };
 		8AF073182155177700895FEF /* utf8_codecvt_facet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF072FB215516E200895FEF /* utf8_codecvt_facet.cpp */; };
 		8AF073192155178500895FEF /* windows_file_codecvt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF072FC215516E200895FEF /* windows_file_codecvt.cpp */; };
+		8AF0733E21551A8700895FEF /* FlippableHolder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0732A21551A5D00895FEF /* FlippableHolder.mm */; };
+		8AF0733F21551A8700895FEF /* Parser.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0732B21551A5D00895FEF /* Parser.mm */; };
+		8AF0734021551A8700895FEF /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0732C21551A5D00895FEF /* Screen.cpp */; };
+		8AF0734121551A8700895FEF /* ScreenBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0733121551A5D00895FEF /* ScreenBuffer.cpp */; };
+		8AF0734221551A8700895FEF /* ScrollView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0732D21551A5D00895FEF /* ScrollView.mm */; };
+		8AF0734321551A8700895FEF /* Settings.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0732721551A5C00895FEF /* Settings.mm */; };
+		8AF0734421551A8700895FEF /* ShellTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0733221551A5D00895FEF /* ShellTask.cpp */; };
+		8AF0734521551A8700895FEF /* SingleTask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0732821551A5C00895FEF /* SingleTask.cpp */; };
+		8AF0734621551A8700895FEF /* Task.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0733021551A5D00895FEF /* Task.cpp */; };
+		8AF0734721551A8700895FEF /* TranslateMaps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0732621551A5C00895FEF /* TranslateMaps.cpp */; };
+		8AF0734821551A8700895FEF /* View.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0733321551A5D00895FEF /* View.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2420,6 +2431,31 @@
 		8AF07300215516E200895FEF /* error_code.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = error_code.cpp; sourceTree = "<group>"; };
 		8AF073052155171F00895FEF /* libboost_system.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboost_system.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF0730D2155172E00895FEF /* libboost_filesystem.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libboost_filesystem.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AF0731E2155191900895FEF /* libTerm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTerm.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AF0732621551A5C00895FEF /* TranslateMaps.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TranslateMaps.cpp; path = source/TranslateMaps.cpp; sourceTree = "<group>"; };
+		8AF0732721551A5C00895FEF /* Settings.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Settings.mm; path = source/Settings.mm; sourceTree = "<group>"; };
+		8AF0732821551A5C00895FEF /* SingleTask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SingleTask.cpp; path = source/SingleTask.cpp; sourceTree = "<group>"; };
+		8AF0732921551A5D00895FEF /* Term-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Term-prefix.pch"; path = "source/Term-prefix.pch"; sourceTree = "<group>"; };
+		8AF0732A21551A5D00895FEF /* FlippableHolder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FlippableHolder.mm; path = source/FlippableHolder.mm; sourceTree = "<group>"; };
+		8AF0732B21551A5D00895FEF /* Parser.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Parser.mm; path = source/Parser.mm; sourceTree = "<group>"; };
+		8AF0732C21551A5D00895FEF /* Screen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Screen.cpp; path = source/Screen.cpp; sourceTree = "<group>"; };
+		8AF0732D21551A5D00895FEF /* ScrollView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ScrollView.mm; path = source/ScrollView.mm; sourceTree = "<group>"; };
+		8AF0732E21551A5D00895FEF /* FlippableHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FlippableHolder.h; path = source/FlippableHolder.h; sourceTree = "<group>"; };
+		8AF0732F21551A5D00895FEF /* TranslateMaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TranslateMaps.h; path = source/TranslateMaps.h; sourceTree = "<group>"; };
+		8AF0733021551A5D00895FEF /* Task.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Task.cpp; path = source/Task.cpp; sourceTree = "<group>"; };
+		8AF0733121551A5D00895FEF /* ScreenBuffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScreenBuffer.cpp; path = source/ScreenBuffer.cpp; sourceTree = "<group>"; };
+		8AF0733221551A5D00895FEF /* ShellTask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ShellTask.cpp; path = source/ShellTask.cpp; sourceTree = "<group>"; };
+		8AF0733321551A5D00895FEF /* View.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = View.mm; path = source/View.mm; sourceTree = "<group>"; };
+		8AF0733421551A6C00895FEF /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = include/Term/Settings.h; sourceTree = "<group>"; };
+		8AF0733521551A6C00895FEF /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Parser.h; path = include/Term/Parser.h; sourceTree = "<group>"; };
+		8AF0733621551A6C00895FEF /* SingleTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SingleTask.h; path = include/Term/SingleTask.h; sourceTree = "<group>"; };
+		8AF0733721551A6C00895FEF /* ScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScrollView.h; path = include/Term/ScrollView.h; sourceTree = "<group>"; };
+		8AF0733821551A6D00895FEF /* View.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = View.h; path = include/Term/View.h; sourceTree = "<group>"; };
+		8AF0733921551A6D00895FEF /* CursorMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CursorMode.h; path = include/Term/CursorMode.h; sourceTree = "<group>"; };
+		8AF0733A21551A6D00895FEF /* Screen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Screen.h; path = include/Term/Screen.h; sourceTree = "<group>"; };
+		8AF0733B21551A6D00895FEF /* Task.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Task.h; path = include/Term/Task.h; sourceTree = "<group>"; };
+		8AF0733C21551A6D00895FEF /* ShellTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ShellTask.h; path = include/Term/ShellTask.h; sourceTree = "<group>"; };
+		8AF0733D21551A6D00895FEF /* ScreenBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScreenBuffer.h; path = include/Term/ScreenBuffer.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2470,6 +2506,7 @@
 				8A548D8B2154F0510047A5B2 /* Habanero */,
 				8A997D922154F5E8008E63DD /* Utility */,
 				8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */,
+				8AF07323215519CE00895FEF /* Term */,
 				8AF06992215516E000895FEF /* ThirdParty */,
 				8A548D772154EE410047A5B2 /* Products */,
 			);
@@ -2482,6 +2519,7 @@
 				8A548DBF2154F0870047A5B2 /* libHabanero.a */,
 				8A171C4B2154F5760043D119 /* libUtility.a */,
 				8AF05FDF2154FAEC00895FEF /* libRoutedIO.a */,
+				8AF0731E2155191900895FEF /* libTerm.a */,
 				8AF073052155171F00895FEF /* libboost_system.a */,
 				8AF0730D2155172E00895FEF /* libboost_filesystem.a */,
 			);
@@ -6456,6 +6494,53 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		8AF07323215519CE00895FEF /* Term */ = {
+			isa = PBXGroup;
+			children = (
+				8AF0732521551A4800895FEF /* Headers */,
+				8AF0732421551A3F00895FEF /* Sources */,
+			);
+			path = Term;
+			sourceTree = "<group>";
+		};
+		8AF0732421551A3F00895FEF /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8AF0732E21551A5D00895FEF /* FlippableHolder.h */,
+				8AF0732A21551A5D00895FEF /* FlippableHolder.mm */,
+				8AF0732B21551A5D00895FEF /* Parser.mm */,
+				8AF0732C21551A5D00895FEF /* Screen.cpp */,
+				8AF0733121551A5D00895FEF /* ScreenBuffer.cpp */,
+				8AF0732D21551A5D00895FEF /* ScrollView.mm */,
+				8AF0732721551A5C00895FEF /* Settings.mm */,
+				8AF0733221551A5D00895FEF /* ShellTask.cpp */,
+				8AF0732821551A5C00895FEF /* SingleTask.cpp */,
+				8AF0733021551A5D00895FEF /* Task.cpp */,
+				8AF0732921551A5D00895FEF /* Term-prefix.pch */,
+				8AF0732621551A5C00895FEF /* TranslateMaps.cpp */,
+				8AF0732F21551A5D00895FEF /* TranslateMaps.h */,
+				8AF0733321551A5D00895FEF /* View.mm */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		8AF0732521551A4800895FEF /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8AF0733921551A6D00895FEF /* CursorMode.h */,
+				8AF0733521551A6C00895FEF /* Parser.h */,
+				8AF0733A21551A6D00895FEF /* Screen.h */,
+				8AF0733D21551A6D00895FEF /* ScreenBuffer.h */,
+				8AF0733721551A6C00895FEF /* ScrollView.h */,
+				8AF0733421551A6C00895FEF /* Settings.h */,
+				8AF0733C21551A6D00895FEF /* ShellTask.h */,
+				8AF0733621551A6C00895FEF /* SingleTask.h */,
+				8AF0733B21551A6D00895FEF /* Task.h */,
+				8AF0733821551A6D00895FEF /* View.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -6551,6 +6636,21 @@
 			productReference = 8AF0730D2155172E00895FEF /* libboost_filesystem.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		8AF0731D2155191900895FEF /* Term */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AF073212155191900895FEF /* Build configuration list for PBXNativeTarget "Term" */;
+			buildPhases = (
+				8AF0731A2155191900895FEF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Term;
+			productName = Term;
+			productReference = 8AF0731E2155191900895FEF /* libTerm.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -6578,6 +6678,9 @@
 					8AF0730C2155172E00895FEF = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
+					8AF0731D2155191900895FEF = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
 				};
 			};
 			buildConfigurationList = 8A548D712154EE410047A5B2 /* Build configuration list for PBXProject "NimbleCommander" */;
@@ -6597,6 +6700,7 @@
 				8A548DBE2154F0870047A5B2 /* Habanero */,
 				8A171C4A2154F5760043D119 /* Utility */,
 				8AF05FDE2154FAEC00895FEF /* RoutedIO */,
+				8AF0731D2155191900895FEF /* Term */,
 				8AF073042155171F00895FEF /* boost_system */,
 				8AF0730C2155172E00895FEF /* boost_filesystem */,
 			);
@@ -6721,6 +6825,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8AF0731A2155191900895FEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AF0733E21551A8700895FEF /* FlippableHolder.mm in Sources */,
+				8AF0733F21551A8700895FEF /* Parser.mm in Sources */,
+				8AF0734021551A8700895FEF /* Screen.cpp in Sources */,
+				8AF0734121551A8700895FEF /* ScreenBuffer.cpp in Sources */,
+				8AF0734221551A8700895FEF /* ScrollView.mm in Sources */,
+				8AF0734321551A8700895FEF /* Settings.mm in Sources */,
+				8AF0734421551A8700895FEF /* ShellTask.cpp in Sources */,
+				8AF0734521551A8700895FEF /* SingleTask.cpp in Sources */,
+				8AF0734621551A8700895FEF /* Task.cpp in Sources */,
+				8AF0734721551A8700895FEF /* TranslateMaps.cpp in Sources */,
+				8AF0734821551A8700895FEF /* View.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
@@ -6815,12 +6937,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYSTEM_HEADER_SEARCH_PATHS = (
+				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
 					RoutedIO/include,
 				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
@@ -6828,12 +6950,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SYSTEM_HEADER_SEARCH_PATHS = (
+				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
 					RoutedIO/include,
 				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -6869,6 +6991,38 @@
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = ThirdParty/boost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8AF0731F2155191900895FEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Term/source/Term-prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					ThirdParty/boost,
+					Habanero/include,
+					Utility/include,
+					Term/include,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8AF073202155191900895FEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Term/source/Term-prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					ThirdParty/boost,
+					Habanero/include,
+					Utility/include,
+					Term/include,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -6935,6 +7089,15 @@
 			buildConfigurations = (
 				8AF0730F2155172E00895FEF /* Debug */,
 				8AF073102155172E00895FEF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AF073212155191900895FEF /* Build configuration list for PBXNativeTarget "Term" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AF0731F2155191900895FEF /* Debug */,
+				8AF073202155191900895FEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
