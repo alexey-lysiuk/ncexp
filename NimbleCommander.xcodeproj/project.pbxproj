@@ -61,6 +61,8 @@
 		8AB24CE92154F6CA00A1C3A7 /* SystemInformation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CA72154F65100A1C3A7 /* SystemInformation.mm */; };
 		8AB24CEA2154F6CA00A1C3A7 /* VerticallyCenteredTextFieldCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC02154F65200A1C3A7 /* VerticallyCenteredTextFieldCell.mm */; };
 		8AB24CEB2154F6CA00A1C3A7 /* VolumeInformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC62154F65300A1C3A7 /* VolumeInformation.cpp */; };
+		8AF05FE32154FB1500895FEF /* RoutedIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CF42154FA9800A1C3A7 /* RoutedIO.cpp */; };
+		8AF05FE42154FB1700895FEF /* RoutedIOInterfaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CF22154FA9800A1C3A7 /* RoutedIOInterfaces.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -181,6 +183,14 @@
 		8AB24CC62154F65300A1C3A7 /* VolumeInformation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VolumeInformation.cpp; path = Utility/source/VolumeInformation.cpp; sourceTree = SOURCE_ROOT; };
 		8AB24CC72154F65300A1C3A7 /* FilenameTextControl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FilenameTextControl.mm; path = Utility/source/FilenameTextControl.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CC82154F65300A1C3A7 /* FontExtras.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FontExtras.mm; path = Utility/source/FontExtras.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CEF2154FA8800A1C3A7 /* RoutedIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RoutedIO.h; path = include/RoutedIO/RoutedIO.h; sourceTree = "<group>"; };
+		8AB24CF02154FA9800A1C3A7 /* PrivilegedIOHelper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PrivilegedIOHelper.cpp; path = source/PrivilegedIOHelper.cpp; sourceTree = "<group>"; };
+		8AB24CF12154FA9800A1C3A7 /* PrivilegedIOHelper-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PrivilegedIOHelper-Info.plist"; path = "source/PrivilegedIOHelper-Info.plist"; sourceTree = "<group>"; };
+		8AB24CF22154FA9800A1C3A7 /* RoutedIOInterfaces.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RoutedIOInterfaces.cpp; path = source/RoutedIOInterfaces.cpp; sourceTree = "<group>"; };
+		8AB24CF32154FA9800A1C3A7 /* RoutedIOInterfaces.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RoutedIOInterfaces.h; path = source/RoutedIOInterfaces.h; sourceTree = "<group>"; };
+		8AB24CF42154FA9800A1C3A7 /* RoutedIO.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RoutedIO.cpp; path = source/RoutedIO.cpp; sourceTree = "<group>"; };
+		8AB24CF52154FA9800A1C3A7 /* PrivilegedIOHelper-Launchd.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "PrivilegedIOHelper-Launchd.plist"; path = "source/PrivilegedIOHelper-Launchd.plist"; sourceTree = "<group>"; };
+		8AF05FDF2154FAEC00895FEF /* libRoutedIO.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRoutedIO.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,6 +240,7 @@
 				8A548D782154EE410047A5B2 /* NimbleCommander */,
 				8A548D8B2154F0510047A5B2 /* Habanero */,
 				8A997D922154F5E8008E63DD /* Utility */,
+				8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */,
 				8A548D772154EE410047A5B2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -240,6 +251,7 @@
 				8A548D762154EE410047A5B2 /* NimbleCommander.app */,
 				8A548DBF2154F0870047A5B2 /* libHabanero.a */,
 				8A171C4B2154F5760043D119 /* libUtility.a */,
+				8AF05FDF2154FAEC00895FEF /* libRoutedIO.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -381,6 +393,44 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
+		8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */ = {
+			isa = PBXGroup;
+			children = (
+				8AB24CEE2154FA6400A1C3A7 /* Headers */,
+				8AB24CF62154FAA400A1C3A7 /* Resources */,
+				8AB24CED2154FA4D00A1C3A7 /* Sources */,
+			);
+			path = RoutedIO;
+			sourceTree = "<group>";
+		};
+		8AB24CED2154FA4D00A1C3A7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8AB24CF02154FA9800A1C3A7 /* PrivilegedIOHelper.cpp */,
+				8AB24CF42154FA9800A1C3A7 /* RoutedIO.cpp */,
+				8AB24CF22154FA9800A1C3A7 /* RoutedIOInterfaces.cpp */,
+				8AB24CF32154FA9800A1C3A7 /* RoutedIOInterfaces.h */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		8AB24CEE2154FA6400A1C3A7 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8AB24CEF2154FA8800A1C3A7 /* RoutedIO.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8AB24CF62154FAA400A1C3A7 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8AB24CF12154FA9800A1C3A7 /* PrivilegedIOHelper-Info.plist */,
+				8AB24CF52154FA9800A1C3A7 /* PrivilegedIOHelper-Launchd.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -431,6 +481,21 @@
 			productReference = 8A548DBF2154F0870047A5B2 /* libHabanero.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		8AF05FDE2154FAEC00895FEF /* RoutedIO */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AF05FE22154FAEC00895FEF /* Build configuration list for PBXNativeTarget "RoutedIO" */;
+			buildPhases = (
+				8AF05FDB2154FAEC00895FEF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RoutedIO;
+			productName = RoutedIO;
+			productReference = 8AF05FDF2154FAEC00895FEF /* libRoutedIO.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -447,6 +512,9 @@
 						CreatedOnToolsVersion = 9.4.1;
 					};
 					8A548DBE2154F0870047A5B2 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					8AF05FDE2154FAEC00895FEF = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
 				};
@@ -467,6 +535,7 @@
 				8A548D752154EE410047A5B2 /* NimbleCommander */,
 				8A548DBE2154F0870047A5B2 /* Habanero */,
 				8A171C4A2154F5760043D119 /* Utility */,
+				8AF05FDE2154FAEC00895FEF /* RoutedIO */,
 			);
 		};
 /* End PBXProject section */
@@ -554,6 +623,15 @@
 				8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */,
 				8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */,
 				8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8AF05FDB2154FAEC00895FEF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AF05FE32154FB1500895FEF /* RoutedIO.cpp in Sources */,
+				8AF05FE42154FB1700895FEF /* RoutedIOInterfaces.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,6 +725,32 @@
 			};
 			name = Release;
 		};
+		8AF05FE02154FAEC00895FEF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					Habanero/include,
+					Utility/include,
+					RoutedIO/include,
+				);
+			};
+			name = Debug;
+		};
+		8AF05FE12154FAEC00895FEF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					Habanero/include,
+					Utility/include,
+					RoutedIO/include,
+				);
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -682,6 +786,15 @@
 			buildConfigurations = (
 				8A548DC12154F0870047A5B2 /* Debug */,
 				8A548DC22154F0870047A5B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AF05FE22154FAEC00895FEF /* Build configuration list for PBXNativeTarget "RoutedIO" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AF05FE02154FAEC00895FEF /* Debug */,
+				8AF05FE12154FAEC00895FEF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
