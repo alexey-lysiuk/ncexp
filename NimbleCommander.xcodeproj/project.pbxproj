@@ -6,8 +6,75 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8A171C332154F1CF0043D119 /* CFDefaultsCPP.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2D2154F1C20043D119 /* CFDefaultsCPP.cpp */; };
+		8A171C342154F1CF0043D119 /* CFStackAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C252154F1C20043D119 /* CFStackAllocator.cpp */; };
+		8A171C352154F1CF0043D119 /* CFString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2E2154F1C20043D119 /* CFString.cpp */; };
+		8A171C362154F1CF0043D119 /* chained_strings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C272154F1C20043D119 /* chained_strings.cpp */; };
+		8A171C372154F1CF0043D119 /* CommonPaths.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C322154F1C20043D119 /* CommonPaths.cpp */; };
+		8A171C382154F1CF0043D119 /* CommonPaths.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C282154F1C20043D119 /* CommonPaths.mm */; };
+		8A171C392154F1CF0043D119 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C292154F1C20043D119 /* debug.cpp */; };
+		8A171C3A2154F1CF0043D119 /* dispatch_cpp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C262154F1C20043D119 /* dispatch_cpp.cpp */; };
+		8A171C3B2154F1CF0043D119 /* DispatchGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C232154F1C20043D119 /* DispatchGroup.cpp */; };
+		8A171C3D2154F1CF0043D119 /* Hash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C1F2154F1C20043D119 /* Hash.cpp */; };
+		8A171C3E2154F1CF0043D119 /* IdleSleepPreventer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C212154F1C20043D119 /* IdleSleepPreventer.cpp */; };
+		8A171C3F2154F1CF0043D119 /* KVO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2C2154F1C20043D119 /* KVO.cpp */; };
+		8A171C402154F1CF0043D119 /* mach_time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2A2154F1C20043D119 /* mach_time.cpp */; };
+		8A171C412154F1CF0043D119 /* Observable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C202154F1C20043D119 /* Observable.cpp */; };
+		8A171C422154F1CF0043D119 /* ScopedObservable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2B2154F1C20043D119 /* ScopedObservable.cpp */; };
+		8A171C432154F1CF0043D119 /* SerialQueue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C302154F1C20043D119 /* SerialQueue.cpp */; };
+		8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C222154F1C20043D119 /* spinlock.cpp */; };
+		8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C312154F1C20043D119 /* StringsBulk.cpp */; };
+		8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2F2154F1C20043D119 /* tiny_string.cpp */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		8A171C082154F1B60043D119 /* dispatch_cpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dispatch_cpp.h; path = include/Habanero/dispatch_cpp.h; sourceTree = "<group>"; };
+		8A171C092154F1B60043D119 /* GoogleAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GoogleAnalytics.h; path = include/Habanero/GoogleAnalytics.h; sourceTree = "<group>"; };
+		8A171C0A2154F1B60043D119 /* algo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = algo.h; path = include/Habanero/algo.h; sourceTree = "<group>"; };
+		8A171C0B2154F1B60043D119 /* CFString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CFString.h; path = include/Habanero/CFString.h; sourceTree = "<group>"; };
+		8A171C0C2154F1B60043D119 /* mach_time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mach_time.h; path = include/Habanero/mach_time.h; sourceTree = "<group>"; };
+		8A171C0D2154F1B60043D119 /* StringsBulk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StringsBulk.h; path = include/Habanero/StringsBulk.h; sourceTree = "<group>"; };
+		8A171C0E2154F1B60043D119 /* LRUCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LRUCache.h; path = include/Habanero/LRUCache.h; sourceTree = "<group>"; };
+		8A171C0F2154F1B60043D119 /* ScopedObservable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScopedObservable.h; path = include/Habanero/ScopedObservable.h; sourceTree = "<group>"; };
+		8A171C102154F1B60043D119 /* Observable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Observable.h; path = include/Habanero/Observable.h; sourceTree = "<group>"; };
+		8A171C112154F1B60043D119 /* chained_strings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = chained_strings.h; path = include/Habanero/chained_strings.h; sourceTree = "<group>"; };
+		8A171C122154F1B60043D119 /* spinlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = spinlock.h; path = include/Habanero/spinlock.h; sourceTree = "<group>"; };
+		8A171C132154F1B60043D119 /* DispatchGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DispatchGroup.h; path = include/Habanero/DispatchGroup.h; sourceTree = "<group>"; };
+		8A171C142154F1B70043D119 /* Hash.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Hash.h; path = include/Habanero/Hash.h; sourceTree = "<group>"; };
+		8A171C152154F1B70043D119 /* CFDefaultsCPP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CFDefaultsCPP.h; path = include/Habanero/CFDefaultsCPP.h; sourceTree = "<group>"; };
+		8A171C162154F1B70043D119 /* CFStackAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CFStackAllocator.h; path = include/Habanero/CFStackAllocator.h; sourceTree = "<group>"; };
+		8A171C172154F1B70043D119 /* IdleSleepPreventer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IdleSleepPreventer.h; path = include/Habanero/IdleSleepPreventer.h; sourceTree = "<group>"; };
+		8A171C182154F1B70043D119 /* KVO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KVO.h; path = include/Habanero/KVO.h; sourceTree = "<group>"; };
+		8A171C192154F1B70043D119 /* tiny_string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tiny_string.h; path = include/Habanero/tiny_string.h; sourceTree = "<group>"; };
+		8A171C1A2154F1B70043D119 /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = debug.h; path = include/Habanero/debug.h; sourceTree = "<group>"; };
+		8A171C1B2154F1B70043D119 /* CommonPaths.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CommonPaths.h; path = include/Habanero/CommonPaths.h; sourceTree = "<group>"; };
+		8A171C1C2154F1B70043D119 /* fixed_eytzinger_map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = fixed_eytzinger_map.h; path = include/Habanero/fixed_eytzinger_map.h; sourceTree = "<group>"; };
+		8A171C1D2154F1B70043D119 /* variable_container.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = variable_container.h; path = include/Habanero/variable_container.h; sourceTree = "<group>"; };
+		8A171C1E2154F1B70043D119 /* SerialQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SerialQueue.h; path = include/Habanero/SerialQueue.h; sourceTree = "<group>"; };
+		8A171C1F2154F1C20043D119 /* Hash.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Hash.cpp; path = source/Hash.cpp; sourceTree = "<group>"; };
+		8A171C202154F1C20043D119 /* Observable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Observable.cpp; path = source/Observable.cpp; sourceTree = "<group>"; };
+		8A171C212154F1C20043D119 /* IdleSleepPreventer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IdleSleepPreventer.cpp; path = source/IdleSleepPreventer.cpp; sourceTree = "<group>"; };
+		8A171C222154F1C20043D119 /* spinlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = spinlock.cpp; path = source/spinlock.cpp; sourceTree = "<group>"; };
+		8A171C232154F1C20043D119 /* DispatchGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DispatchGroup.cpp; path = source/DispatchGroup.cpp; sourceTree = "<group>"; };
+		8A171C242154F1C20043D119 /* GoogleAnalytics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = GoogleAnalytics.mm; path = source/GoogleAnalytics.mm; sourceTree = "<group>"; };
+		8A171C252154F1C20043D119 /* CFStackAllocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CFStackAllocator.cpp; path = source/CFStackAllocator.cpp; sourceTree = "<group>"; };
+		8A171C262154F1C20043D119 /* dispatch_cpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = dispatch_cpp.cpp; path = source/dispatch_cpp.cpp; sourceTree = "<group>"; };
+		8A171C272154F1C20043D119 /* chained_strings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = chained_strings.cpp; path = source/chained_strings.cpp; sourceTree = "<group>"; };
+		8A171C282154F1C20043D119 /* CommonPaths.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = CommonPaths.mm; path = source/CommonPaths.mm; sourceTree = "<group>"; };
+		8A171C292154F1C20043D119 /* debug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = debug.cpp; path = source/debug.cpp; sourceTree = "<group>"; };
+		8A171C2A2154F1C20043D119 /* mach_time.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mach_time.cpp; path = source/mach_time.cpp; sourceTree = "<group>"; };
+		8A171C2B2154F1C20043D119 /* ScopedObservable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScopedObservable.cpp; path = source/ScopedObservable.cpp; sourceTree = "<group>"; };
+		8A171C2C2154F1C20043D119 /* KVO.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = KVO.cpp; path = source/KVO.cpp; sourceTree = "<group>"; };
+		8A171C2D2154F1C20043D119 /* CFDefaultsCPP.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CFDefaultsCPP.cpp; path = source/CFDefaultsCPP.cpp; sourceTree = "<group>"; };
+		8A171C2E2154F1C20043D119 /* CFString.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CFString.cpp; path = source/CFString.cpp; sourceTree = "<group>"; };
+		8A171C2F2154F1C20043D119 /* tiny_string.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = tiny_string.cpp; path = source/tiny_string.cpp; sourceTree = "<group>"; };
+		8A171C302154F1C20043D119 /* SerialQueue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SerialQueue.cpp; path = source/SerialQueue.cpp; sourceTree = "<group>"; };
+		8A171C312154F1C20043D119 /* StringsBulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StringsBulk.cpp; path = source/StringsBulk.cpp; sourceTree = "<group>"; };
+		8A171C322154F1C20043D119 /* CommonPaths.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CommonPaths.cpp; path = source/CommonPaths.cpp; sourceTree = "<group>"; };
 		8A548D762154EE410047A5B2 /* NimbleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NimbleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A548DA52154F0510047A5B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8A548DBF2154F0870047A5B2 /* libHabanero.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHabanero.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -21,10 +88,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8A171C072154F1A90043D119 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8A171C0A2154F1B60043D119 /* algo.h */,
+				8A171C152154F1B70043D119 /* CFDefaultsCPP.h */,
+				8A171C162154F1B70043D119 /* CFStackAllocator.h */,
+				8A171C0B2154F1B60043D119 /* CFString.h */,
+				8A171C112154F1B60043D119 /* chained_strings.h */,
+				8A171C1B2154F1B70043D119 /* CommonPaths.h */,
+				8A171C1A2154F1B70043D119 /* debug.h */,
+				8A171C082154F1B60043D119 /* dispatch_cpp.h */,
+				8A171C132154F1B60043D119 /* DispatchGroup.h */,
+				8A171C1C2154F1B70043D119 /* fixed_eytzinger_map.h */,
+				8A171C092154F1B60043D119 /* GoogleAnalytics.h */,
+				8A171C142154F1B70043D119 /* Hash.h */,
+				8A171C172154F1B70043D119 /* IdleSleepPreventer.h */,
+				8A171C182154F1B70043D119 /* KVO.h */,
+				8A171C0E2154F1B60043D119 /* LRUCache.h */,
+				8A171C0C2154F1B60043D119 /* mach_time.h */,
+				8A171C102154F1B60043D119 /* Observable.h */,
+				8A171C0F2154F1B60043D119 /* ScopedObservable.h */,
+				8A171C1E2154F1B70043D119 /* SerialQueue.h */,
+				8A171C122154F1B60043D119 /* spinlock.h */,
+				8A171C0D2154F1B60043D119 /* StringsBulk.h */,
+				8A171C192154F1B70043D119 /* tiny_string.h */,
+				8A171C1D2154F1B70043D119 /* variable_container.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
 		8A548D6D2154EE410047A5B2 = {
 			isa = PBXGroup;
 			children = (
 				8A548D782154EE410047A5B2 /* NimbleCommander */,
+				8A548D8B2154F0510047A5B2 /* Habanero */,
 				8A548D772154EE410047A5B2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -33,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				8A548D762154EE410047A5B2 /* NimbleCommander.app */,
+				8A548DBF2154F0870047A5B2 /* libHabanero.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -42,6 +141,43 @@
 			children = (
 			);
 			path = NimbleCommander;
+			sourceTree = "<group>";
+		};
+		8A548D8B2154F0510047A5B2 /* Habanero */ = {
+			isa = PBXGroup;
+			children = (
+				8A171C072154F1A90043D119 /* Headers */,
+				8A548DEF2154F1750047A5B2 /* Sources */,
+				8A548DA52154F0510047A5B2 /* README.md */,
+			);
+			path = Habanero;
+			sourceTree = "<group>";
+		};
+		8A548DEF2154F1750047A5B2 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8A171C2D2154F1C20043D119 /* CFDefaultsCPP.cpp */,
+				8A171C252154F1C20043D119 /* CFStackAllocator.cpp */,
+				8A171C2E2154F1C20043D119 /* CFString.cpp */,
+				8A171C272154F1C20043D119 /* chained_strings.cpp */,
+				8A171C322154F1C20043D119 /* CommonPaths.cpp */,
+				8A171C282154F1C20043D119 /* CommonPaths.mm */,
+				8A171C292154F1C20043D119 /* debug.cpp */,
+				8A171C262154F1C20043D119 /* dispatch_cpp.cpp */,
+				8A171C232154F1C20043D119 /* DispatchGroup.cpp */,
+				8A171C242154F1C20043D119 /* GoogleAnalytics.mm */,
+				8A171C1F2154F1C20043D119 /* Hash.cpp */,
+				8A171C212154F1C20043D119 /* IdleSleepPreventer.cpp */,
+				8A171C2C2154F1C20043D119 /* KVO.cpp */,
+				8A171C2A2154F1C20043D119 /* mach_time.cpp */,
+				8A171C202154F1C20043D119 /* Observable.cpp */,
+				8A171C2B2154F1C20043D119 /* ScopedObservable.cpp */,
+				8A171C302154F1C20043D119 /* SerialQueue.cpp */,
+				8A171C222154F1C20043D119 /* spinlock.cpp */,
+				8A171C312154F1C20043D119 /* StringsBulk.cpp */,
+				8A171C2F2154F1C20043D119 /* tiny_string.cpp */,
+			);
+			name = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -64,6 +200,21 @@
 			productReference = 8A548D762154EE410047A5B2 /* NimbleCommander.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8A548DBE2154F0870047A5B2 /* Habanero */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A548DC02154F0870047A5B2 /* Build configuration list for PBXNativeTarget "Habanero" */;
+			buildPhases = (
+				8A548DBB2154F0870047A5B2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Habanero;
+			productName = Habanero;
+			productReference = 8A548DBF2154F0870047A5B2 /* libHabanero.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -74,6 +225,9 @@
 				ORGANIZATIONNAME = "alexey-lysiuk";
 				TargetAttributes = {
 					8A548D752154EE410047A5B2 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
+					8A548DBE2154F0870047A5B2 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
 				};
@@ -92,6 +246,7 @@
 			projectRoot = "";
 			targets = (
 				8A548D752154EE410047A5B2 /* NimbleCommander */,
+				8A548DBE2154F0870047A5B2 /* Habanero */,
 			);
 		};
 /* End PBXProject section */
@@ -111,6 +266,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A548DBB2154F0870047A5B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A171C332154F1CF0043D119 /* CFDefaultsCPP.cpp in Sources */,
+				8A171C342154F1CF0043D119 /* CFStackAllocator.cpp in Sources */,
+				8A171C352154F1CF0043D119 /* CFString.cpp in Sources */,
+				8A171C362154F1CF0043D119 /* chained_strings.cpp in Sources */,
+				8A171C372154F1CF0043D119 /* CommonPaths.cpp in Sources */,
+				8A171C382154F1CF0043D119 /* CommonPaths.mm in Sources */,
+				8A171C392154F1CF0043D119 /* debug.cpp in Sources */,
+				8A171C3A2154F1CF0043D119 /* dispatch_cpp.cpp in Sources */,
+				8A171C3B2154F1CF0043D119 /* DispatchGroup.cpp in Sources */,
+				8A171C3D2154F1CF0043D119 /* Hash.cpp in Sources */,
+				8A171C3E2154F1CF0043D119 /* IdleSleepPreventer.cpp in Sources */,
+				8A171C3F2154F1CF0043D119 /* KVO.cpp in Sources */,
+				8A171C402154F1CF0043D119 /* mach_time.cpp in Sources */,
+				8A171C412154F1CF0043D119 /* Observable.cpp in Sources */,
+				8A171C422154F1CF0043D119 /* ScopedObservable.cpp in Sources */,
+				8A171C432154F1CF0043D119 /* SerialQueue.cpp in Sources */,
+				8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */,
+				8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */,
+				8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +425,26 @@
 			};
 			name = Release;
 		};
+		8A548DC12154F0870047A5B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = Habanero/include;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8A548DC22154F0870047A5B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = Habanero/include;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -261,6 +462,15 @@
 			buildConfigurations = (
 				8A548D882154EE420047A5B2 /* Debug */,
 				8A548D892154EE420047A5B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A548DC02154F0870047A5B2 /* Build configuration list for PBXNativeTarget "Habanero" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A548DC12154F0870047A5B2 /* Debug */,
+				8A548DC22154F0870047A5B2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
