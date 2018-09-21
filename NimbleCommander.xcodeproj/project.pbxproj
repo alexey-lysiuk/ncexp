@@ -26,6 +26,41 @@
 		8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C222154F1C20043D119 /* spinlock.cpp */; };
 		8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C312154F1C20043D119 /* StringsBulk.cpp */; };
 		8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2F2154F1C20043D119 /* tiny_string.cpp */; };
+		8AB24CC92154F6CA00A1C3A7 /* BlinkingCaret.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB92154F65200A1C3A7 /* BlinkingCaret.mm */; };
+		8AB24CCA2154F6CA00A1C3A7 /* ButtonWithTextColor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC32154F65300A1C3A7 /* ButtonWithTextColor.mm */; };
+		8AB24CCB2154F6CA00A1C3A7 /* ByteCountFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAA2154F65100A1C3A7 /* ByteCountFormatter.mm */; };
+		8AB24CCC2154F6CA00A1C3A7 /* ColoredSeparatorLine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBB2154F65200A1C3A7 /* ColoredSeparatorLine.mm */; };
+		8AB24CCD2154F6CA00A1C3A7 /* DataBlockAnalysis.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB12154F65200A1C3A7 /* DataBlockAnalysis.mm */; };
+		8AB24CCE2154F6CA00A1C3A7 /* Encodings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBC2154F65200A1C3A7 /* Encodings.cpp */; };
+		8AB24CCF2154F6CA00A1C3A7 /* EncodingsAdditions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC52154F65300A1C3A7 /* EncodingsAdditions.mm */; };
+		8AB24CD02154F6CA00A1C3A7 /* ExtensionLowercaseComparison.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB42154F65200A1C3A7 /* ExtensionLowercaseComparison.cpp */; };
+		8AB24CD12154F6CA00A1C3A7 /* FilenameTextControl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC72154F65300A1C3A7 /* FilenameTextControl.mm */; };
+		8AB24CD22154F6CA00A1C3A7 /* FilenameTextNavigation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAB2154F65200A1C3A7 /* FilenameTextNavigation.mm */; };
+		8AB24CD32154F6CA00A1C3A7 /* FontCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAC2154F65200A1C3A7 /* FontCache.cpp */; };
+		8AB24CD42154F6CA00A1C3A7 /* FontExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAD2154F65200A1C3A7 /* FontExtras.cpp */; };
+		8AB24CD52154F6CA00A1C3A7 /* FontExtras.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC82154F65300A1C3A7 /* FontExtras.mm */; };
+		8AB24CD62154F6CA00A1C3A7 /* FPSLimitedDrawer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBE2154F65200A1C3A7 /* FPSLimitedDrawer.mm */; };
+		8AB24CD72154F6CA00A1C3A7 /* FSEventsDirUpdate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBF2154F65200A1C3A7 /* FSEventsDirUpdate.cpp */; };
+		8AB24CD82154F6CA00A1C3A7 /* FunctionKeysPass.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB02154F65200A1C3A7 /* FunctionKeysPass.mm */; };
+		8AB24CD92154F6CA00A1C3A7 /* HexadecimalColor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CA92154F65100A1C3A7 /* HexadecimalColor.mm */; };
+		8AB24CDA2154F6CA00A1C3A7 /* KeychainServices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB32154F65200A1C3A7 /* KeychainServices.cpp */; };
+		8AB24CDB2154F6CA00A1C3A7 /* Layout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB52154F65200A1C3A7 /* Layout.mm */; };
+		8AB24CDC2154F6CA00A1C3A7 /* MIMResponder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB22154F65200A1C3A7 /* MIMResponder.mm */; };
+		8AB24CDD2154F6CA00A1C3A7 /* NativeFSManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAE2154F65200A1C3A7 /* NativeFSManager.mm */; };
+		8AB24CDE2154F6CA00A1C3A7 /* NSMenu+Hierarchical.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC42154F65300A1C3A7 /* NSMenu+Hierarchical.mm */; };
+		8AB24CDF2154F6CA00A1C3A7 /* NSObject+MassObserving.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBD2154F65200A1C3A7 /* NSObject+MassObserving.m */; };
+		8AB24CE02154F6CA00A1C3A7 /* NSTimer+Tolerance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAF2154F65200A1C3A7 /* NSTimer+Tolerance.m */; };
+		8AB24CE12154F6CA00A1C3A7 /* NSView+Sugar.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB82154F65200A1C3A7 /* NSView+Sugar.mm */; };
+		8AB24CE22154F6CA00A1C3A7 /* OrthodoxMonospace.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC22154F65300A1C3A7 /* OrthodoxMonospace.mm */; };
+		8AB24CE32154F6CA00A1C3A7 /* PathManip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CA82154F65100A1C3A7 /* PathManip.c */; };
+		8AB24CE42154F6CA00A1C3A7 /* SheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBA2154F65200A1C3A7 /* SheetController.mm */; };
+		8AB24CE52154F6CA00A1C3A7 /* SheetWithHotkeys.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB62154F65200A1C3A7 /* SheetWithHotkeys.mm */; };
+		8AB24CE62154F6CA00A1C3A7 /* SimpleComboBoxPersistentDataSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC12154F65300A1C3A7 /* SimpleComboBoxPersistentDataSource.mm */; };
+		8AB24CE72154F6CA00A1C3A7 /* StringExtras.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CA62154F65100A1C3A7 /* StringExtras.mm */; };
+		8AB24CE82154F6CA00A1C3A7 /* SyncMessageBox.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB72154F65200A1C3A7 /* SyncMessageBox.mm */; };
+		8AB24CE92154F6CA00A1C3A7 /* SystemInformation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CA72154F65100A1C3A7 /* SystemInformation.mm */; };
+		8AB24CEA2154F6CA00A1C3A7 /* VerticallyCenteredTextFieldCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC02154F65200A1C3A7 /* VerticallyCenteredTextFieldCell.mm */; };
+		8AB24CEB2154F6CA00A1C3A7 /* VolumeInformation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC62154F65300A1C3A7 /* VolumeInformation.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,9 +107,80 @@
 		8A171C302154F1C20043D119 /* SerialQueue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SerialQueue.cpp; path = source/SerialQueue.cpp; sourceTree = "<group>"; };
 		8A171C312154F1C20043D119 /* StringsBulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StringsBulk.cpp; path = source/StringsBulk.cpp; sourceTree = "<group>"; };
 		8A171C322154F1C20043D119 /* CommonPaths.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CommonPaths.cpp; path = source/CommonPaths.cpp; sourceTree = "<group>"; };
+		8A171C4B2154F5760043D119 /* libUtility.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUtility.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A548D762154EE410047A5B2 /* NimbleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NimbleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A548DA52154F0510047A5B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8A548DBF2154F0870047A5B2 /* libHabanero.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHabanero.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AB24C832154F64500A1C3A7 /* NSView+Sugar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSView+Sugar.h"; path = "Utility/include/Utility/NSView+Sugar.h"; sourceTree = SOURCE_ROOT; };
+		8AB24C842154F64500A1C3A7 /* NSMenu+Hierarchical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSMenu+Hierarchical.h"; path = "Utility/include/Utility/NSMenu+Hierarchical.h"; sourceTree = SOURCE_ROOT; };
+		8AB24C852154F64500A1C3A7 /* Encodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Encodings.h; path = Utility/include/Utility/Encodings.h; sourceTree = SOURCE_ROOT; };
+		8AB24C862154F64500A1C3A7 /* StringExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StringExtras.h; path = Utility/include/Utility/StringExtras.h; sourceTree = SOURCE_ROOT; };
+		8AB24C872154F64500A1C3A7 /* FunctionKeysPass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FunctionKeysPass.h; path = Utility/include/Utility/FunctionKeysPass.h; sourceTree = SOURCE_ROOT; };
+		8AB24C882154F64600A1C3A7 /* VerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VerticallyCenteredTextFieldCell.h; path = Utility/include/Utility/VerticallyCenteredTextFieldCell.h; sourceTree = SOURCE_ROOT; };
+		8AB24C892154F64600A1C3A7 /* OrthodoxMonospace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OrthodoxMonospace.h; path = Utility/include/Utility/OrthodoxMonospace.h; sourceTree = SOURCE_ROOT; };
+		8AB24C8A2154F64600A1C3A7 /* SyncMessageBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SyncMessageBox.h; path = Utility/include/Utility/SyncMessageBox.h; sourceTree = SOURCE_ROOT; };
+		8AB24C8B2154F64600A1C3A7 /* ColoredSeparatorLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ColoredSeparatorLine.h; path = Utility/include/Utility/ColoredSeparatorLine.h; sourceTree = SOURCE_ROOT; };
+		8AB24C8C2154F64600A1C3A7 /* FPSLimitedDrawer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FPSLimitedDrawer.h; path = Utility/include/Utility/FPSLimitedDrawer.h; sourceTree = SOURCE_ROOT; };
+		8AB24C8D2154F64600A1C3A7 /* NSTimer+Tolerance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSTimer+Tolerance.h"; path = "Utility/include/Utility/NSTimer+Tolerance.h"; sourceTree = SOURCE_ROOT; };
+		8AB24C8E2154F64600A1C3A7 /* HexadecimalColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HexadecimalColor.h; path = Utility/include/Utility/HexadecimalColor.h; sourceTree = SOURCE_ROOT; };
+		8AB24C8F2154F64600A1C3A7 /* ObjCpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjCpp.h; path = Utility/include/Utility/ObjCpp.h; sourceTree = SOURCE_ROOT; };
+		8AB24C902154F64600A1C3A7 /* VolumeInformation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VolumeInformation.h; path = Utility/include/Utility/VolumeInformation.h; sourceTree = SOURCE_ROOT; };
+		8AB24C912154F64600A1C3A7 /* NativeFSManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NativeFSManager.h; path = Utility/include/Utility/NativeFSManager.h; sourceTree = SOURCE_ROOT; };
+		8AB24C922154F64600A1C3A7 /* ExtensionLowercaseComparison.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ExtensionLowercaseComparison.h; path = Utility/include/Utility/ExtensionLowercaseComparison.h; sourceTree = SOURCE_ROOT; };
+		8AB24C932154F64600A1C3A7 /* DataBlockAnalysis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DataBlockAnalysis.h; path = Utility/include/Utility/DataBlockAnalysis.h; sourceTree = SOURCE_ROOT; };
+		8AB24C942154F64600A1C3A7 /* FSEventsDirUpdate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FSEventsDirUpdate.h; path = Utility/include/Utility/FSEventsDirUpdate.h; sourceTree = SOURCE_ROOT; };
+		8AB24C952154F64600A1C3A7 /* SimpleComboBoxPersistentDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleComboBoxPersistentDataSource.h; path = Utility/include/Utility/SimpleComboBoxPersistentDataSource.h; sourceTree = SOURCE_ROOT; };
+		8AB24C962154F64600A1C3A7 /* NSEventModifierFlagsHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NSEventModifierFlagsHolder.h; path = Utility/include/Utility/NSEventModifierFlagsHolder.h; sourceTree = SOURCE_ROOT; };
+		8AB24C972154F64600A1C3A7 /* SheetWithHotkeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SheetWithHotkeys.h; path = Utility/include/Utility/SheetWithHotkeys.h; sourceTree = SOURCE_ROOT; };
+		8AB24C982154F64600A1C3A7 /* PathManip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PathManip.h; path = Utility/include/Utility/PathManip.h; sourceTree = SOURCE_ROOT; };
+		8AB24C992154F64600A1C3A7 /* FilenameTextNavigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FilenameTextNavigation.h; path = Utility/include/Utility/FilenameTextNavigation.h; sourceTree = SOURCE_ROOT; };
+		8AB24C9A2154F64600A1C3A7 /* BlinkingCaret.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BlinkingCaret.h; path = Utility/include/Utility/BlinkingCaret.h; sourceTree = SOURCE_ROOT; };
+		8AB24C9B2154F64600A1C3A7 /* FontCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FontCache.h; path = Utility/include/Utility/FontCache.h; sourceTree = SOURCE_ROOT; };
+		8AB24C9C2154F64600A1C3A7 /* ByteCountFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ByteCountFormatter.h; path = Utility/include/Utility/ByteCountFormatter.h; sourceTree = SOURCE_ROOT; };
+		8AB24C9D2154F64700A1C3A7 /* ButtonWithTextColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ButtonWithTextColor.h; path = Utility/include/Utility/ButtonWithTextColor.h; sourceTree = SOURCE_ROOT; };
+		8AB24C9E2154F64700A1C3A7 /* Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Layout.h; path = Utility/include/Utility/Layout.h; sourceTree = SOURCE_ROOT; };
+		8AB24C9F2154F64700A1C3A7 /* FontExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FontExtras.h; path = Utility/include/Utility/FontExtras.h; sourceTree = SOURCE_ROOT; };
+		8AB24CA02154F64700A1C3A7 /* MIMResponder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MIMResponder.h; path = Utility/include/Utility/MIMResponder.h; sourceTree = SOURCE_ROOT; };
+		8AB24CA12154F64700A1C3A7 /* SheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SheetController.h; path = Utility/include/Utility/SheetController.h; sourceTree = SOURCE_ROOT; };
+		8AB24CA22154F64700A1C3A7 /* SystemInformation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SystemInformation.h; path = Utility/include/Utility/SystemInformation.h; sourceTree = SOURCE_ROOT; };
+		8AB24CA32154F64700A1C3A7 /* FilenameTextControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FilenameTextControl.h; path = Utility/include/Utility/FilenameTextControl.h; sourceTree = SOURCE_ROOT; };
+		8AB24CA42154F64700A1C3A7 /* NSObject+MassObserving.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSObject+MassObserving.h"; path = "Utility/include/Utility/NSObject+MassObserving.h"; sourceTree = SOURCE_ROOT; };
+		8AB24CA52154F64700A1C3A7 /* KeychainServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KeychainServices.h; path = Utility/include/Utility/KeychainServices.h; sourceTree = SOURCE_ROOT; };
+		8AB24CA62154F65100A1C3A7 /* StringExtras.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = StringExtras.mm; path = Utility/source/StringExtras.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CA72154F65100A1C3A7 /* SystemInformation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SystemInformation.mm; path = Utility/source/SystemInformation.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CA82154F65100A1C3A7 /* PathManip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = PathManip.c; path = Utility/source/PathManip.c; sourceTree = SOURCE_ROOT; };
+		8AB24CA92154F65100A1C3A7 /* HexadecimalColor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = HexadecimalColor.mm; path = Utility/source/HexadecimalColor.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CAA2154F65100A1C3A7 /* ByteCountFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ByteCountFormatter.mm; path = Utility/source/ByteCountFormatter.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CAB2154F65200A1C3A7 /* FilenameTextNavigation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FilenameTextNavigation.mm; path = Utility/source/FilenameTextNavigation.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CAC2154F65200A1C3A7 /* FontCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FontCache.cpp; path = Utility/source/FontCache.cpp; sourceTree = SOURCE_ROOT; };
+		8AB24CAD2154F65200A1C3A7 /* FontExtras.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FontExtras.cpp; path = Utility/source/FontExtras.cpp; sourceTree = SOURCE_ROOT; };
+		8AB24CAE2154F65200A1C3A7 /* NativeFSManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeFSManager.mm; path = Utility/source/NativeFSManager.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CAF2154F65200A1C3A7 /* NSTimer+Tolerance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+Tolerance.m"; path = "Utility/source/NSTimer+Tolerance.m"; sourceTree = SOURCE_ROOT; };
+		8AB24CB02154F65200A1C3A7 /* FunctionKeysPass.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FunctionKeysPass.mm; path = Utility/source/FunctionKeysPass.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CB12154F65200A1C3A7 /* DataBlockAnalysis.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DataBlockAnalysis.mm; path = Utility/source/DataBlockAnalysis.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CB22154F65200A1C3A7 /* MIMResponder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = MIMResponder.mm; path = Utility/source/MIMResponder.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CB32154F65200A1C3A7 /* KeychainServices.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = KeychainServices.cpp; path = Utility/source/KeychainServices.cpp; sourceTree = SOURCE_ROOT; };
+		8AB24CB42154F65200A1C3A7 /* ExtensionLowercaseComparison.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExtensionLowercaseComparison.cpp; path = Utility/source/ExtensionLowercaseComparison.cpp; sourceTree = SOURCE_ROOT; };
+		8AB24CB52154F65200A1C3A7 /* Layout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Layout.mm; path = Utility/source/Layout.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CB62154F65200A1C3A7 /* SheetWithHotkeys.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SheetWithHotkeys.mm; path = Utility/source/SheetWithHotkeys.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CB72154F65200A1C3A7 /* SyncMessageBox.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SyncMessageBox.mm; path = Utility/source/SyncMessageBox.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CB82154F65200A1C3A7 /* NSView+Sugar.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSView+Sugar.mm"; path = "Utility/source/NSView+Sugar.mm"; sourceTree = SOURCE_ROOT; };
+		8AB24CB92154F65200A1C3A7 /* BlinkingCaret.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BlinkingCaret.mm; path = Utility/source/BlinkingCaret.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CBA2154F65200A1C3A7 /* SheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SheetController.mm; path = Utility/source/SheetController.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CBB2154F65200A1C3A7 /* ColoredSeparatorLine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ColoredSeparatorLine.mm; path = Utility/source/ColoredSeparatorLine.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CBC2154F65200A1C3A7 /* Encodings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Encodings.cpp; path = Utility/source/Encodings.cpp; sourceTree = SOURCE_ROOT; };
+		8AB24CBD2154F65200A1C3A7 /* NSObject+MassObserving.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSObject+MassObserving.m"; path = "Utility/source/NSObject+MassObserving.m"; sourceTree = SOURCE_ROOT; };
+		8AB24CBE2154F65200A1C3A7 /* FPSLimitedDrawer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FPSLimitedDrawer.mm; path = Utility/source/FPSLimitedDrawer.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CBF2154F65200A1C3A7 /* FSEventsDirUpdate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FSEventsDirUpdate.cpp; path = Utility/source/FSEventsDirUpdate.cpp; sourceTree = SOURCE_ROOT; };
+		8AB24CC02154F65200A1C3A7 /* VerticallyCenteredTextFieldCell.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VerticallyCenteredTextFieldCell.mm; path = Utility/source/VerticallyCenteredTextFieldCell.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CC12154F65300A1C3A7 /* SimpleComboBoxPersistentDataSource.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SimpleComboBoxPersistentDataSource.mm; path = Utility/source/SimpleComboBoxPersistentDataSource.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CC22154F65300A1C3A7 /* OrthodoxMonospace.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = OrthodoxMonospace.mm; path = Utility/source/OrthodoxMonospace.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CC32154F65300A1C3A7 /* ButtonWithTextColor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ButtonWithTextColor.mm; path = Utility/source/ButtonWithTextColor.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CC42154F65300A1C3A7 /* NSMenu+Hierarchical.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSMenu+Hierarchical.mm"; path = "Utility/source/NSMenu+Hierarchical.mm"; sourceTree = SOURCE_ROOT; };
+		8AB24CC52154F65300A1C3A7 /* EncodingsAdditions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = EncodingsAdditions.mm; path = Utility/source/EncodingsAdditions.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CC62154F65300A1C3A7 /* VolumeInformation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = VolumeInformation.cpp; path = Utility/source/VolumeInformation.cpp; sourceTree = SOURCE_ROOT; };
+		8AB24CC72154F65300A1C3A7 /* FilenameTextControl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FilenameTextControl.mm; path = Utility/source/FilenameTextControl.mm; sourceTree = SOURCE_ROOT; };
+		8AB24CC82154F65300A1C3A7 /* FontExtras.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FontExtras.mm; path = Utility/source/FontExtras.mm; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +229,7 @@
 			children = (
 				8A548D782154EE410047A5B2 /* NimbleCommander */,
 				8A548D8B2154F0510047A5B2 /* Habanero */,
+				8A997D922154F5E8008E63DD /* Utility */,
 				8A548D772154EE410047A5B2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,6 +239,7 @@
 			children = (
 				8A548D762154EE410047A5B2 /* NimbleCommander.app */,
 				8A548DBF2154F0870047A5B2 /* libHabanero.a */,
+				8A171C4B2154F5760043D119 /* libUtility.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,9 +288,117 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
+		8A997D922154F5E8008E63DD /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				8A997D942154F60F008E63DD /* Headers */,
+				8A997D932154F607008E63DD /* Sources */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		8A997D932154F607008E63DD /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8AB24CB92154F65200A1C3A7 /* BlinkingCaret.mm */,
+				8AB24CC32154F65300A1C3A7 /* ButtonWithTextColor.mm */,
+				8AB24CAA2154F65100A1C3A7 /* ByteCountFormatter.mm */,
+				8AB24CBB2154F65200A1C3A7 /* ColoredSeparatorLine.mm */,
+				8AB24CB12154F65200A1C3A7 /* DataBlockAnalysis.mm */,
+				8AB24CBC2154F65200A1C3A7 /* Encodings.cpp */,
+				8AB24CC52154F65300A1C3A7 /* EncodingsAdditions.mm */,
+				8AB24CB42154F65200A1C3A7 /* ExtensionLowercaseComparison.cpp */,
+				8AB24CC72154F65300A1C3A7 /* FilenameTextControl.mm */,
+				8AB24CAB2154F65200A1C3A7 /* FilenameTextNavigation.mm */,
+				8AB24CAC2154F65200A1C3A7 /* FontCache.cpp */,
+				8AB24CAD2154F65200A1C3A7 /* FontExtras.cpp */,
+				8AB24CC82154F65300A1C3A7 /* FontExtras.mm */,
+				8AB24CBE2154F65200A1C3A7 /* FPSLimitedDrawer.mm */,
+				8AB24CBF2154F65200A1C3A7 /* FSEventsDirUpdate.cpp */,
+				8AB24CB02154F65200A1C3A7 /* FunctionKeysPass.mm */,
+				8AB24CA92154F65100A1C3A7 /* HexadecimalColor.mm */,
+				8AB24CB32154F65200A1C3A7 /* KeychainServices.cpp */,
+				8AB24CB52154F65200A1C3A7 /* Layout.mm */,
+				8AB24CB22154F65200A1C3A7 /* MIMResponder.mm */,
+				8AB24CAE2154F65200A1C3A7 /* NativeFSManager.mm */,
+				8AB24CC42154F65300A1C3A7 /* NSMenu+Hierarchical.mm */,
+				8AB24CBD2154F65200A1C3A7 /* NSObject+MassObserving.m */,
+				8AB24CAF2154F65200A1C3A7 /* NSTimer+Tolerance.m */,
+				8AB24CB82154F65200A1C3A7 /* NSView+Sugar.mm */,
+				8AB24CC22154F65300A1C3A7 /* OrthodoxMonospace.mm */,
+				8AB24CA82154F65100A1C3A7 /* PathManip.c */,
+				8AB24CBA2154F65200A1C3A7 /* SheetController.mm */,
+				8AB24CB62154F65200A1C3A7 /* SheetWithHotkeys.mm */,
+				8AB24CC12154F65300A1C3A7 /* SimpleComboBoxPersistentDataSource.mm */,
+				8AB24CA62154F65100A1C3A7 /* StringExtras.mm */,
+				8AB24CB72154F65200A1C3A7 /* SyncMessageBox.mm */,
+				8AB24CA72154F65100A1C3A7 /* SystemInformation.mm */,
+				8AB24CC02154F65200A1C3A7 /* VerticallyCenteredTextFieldCell.mm */,
+				8AB24CC62154F65300A1C3A7 /* VolumeInformation.cpp */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		8A997D942154F60F008E63DD /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8AB24C9A2154F64600A1C3A7 /* BlinkingCaret.h */,
+				8AB24C9D2154F64700A1C3A7 /* ButtonWithTextColor.h */,
+				8AB24C9C2154F64600A1C3A7 /* ByteCountFormatter.h */,
+				8AB24C8B2154F64600A1C3A7 /* ColoredSeparatorLine.h */,
+				8AB24C932154F64600A1C3A7 /* DataBlockAnalysis.h */,
+				8AB24C852154F64500A1C3A7 /* Encodings.h */,
+				8AB24C922154F64600A1C3A7 /* ExtensionLowercaseComparison.h */,
+				8AB24CA32154F64700A1C3A7 /* FilenameTextControl.h */,
+				8AB24C992154F64600A1C3A7 /* FilenameTextNavigation.h */,
+				8AB24C9B2154F64600A1C3A7 /* FontCache.h */,
+				8AB24C9F2154F64700A1C3A7 /* FontExtras.h */,
+				8AB24C8C2154F64600A1C3A7 /* FPSLimitedDrawer.h */,
+				8AB24C942154F64600A1C3A7 /* FSEventsDirUpdate.h */,
+				8AB24C872154F64500A1C3A7 /* FunctionKeysPass.h */,
+				8AB24C8E2154F64600A1C3A7 /* HexadecimalColor.h */,
+				8AB24CA52154F64700A1C3A7 /* KeychainServices.h */,
+				8AB24C9E2154F64700A1C3A7 /* Layout.h */,
+				8AB24CA02154F64700A1C3A7 /* MIMResponder.h */,
+				8AB24C912154F64600A1C3A7 /* NativeFSManager.h */,
+				8AB24C962154F64600A1C3A7 /* NSEventModifierFlagsHolder.h */,
+				8AB24C842154F64500A1C3A7 /* NSMenu+Hierarchical.h */,
+				8AB24CA42154F64700A1C3A7 /* NSObject+MassObserving.h */,
+				8AB24C8D2154F64600A1C3A7 /* NSTimer+Tolerance.h */,
+				8AB24C832154F64500A1C3A7 /* NSView+Sugar.h */,
+				8AB24C8F2154F64600A1C3A7 /* ObjCpp.h */,
+				8AB24C892154F64600A1C3A7 /* OrthodoxMonospace.h */,
+				8AB24C982154F64600A1C3A7 /* PathManip.h */,
+				8AB24CA12154F64700A1C3A7 /* SheetController.h */,
+				8AB24C972154F64600A1C3A7 /* SheetWithHotkeys.h */,
+				8AB24C952154F64600A1C3A7 /* SimpleComboBoxPersistentDataSource.h */,
+				8AB24C862154F64500A1C3A7 /* StringExtras.h */,
+				8AB24C8A2154F64600A1C3A7 /* SyncMessageBox.h */,
+				8AB24CA22154F64700A1C3A7 /* SystemInformation.h */,
+				8AB24C882154F64600A1C3A7 /* VerticallyCenteredTextFieldCell.h */,
+				8AB24C902154F64600A1C3A7 /* VolumeInformation.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		8A171C4A2154F5760043D119 /* Utility */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A171C4C2154F5760043D119 /* Build configuration list for PBXNativeTarget "Utility" */;
+			buildPhases = (
+				8A171C472154F5760043D119 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Utility;
+			productName = Utility;
+			productReference = 8A171C4B2154F5760043D119 /* libUtility.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		8A548D752154EE410047A5B2 /* NimbleCommander */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A548D872154EE420047A5B2 /* Build configuration list for PBXNativeTarget "NimbleCommander" */;
@@ -224,6 +440,9 @@
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "alexey-lysiuk";
 				TargetAttributes = {
+					8A171C4A2154F5760043D119 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
 					8A548D752154EE410047A5B2 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -247,6 +466,7 @@
 			targets = (
 				8A548D752154EE410047A5B2 /* NimbleCommander */,
 				8A548DBE2154F0870047A5B2 /* Habanero */,
+				8A171C4A2154F5760043D119 /* Utility */,
 			);
 		};
 /* End PBXProject section */
@@ -262,6 +482,48 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8A171C472154F5760043D119 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AB24CC92154F6CA00A1C3A7 /* BlinkingCaret.mm in Sources */,
+				8AB24CCA2154F6CA00A1C3A7 /* ButtonWithTextColor.mm in Sources */,
+				8AB24CCB2154F6CA00A1C3A7 /* ByteCountFormatter.mm in Sources */,
+				8AB24CCC2154F6CA00A1C3A7 /* ColoredSeparatorLine.mm in Sources */,
+				8AB24CCD2154F6CA00A1C3A7 /* DataBlockAnalysis.mm in Sources */,
+				8AB24CCE2154F6CA00A1C3A7 /* Encodings.cpp in Sources */,
+				8AB24CCF2154F6CA00A1C3A7 /* EncodingsAdditions.mm in Sources */,
+				8AB24CD02154F6CA00A1C3A7 /* ExtensionLowercaseComparison.cpp in Sources */,
+				8AB24CD12154F6CA00A1C3A7 /* FilenameTextControl.mm in Sources */,
+				8AB24CD22154F6CA00A1C3A7 /* FilenameTextNavigation.mm in Sources */,
+				8AB24CD32154F6CA00A1C3A7 /* FontCache.cpp in Sources */,
+				8AB24CD42154F6CA00A1C3A7 /* FontExtras.cpp in Sources */,
+				8AB24CD52154F6CA00A1C3A7 /* FontExtras.mm in Sources */,
+				8AB24CD62154F6CA00A1C3A7 /* FPSLimitedDrawer.mm in Sources */,
+				8AB24CD72154F6CA00A1C3A7 /* FSEventsDirUpdate.cpp in Sources */,
+				8AB24CD82154F6CA00A1C3A7 /* FunctionKeysPass.mm in Sources */,
+				8AB24CD92154F6CA00A1C3A7 /* HexadecimalColor.mm in Sources */,
+				8AB24CDA2154F6CA00A1C3A7 /* KeychainServices.cpp in Sources */,
+				8AB24CDB2154F6CA00A1C3A7 /* Layout.mm in Sources */,
+				8AB24CDC2154F6CA00A1C3A7 /* MIMResponder.mm in Sources */,
+				8AB24CDD2154F6CA00A1C3A7 /* NativeFSManager.mm in Sources */,
+				8AB24CDE2154F6CA00A1C3A7 /* NSMenu+Hierarchical.mm in Sources */,
+				8AB24CDF2154F6CA00A1C3A7 /* NSObject+MassObserving.m in Sources */,
+				8AB24CE02154F6CA00A1C3A7 /* NSTimer+Tolerance.m in Sources */,
+				8AB24CE12154F6CA00A1C3A7 /* NSView+Sugar.mm in Sources */,
+				8AB24CE22154F6CA00A1C3A7 /* OrthodoxMonospace.mm in Sources */,
+				8AB24CE32154F6CA00A1C3A7 /* PathManip.c in Sources */,
+				8AB24CE42154F6CA00A1C3A7 /* SheetController.mm in Sources */,
+				8AB24CE52154F6CA00A1C3A7 /* SheetWithHotkeys.mm in Sources */,
+				8AB24CE62154F6CA00A1C3A7 /* SimpleComboBoxPersistentDataSource.mm in Sources */,
+				8AB24CE72154F6CA00A1C3A7 /* StringExtras.mm in Sources */,
+				8AB24CE82154F6CA00A1C3A7 /* SyncMessageBox.mm in Sources */,
+				8AB24CE92154F6CA00A1C3A7 /* SystemInformation.mm in Sources */,
+				8AB24CEA2154F6CA00A1C3A7 /* VerticallyCenteredTextFieldCell.mm in Sources */,
+				8AB24CEB2154F6CA00A1C3A7 /* VolumeInformation.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8A548D722154EE410047A5B2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -298,6 +560,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		8A171C4D2154F5760043D119 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					Habanero/include,
+					Utility/include,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8A171C4E2154F5760043D119 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					Habanero/include,
+					Utility/include,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8A548D852154EE420047A5B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -364,6 +650,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8A171C4C2154F5760043D119 /* Build configuration list for PBXNativeTarget "Utility" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A171C4D2154F5760043D119 /* Debug */,
+				8A171C4E2154F5760043D119 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8A548D712154EE410047A5B2 /* Build configuration list for PBXProject "NimbleCommander" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

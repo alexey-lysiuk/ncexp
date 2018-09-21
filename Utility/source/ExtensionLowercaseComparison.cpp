@@ -5,7 +5,6 @@
 #include "../include/Utility/ExtensionLowercaseComparison.h"
 
 using namespace std;
-using namespace std::experimental;
 
 ExtensionLowercaseComparison& ExtensionLowercaseComparison::Instance() noexcept
 {
@@ -13,7 +12,7 @@ ExtensionLowercaseComparison& ExtensionLowercaseComparison::Instance() noexcept
     return *inst;
 }
 
-static string ProduceFormCLowercase(string_view _string)
+static string ProduceFormCLowercase(const string_view &_string)
 {
     CFStackAllocator allocator;
 

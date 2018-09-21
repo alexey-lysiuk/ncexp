@@ -30,7 +30,7 @@ static inline int DupHex( int _h) noexcept
     return _h * 16 + _h;
 }
 
-uint32_t HexadecimalColorStringToRGBA( string_view _string ) noexcept
+uint32_t HexadecimalColorStringToRGBA( const string_view &_string ) noexcept
 {
     if( _string.length() < 4 || _string[0] != '#' )
         return g_BlackColor;
