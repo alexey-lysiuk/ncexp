@@ -1,0 +1,323 @@
+// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "LaunchServices.h"
+#include <sys/stat.h>
+#include <VFS/VFS.h>
+
+namespace nc::core {
+
+/**
+ * If container is not empty and has only the equal elements - return it.
+ * Otherwise, return _default
+ */
+template <class InputIterator, class UnaryPredicate, class T>
+inline T all_equal_or_default(InputIterator _first,
+                      InputIterator _last,
+                      UnaryPredicate _pred,
+                      T&& _default)
+{
+    if( _first == _last )
+        return _default;
+
+    T&& val = _pred(*_first);
+    _first++;
+
+    while( _first != _last ) {
+        if ( _pred(*_first) != val )
+            return _default;
+        ++_first;
+    }
+    return val;
+}
+
+static string UTIForExtenstion(const string& _extension)
+{
+    static mutex guard;
+    static unordered_map<string, string> extension_to_uti_mapping;
+    
+    lock_guard<mutex> lock(guard);
+    if( auto i = extension_to_uti_mapping.find(_extension); i != end(extension_to_uti_mapping) )
+        return i->second;
+    
+    string uti;
+    if( const auto ext = CFStringCreateWithUTF8StdStringNoCopy( _extension ) ) {
+        const auto cf_uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+                                                                  ext,
+                                                                  nullptr);
+        if( cf_uti ) {
+            uti = ((__bridge NSString*)cf_uti).UTF8String;
+            extension_to_uti_mapping.emplace(_extension, uti);
+            CFRelease(cf_uti);
+        }
+        CFRelease(ext);
+    }
+
+    return uti;
+}
+
+static string GetDefaultHandlerPathForNativeItem( const string &_path )
+{
+    string result;
+    const auto url = CFURLCreateFromFileSystemRepresentation(0,
+                                                             (const UInt8*)_path.c_str(),
+                                                             _path.length(),
+                                                             false);
+    if( url ) {
+        const auto handler_url = LSCopyDefaultApplicationURLForURL(url, kLSRolesAll, nullptr);
+    
+        if( handler_url ) {
+            result = ((__bridge NSURL*)handler_url).path.fileSystemRepresentation;
+            CFRelease(handler_url);
+        }
+        CFRelease(url);
+    }
+    return result;
+}
+
+static vector<string> GetHandlersPathsForNativeItem( const string &_path )
+{
+    vector<string> result;
+    const auto url = CFURLCreateFromFileSystemRepresentation(0,
+                                                             (const UInt8*)_path.c_str(),
+                                                             _path.length(),
+                                                             false);
+    if( url ) {
+        auto apps = (__bridge_transfer NSArray *) LSCopyApplicationURLsForURL(url, kLSRolesAll);
+        for( NSURL *app_url in apps )
+            result.emplace_back( app_url.path.fileSystemRepresentation );
+        CFRelease(url);
+    }
+    return result;
+}
+
+static string GetDefaultHandlerPathForUTI( const string &_uti )
+{
+    NSString *uti = [NSString stringWithUTF8StdString:_uti];
+    if( !uti )
+        return {};
+    
+    NSString *bundle = (__bridge_transfer NSString*)
+        LSCopyDefaultRoleHandlerForContentType((__bridge CFStringRef)uti,
+                                               kLSRolesAll);
+    auto path = [NSWorkspace.sharedWorkspace absolutePathForAppBundleWithIdentifier:bundle];
+    if( path )
+        return path.fileSystemRepresentation;
+    return "";
+}
+
+static vector<string> GetHandlersPathsForUTI( const string &_uti )
+{
+    NSString *uti = [NSString stringWithUTF8StdString:_uti];
+    if( !uti )
+        return {};
+
+    NSArray *bundles = (__bridge_transfer NSArray *)
+        LSCopyAllRoleHandlersForContentType((__bridge CFStringRef)uti,
+                                            kLSRolesAll);
+    
+    vector<string> result;
+    for( NSString* bundle in bundles )
+        if( auto path = [NSWorkspace.sharedWorkspace absolutePathForAppBundleWithIdentifier:bundle] )
+            result.emplace_back( path.fileSystemRepresentation );
+
+    return result;
+}
+
+LauchServicesHandlers::LauchServicesHandlers()
+{
+}
+
+LauchServicesHandlers::LauchServicesHandlers( const VFSListingItem &_item )
+{
+    if( _item.Host()->IsNativeFS() ) {
+        m_UTI = _item.HasExtension() ? UTIForExtenstion(_item.Extension()) : "public.data";
+        const auto path = _item.Path();
+        m_Paths = GetHandlersPathsForNativeItem(path);
+        m_DefaultHandlerPath = GetDefaultHandlerPathForNativeItem(path);
+    }
+    else if( !_item.IsDir() && _item.HasExtension() ) {
+        m_UTI = UTIForExtenstion(_item.Extension());
+        m_Paths = GetHandlersPathsForUTI(m_UTI);
+        m_DefaultHandlerPath = GetDefaultHandlerPathForUTI(m_UTI);
+    }
+}
+
+LauchServicesHandlers::LauchServicesHandlers
+    ( const vector<LauchServicesHandlers>& _handlers_to_merge )
+{
+    // empty handler path means that there's no default handler available
+    const auto default_handler = all_equal_or_default(
+        begin(_handlers_to_merge),
+        end(_handlers_to_merge),
+        [](auto &i){ return i.m_DefaultHandlerPath; },
+        ""s);
+    
+    m_UTI = all_equal_or_default(
+        begin(_handlers_to_merge),
+        end(_handlers_to_merge),
+        [](auto &i){ return i.m_UTI; },
+        ""s);
+    
+    // maps handler path to usage amount
+    // then use only handlers with usage amount == _input.size() (or common ones)
+    unordered_map<string, int> handlers_count;
+    for( auto &i:_handlers_to_merge ) {
+        // a very inefficient approach, should be rewritten if will cause lags on UI
+        unordered_set<string> inserted;
+        for( auto &p:i.m_Paths )
+            // here we exclude multiple counting for repeating handlers for one content type
+            if( !inserted.count(p) ) {
+                handlers_count[p]++;
+                inserted.insert(p);
+            }
+    }
+    
+    for( auto &i: handlers_count )
+        if( i.second == (int)_handlers_to_merge.size() ) {
+            m_Paths.emplace_back(i.first);
+            if(i.first == default_handler)
+                m_DefaultHandlerPath = default_handler;
+        }
+}
+
+const vector<string> &LauchServicesHandlers::HandlersPaths() const noexcept
+{
+    return m_Paths;
+}
+
+const string &LauchServicesHandlers::DefaultHandlerPath() const noexcept
+{
+    return m_DefaultHandlerPath;
+}
+
+const string &LauchServicesHandlers::CommonUTI() const noexcept
+{
+    return m_UTI;
+}
+
+struct CachedLaunchServiceHandler
+{
+    string      path;
+    time_t      mtime;
+    NSString   *name;
+    NSImage    *icon;
+    NSString   *version;
+    NSString   *identifier;
+    
+    static CachedLaunchServiceHandler GetLaunchHandlerInfo( const string &_handler_path )
+    {
+        lock_guard<mutex> lock{g_HandlersByPathLock};
+        if( auto i = g_HandlersByPath.find(_handler_path);
+           i != end(g_HandlersByPath) && !IsOutdated(i->second.path, i->second.mtime) ) {
+            return i->second;
+        }
+        else {
+            auto h = BuildLaunchHandler( _handler_path );
+            g_HandlersByPath[_handler_path] = h;
+            return h;
+        }
+    }
+
+private:
+    static CachedLaunchServiceHandler BuildLaunchHandler( const string &_handler_path )
+    {
+        NSString *path = [NSString stringWithUTF8StdString:_handler_path];
+        if( !path )
+            throw domain_error("malformed path");
+        
+        NSBundle *handler_bundle = [NSBundle bundleWithPath:path];
+        if( handler_bundle == nil )
+            throw domain_error("can't open NSBundle");
+        
+        struct stat st;
+        if( stat(_handler_path.c_str(), &st) != 0 )
+            throw domain_error("stat() failed");
+        
+        CachedLaunchServiceHandler h;
+        h.path = _handler_path;
+        h.name = [NSFileManager.defaultManager displayNameAtPath:path];
+        h.icon = CropHiResRepresentations([NSWorkspace.sharedWorkspace iconForFile:path]);
+        h.version = [handler_bundle.infoDictionary objectForKey:@"CFBundleVersion"];
+        h.identifier = handler_bundle.bundleIdentifier;
+        h.mtime = st.st_mtime;
+        
+        return h;
+    }
+
+    static bool IsOutdated( const string &_path, time_t _mtime )
+    {
+        struct stat st;
+        if( stat(_path.c_str(), &st) != 0 )
+            return true;
+        return _mtime != st.st_mtime;
+    }
+    
+    static NSImage *CropHiResRepresentations( NSImage *_image )
+    {
+        const auto representations = _image.representations;
+        vector<NSImageRep*> to_remove;
+        for( NSImageRep *representation in representations )
+            if( representation.pixelsHigh > 32 && representation.pixelsWide > 32 )
+                to_remove.emplace_back(representation);
+        for( NSImageRep *representation: to_remove )
+            [_image removeRepresentation:representation];
+        return _image;
+    }
+
+    static unordered_map<string, CachedLaunchServiceHandler> g_HandlersByPath;
+    static mutex g_HandlersByPathLock;
+};
+
+unordered_map<string, CachedLaunchServiceHandler> CachedLaunchServiceHandler::g_HandlersByPath;
+mutex CachedLaunchServiceHandler::g_HandlersByPathLock;
+
+LaunchServiceHandler::LaunchServiceHandler( const string &_handler_path )
+{
+    auto handler = CachedLaunchServiceHandler::GetLaunchHandlerInfo(_handler_path);
+    m_AppID = handler.identifier;
+    m_AppVersion = handler.version;
+    m_AppName = handler.name;
+    m_AppIcon = handler.icon;
+    m_Path = _handler_path;
+}
+
+const string &LaunchServiceHandler::Path() const noexcept
+{
+    return m_Path;
+}
+
+NSString *LaunchServiceHandler::Name() const noexcept
+{
+    return m_AppName;
+}
+
+NSImage *LaunchServiceHandler::Icon() const noexcept
+{
+    return m_AppIcon;
+}
+
+NSString *LaunchServiceHandler::Version() const noexcept
+{
+    return m_AppVersion;
+}
+
+NSString *LaunchServiceHandler::Identifier() const noexcept
+{
+    return m_AppID;
+}
+
+bool LaunchServiceHandler::SetAsDefaultHandlerForUTI(const string &_uti) const
+{
+    if( _uti.empty() )
+        return false;
+    
+    NSString *uti = [NSString stringWithUTF8StdString:_uti];
+    if( !uti )
+        return false;
+    
+    OSStatus ret = LSSetDefaultRoleHandlerForContentType((__bridge CFStringRef)uti,
+                                                         kLSRolesAll,
+                                                         (__bridge CFStringRef)m_AppID);
+    return ret == noErr;
+}
+
+}
