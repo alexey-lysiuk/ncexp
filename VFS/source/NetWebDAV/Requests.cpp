@@ -3,7 +3,7 @@
 #include "WebDAVHost.h"
 #include <boost/algorithm/string/split.hpp>
 #include <Habanero/algo.h>
-#include <pugixml/pugixml.hpp>
+#include <pugixml.hpp>
 #include "DateTimeParser.h"
 #include "ConnectionsPool.h"
 #include "PathRoutines.h"
