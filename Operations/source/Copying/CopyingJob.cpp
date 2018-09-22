@@ -498,7 +498,7 @@ tuple<CopyingJob::StepResult, SourceItems> CopyingJob::ScanSourceItems()
 
     for( auto&i: m_VFSListingItems ) {
         if( BlockIfPaused(); IsStopped() )
-            return {StepResult::Stop};
+			return { StepResult::Stop, nc::ops::copying::SourceItems() };
         
         auto host_indx = db.InsertOrFindHost(i.Host());
         auto &host = db.Host(host_indx);
@@ -603,7 +603,7 @@ tuple<CopyingJob::StepResult, SourceItems> CopyingJob::ScanSourceItems()
                                 i.Filename()
                                 );
         if( result != StepResult::Ok )
-            return {result};
+            return { result, nc::ops::copying::SourceItems() };
     }
     
     return {StepResult::Ok, move(db)};

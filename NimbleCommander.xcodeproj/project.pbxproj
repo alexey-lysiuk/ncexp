@@ -26,6 +26,51 @@
 		8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C222154F1C20043D119 /* spinlock.cpp */; };
 		8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C312154F1C20043D119 /* StringsBulk.cpp */; };
 		8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2F2154F1C20043D119 /* tiny_string.cpp */; };
+		8A4534C7215672CA009284A2 /* AttrsChanging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D72156725200E92BC9 /* AttrsChanging.mm */; };
+		8A4534C8215672CD009284A2 /* AttrsChangingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */; };
+		8A4534C9215672CF009284A2 /* AttrsChangingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */; };
+		8A4534CA215672E8009284A2 /* BatchRenaming.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B71A2156725400E92BC9 /* BatchRenaming.mm */; };
+		8A4534CB215672E8009284A2 /* BatchRenamingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B71C2156725400E92BC9 /* BatchRenamingDialog.mm */; };
+		8A4534CC215672E8009284A2 /* BatchRenamingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B71D2156725400E92BC9 /* BatchRenamingJob.cpp */; };
+		8A4534CD215672E8009284A2 /* BatchRenamingRangeSelectionPopover.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7202156725400E92BC9 /* BatchRenamingRangeSelectionPopover.mm */; };
+		8A4534CE215672E8009284A2 /* BatchRenamingScheme.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7222156725400E92BC9 /* BatchRenamingScheme.mm */; };
+		8A4534D22156748E009284A2 /* Compression.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6E92156725300E92BC9 /* Compression.mm */; };
+		8A4534D321567491009284A2 /* CompressionJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6EA2156725300E92BC9 /* CompressionJob.cpp */; };
+		8A4534D42156749C009284A2 /* ChecksumExpectation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6F32156725300E92BC9 /* ChecksumExpectation.cpp */; };
+		8A4534D52156749C009284A2 /* Copying.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6F62156725300E92BC9 /* Copying.mm */; };
+		8A4534D62156749C009284A2 /* CopyingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6F82156725300E92BC9 /* CopyingDialog.mm */; };
+		8A4534D72156749C009284A2 /* CopyingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6F92156725300E92BC9 /* CopyingJob.cpp */; };
+		8A4534D82156749C009284A2 /* CopyingTitleBuilder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6FC2156725300E92BC9 /* CopyingTitleBuilder.mm */; };
+		8A4534D92156749C009284A2 /* DisclosureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6FE2156725300E92BC9 /* DisclosureViewController.m */; };
+		8A4534DA2156749C009284A2 /* FileAlreadyExistDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7002156725300E92BC9 /* FileAlreadyExistDialog.mm */; };
+		8A4534DB2156749C009284A2 /* NativeFSHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7012156725300E92BC9 /* NativeFSHelpers.cpp */; };
+		8A4534DC2156749C009284A2 /* SourceItems.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B70A2156725300E92BC9 /* SourceItems.cpp */; };
+		8A4534DD215674BF009284A2 /* Deletion.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6C82156725100E92BC9 /* Deletion.mm */; };
+		8A4534DE215674BF009284A2 /* DeletionDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6CA2156725100E92BC9 /* DeletionDialog.mm */; };
+		8A4534DF215674BF009284A2 /* DeletionJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6CB2156725100E92BC9 /* DeletionJob.cpp */; };
+		8A4534E0215674BF009284A2 /* DirectoryCreation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7482156725500E92BC9 /* DirectoryCreation.mm */; };
+		8A4534E1215674BF009284A2 /* DirectoryCreationDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B74A2156725500E92BC9 /* DirectoryCreationDialog.mm */; };
+		8A4534E2215674BF009284A2 /* DirectoryCreationJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B74B2156725500E92BC9 /* DirectoryCreationJob.cpp */; };
+		8A4534E3215674BF009284A2 /* AlterSymlinkDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B72E2156725500E92BC9 /* AlterSymlinkDialog.mm */; };
+		8A4534E4215674BF009284A2 /* CreateHardlinkDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7362156725500E92BC9 /* CreateHardlinkDialog.mm */; };
+		8A4534E5215674BF009284A2 /* CreateSymlinkDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7382156725500E92BC9 /* CreateSymlinkDialog.mm */; };
+		8A4534E6215674BF009284A2 /* Linkage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B73A2156725500E92BC9 /* Linkage.mm */; };
+		8A4534E7215674BF009284A2 /* LinkageJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B73B2156725500E92BC9 /* LinkageJob.cpp */; };
+		8A4534E8215674BF009284A2 /* AggregateProgressTracker.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6C02156725100E92BC9 /* AggregateProgressTracker.mm */; };
+		8A4534E9215674BF009284A2 /* AsyncDialogResponse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B70F2156725300E92BC9 /* AsyncDialogResponse.cpp */; };
+		8A4534EA215674BF009284A2 /* BriefOperationView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6E12156725200E92BC9 /* BriefOperationView.mm */; };
+		8A4534EB215674BF009284A2 /* BriefOperationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6E62156725300E92BC9 /* BriefOperationViewController.mm */; };
+		8A4534EC215674BF009284A2 /* GenericErrorDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B70D2156725300E92BC9 /* GenericErrorDialog.mm */; };
+		8A4534ED215674BF009284A2 /* HaltReasonDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7132156725400E92BC9 /* HaltReasonDialog.mm */; };
+		8A4534EE215674BF009284A2 /* Internal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7112156725400E92BC9 /* Internal.mm */; };
+		8A4534EF215674BF009284A2 /* Job.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6C12156725100E92BC9 /* Job.cpp */; };
+		8A4534F0215674BF009284A2 /* Operation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6BC2156725000E92BC9 /* Operation.mm */; };
+		8A4534F1215674BF009284A2 /* Pool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6BE2156725000E92BC9 /* Pool.mm */; };
+		8A4534F2215674BF009284A2 /* PoolView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D12156725100E92BC9 /* PoolView.mm */; };
+		8A4534F3215674BF009284A2 /* PoolViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B72A2156725500E92BC9 /* PoolViewController.mm */; };
+		8A4534F4215674BF009284A2 /* Progress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B72B2156725500E92BC9 /* Progress.cpp */; };
+		8A4534F5215674BF009284A2 /* Statistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7512156725600E92BC9 /* Statistics.cpp */; };
+		8A4534F6215674BF009284A2 /* StatisticsFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6E42156725200E92BC9 /* StatisticsFormatter.mm */; };
 		8AAA8BD421566FD30053BE9D /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA8BA721566FB20053BE9D /* pugixml.cpp */; };
 		8AB24CC92154F6CA00A1C3A7 /* BlinkingCaret.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB92154F65200A1C3A7 /* BlinkingCaret.mm */; };
 		8AB24CCA2154F6CA00A1C3A7 /* ButtonWithTextColor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC32154F65300A1C3A7 /* ButtonWithTextColor.mm */; };
@@ -1178,9 +1223,133 @@
 		8A171C312154F1C20043D119 /* StringsBulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StringsBulk.cpp; path = source/StringsBulk.cpp; sourceTree = "<group>"; };
 		8A171C322154F1C20043D119 /* CommonPaths.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CommonPaths.cpp; path = source/CommonPaths.cpp; sourceTree = "<group>"; };
 		8A171C4B2154F5760043D119 /* libUtility.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUtility.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A4534C32156729E009284A2 /* libOperations.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOperations.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A4534D12156747B009284A2 /* any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		8A548D762154EE410047A5B2 /* NimbleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NimbleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A548DA52154F0510047A5B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8A548DBF2154F0870047A5B2 /* libHabanero.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHabanero.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A67B6BB2156725000E92BC9 /* HaltReasonDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HaltReasonDialog.h; path = source/HaltReasonDialog.h; sourceTree = "<group>"; };
+		8A67B6BC2156725000E92BC9 /* Operation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Operation.mm; path = source/Operation.mm; sourceTree = "<group>"; };
+		8A67B6BD2156725000E92BC9 /* PoolViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PoolViewController.xib; path = source/PoolViewController.xib; sourceTree = "<group>"; };
+		8A67B6BE2156725000E92BC9 /* Pool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Pool.mm; path = source/Pool.mm; sourceTree = "<group>"; };
+		8A67B6BF2156725100E92BC9 /* HaltReasonDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = HaltReasonDialog.xib; path = source/HaltReasonDialog.xib; sourceTree = "<group>"; };
+		8A67B6C02156725100E92BC9 /* AggregateProgressTracker.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AggregateProgressTracker.mm; path = source/AggregateProgressTracker.mm; sourceTree = "<group>"; };
+		8A67B6C12156725100E92BC9 /* Job.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Job.cpp; path = source/Job.cpp; sourceTree = "<group>"; };
+		8A67B6C22156725100E92BC9 /* Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Internal.h; path = source/Internal.h; sourceTree = "<group>"; };
+		8A67B6C32156725100E92BC9 /* Progress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Progress.h; path = source/Progress.h; sourceTree = "<group>"; };
+		8A67B6C62156725100E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DeletionDialog.xib; sourceTree = "<group>"; };
+		8A67B6C72156725100E92BC9 /* Deletion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Deletion.h; sourceTree = "<group>"; };
+		8A67B6C82156725100E92BC9 /* Deletion.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Deletion.mm; sourceTree = "<group>"; };
+		8A67B6C92156725100E92BC9 /* DeletionDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeletionDialog.h; sourceTree = "<group>"; };
+		8A67B6CA2156725100E92BC9 /* DeletionDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DeletionDialog.mm; sourceTree = "<group>"; };
+		8A67B6CB2156725100E92BC9 /* DeletionJob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeletionJob.cpp; sourceTree = "<group>"; };
+		8A67B6CC2156725100E92BC9 /* DeletionJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeletionJob.h; sourceTree = "<group>"; };
+		8A67B6CD2156725100E92BC9 /* Options.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Options.h; sourceTree = "<group>"; };
+		8A67B6CF2156725100E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/DeletionDialog.strings; sourceTree = "<group>"; };
+		8A67B6D02156725100E92BC9 /* AggregateProgressTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AggregateProgressTracker.h; path = source/AggregateProgressTracker.h; sourceTree = "<group>"; };
+		8A67B6D12156725100E92BC9 /* PoolView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = PoolView.mm; path = source/PoolView.mm; sourceTree = "<group>"; };
+		8A67B6D22156725100E92BC9 /* ModalDialogResponses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ModalDialogResponses.h; path = source/ModalDialogResponses.h; sourceTree = "<group>"; };
+		8A67B6D32156725200E92BC9 /* Statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Statistics.h; path = source/Statistics.h; sourceTree = "<group>"; };
+		8A67B6D42156725200E92BC9 /* BriefOperationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = BriefOperationViewController.xib; path = source/BriefOperationViewController.xib; sourceTree = "<group>"; };
+		8A67B6D62156725200E92BC9 /* AttrsChanging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttrsChanging.h; sourceTree = "<group>"; };
+		8A67B6D72156725200E92BC9 /* AttrsChanging.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AttrsChanging.mm; sourceTree = "<group>"; };
+		8A67B6D82156725200E92BC9 /* AttrsChangingDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttrsChangingDialog.h; sourceTree = "<group>"; };
+		8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AttrsChangingDialog.mm; sourceTree = "<group>"; };
+		8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AttrsChangingJob.cpp; sourceTree = "<group>"; };
+		8A67B6DB2156725200E92BC9 /* AttrsChangingJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AttrsChangingJob.h; sourceTree = "<group>"; };
+		8A67B6DD2156725200E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AttrsChangingDialog.xib; sourceTree = "<group>"; };
+		8A67B6DE2156725200E92BC9 /* Options.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Options.h; sourceTree = "<group>"; };
+		8A67B6E02156725200E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AttrsChangingDialog.strings; sourceTree = "<group>"; };
+		8A67B6E12156725200E92BC9 /* BriefOperationView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BriefOperationView.mm; path = source/BriefOperationView.mm; sourceTree = "<group>"; };
+		8A67B6E22156725200E92BC9 /* Pool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Pool.h; path = source/Pool.h; sourceTree = "<group>"; };
+		8A67B6E32156725200E92BC9 /* Operations-prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Operations-prefix.pch"; path = "source/Operations-prefix.pch"; sourceTree = "<group>"; };
+		8A67B6E42156725200E92BC9 /* StatisticsFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = StatisticsFormatter.mm; path = source/StatisticsFormatter.mm; sourceTree = "<group>"; };
+		8A67B6E52156725200E92BC9 /* StatisticsFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StatisticsFormatter.h; path = source/StatisticsFormatter.h; sourceTree = "<group>"; };
+		8A67B6E62156725300E92BC9 /* BriefOperationViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = BriefOperationViewController.mm; path = source/BriefOperationViewController.mm; sourceTree = "<group>"; };
+		8A67B6E82156725300E92BC9 /* Compression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Compression.h; sourceTree = "<group>"; };
+		8A67B6E92156725300E92BC9 /* Compression.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Compression.mm; sourceTree = "<group>"; };
+		8A67B6EA2156725300E92BC9 /* CompressionJob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CompressionJob.cpp; sourceTree = "<group>"; };
+		8A67B6EB2156725300E92BC9 /* CompressionJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CompressionJob.h; sourceTree = "<group>"; };
+		8A67B6EE2156725300E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CopyingDialog.xib; sourceTree = "<group>"; };
+		8A67B6F02156725300E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CopyingDialogDisclosedView.xib; sourceTree = "<group>"; };
+		8A67B6F22156725300E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FileAlreadyExistDialog.xib; sourceTree = "<group>"; };
+		8A67B6F32156725300E92BC9 /* ChecksumExpectation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChecksumExpectation.cpp; sourceTree = "<group>"; };
+		8A67B6F42156725300E92BC9 /* ChecksumExpectation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChecksumExpectation.h; sourceTree = "<group>"; };
+		8A67B6F52156725300E92BC9 /* Copying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Copying.h; sourceTree = "<group>"; };
+		8A67B6F62156725300E92BC9 /* Copying.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Copying.mm; sourceTree = "<group>"; };
+		8A67B6F72156725300E92BC9 /* CopyingDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyingDialog.h; sourceTree = "<group>"; };
+		8A67B6F82156725300E92BC9 /* CopyingDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyingDialog.mm; sourceTree = "<group>"; };
+		8A67B6F92156725300E92BC9 /* CopyingJob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CopyingJob.cpp; sourceTree = "<group>"; };
+		8A67B6FA2156725300E92BC9 /* CopyingJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyingJob.h; sourceTree = "<group>"; };
+		8A67B6FB2156725300E92BC9 /* CopyingTitleBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyingTitleBuilder.h; sourceTree = "<group>"; };
+		8A67B6FC2156725300E92BC9 /* CopyingTitleBuilder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyingTitleBuilder.mm; sourceTree = "<group>"; };
+		8A67B6FD2156725300E92BC9 /* DisclosureViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DisclosureViewController.h; sourceTree = "<group>"; };
+		8A67B6FE2156725300E92BC9 /* DisclosureViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DisclosureViewController.m; sourceTree = "<group>"; };
+		8A67B6FF2156725300E92BC9 /* FileAlreadyExistDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileAlreadyExistDialog.h; sourceTree = "<group>"; };
+		8A67B7002156725300E92BC9 /* FileAlreadyExistDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileAlreadyExistDialog.mm; sourceTree = "<group>"; };
+		8A67B7012156725300E92BC9 /* NativeFSHelpers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NativeFSHelpers.cpp; sourceTree = "<group>"; };
+		8A67B7022156725300E92BC9 /* NativeFSHelpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NativeFSHelpers.h; sourceTree = "<group>"; };
+		8A67B7032156725300E92BC9 /* Options.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Options.h; sourceTree = "<group>"; };
+		8A67B7052156725300E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CopyingDialog.strings; sourceTree = "<group>"; };
+		8A67B7072156725300E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CopyingDialogDisclosedView.strings; sourceTree = "<group>"; };
+		8A67B7092156725300E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FileAlreadyExistDialog.strings; sourceTree = "<group>"; };
+		8A67B70A2156725300E92BC9 /* SourceItems.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SourceItems.cpp; sourceTree = "<group>"; };
+		8A67B70B2156725300E92BC9 /* SourceItems.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SourceItems.h; sourceTree = "<group>"; };
+		8A67B70C2156725300E92BC9 /* GenericErrorDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GenericErrorDialog.h; path = source/GenericErrorDialog.h; sourceTree = "<group>"; };
+		8A67B70D2156725300E92BC9 /* GenericErrorDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = GenericErrorDialog.mm; path = source/GenericErrorDialog.mm; sourceTree = "<group>"; };
+		8A67B70E2156725300E92BC9 /* GenericErrorDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = GenericErrorDialog.xib; path = source/GenericErrorDialog.xib; sourceTree = "<group>"; };
+		8A67B70F2156725300E92BC9 /* AsyncDialogResponse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AsyncDialogResponse.cpp; path = source/AsyncDialogResponse.cpp; sourceTree = "<group>"; };
+		8A67B7102156725400E92BC9 /* BriefOperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BriefOperationView.h; path = source/BriefOperationView.h; sourceTree = "<group>"; };
+		8A67B7112156725400E92BC9 /* Internal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Internal.mm; path = source/Internal.mm; sourceTree = "<group>"; };
+		8A67B7122156725400E92BC9 /* BriefOperationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BriefOperationViewController.h; path = source/BriefOperationViewController.h; sourceTree = "<group>"; };
+		8A67B7132156725400E92BC9 /* HaltReasonDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = HaltReasonDialog.mm; path = source/HaltReasonDialog.mm; sourceTree = "<group>"; };
+		8A67B7162156725400E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BatchRenamingDialog.xib; sourceTree = "<group>"; };
+		8A67B7182156725400E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BatchRenamingRangeSelectionPopover.xib; sourceTree = "<group>"; };
+		8A67B7192156725400E92BC9 /* BatchRenaming.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BatchRenaming.h; sourceTree = "<group>"; };
+		8A67B71A2156725400E92BC9 /* BatchRenaming.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BatchRenaming.mm; sourceTree = "<group>"; };
+		8A67B71B2156725400E92BC9 /* BatchRenamingDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BatchRenamingDialog.h; sourceTree = "<group>"; };
+		8A67B71C2156725400E92BC9 /* BatchRenamingDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BatchRenamingDialog.mm; sourceTree = "<group>"; };
+		8A67B71D2156725400E92BC9 /* BatchRenamingJob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BatchRenamingJob.cpp; sourceTree = "<group>"; };
+		8A67B71E2156725400E92BC9 /* BatchRenamingJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BatchRenamingJob.h; sourceTree = "<group>"; };
+		8A67B71F2156725400E92BC9 /* BatchRenamingRangeSelectionPopover.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BatchRenamingRangeSelectionPopover.h; sourceTree = "<group>"; };
+		8A67B7202156725400E92BC9 /* BatchRenamingRangeSelectionPopover.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BatchRenamingRangeSelectionPopover.mm; sourceTree = "<group>"; };
+		8A67B7212156725400E92BC9 /* BatchRenamingScheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BatchRenamingScheme.h; sourceTree = "<group>"; };
+		8A67B7222156725400E92BC9 /* BatchRenamingScheme.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BatchRenamingScheme.mm; sourceTree = "<group>"; };
+		8A67B7242156725400E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/BatchRenamingDialog.strings; sourceTree = "<group>"; };
+		8A67B7262156725400E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/BatchRenamingRangeSelectionPopover.strings; sourceTree = "<group>"; };
+		8A67B7272156725400E92BC9 /* AsyncDialogResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AsyncDialogResponse.h; path = source/AsyncDialogResponse.h; sourceTree = "<group>"; };
+		8A67B7282156725400E92BC9 /* PoolView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PoolView.h; path = source/PoolView.h; sourceTree = "<group>"; };
+		8A67B7292156725500E92BC9 /* PoolViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PoolViewController.h; path = source/PoolViewController.h; sourceTree = "<group>"; };
+		8A67B72A2156725500E92BC9 /* PoolViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = PoolViewController.mm; path = source/PoolViewController.mm; sourceTree = "<group>"; };
+		8A67B72B2156725500E92BC9 /* Progress.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Progress.cpp; path = source/Progress.cpp; sourceTree = "<group>"; };
+		8A67B72D2156725500E92BC9 /* AlterSymlinkDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlterSymlinkDialog.h; sourceTree = "<group>"; };
+		8A67B72E2156725500E92BC9 /* AlterSymlinkDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AlterSymlinkDialog.mm; sourceTree = "<group>"; };
+		8A67B7302156725500E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AlterSymlinkDialog.xib; sourceTree = "<group>"; };
+		8A67B7322156725500E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CreateHardlinkDialog.xib; sourceTree = "<group>"; };
+		8A67B7342156725500E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CreateSymlinkDialog.xib; sourceTree = "<group>"; };
+		8A67B7352156725500E92BC9 /* CreateHardlinkDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateHardlinkDialog.h; sourceTree = "<group>"; };
+		8A67B7362156725500E92BC9 /* CreateHardlinkDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CreateHardlinkDialog.mm; sourceTree = "<group>"; };
+		8A67B7372156725500E92BC9 /* CreateSymlinkDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CreateSymlinkDialog.h; sourceTree = "<group>"; };
+		8A67B7382156725500E92BC9 /* CreateSymlinkDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CreateSymlinkDialog.mm; sourceTree = "<group>"; };
+		8A67B7392156725500E92BC9 /* Linkage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Linkage.h; sourceTree = "<group>"; };
+		8A67B73A2156725500E92BC9 /* Linkage.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Linkage.mm; sourceTree = "<group>"; };
+		8A67B73B2156725500E92BC9 /* LinkageJob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinkageJob.cpp; sourceTree = "<group>"; };
+		8A67B73C2156725500E92BC9 /* LinkageJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinkageJob.h; sourceTree = "<group>"; };
+		8A67B73D2156725500E92BC9 /* Options.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Options.h; sourceTree = "<group>"; };
+		8A67B73F2156725500E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AlterSymlinkDialog.strings; sourceTree = "<group>"; };
+		8A67B7412156725500E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CreateHardlinkDialog.strings; sourceTree = "<group>"; };
+		8A67B7432156725500E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CreateSymlinkDialog.strings; sourceTree = "<group>"; };
+		8A67B7462156725500E92BC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DirectoryCreationDialog.xib; sourceTree = "<group>"; };
+		8A67B7472156725500E92BC9 /* DirectoryCreation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectoryCreation.h; sourceTree = "<group>"; };
+		8A67B7482156725500E92BC9 /* DirectoryCreation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DirectoryCreation.mm; sourceTree = "<group>"; };
+		8A67B7492156725500E92BC9 /* DirectoryCreationDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectoryCreationDialog.h; sourceTree = "<group>"; };
+		8A67B74A2156725500E92BC9 /* DirectoryCreationDialog.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DirectoryCreationDialog.mm; sourceTree = "<group>"; };
+		8A67B74B2156725500E92BC9 /* DirectoryCreationJob.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DirectoryCreationJob.cpp; sourceTree = "<group>"; };
+		8A67B74C2156725500E92BC9 /* DirectoryCreationJob.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DirectoryCreationJob.h; sourceTree = "<group>"; };
+		8A67B74E2156725500E92BC9 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/DirectoryCreationDialog.strings; sourceTree = "<group>"; };
+		8A67B74F2156725500E92BC9 /* Job.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Job.h; path = source/Job.h; sourceTree = "<group>"; };
+		8A67B7502156725600E92BC9 /* Operation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Operation.h; path = source/Operation.h; sourceTree = "<group>"; };
+		8A67B7512156725600E92BC9 /* Statistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Statistics.cpp; path = source/Statistics.cpp; sourceTree = "<group>"; };
 		8AAA8BA621566FB20053BE9D /* pugiconfig.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
 		8AAA8BA721566FB20053BE9D /* pugixml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
 		8AAA8BA821566FB20053BE9D /* pugixml.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
@@ -1219,6 +1388,37 @@
 		8AAA8BD021566FC10053BE9D /* stream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stream.h; sourceTree = "<group>"; };
 		8AAA8BD121566FC10053BE9D /* stringbuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stringbuffer.h; sourceTree = "<group>"; };
 		8AAA8BD221566FC10053BE9D /* writer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = writer.h; sourceTree = "<group>"; };
+		8AAA8BDA215671AD0053BE9D /* AttrsChangingDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AttrsChangingDialog.h; path = include/Operations/AttrsChangingDialog.h; sourceTree = "<group>"; };
+		8AAA8BDB215671AD0053BE9D /* CreateHardlinkDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CreateHardlinkDialog.h; path = include/Operations/CreateHardlinkDialog.h; sourceTree = "<group>"; };
+		8AAA8BDC215671AD0053BE9D /* PoolViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PoolViewController.h; path = include/Operations/PoolViewController.h; sourceTree = "<group>"; };
+		8AAA8BDD215671AD0053BE9D /* Job.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Job.h; path = include/Operations/Job.h; sourceTree = "<group>"; };
+		8AAA8BDE215671AD0053BE9D /* AlterSymlinkDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AlterSymlinkDialog.h; path = include/Operations/AlterSymlinkDialog.h; sourceTree = "<group>"; };
+		8AAA8BDF215671AD0053BE9D /* Compression.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Compression.h; path = include/Operations/Compression.h; sourceTree = "<group>"; };
+		8AAA8BE0215671AE0053BE9D /* CopyingDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CopyingDialog.h; path = include/Operations/CopyingDialog.h; sourceTree = "<group>"; };
+		8AAA8BE1215671AE0053BE9D /* CopyingOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CopyingOptions.h; path = include/Operations/CopyingOptions.h; sourceTree = "<group>"; };
+		8AAA8BE2215671AE0053BE9D /* PoolView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PoolView.h; path = include/Operations/PoolView.h; sourceTree = "<group>"; };
+		8AAA8BE3215671AE0053BE9D /* Operation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Operation.h; path = include/Operations/Operation.h; sourceTree = "<group>"; };
+		8AAA8BE4215671AE0053BE9D /* BatchRenamingScheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BatchRenamingScheme.h; path = include/Operations/BatchRenamingScheme.h; sourceTree = "<group>"; };
+		8AAA8BE5215671AE0053BE9D /* CreateSymlinkDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CreateSymlinkDialog.h; path = include/Operations/CreateSymlinkDialog.h; sourceTree = "<group>"; };
+		8AAA8BE6215671AE0053BE9D /* Copying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Copying.h; path = include/Operations/Copying.h; sourceTree = "<group>"; };
+		8AAA8BE7215671AE0053BE9D /* DeletionDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DeletionDialog.h; path = include/Operations/DeletionDialog.h; sourceTree = "<group>"; };
+		8AAA8BE8215671AF0053BE9D /* DirectoryCreation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DirectoryCreation.h; path = include/Operations/DirectoryCreation.h; sourceTree = "<group>"; };
+		8AAA8BE9215671AF0053BE9D /* Statistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Statistics.h; path = include/Operations/Statistics.h; sourceTree = "<group>"; };
+		8AAA8BEA215671AF0053BE9D /* AggregateProgressTracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AggregateProgressTracker.h; path = include/Operations/AggregateProgressTracker.h; sourceTree = "<group>"; };
+		8AAA8BEB215671AF0053BE9D /* Deletion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Deletion.h; path = include/Operations/Deletion.h; sourceTree = "<group>"; };
+		8AAA8BEC215671AF0053BE9D /* AttrsChanging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AttrsChanging.h; path = include/Operations/AttrsChanging.h; sourceTree = "<group>"; };
+		8AAA8BED215671AF0053BE9D /* BatchRenamingDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BatchRenamingDialog.h; path = include/Operations/BatchRenamingDialog.h; sourceTree = "<group>"; };
+		8AAA8BEE215671AF0053BE9D /* BatchRenaming.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BatchRenaming.h; path = include/Operations/BatchRenaming.h; sourceTree = "<group>"; };
+		8AAA8BEF215671B00053BE9D /* Pool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Pool.h; path = include/Operations/Pool.h; sourceTree = "<group>"; };
+		8AAA8BF0215671B00053BE9D /* DirectoryCreationDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DirectoryCreationDialog.h; path = include/Operations/DirectoryCreationDialog.h; sourceTree = "<group>"; };
+		8AAA8BF1215671B00053BE9D /* Linkage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Linkage.h; path = include/Operations/Linkage.h; sourceTree = "<group>"; };
+		8AAA8C012156721A0053BE9D /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Localizable.stringsdict; path = resources/Localizable.stringsdict; sourceTree = "<group>"; };
+		8AAA8C02215672320053BE9D /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = resources/Media.xcassets; sourceTree = "<group>"; };
+		8AAA8C05215672320053BE9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Localizable.strings; sourceTree = "<group>"; };
+		8AAA8C08215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "Info-FrameworkPlist.strings"; sourceTree = "<group>"; };
+		8AAA8C0A215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "Info-TestsPlist.strings"; sourceTree = "<group>"; };
+		8AAA8C0C215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
+		8AAA8C0E215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ru; path = Media.xcassets; sourceTree = "<group>"; };
 		8AB24C832154F64500A1C3A7 /* NSView+Sugar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSView+Sugar.h"; path = "Utility/include/Utility/NSView+Sugar.h"; sourceTree = SOURCE_ROOT; };
 		8AB24C842154F64500A1C3A7 /* NSMenu+Hierarchical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSMenu+Hierarchical.h"; path = "Utility/include/Utility/NSMenu+Hierarchical.h"; sourceTree = SOURCE_ROOT; };
 		8AB24C852154F64500A1C3A7 /* Encodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Encodings.h; path = Utility/include/Utility/Encodings.h; sourceTree = SOURCE_ROOT; };
@@ -5200,6 +5400,22 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
+		8A4534CF2156747B009284A2 /* c++ */ = {
+			isa = PBXGroup;
+			children = (
+				8A4534D02156747B009284A2 /* include */,
+			);
+			path = "c++";
+			sourceTree = "<group>";
+		};
+		8A4534D02156747B009284A2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				8A4534D12156747B009284A2 /* any.hpp */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
 		8A548D6D2154EE410047A5B2 = {
 			isa = PBXGroup;
 			children = (
@@ -5209,6 +5425,7 @@
 				8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */,
 				8AF07323215519CE00895FEF /* Term */,
 				8ABF0D9221566BCF00BC1103 /* VFS */,
+				8AAA8BD5215671400053BE9D /* Operations */,
 				8AF06992215516E000895FEF /* ThirdParty */,
 				8A548D772154EE410047A5B2 /* Products */,
 			);
@@ -5231,6 +5448,7 @@
 				8ABF09AD21564B8600BC1103 /* liblzma.a */,
 				8ABF0BEB215650F900BC1103 /* libarchive.a */,
 				8ABF0D8E21566BA900BC1103 /* libVFS.a */,
+				8A4534C32156729E009284A2 /* libOperations.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5277,6 +5495,148 @@
 				8A171C2F2154F1C20043D119 /* tiny_string.cpp */,
 			);
 			name = Sources;
+			sourceTree = "<group>";
+		};
+		8A67B6C42156725100E92BC9 /* Deletion */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B6C52156725100E92BC9 /* DeletionDialog.xib */,
+				8A67B6C72156725100E92BC9 /* Deletion.h */,
+				8A67B6C82156725100E92BC9 /* Deletion.mm */,
+				8A67B6C92156725100E92BC9 /* DeletionDialog.h */,
+				8A67B6CA2156725100E92BC9 /* DeletionDialog.mm */,
+				8A67B6CB2156725100E92BC9 /* DeletionJob.cpp */,
+				8A67B6CC2156725100E92BC9 /* DeletionJob.h */,
+				8A67B6CD2156725100E92BC9 /* Options.h */,
+				8A67B6CE2156725100E92BC9 /* DeletionDialog.strings */,
+			);
+			name = Deletion;
+			path = source/Deletion;
+			sourceTree = "<group>";
+		};
+		8A67B6D52156725200E92BC9 /* AttrsChanging */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B6D62156725200E92BC9 /* AttrsChanging.h */,
+				8A67B6D72156725200E92BC9 /* AttrsChanging.mm */,
+				8A67B6D82156725200E92BC9 /* AttrsChangingDialog.h */,
+				8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */,
+				8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */,
+				8A67B6DB2156725200E92BC9 /* AttrsChangingJob.h */,
+				8A67B6DC2156725200E92BC9 /* AttrsChangingDialog.xib */,
+				8A67B6DE2156725200E92BC9 /* Options.h */,
+				8A67B6DF2156725200E92BC9 /* AttrsChangingDialog.strings */,
+			);
+			name = AttrsChanging;
+			path = source/AttrsChanging;
+			sourceTree = "<group>";
+		};
+		8A67B6E72156725300E92BC9 /* Compression */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B6E82156725300E92BC9 /* Compression.h */,
+				8A67B6E92156725300E92BC9 /* Compression.mm */,
+				8A67B6EA2156725300E92BC9 /* CompressionJob.cpp */,
+				8A67B6EB2156725300E92BC9 /* CompressionJob.h */,
+			);
+			name = Compression;
+			path = source/Compression;
+			sourceTree = "<group>";
+		};
+		8A67B6EC2156725300E92BC9 /* Copying */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B6ED2156725300E92BC9 /* CopyingDialog.xib */,
+				8A67B6EF2156725300E92BC9 /* CopyingDialogDisclosedView.xib */,
+				8A67B6F12156725300E92BC9 /* FileAlreadyExistDialog.xib */,
+				8A67B6F32156725300E92BC9 /* ChecksumExpectation.cpp */,
+				8A67B6F42156725300E92BC9 /* ChecksumExpectation.h */,
+				8A67B6F52156725300E92BC9 /* Copying.h */,
+				8A67B6F62156725300E92BC9 /* Copying.mm */,
+				8A67B6F72156725300E92BC9 /* CopyingDialog.h */,
+				8A67B6F82156725300E92BC9 /* CopyingDialog.mm */,
+				8A67B6F92156725300E92BC9 /* CopyingJob.cpp */,
+				8A67B6FA2156725300E92BC9 /* CopyingJob.h */,
+				8A67B6FB2156725300E92BC9 /* CopyingTitleBuilder.h */,
+				8A67B6FC2156725300E92BC9 /* CopyingTitleBuilder.mm */,
+				8A67B6FD2156725300E92BC9 /* DisclosureViewController.h */,
+				8A67B6FE2156725300E92BC9 /* DisclosureViewController.m */,
+				8A67B6FF2156725300E92BC9 /* FileAlreadyExistDialog.h */,
+				8A67B7002156725300E92BC9 /* FileAlreadyExistDialog.mm */,
+				8A67B7012156725300E92BC9 /* NativeFSHelpers.cpp */,
+				8A67B7022156725300E92BC9 /* NativeFSHelpers.h */,
+				8A67B7032156725300E92BC9 /* Options.h */,
+				8A67B7042156725300E92BC9 /* CopyingDialog.strings */,
+				8A67B7062156725300E92BC9 /* CopyingDialogDisclosedView.strings */,
+				8A67B7082156725300E92BC9 /* FileAlreadyExistDialog.strings */,
+				8A67B70A2156725300E92BC9 /* SourceItems.cpp */,
+				8A67B70B2156725300E92BC9 /* SourceItems.h */,
+			);
+			name = Copying;
+			path = source/Copying;
+			sourceTree = "<group>";
+		};
+		8A67B7142156725400E92BC9 /* BatchRenaming */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B7152156725400E92BC9 /* BatchRenamingDialog.xib */,
+				8A67B7172156725400E92BC9 /* BatchRenamingRangeSelectionPopover.xib */,
+				8A67B7192156725400E92BC9 /* BatchRenaming.h */,
+				8A67B71A2156725400E92BC9 /* BatchRenaming.mm */,
+				8A67B71B2156725400E92BC9 /* BatchRenamingDialog.h */,
+				8A67B71C2156725400E92BC9 /* BatchRenamingDialog.mm */,
+				8A67B71D2156725400E92BC9 /* BatchRenamingJob.cpp */,
+				8A67B71E2156725400E92BC9 /* BatchRenamingJob.h */,
+				8A67B71F2156725400E92BC9 /* BatchRenamingRangeSelectionPopover.h */,
+				8A67B7202156725400E92BC9 /* BatchRenamingRangeSelectionPopover.mm */,
+				8A67B7212156725400E92BC9 /* BatchRenamingScheme.h */,
+				8A67B7222156725400E92BC9 /* BatchRenamingScheme.mm */,
+				8A67B7232156725400E92BC9 /* BatchRenamingDialog.strings */,
+				8A67B7252156725400E92BC9 /* BatchRenamingRangeSelectionPopover.strings */,
+			);
+			name = BatchRenaming;
+			path = source/BatchRenaming;
+			sourceTree = "<group>";
+		};
+		8A67B72C2156725500E92BC9 /* Linkage */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B72D2156725500E92BC9 /* AlterSymlinkDialog.h */,
+				8A67B72E2156725500E92BC9 /* AlterSymlinkDialog.mm */,
+				8A67B72F2156725500E92BC9 /* AlterSymlinkDialog.xib */,
+				8A67B7312156725500E92BC9 /* CreateHardlinkDialog.xib */,
+				8A67B7332156725500E92BC9 /* CreateSymlinkDialog.xib */,
+				8A67B7352156725500E92BC9 /* CreateHardlinkDialog.h */,
+				8A67B7362156725500E92BC9 /* CreateHardlinkDialog.mm */,
+				8A67B7372156725500E92BC9 /* CreateSymlinkDialog.h */,
+				8A67B7382156725500E92BC9 /* CreateSymlinkDialog.mm */,
+				8A67B7392156725500E92BC9 /* Linkage.h */,
+				8A67B73A2156725500E92BC9 /* Linkage.mm */,
+				8A67B73B2156725500E92BC9 /* LinkageJob.cpp */,
+				8A67B73C2156725500E92BC9 /* LinkageJob.h */,
+				8A67B73D2156725500E92BC9 /* Options.h */,
+				8A67B73E2156725500E92BC9 /* AlterSymlinkDialog.strings */,
+				8A67B7402156725500E92BC9 /* CreateHardlinkDialog.strings */,
+				8A67B7422156725500E92BC9 /* CreateSymlinkDialog.strings */,
+			);
+			name = Linkage;
+			path = source/Linkage;
+			sourceTree = "<group>";
+		};
+		8A67B7442156725500E92BC9 /* DirectoryCreation */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B7452156725500E92BC9 /* DirectoryCreationDialog.xib */,
+				8A67B7472156725500E92BC9 /* DirectoryCreation.h */,
+				8A67B7482156725500E92BC9 /* DirectoryCreation.mm */,
+				8A67B7492156725500E92BC9 /* DirectoryCreationDialog.h */,
+				8A67B74A2156725500E92BC9 /* DirectoryCreationDialog.mm */,
+				8A67B74B2156725500E92BC9 /* DirectoryCreationJob.cpp */,
+				8A67B74C2156725500E92BC9 /* DirectoryCreationJob.h */,
+				8A67B74D2156725500E92BC9 /* DirectoryCreationDialog.strings */,
+			);
+			name = DirectoryCreation;
+			path = source/DirectoryCreation;
 			sourceTree = "<group>";
 		};
 		8A997D922154F5E8008E63DD /* Utility */ = {
@@ -5462,6 +5822,129 @@
 				8AAA8BC921566FC10053BE9D /* stdint.h */,
 			);
 			path = msinttypes;
+			sourceTree = "<group>";
+		};
+		8AAA8BD5215671400053BE9D /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				8AAA8BD92156718D0053BE9D /* Headers */,
+				8AAA8BD8215671890053BE9D /* Resources */,
+				8AAA8BD6215671740053BE9D /* Sources */,
+			);
+			path = Operations;
+			sourceTree = "<group>";
+		};
+		8AAA8BD6215671740053BE9D /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8A67B6D52156725200E92BC9 /* AttrsChanging */,
+				8A67B7142156725400E92BC9 /* BatchRenaming */,
+				8A67B6E72156725300E92BC9 /* Compression */,
+				8A67B6EC2156725300E92BC9 /* Copying */,
+				8A67B6C42156725100E92BC9 /* Deletion */,
+				8A67B7442156725500E92BC9 /* DirectoryCreation */,
+				8A67B72C2156725500E92BC9 /* Linkage */,
+				8A67B6D02156725100E92BC9 /* AggregateProgressTracker.h */,
+				8A67B6C02156725100E92BC9 /* AggregateProgressTracker.mm */,
+				8A67B70F2156725300E92BC9 /* AsyncDialogResponse.cpp */,
+				8A67B7272156725400E92BC9 /* AsyncDialogResponse.h */,
+				8A67B7102156725400E92BC9 /* BriefOperationView.h */,
+				8A67B6E12156725200E92BC9 /* BriefOperationView.mm */,
+				8A67B7122156725400E92BC9 /* BriefOperationViewController.h */,
+				8A67B6E62156725300E92BC9 /* BriefOperationViewController.mm */,
+				8A67B6D42156725200E92BC9 /* BriefOperationViewController.xib */,
+				8A67B70C2156725300E92BC9 /* GenericErrorDialog.h */,
+				8A67B70D2156725300E92BC9 /* GenericErrorDialog.mm */,
+				8A67B70E2156725300E92BC9 /* GenericErrorDialog.xib */,
+				8A67B6BB2156725000E92BC9 /* HaltReasonDialog.h */,
+				8A67B7132156725400E92BC9 /* HaltReasonDialog.mm */,
+				8A67B6BF2156725100E92BC9 /* HaltReasonDialog.xib */,
+				8A67B6C22156725100E92BC9 /* Internal.h */,
+				8A67B7112156725400E92BC9 /* Internal.mm */,
+				8A67B6C12156725100E92BC9 /* Job.cpp */,
+				8A67B74F2156725500E92BC9 /* Job.h */,
+				8A67B6D22156725100E92BC9 /* ModalDialogResponses.h */,
+				8A67B7502156725600E92BC9 /* Operation.h */,
+				8A67B6BC2156725000E92BC9 /* Operation.mm */,
+				8A67B6E32156725200E92BC9 /* Operations-prefix.pch */,
+				8A67B6E22156725200E92BC9 /* Pool.h */,
+				8A67B6BE2156725000E92BC9 /* Pool.mm */,
+				8A67B7282156725400E92BC9 /* PoolView.h */,
+				8A67B6D12156725100E92BC9 /* PoolView.mm */,
+				8A67B7292156725500E92BC9 /* PoolViewController.h */,
+				8A67B72A2156725500E92BC9 /* PoolViewController.mm */,
+				8A67B6BD2156725000E92BC9 /* PoolViewController.xib */,
+				8A67B72B2156725500E92BC9 /* Progress.cpp */,
+				8A67B6C32156725100E92BC9 /* Progress.h */,
+				8A67B7512156725600E92BC9 /* Statistics.cpp */,
+				8A67B6D32156725200E92BC9 /* Statistics.h */,
+				8A67B6E52156725200E92BC9 /* StatisticsFormatter.h */,
+				8A67B6E42156725200E92BC9 /* StatisticsFormatter.mm */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
+		8AAA8BD8215671890053BE9D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8AAA8C03215672320053BE9D /* Base.lproj */,
+				8AAA8C06215672320053BE9D /* ru.lproj */,
+				8AAA8C02215672320053BE9D /* Media.xcassets */,
+				8AAA8C012156721A0053BE9D /* Localizable.stringsdict */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		8AAA8BD92156718D0053BE9D /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8AAA8BEA215671AF0053BE9D /* AggregateProgressTracker.h */,
+				8AAA8BDE215671AD0053BE9D /* AlterSymlinkDialog.h */,
+				8AAA8BEC215671AF0053BE9D /* AttrsChanging.h */,
+				8AAA8BDA215671AD0053BE9D /* AttrsChangingDialog.h */,
+				8AAA8BEE215671AF0053BE9D /* BatchRenaming.h */,
+				8AAA8BED215671AF0053BE9D /* BatchRenamingDialog.h */,
+				8AAA8BE4215671AE0053BE9D /* BatchRenamingScheme.h */,
+				8AAA8BDF215671AD0053BE9D /* Compression.h */,
+				8AAA8BE6215671AE0053BE9D /* Copying.h */,
+				8AAA8BE0215671AE0053BE9D /* CopyingDialog.h */,
+				8AAA8BE1215671AE0053BE9D /* CopyingOptions.h */,
+				8AAA8BDB215671AD0053BE9D /* CreateHardlinkDialog.h */,
+				8AAA8BE5215671AE0053BE9D /* CreateSymlinkDialog.h */,
+				8AAA8BEB215671AF0053BE9D /* Deletion.h */,
+				8AAA8BE7215671AE0053BE9D /* DeletionDialog.h */,
+				8AAA8BE8215671AF0053BE9D /* DirectoryCreation.h */,
+				8AAA8BF0215671B00053BE9D /* DirectoryCreationDialog.h */,
+				8AAA8BDD215671AD0053BE9D /* Job.h */,
+				8AAA8BF1215671B00053BE9D /* Linkage.h */,
+				8AAA8BE3215671AE0053BE9D /* Operation.h */,
+				8AAA8BEF215671B00053BE9D /* Pool.h */,
+				8AAA8BE2215671AE0053BE9D /* PoolView.h */,
+				8AAA8BDC215671AD0053BE9D /* PoolViewController.h */,
+				8AAA8BE9215671AF0053BE9D /* Statistics.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8AAA8C03215672320053BE9D /* Base.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				8AAA8C04215672320053BE9D /* Localizable.strings */,
+			);
+			name = Base.lproj;
+			path = resources/Base.lproj;
+			sourceTree = "<group>";
+		};
+		8AAA8C06215672320053BE9D /* ru.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				8AAA8C07215672320053BE9D /* Info-FrameworkPlist.strings */,
+				8AAA8C09215672320053BE9D /* Info-TestsPlist.strings */,
+				8AAA8C0B215672320053BE9D /* Localizable.strings */,
+				8AAA8C0D215672320053BE9D /* Media.xcassets */,
+			);
+			name = ru.lproj;
+			path = resources/ru.lproj;
 			sourceTree = "<group>";
 		};
 		8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */ = {
@@ -7803,6 +8286,7 @@
 			children = (
 				8ABF0C6B2156522E00BC1103 /* archive */,
 				8AF06993215516E000895FEF /* boost */,
+				8A4534CF2156747B009284A2 /* c++ */,
 				8ABF0A4621564D4600BC1103 /* lzma */,
 				8ABF0243215636BA00BC1103 /* openssl */,
 				8AAA8BA521566FB20053BE9D /* pugixml */,
@@ -11818,6 +12302,21 @@
 			productReference = 8A171C4B2154F5760043D119 /* libUtility.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		8A4534C22156729E009284A2 /* Operations */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A4534C42156729E009284A2 /* Build configuration list for PBXNativeTarget "Operations" */;
+			buildPhases = (
+				8A4534BF2156729E009284A2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Operations;
+			productName = Operations;
+			productReference = 8A4534C32156729E009284A2 /* libOperations.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		8A548D752154EE410047A5B2 /* NimbleCommander */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A548D872154EE420047A5B2 /* Build configuration list for PBXNativeTarget "NimbleCommander" */;
@@ -12027,6 +12526,9 @@
 					8A171C4A2154F5760043D119 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
+					8A4534C22156729E009284A2 = {
+						CreatedOnToolsVersion = 9.4.1;
+					};
 					8A548D752154EE410047A5B2 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -12075,6 +12577,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 8A548D6D2154EE410047A5B2;
 			productRefGroup = 8A548D772154EE410047A5B2 /* Products */;
@@ -12087,6 +12590,7 @@
 				8AF05FDE2154FAEC00895FEF /* RoutedIO */,
 				8AF0731D2155191900895FEF /* Term */,
 				8ABF0D8D21566BA900BC1103 /* VFS */,
+				8A4534C22156729E009284A2 /* Operations */,
 				8ABF0BEA215650F900BC1103 /* archive */,
 				8ABF06592156382600BC1103 /* crypto */,
 				8AF073042155171F00895FEF /* boost_system */,
@@ -12149,6 +12653,58 @@
 				8AB24CE92154F6CA00A1C3A7 /* SystemInformation.mm in Sources */,
 				8AB24CEA2154F6CA00A1C3A7 /* VerticallyCenteredTextFieldCell.mm in Sources */,
 				8AB24CEB2154F6CA00A1C3A7 /* VolumeInformation.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A4534BF2156729E009284A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A4534C7215672CA009284A2 /* AttrsChanging.mm in Sources */,
+				8A4534C8215672CD009284A2 /* AttrsChangingDialog.mm in Sources */,
+				8A4534C9215672CF009284A2 /* AttrsChangingJob.cpp in Sources */,
+				8A4534CA215672E8009284A2 /* BatchRenaming.mm in Sources */,
+				8A4534CB215672E8009284A2 /* BatchRenamingDialog.mm in Sources */,
+				8A4534CC215672E8009284A2 /* BatchRenamingJob.cpp in Sources */,
+				8A4534CD215672E8009284A2 /* BatchRenamingRangeSelectionPopover.mm in Sources */,
+				8A4534CE215672E8009284A2 /* BatchRenamingScheme.mm in Sources */,
+				8A4534D22156748E009284A2 /* Compression.mm in Sources */,
+				8A4534D321567491009284A2 /* CompressionJob.cpp in Sources */,
+				8A4534D42156749C009284A2 /* ChecksumExpectation.cpp in Sources */,
+				8A4534D52156749C009284A2 /* Copying.mm in Sources */,
+				8A4534D62156749C009284A2 /* CopyingDialog.mm in Sources */,
+				8A4534D72156749C009284A2 /* CopyingJob.cpp in Sources */,
+				8A4534D82156749C009284A2 /* CopyingTitleBuilder.mm in Sources */,
+				8A4534D92156749C009284A2 /* DisclosureViewController.m in Sources */,
+				8A4534DA2156749C009284A2 /* FileAlreadyExistDialog.mm in Sources */,
+				8A4534DB2156749C009284A2 /* NativeFSHelpers.cpp in Sources */,
+				8A4534DC2156749C009284A2 /* SourceItems.cpp in Sources */,
+				8A4534DD215674BF009284A2 /* Deletion.mm in Sources */,
+				8A4534DE215674BF009284A2 /* DeletionDialog.mm in Sources */,
+				8A4534DF215674BF009284A2 /* DeletionJob.cpp in Sources */,
+				8A4534E0215674BF009284A2 /* DirectoryCreation.mm in Sources */,
+				8A4534E1215674BF009284A2 /* DirectoryCreationDialog.mm in Sources */,
+				8A4534E2215674BF009284A2 /* DirectoryCreationJob.cpp in Sources */,
+				8A4534E3215674BF009284A2 /* AlterSymlinkDialog.mm in Sources */,
+				8A4534E4215674BF009284A2 /* CreateHardlinkDialog.mm in Sources */,
+				8A4534E5215674BF009284A2 /* CreateSymlinkDialog.mm in Sources */,
+				8A4534E6215674BF009284A2 /* Linkage.mm in Sources */,
+				8A4534E7215674BF009284A2 /* LinkageJob.cpp in Sources */,
+				8A4534E8215674BF009284A2 /* AggregateProgressTracker.mm in Sources */,
+				8A4534E9215674BF009284A2 /* AsyncDialogResponse.cpp in Sources */,
+				8A4534EA215674BF009284A2 /* BriefOperationView.mm in Sources */,
+				8A4534EB215674BF009284A2 /* BriefOperationViewController.mm in Sources */,
+				8A4534EC215674BF009284A2 /* GenericErrorDialog.mm in Sources */,
+				8A4534ED215674BF009284A2 /* HaltReasonDialog.mm in Sources */,
+				8A4534EE215674BF009284A2 /* Internal.mm in Sources */,
+				8A4534EF215674BF009284A2 /* Job.cpp in Sources */,
+				8A4534F0215674BF009284A2 /* Operation.mm in Sources */,
+				8A4534F1215674BF009284A2 /* Pool.mm in Sources */,
+				8A4534F2215674BF009284A2 /* PoolView.mm in Sources */,
+				8A4534F3215674BF009284A2 /* PoolViewController.mm in Sources */,
+				8A4534F4215674BF009284A2 /* Progress.cpp in Sources */,
+				8A4534F5215674BF009284A2 /* Statistics.cpp in Sources */,
+				8A4534F6215674BF009284A2 /* StatisticsFormatter.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -13334,6 +13890,225 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		8A67B6C52156725100E92BC9 /* DeletionDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B6C62156725100E92BC9 /* Base */,
+			);
+			name = DeletionDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B6CE2156725100E92BC9 /* DeletionDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B6CF2156725100E92BC9 /* ru */,
+			);
+			name = DeletionDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B6DC2156725200E92BC9 /* AttrsChangingDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B6DD2156725200E92BC9 /* Base */,
+			);
+			name = AttrsChangingDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B6DF2156725200E92BC9 /* AttrsChangingDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B6E02156725200E92BC9 /* ru */,
+			);
+			name = AttrsChangingDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B6ED2156725300E92BC9 /* CopyingDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B6EE2156725300E92BC9 /* Base */,
+			);
+			name = CopyingDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B6EF2156725300E92BC9 /* CopyingDialogDisclosedView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B6F02156725300E92BC9 /* Base */,
+			);
+			name = CopyingDialogDisclosedView.xib;
+			sourceTree = "<group>";
+		};
+		8A67B6F12156725300E92BC9 /* FileAlreadyExistDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B6F22156725300E92BC9 /* Base */,
+			);
+			name = FileAlreadyExistDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B7042156725300E92BC9 /* CopyingDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7052156725300E92BC9 /* ru */,
+			);
+			name = CopyingDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B7062156725300E92BC9 /* CopyingDialogDisclosedView.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7072156725300E92BC9 /* ru */,
+			);
+			name = CopyingDialogDisclosedView.strings;
+			sourceTree = "<group>";
+		};
+		8A67B7082156725300E92BC9 /* FileAlreadyExistDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7092156725300E92BC9 /* ru */,
+			);
+			name = FileAlreadyExistDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B7152156725400E92BC9 /* BatchRenamingDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7162156725400E92BC9 /* Base */,
+			);
+			name = BatchRenamingDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B7172156725400E92BC9 /* BatchRenamingRangeSelectionPopover.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7182156725400E92BC9 /* Base */,
+			);
+			name = BatchRenamingRangeSelectionPopover.xib;
+			sourceTree = "<group>";
+		};
+		8A67B7232156725400E92BC9 /* BatchRenamingDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7242156725400E92BC9 /* ru */,
+			);
+			name = BatchRenamingDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B7252156725400E92BC9 /* BatchRenamingRangeSelectionPopover.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7262156725400E92BC9 /* ru */,
+			);
+			name = BatchRenamingRangeSelectionPopover.strings;
+			sourceTree = "<group>";
+		};
+		8A67B72F2156725500E92BC9 /* AlterSymlinkDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7302156725500E92BC9 /* Base */,
+			);
+			name = AlterSymlinkDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B7312156725500E92BC9 /* CreateHardlinkDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7322156725500E92BC9 /* Base */,
+			);
+			name = CreateHardlinkDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B7332156725500E92BC9 /* CreateSymlinkDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7342156725500E92BC9 /* Base */,
+			);
+			name = CreateSymlinkDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B73E2156725500E92BC9 /* AlterSymlinkDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B73F2156725500E92BC9 /* ru */,
+			);
+			name = AlterSymlinkDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B7402156725500E92BC9 /* CreateHardlinkDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7412156725500E92BC9 /* ru */,
+			);
+			name = CreateHardlinkDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B7422156725500E92BC9 /* CreateSymlinkDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7432156725500E92BC9 /* ru */,
+			);
+			name = CreateSymlinkDialog.strings;
+			sourceTree = "<group>";
+		};
+		8A67B7452156725500E92BC9 /* DirectoryCreationDialog.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B7462156725500E92BC9 /* Base */,
+			);
+			name = DirectoryCreationDialog.xib;
+			sourceTree = "<group>";
+		};
+		8A67B74D2156725500E92BC9 /* DirectoryCreationDialog.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A67B74E2156725500E92BC9 /* ru */,
+			);
+			name = DirectoryCreationDialog.strings;
+			sourceTree = "<group>";
+		};
+		8AAA8C04215672320053BE9D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AAA8C05215672320053BE9D /* Base */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		8AAA8C07215672320053BE9D /* Info-FrameworkPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AAA8C08215672320053BE9D /* ru */,
+			);
+			name = "Info-FrameworkPlist.strings";
+			sourceTree = "<group>";
+		};
+		8AAA8C09215672320053BE9D /* Info-TestsPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AAA8C0A215672320053BE9D /* ru */,
+			);
+			name = "Info-TestsPlist.strings";
+			sourceTree = "<group>";
+		};
+		8AAA8C0B215672320053BE9D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AAA8C0C215672320053BE9D /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		8AAA8C0D215672320053BE9D /* Media.xcassets */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8AAA8C0E215672320053BE9D /* ru */,
+			);
+			name = Media.xcassets;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		8A171C4D2154F5760043D119 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -13356,6 +14131,46 @@
 					Habanero/include,
 					Utility/include,
 					Utility/include/Utility,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8A4534C52156729E009284A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Operations/source/Operations-prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					ThirdParty/archive,
+					ThirdParty/boost,
+					"ThirdParty/c++/include",
+					Habanero/include,
+					Utility/include,
+					RoutedIO/include,
+					VFS/include,
+					Operations/include,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8A4534C62156729E009284A2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Operations/source/Operations-prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					ThirdParty/archive,
+					ThirdParty/boost,
+					"ThirdParty/c++/include",
+					Habanero/include,
+					Utility/include,
+					RoutedIO/include,
+					VFS/include,
+					Operations/include,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -13904,6 +14719,15 @@
 			buildConfigurations = (
 				8A171C4D2154F5760043D119 /* Debug */,
 				8A171C4E2154F5760043D119 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A4534C42156729E009284A2 /* Build configuration list for PBXNativeTarget "Operations" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A4534C52156729E009284A2 /* Debug */,
+				8A4534C62156729E009284A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

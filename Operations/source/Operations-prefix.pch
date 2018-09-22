@@ -52,7 +52,7 @@
     #include <functional>
     #include <future>
     #include <random>
-    #include <experimental/string_view>
+    #include <string_view>
 
     #include <Habanero/dispatch_cpp.h>
     #include <Habanero/mach_time.h>
