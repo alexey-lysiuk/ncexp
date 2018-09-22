@@ -11507,6 +11507,7 @@
 				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
+					Utility/include/Utility,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11519,6 +11520,7 @@
 				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
+					Utility/include/Utility,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11536,6 +11538,7 @@
 					"$(inherited)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				USE_HEADERMAP = NO;
 			};
 			name = Debug;
 		};
@@ -11546,6 +11549,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				USE_HEADERMAP = NO;
 			};
 			name = Release;
 		};
@@ -11620,6 +11624,9 @@
 					ThirdParty/openssl,
 					ThirdParty/openssl/include,
 					ThirdParty/openssl/crypto/include,
+					ThirdParty/openssl/crypto/ec/curve448,
+					ThirdParty/openssl/crypto/ec/curve448/arch_32,
+					ThirdParty/openssl/crypto/modes,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11660,6 +11667,9 @@
 					ThirdParty/openssl,
 					ThirdParty/openssl/include,
 					ThirdParty/openssl/crypto/include,
+					ThirdParty/openssl/crypto/ec/curve448,
+					ThirdParty/openssl/crypto/ec/curve448/arch_32,
+					ThirdParty/openssl/crypto/modes,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11850,6 +11860,7 @@
 					Habanero/include,
 					Utility/include,
 					Term/include,
+					Term/include/Term,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11866,6 +11877,7 @@
 					Habanero/include,
 					Utility/include,
 					Term/include,
+					Term/include/Term,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
