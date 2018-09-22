@@ -1472,6 +1472,584 @@
 		8A453C2121568144009284A2 /* MMYosemiteTabStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMYosemiteTabStyle.h; sourceTree = "<group>"; };
 		8A453C2221568144009284A2 /* MMYosemiteTabStyle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMYosemiteTabStyle.m; sourceTree = "<group>"; };
 		8A453C2321568144009284A2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		8A453C252156818C009284A2 /* QLThumbnailsCache_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QLThumbnailsCache_Tests.mm; sourceTree = "<group>"; };
+		8A453C282156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BigFileViewSheet.xib; sourceTree = "<group>"; };
+		8A453C2A2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/InternalViewerController.xib; sourceTree = "<group>"; };
+		8A453C2C2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/InternalViewerToolbar.xib; sourceTree = "<group>"; };
+		8A453C2D2156818C009284A2 /* BigFileView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigFileView.h; sourceTree = "<group>"; };
+		8A453C2E2156818C009284A2 /* BigFileView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BigFileView.mm; sourceTree = "<group>"; };
+		8A453C2F2156818C009284A2 /* BigFileViewDataBackend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigFileViewDataBackend.h; sourceTree = "<group>"; };
+		8A453C302156818C009284A2 /* BigFileViewDataBackend.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BigFileViewDataBackend.mm; sourceTree = "<group>"; };
+		8A453C312156818C009284A2 /* BigFileViewHex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigFileViewHex.h; sourceTree = "<group>"; };
+		8A453C322156818C009284A2 /* BigFileViewHex.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BigFileViewHex.mm; sourceTree = "<group>"; };
+		8A453C332156818C009284A2 /* BigFileViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigFileViewProtocol.h; sourceTree = "<group>"; };
+		8A453C342156818C009284A2 /* BigFileViewSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigFileViewSheet.h; sourceTree = "<group>"; };
+		8A453C352156818C009284A2 /* BigFileViewSheet.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BigFileViewSheet.mm; sourceTree = "<group>"; };
+		8A453C362156818C009284A2 /* BigFileViewText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BigFileViewText.h; sourceTree = "<group>"; };
+		8A453C372156818C009284A2 /* BigFileViewText.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BigFileViewText.mm; sourceTree = "<group>"; };
+		8A453C382156818C009284A2 /* InternalViewerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternalViewerController.h; sourceTree = "<group>"; };
+		8A453C392156818C009284A2 /* InternalViewerController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InternalViewerController.mm; sourceTree = "<group>"; };
+		8A453C3A2156818C009284A2 /* InternalViewerHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternalViewerHistory.h; sourceTree = "<group>"; };
+		8A453C3B2156818C009284A2 /* InternalViewerHistory.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InternalViewerHistory.mm; sourceTree = "<group>"; };
+		8A453C3C2156818C009284A2 /* InternalViewerToolbarProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternalViewerToolbarProtocol.h; sourceTree = "<group>"; };
+		8A453C3D2156818C009284A2 /* InternalViewerToolbarProtocol.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InternalViewerToolbarProtocol.mm; sourceTree = "<group>"; };
+		8A453C3E2156818C009284A2 /* InternalViewerViewPreviewMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternalViewerViewPreviewMode.h; sourceTree = "<group>"; };
+		8A453C3F2156818C009284A2 /* InternalViewerViewPreviewMode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InternalViewerViewPreviewMode.mm; sourceTree = "<group>"; };
+		8A453C402156818C009284A2 /* InternalViewerWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InternalViewerWindowController.h; sourceTree = "<group>"; };
+		8A453C412156818C009284A2 /* InternalViewerWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InternalViewerWindowController.mm; sourceTree = "<group>"; };
+		8A453C422156818C009284A2 /* InternalViewerWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InternalViewerWindowController.xib; sourceTree = "<group>"; };
+		8A453C442156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/BigFileViewSheet.strings; sourceTree = "<group>"; };
+		8A453C462156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InternalViewerController.strings; sourceTree = "<group>"; };
+		8A453C482156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InternalViewerToolbar.strings; sourceTree = "<group>"; };
+		8A453C4A2156818C009284A2 /* ActionShortcut.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionShortcut.h; sourceTree = "<group>"; };
+		8A453C4B2156818C009284A2 /* ActionShortcut.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ActionShortcut.mm; sourceTree = "<group>"; };
+		8A453C4C2156818C009284A2 /* ActionsShortcutsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActionsShortcutsManager.h; sourceTree = "<group>"; };
+		8A453C4D2156818C009284A2 /* ActionsShortcutsManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ActionsShortcutsManager.mm; sourceTree = "<group>"; };
+		8A453C4E2156818C009284A2 /* Alert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Alert.h; sourceTree = "<group>"; };
+		8A453C4F2156818C009284A2 /* Alert.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Alert.mm; sourceTree = "<group>"; };
+		8A453C502156818C009284A2 /* AnyHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnyHolder.h; sourceTree = "<group>"; };
+		8A453C512156818C009284A2 /* AnyHolder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AnyHolder.mm; sourceTree = "<group>"; };
+		8A453C522156818C009284A2 /* AppStoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppStoreHelper.h; sourceTree = "<group>"; };
+		8A453C532156818C009284A2 /* AppStoreHelper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppStoreHelper.mm; sourceTree = "<group>"; };
+		8A453C552156818C009284A2 /* QLThumbnailsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QLThumbnailsCache.h; sourceTree = "<group>"; };
+		8A453C562156818C009284A2 /* QLThumbnailsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QLThumbnailsCache.mm; sourceTree = "<group>"; };
+		8A453C572156818C009284A2 /* QLVFSThumbnailsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QLVFSThumbnailsCache.h; sourceTree = "<group>"; };
+		8A453C582156818C009284A2 /* QLVFSThumbnailsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QLVFSThumbnailsCache.mm; sourceTree = "<group>"; };
+		8A453C592156818C009284A2 /* WorkspaceExtensionIconsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkspaceExtensionIconsCache.h; sourceTree = "<group>"; };
+		8A453C5A2156818C009284A2 /* WorkspaceExtensionIconsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WorkspaceExtensionIconsCache.mm; sourceTree = "<group>"; };
+		8A453C5B2156818C009284A2 /* WorkspaceIconsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkspaceIconsCache.h; sourceTree = "<group>"; };
+		8A453C5C2156818C009284A2 /* WorkspaceIconsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WorkspaceIconsCache.mm; sourceTree = "<group>"; };
+		8A453C5D2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigBackedNetworkConnectionsManager.h; sourceTree = "<group>"; };
+		8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ConfigBackedNetworkConnectionsManager.mm; sourceTree = "<group>"; };
+		8A453C5F2156818C009284A2 /* ConnectionsMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionsMenuDelegate.h; sourceTree = "<group>"; };
+		8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ConnectionsMenuDelegate.mm; sourceTree = "<group>"; };
+		8A453C612156818C009284A2 /* Dock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dock.h; sourceTree = "<group>"; };
+		8A453C622156818C009284A2 /* Dock.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Dock.mm; sourceTree = "<group>"; };
+		8A453C632156818C009284A2 /* FeedbackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedbackManager.h; sourceTree = "<group>"; };
+		8A453C642156818C009284A2 /* FeedbackManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FeedbackManager.mm; sourceTree = "<group>"; };
+		8A453C652156818C009284A2 /* FileMask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileMask.cpp; sourceTree = "<group>"; };
+		8A453C662156818C009284A2 /* FileMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileMask.h; sourceTree = "<group>"; };
+		8A453C672156818C009284A2 /* FileMask_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileMask_Tests.mm; sourceTree = "<group>"; };
+		8A453C682156818C009284A2 /* FileWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileWindow.cpp; sourceTree = "<group>"; };
+		8A453C692156818C009284A2 /* FileWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileWindow.h; sourceTree = "<group>"; };
+		8A453C6A2156818C009284A2 /* FileWindow_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileWindow_Tests.mm; sourceTree = "<group>"; };
+		8A453C6B2156818C009284A2 /* GoogleAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleAnalytics.h; sourceTree = "<group>"; };
+		8A453C6C2156818C009284A2 /* GoogleAnalytics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GoogleAnalytics.mm; sourceTree = "<group>"; };
+		8A453C6D2156818C009284A2 /* LaunchServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchServices.h; sourceTree = "<group>"; };
+		8A453C6E2156818C009284A2 /* LaunchServices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LaunchServices.mm; sourceTree = "<group>"; };
+		8A453C702156818C009284A2 /* MASAppInstalledChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MASAppInstalledChecker.cpp; sourceTree = "<group>"; };
+		8A453C712156818C009284A2 /* MASAppInstalledChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MASAppInstalledChecker.h; sourceTree = "<group>"; };
+		8A453C722156818C009284A2 /* NetworkConnectionIconProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkConnectionIconProvider.h; sourceTree = "<group>"; };
+		8A453C732156818C009284A2 /* NetworkConnectionIconProvider.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkConnectionIconProvider.mm; sourceTree = "<group>"; };
+		8A453C742156818C009284A2 /* NetworkConnectionsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkConnectionsManager.h; sourceTree = "<group>"; };
+		8A453C752156818C009284A2 /* NetworkConnectionsManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkConnectionsManager.mm; sourceTree = "<group>"; };
+		8A453C762156818C009284A2 /* rapidjson.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rapidjson.cpp; sourceTree = "<group>"; };
+		8A453C772156818C009284A2 /* rapidjson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rapidjson.h; sourceTree = "<group>"; };
+		8A453C782156818C009284A2 /* rapidjson_fwd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rapidjson_fwd.h; sourceTree = "<group>"; };
+		8A453C792156818C009284A2 /* SandboxManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SandboxManager.h; sourceTree = "<group>"; };
+		8A453C7A2156818C009284A2 /* SandboxManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SandboxManager.mm; sourceTree = "<group>"; };
+		8A453C7B2156818C009284A2 /* SearchForFiles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SearchForFiles.cpp; sourceTree = "<group>"; };
+		8A453C7C2156818C009284A2 /* SearchForFiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchForFiles.h; sourceTree = "<group>"; };
+		8A453C7D2156818C009284A2 /* SearchInFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SearchInFile.cpp; sourceTree = "<group>"; };
+		8A453C7E2156818C009284A2 /* SearchInFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchInFile.h; sourceTree = "<group>"; };
+		8A453C7F2156818C009284A2 /* ServicesHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServicesHandler.h; sourceTree = "<group>"; };
+		8A453C802156818C009284A2 /* ServicesHandler.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ServicesHandler.mm; sourceTree = "<group>"; };
+		8A453C812156818C009284A2 /* SimpleComboBoxPersistentDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SimpleComboBoxPersistentDataSource.h; sourceTree = "<group>"; };
+		8A453C822156818C009284A2 /* SimpleComboBoxPersistentDataSource.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SimpleComboBoxPersistentDataSource.mm; sourceTree = "<group>"; };
+		8A453C832156818C009284A2 /* TemporaryNativeFileChangesSentinel.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TemporaryNativeFileChangesSentinel.cpp; sourceTree = "<group>"; };
+		8A453C842156818C009284A2 /* TemporaryNativeFileChangesSentinel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemporaryNativeFileChangesSentinel.h; sourceTree = "<group>"; };
+		8A453C852156818C009284A2 /* TemporaryNativeFileStorage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TemporaryNativeFileStorage.cpp; sourceTree = "<group>"; };
+		8A453C862156818C009284A2 /* TemporaryNativeFileStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TemporaryNativeFileStorage.h; sourceTree = "<group>"; };
+		8A453C882156818C009284A2 /* CocoaAppearanceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CocoaAppearanceManager.h; sourceTree = "<group>"; };
+		8A453C892156818C009284A2 /* CocoaAppearanceManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CocoaAppearanceManager.mm; sourceTree = "<group>"; };
+		8A453C8A2156818C009284A2 /* Theme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Theme.h; sourceTree = "<group>"; };
+		8A453C8B2156818C009284A2 /* Theme.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Theme.mm; sourceTree = "<group>"; };
+		8A453C8C2156818C009284A2 /* ThemePersistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemePersistence.h; sourceTree = "<group>"; };
+		8A453C8D2156818C009284A2 /* ThemePersistence.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ThemePersistence.mm; sourceTree = "<group>"; };
+		8A453C8E2156818C009284A2 /* ThemesManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ThemesManager.h; sourceTree = "<group>"; };
+		8A453C8F2156818C009284A2 /* ThemesManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ThemesManager.mm; sourceTree = "<group>"; };
+		8A453C902156818C009284A2 /* UserNotificationsCenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserNotificationsCenter.h; sourceTree = "<group>"; };
+		8A453C912156818C009284A2 /* UserNotificationsCenter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = UserNotificationsCenter.mm; sourceTree = "<group>"; };
+		8A453C922156818C009284A2 /* VFSInstanceManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VFSInstanceManager.cpp; sourceTree = "<group>"; };
+		8A453C932156818C009284A2 /* VFSInstanceManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSInstanceManager.h; sourceTree = "<group>"; };
+		8A453C942156818C009284A2 /* VFSInstanceManagerImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VFSInstanceManagerImpl.cpp; sourceTree = "<group>"; };
+		8A453C952156818C009284A2 /* VFSInstanceManagerImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSInstanceManagerImpl.h; sourceTree = "<group>"; };
+		8A453C962156818C009284A2 /* VFSInstancePromise.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = VFSInstancePromise.cpp; sourceTree = "<group>"; };
+		8A453C972156818C009284A2 /* VFSInstancePromise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSInstancePromise.h; sourceTree = "<group>"; };
+		8A453C9A2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8A453C9C2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowExternalEditorsTab.xib; sourceTree = "<group>"; };
+		8A453C9E2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowExternalEditorsTabNewEditorSheet.xib; sourceTree = "<group>"; };
+		8A453CA02156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowGeneralTab.xib; sourceTree = "<group>"; };
+		8A453CA22156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowHotkeysTab.xib; sourceTree = "<group>"; };
+		8A453CA42156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowPanelsTab.xib; sourceTree = "<group>"; };
+		8A453CA62156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowPanelsTabColoringFilterSheet.xib; sourceTree = "<group>"; };
+		8A453CA82156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowTerminalTab.xib; sourceTree = "<group>"; };
+		8A453CAA2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowThemesTab.xib; sourceTree = "<group>"; };
+		8A453CAC2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowThemesTabColoringRulesControl.xib; sourceTree = "<group>"; };
+		8A453CAE2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowThemesTabImportSheet.xib; sourceTree = "<group>"; };
+		8A453CB02156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowToolsTab.xib; sourceTree = "<group>"; };
+		8A453CB22156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferencesWindowViewerTab.xib; sourceTree = "<group>"; };
+		8A453CB32156818C009284A2 /* Preferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
+		8A453CB42156818C009284A2 /* Preferences.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Preferences.mm; sourceTree = "<group>"; };
+		8A453CB52156818C009284A2 /* PreferencesWindowExternalEditorsTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowExternalEditorsTab.h; sourceTree = "<group>"; };
+		8A453CB62156818C009284A2 /* PreferencesWindowExternalEditorsTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowExternalEditorsTab.mm; sourceTree = "<group>"; };
+		8A453CB72156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowExternalEditorsTabNewEditorSheet.h; sourceTree = "<group>"; };
+		8A453CB82156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowExternalEditorsTabNewEditorSheet.mm; sourceTree = "<group>"; };
+		8A453CB92156818C009284A2 /* PreferencesWindowGeneralTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowGeneralTab.h; sourceTree = "<group>"; };
+		8A453CBA2156818C009284A2 /* PreferencesWindowGeneralTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowGeneralTab.mm; sourceTree = "<group>"; };
+		8A453CBB2156818C009284A2 /* PreferencesWindowHotkeysTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowHotkeysTab.h; sourceTree = "<group>"; };
+		8A453CBC2156818C009284A2 /* PreferencesWindowHotkeysTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowHotkeysTab.mm; sourceTree = "<group>"; };
+		8A453CBD2156818C009284A2 /* PreferencesWindowPanelsTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowPanelsTab.h; sourceTree = "<group>"; };
+		8A453CBE2156818C009284A2 /* PreferencesWindowPanelsTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowPanelsTab.mm; sourceTree = "<group>"; };
+		8A453CBF2156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowPanelsTabColoringFilterSheet.h; sourceTree = "<group>"; };
+		8A453CC02156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowPanelsTabColoringFilterSheet.mm; sourceTree = "<group>"; };
+		8A453CC12156818C009284A2 /* PreferencesWindowTerminalTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowTerminalTab.h; sourceTree = "<group>"; };
+		8A453CC22156818C009284A2 /* PreferencesWindowTerminalTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowTerminalTab.mm; sourceTree = "<group>"; };
+		8A453CC32156818C009284A2 /* PreferencesWindowThemesControls.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowThemesControls.h; sourceTree = "<group>"; };
+		8A453CC42156818C009284A2 /* PreferencesWindowThemesControls.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowThemesControls.mm; sourceTree = "<group>"; };
+		8A453CC52156818C009284A2 /* PreferencesWindowThemesTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowThemesTab.h; sourceTree = "<group>"; };
+		8A453CC62156818C009284A2 /* PreferencesWindowThemesTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowThemesTab.mm; sourceTree = "<group>"; };
+		8A453CC72156818C009284A2 /* PreferencesWindowThemesTabImportSheet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowThemesTabImportSheet.h; sourceTree = "<group>"; };
+		8A453CC82156818C009284A2 /* PreferencesWindowThemesTabImportSheet.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowThemesTabImportSheet.mm; sourceTree = "<group>"; };
+		8A453CC92156818C009284A2 /* PreferencesWindowThemesTabModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowThemesTabModel.h; sourceTree = "<group>"; };
+		8A453CCA2156818C009284A2 /* PreferencesWindowThemesTabModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowThemesTabModel.mm; sourceTree = "<group>"; };
+		8A453CCB2156818C009284A2 /* PreferencesWindowToolsTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowToolsTab.h; sourceTree = "<group>"; };
+		8A453CCC2156818C009284A2 /* PreferencesWindowToolsTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowToolsTab.mm; sourceTree = "<group>"; };
+		8A453CCD2156818C009284A2 /* PreferencesWindowViewerTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowViewerTab.h; sourceTree = "<group>"; };
+		8A453CCE2156818C009284A2 /* PreferencesWindowViewerTab.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PreferencesWindowViewerTab.mm; sourceTree = "<group>"; };
+		8A453CCF2156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Preferences.strings; sourceTree = "<group>"; };
+		8A453CD12156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowExternalEditorsTab.strings; sourceTree = "<group>"; };
+		8A453CD32156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowExternalEditorsTabNewEditorSheet.strings; sourceTree = "<group>"; };
+		8A453CD52156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowGeneralTab.strings; sourceTree = "<group>"; };
+		8A453CD72156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowHotkeysTab.strings; sourceTree = "<group>"; };
+		8A453CD92156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowPanelsTab.strings; sourceTree = "<group>"; };
+		8A453CDB2156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowPanelsTabColoringFilterSheet.strings; sourceTree = "<group>"; };
+		8A453CDD2156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowTerminalTab.strings; sourceTree = "<group>"; };
+		8A453CDF2156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowThemesTab.strings; sourceTree = "<group>"; };
+		8A453CE12156818C009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowThemesTabColoringRulesControl.strings; sourceTree = "<group>"; };
+		8A453CE32156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowThemesTabImportSheet.strings; sourceTree = "<group>"; };
+		8A453CE52156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowToolsTab.strings; sourceTree = "<group>"; };
+		8A453CE72156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowViewerTab.strings; sourceTree = "<group>"; };
+		8A453CE92156818D009284A2 /* ActivationManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ActivationManager.cpp; sourceTree = "<group>"; };
+		8A453CEA2156818D009284A2 /* ActivationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivationManager.h; sourceTree = "<group>"; };
+		8A453CEB2156818D009284A2 /* AppDelegate+MainWindowCreation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+MainWindowCreation.h"; sourceTree = "<group>"; };
+		8A453CEC2156818D009284A2 /* AppDelegate+MainWindowCreation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "AppDelegate+MainWindowCreation.mm"; sourceTree = "<group>"; };
+		8A453CED2156818D009284A2 /* AppDelegate+Migration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Migration.h"; sourceTree = "<group>"; };
+		8A453CEE2156818D009284A2 /* AppDelegate+Migration.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "AppDelegate+Migration.mm"; sourceTree = "<group>"; };
+		8A453CEF2156818D009284A2 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8A453CF02156818D009284A2 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		8A453CF12156818D009284A2 /* AppDelegate.Private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.Private.h; sourceTree = "<group>"; };
+		8A453CF22156818D009284A2 /* AppDelegateCPP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegateCPP.h; sourceTree = "<group>"; };
+		8A453CF32156818D009284A2 /* AppDelegateCPP.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegateCPP.mm; sourceTree = "<group>"; };
+		8A453CF42156818D009284A2 /* Application.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		8A453CF52156818D009284A2 /* Application.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Application.mm; sourceTree = "<group>"; };
+		8A453CF72156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		8A453CF82156818D009284A2 /* Config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Config.cpp; sourceTree = "<group>"; };
+		8A453CF92156818D009284A2 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		8A453CFA2156818D009284A2 /* Config.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Config.mm; sourceTree = "<group>"; };
+		8A453CFB2156818D009284A2 /* ConfigWiring.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConfigWiring.h; sourceTree = "<group>"; };
+		8A453CFC2156818D009284A2 /* ConfigWiring.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ConfigWiring.mm; sourceTree = "<group>"; };
+		8A453CFD2156818D009284A2 /* Interactions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Interactions.h; sourceTree = "<group>"; };
+		8A453CFE2156818D009284A2 /* Interactions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Interactions.mm; sourceTree = "<group>"; };
+		8A453CFF2156818D009284A2 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		8A453D002156818D009284A2 /* NimbleCommander-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NimbleCommander-Prefix.pch"; sourceTree = "<group>"; };
+		8A453D022156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		8A453D032156818D009284A2 /* VFSInit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSInit.h; sourceTree = "<group>"; };
+		8A453D042156818D009284A2 /* VFSInit.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VFSInit.mm; sourceTree = "<group>"; };
+		8A453D082156818D009284A2 /* AddToFavorites.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddToFavorites.h; sourceTree = "<group>"; };
+		8A453D092156818D009284A2 /* AddToFavorites.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AddToFavorites.mm; sourceTree = "<group>"; };
+		8A453D0A2156818D009284A2 /* BatchRename.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BatchRename.h; sourceTree = "<group>"; };
+		8A453D0B2156818D009284A2 /* BatchRename.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BatchRename.mm; sourceTree = "<group>"; };
+		8A453D0C2156818D009284A2 /* CalculateChecksum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalculateChecksum.h; sourceTree = "<group>"; };
+		8A453D0D2156818D009284A2 /* CalculateChecksum.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalculateChecksum.mm; sourceTree = "<group>"; };
+		8A453D0E2156818D009284A2 /* CalculateSizes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalculateSizes.h; sourceTree = "<group>"; };
+		8A453D0F2156818D009284A2 /* CalculateSizes.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalculateSizes.mm; sourceTree = "<group>"; };
+		8A453D102156818D009284A2 /* ChangeAttributes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChangeAttributes.h; sourceTree = "<group>"; };
+		8A453D112156818D009284A2 /* ChangeAttributes.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ChangeAttributes.mm; sourceTree = "<group>"; };
+		8A453D122156818D009284A2 /* Compress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Compress.h; sourceTree = "<group>"; };
+		8A453D132156818D009284A2 /* Compress.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Compress.mm; sourceTree = "<group>"; };
+		8A453D142156818D009284A2 /* CopyFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyFile.h; sourceTree = "<group>"; };
+		8A453D152156818D009284A2 /* CopyFile.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyFile.mm; sourceTree = "<group>"; };
+		8A453D162156818D009284A2 /* CopyFilePaths.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyFilePaths.h; sourceTree = "<group>"; };
+		8A453D172156818D009284A2 /* CopyFilePaths.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyFilePaths.mm; sourceTree = "<group>"; };
+		8A453D182156818D009284A2 /* CopyToPasteboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CopyToPasteboard.h; sourceTree = "<group>"; };
+		8A453D192156818D009284A2 /* CopyToPasteboard.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CopyToPasteboard.mm; sourceTree = "<group>"; };
+		8A453D1A2156818D009284A2 /* DefaultAction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DefaultAction.h; sourceTree = "<group>"; };
+		8A453D1B2156818D009284A2 /* DefaultAction.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DefaultAction.mm; sourceTree = "<group>"; };
+		8A453D1C2156818D009284A2 /* Delete.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Delete.h; sourceTree = "<group>"; };
+		8A453D1D2156818D009284A2 /* Delete.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Delete.mm; sourceTree = "<group>"; };
+		8A453D1E2156818D009284A2 /* Duplicate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Duplicate.h; sourceTree = "<group>"; };
+		8A453D1F2156818D009284A2 /* Duplicate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Duplicate.mm; sourceTree = "<group>"; };
+		8A453D202156818D009284A2 /* EjectVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EjectVolume.h; sourceTree = "<group>"; };
+		8A453D212156818D009284A2 /* EjectVolume.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EjectVolume.mm; sourceTree = "<group>"; };
+		8A453D222156818D009284A2 /* Enter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Enter.h; sourceTree = "<group>"; };
+		8A453D232156818D009284A2 /* Enter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Enter.mm; sourceTree = "<group>"; };
+		8A453D242156818D009284A2 /* ExecuteExternalTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteExternalTool.h; sourceTree = "<group>"; };
+		8A453D252156818D009284A2 /* ExecuteExternalTool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExecuteExternalTool.mm; sourceTree = "<group>"; };
+		8A453D262156818D009284A2 /* ExecuteInTerminal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExecuteInTerminal.h; sourceTree = "<group>"; };
+		8A453D272156818D009284A2 /* ExecuteInTerminal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExecuteInTerminal.mm; sourceTree = "<group>"; };
+		8A453D282156818D009284A2 /* FindFiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindFiles.h; sourceTree = "<group>"; };
+		8A453D292156818D009284A2 /* FindFiles.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FindFiles.mm; sourceTree = "<group>"; };
+		8A453D2A2156818D009284A2 /* GoToFolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoToFolder.h; sourceTree = "<group>"; };
+		8A453D2B2156818D009284A2 /* GoToFolder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GoToFolder.mm; sourceTree = "<group>"; };
+		8A453D2C2156818D009284A2 /* InsertFromPasteboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InsertFromPasteboard.h; sourceTree = "<group>"; };
+		8A453D2D2156818D009284A2 /* InsertFromPasteboard.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = InsertFromPasteboard.mm; sourceTree = "<group>"; };
+		8A453D2E2156818D009284A2 /* Link.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Link.h; sourceTree = "<group>"; };
+		8A453D2F2156818D009284A2 /* Link.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Link.mm; sourceTree = "<group>"; };
+		8A453D302156818D009284A2 /* MakeNew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MakeNew.h; sourceTree = "<group>"; };
+		8A453D312156818D009284A2 /* MakeNew.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MakeNew.mm; sourceTree = "<group>"; };
+		8A453D322156818D009284A2 /* NavigateHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NavigateHistory.h; sourceTree = "<group>"; };
+		8A453D332156818D009284A2 /* NavigateHistory.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NavigateHistory.mm; sourceTree = "<group>"; };
+		8A453D342156818D009284A2 /* OpenFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenFile.h; sourceTree = "<group>"; };
+		8A453D352156818D009284A2 /* OpenFile.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenFile.mm; sourceTree = "<group>"; };
+		8A453D362156818D009284A2 /* OpenNetworkConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenNetworkConnection.h; sourceTree = "<group>"; };
+		8A453D372156818D009284A2 /* OpenNetworkConnection.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenNetworkConnection.mm; sourceTree = "<group>"; };
+		8A453D382156818D009284A2 /* OpenWithExternalEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenWithExternalEditor.h; sourceTree = "<group>"; };
+		8A453D392156818D009284A2 /* OpenWithExternalEditor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenWithExternalEditor.mm; sourceTree = "<group>"; };
+		8A453D3A2156818D009284A2 /* OpenXAttr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenXAttr.h; sourceTree = "<group>"; };
+		8A453D3B2156818D009284A2 /* OpenXAttr.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenXAttr.mm; sourceTree = "<group>"; };
+		8A453D3C2156818D009284A2 /* RefreshPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RefreshPanel.h; sourceTree = "<group>"; };
+		8A453D3D2156818D009284A2 /* RefreshPanel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RefreshPanel.mm; sourceTree = "<group>"; };
+		8A453D3E2156818D009284A2 /* RenameInPlace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenameInPlace.h; sourceTree = "<group>"; };
+		8A453D3F2156818D009284A2 /* RenameInPlace.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RenameInPlace.mm; sourceTree = "<group>"; };
+		8A453D402156818D009284A2 /* RevealInOppositePanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RevealInOppositePanel.h; sourceTree = "<group>"; };
+		8A453D412156818D009284A2 /* RevealInOppositePanel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RevealInOppositePanel.mm; sourceTree = "<group>"; };
+		8A453D422156818D009284A2 /* Select.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Select.h; sourceTree = "<group>"; };
+		8A453D432156818D009284A2 /* Select.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Select.mm; sourceTree = "<group>"; };
+		8A453D442156818D009284A2 /* ShowGoToPopup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowGoToPopup.h; sourceTree = "<group>"; };
+		8A453D452156818D009284A2 /* ShowGoToPopup.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowGoToPopup.mm; sourceTree = "<group>"; };
+		8A453D462156818D009284A2 /* ShowQuickLook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowQuickLook.h; sourceTree = "<group>"; };
+		8A453D472156818D009284A2 /* ShowQuickLook.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowQuickLook.mm; sourceTree = "<group>"; };
+		8A453D482156818D009284A2 /* ShowSystemOverview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowSystemOverview.h; sourceTree = "<group>"; };
+		8A453D492156818D009284A2 /* ShowSystemOverview.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowSystemOverview.mm; sourceTree = "<group>"; };
+		8A453D4A2156818D009284A2 /* ShowTabs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowTabs.h; sourceTree = "<group>"; };
+		8A453D4B2156818D009284A2 /* ShowTabs.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowTabs.mm; sourceTree = "<group>"; };
+		8A453D4C2156818D009284A2 /* ShowTerminal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowTerminal.h; sourceTree = "<group>"; };
+		8A453D4D2156818D009284A2 /* ShowTerminal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowTerminal.mm; sourceTree = "<group>"; };
+		8A453D4E2156818D009284A2 /* ShowVolumeInformation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowVolumeInformation.h; sourceTree = "<group>"; };
+		8A453D4F2156818D009284A2 /* ShowVolumeInformation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShowVolumeInformation.mm; sourceTree = "<group>"; };
+		8A453D502156818D009284A2 /* SpotlightSearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotlightSearch.h; sourceTree = "<group>"; };
+		8A453D512156818D009284A2 /* SpotlightSearch.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SpotlightSearch.mm; sourceTree = "<group>"; };
+		8A453D522156818D009284A2 /* SyncPanels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncPanels.h; sourceTree = "<group>"; };
+		8A453D532156818D009284A2 /* SyncPanels.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SyncPanels.mm; sourceTree = "<group>"; };
+		8A453D542156818D009284A2 /* TabsManagement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabsManagement.h; sourceTree = "<group>"; };
+		8A453D552156818D009284A2 /* TabsManagement.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TabsManagement.mm; sourceTree = "<group>"; };
+		8A453D562156818D009284A2 /* ToggleLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToggleLayout.h; sourceTree = "<group>"; };
+		8A453D572156818D009284A2 /* ToggleLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ToggleLayout.mm; sourceTree = "<group>"; };
+		8A453D582156818D009284A2 /* ToggleSingleOrDualMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToggleSingleOrDualMode.h; sourceTree = "<group>"; };
+		8A453D592156818D009284A2 /* ToggleSingleOrDualMode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ToggleSingleOrDualMode.mm; sourceTree = "<group>"; };
+		8A453D5A2156818D009284A2 /* ToggleSort.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToggleSort.h; sourceTree = "<group>"; };
+		8A453D5B2156818D009284A2 /* ToggleSort.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ToggleSort.mm; sourceTree = "<group>"; };
+		8A453D5C2156818D009284A2 /* ViewFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewFile.h; sourceTree = "<group>"; };
+		8A453D5D2156818D009284A2 /* ViewFile.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewFile.mm; sourceTree = "<group>"; };
+		8A453D5E2156818D009284A2 /* AskingForRatingOverlayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AskingForRatingOverlayView.h; sourceTree = "<group>"; };
+		8A453D5F2156818D009284A2 /* AskingForRatingOverlayView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AskingForRatingOverlayView.mm; sourceTree = "<group>"; };
+		8A453D612156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ExternalToolParameterValueSheetController.xib; sourceTree = "<group>"; };
+		8A453D632156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FavoritesWindowController.xib; sourceTree = "<group>"; };
+		8A453D652156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/FilePanelsContextMenu.strings; sourceTree = "<group>"; };
+		8A453D672156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/FilePanelsQuickSearch.strings; sourceTree = "<group>"; };
+		8A453D692156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FindFilesSheetController.xib; sourceTree = "<group>"; };
+		8A453D6B2156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PanelViewHeaderSortPopup.xib; sourceTree = "<group>"; };
+		8A453D6D2156818D009284A2 /* Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Layout.h; sourceTree = "<group>"; };
+		8A453D6E2156818D009284A2 /* Layout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Layout.mm; sourceTree = "<group>"; };
+		8A453D6F2156818D009284A2 /* PanelBriefView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefView.h; sourceTree = "<group>"; };
+		8A453D702156818D009284A2 /* PanelBriefView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefView.mm; sourceTree = "<group>"; };
+		8A453D712156818D009284A2 /* PanelBriefViewCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewCollectionView.h; sourceTree = "<group>"; };
+		8A453D722156818D009284A2 /* PanelBriefViewCollectionView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewCollectionView.mm; sourceTree = "<group>"; };
+		8A453D732156818D009284A2 /* PanelBriefViewCollectionViewBackground.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewCollectionViewBackground.h; sourceTree = "<group>"; };
+		8A453D742156818D009284A2 /* PanelBriefViewCollectionViewBackground.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewCollectionViewBackground.mm; sourceTree = "<group>"; };
+		8A453D752156818D009284A2 /* PanelBriefViewCollectionViewItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewCollectionViewItem.h; sourceTree = "<group>"; };
+		8A453D762156818D009284A2 /* PanelBriefViewCollectionViewItem.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewCollectionViewItem.mm; sourceTree = "<group>"; };
+		8A453D772156818D009284A2 /* PanelBriefViewCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewCollectionViewLayout.h; sourceTree = "<group>"; };
+		8A453D782156818D009284A2 /* PanelBriefViewCollectionViewLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewCollectionViewLayout.mm; sourceTree = "<group>"; };
+		8A453D792156818D009284A2 /* PanelBriefViewItemCarrier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewItemCarrier.h; sourceTree = "<group>"; };
+		8A453D7A2156818D009284A2 /* PanelBriefViewItemCarrier.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewItemCarrier.mm; sourceTree = "<group>"; };
+		8A453D7B2156818D009284A2 /* TextWidthsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextWidthsCache.h; sourceTree = "<group>"; };
+		8A453D7C2156818D009284A2 /* TextWidthsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TextWidthsCache.mm; sourceTree = "<group>"; };
+		8A453D7D2156818D009284A2 /* ContextMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContextMenu.h; sourceTree = "<group>"; };
+		8A453D7E2156818D009284A2 /* ContextMenu.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ContextMenu.mm; sourceTree = "<group>"; };
+		8A453D7F2156818D009284A2 /* CursorBackup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CursorBackup.h; sourceTree = "<group>"; };
+		8A453D802156818D009284A2 /* CursorBackup.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CursorBackup.mm; sourceTree = "<group>"; };
+		8A453D812156818D009284A2 /* DragReceiver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DragReceiver.h; sourceTree = "<group>"; };
+		8A453D822156818D009284A2 /* DragReceiver.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DragReceiver.mm; sourceTree = "<group>"; };
+		8A453D832156818D009284A2 /* DragSender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DragSender.h; sourceTree = "<group>"; };
+		8A453D842156818D009284A2 /* DragSender.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DragSender.mm; sourceTree = "<group>"; };
+		8A453D852156818D009284A2 /* ExternalEditorInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExternalEditorInfo.h; sourceTree = "<group>"; };
+		8A453D862156818D009284A2 /* ExternalEditorInfo.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalEditorInfo.mm; sourceTree = "<group>"; };
+		8A453D872156818D009284A2 /* ExternalEditorInfoPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExternalEditorInfoPrivate.h; sourceTree = "<group>"; };
+		8A453D882156818D009284A2 /* ExternalToolParameterValueSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExternalToolParameterValueSheetController.h; sourceTree = "<group>"; };
+		8A453D892156818D009284A2 /* ExternalToolParameterValueSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalToolParameterValueSheetController.mm; sourceTree = "<group>"; };
+		8A453D8A2156818D009284A2 /* ExternalToolsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExternalToolsSupport.h; sourceTree = "<group>"; };
+		8A453D8B2156818D009284A2 /* ExternalToolsSupport.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalToolsSupport.mm; sourceTree = "<group>"; };
+		8A453D8C2156818D009284A2 /* ExternalToolsSupport_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalToolsSupport_Tests.mm; sourceTree = "<group>"; };
+		8A453D8D2156818D009284A2 /* FavoriteComposing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavoriteComposing.h; sourceTree = "<group>"; };
+		8A453D8E2156818D009284A2 /* FavoriteComposing.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FavoriteComposing.mm; sourceTree = "<group>"; };
+		8A453D8F2156818D009284A2 /* Favorites.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Favorites.cpp; sourceTree = "<group>"; };
+		8A453D902156818D009284A2 /* Favorites.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Favorites.h; sourceTree = "<group>"; };
+		8A453D912156818D009284A2 /* FavoritesImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FavoritesImpl.cpp; sourceTree = "<group>"; };
+		8A453D922156818D009284A2 /* FavoritesImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavoritesImpl.h; sourceTree = "<group>"; };
+		8A453D932156818D009284A2 /* FavoritesMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavoritesMenuDelegate.h; sourceTree = "<group>"; };
+		8A453D942156818D009284A2 /* FavoritesMenuDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FavoritesMenuDelegate.mm; sourceTree = "<group>"; };
+		8A453D952156818D009284A2 /* FavoritesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavoritesWindowController.h; sourceTree = "<group>"; };
+		8A453D962156818D009284A2 /* FavoritesWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FavoritesWindowController.mm; sourceTree = "<group>"; };
+		8A453D972156818D009284A2 /* FilesDraggingSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilesDraggingSource.h; sourceTree = "<group>"; };
+		8A453D982156818D009284A2 /* FilesDraggingSource.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilesDraggingSource.mm; sourceTree = "<group>"; };
+		8A453D992156818D009284A2 /* FindFilesSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FindFilesSheetController.h; sourceTree = "<group>"; };
+		8A453D9A2156818D009284A2 /* FindFilesSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FindFilesSheetController.mm; sourceTree = "<group>"; };
+		8A453D9C2156818D009284A2 /* ClosedPanelsHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClosedPanelsHistory.h; sourceTree = "<group>"; };
+		8A453D9D2156818D009284A2 /* ClosedPanelsHistoryImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClosedPanelsHistoryImpl.cpp; sourceTree = "<group>"; };
+		8A453D9E2156818D009284A2 /* ClosedPanelsHistoryImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClosedPanelsHistoryImpl.h; sourceTree = "<group>"; };
+		8A453D9F2156818D009284A2 /* LocationFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocationFormatter.h; sourceTree = "<group>"; };
+		8A453DA02156818D009284A2 /* LocationFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LocationFormatter.mm; sourceTree = "<group>"; };
+		8A453DA12156818D009284A2 /* Pasteboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pasteboard.h; sourceTree = "<group>"; };
+		8A453DA22156818D009284A2 /* Pasteboard.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Pasteboard.mm; sourceTree = "<group>"; };
+		8A453DA32156818D009284A2 /* RecentlyClosedMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecentlyClosedMenuDelegate.h; sourceTree = "<group>"; };
+		8A453DA42156818D009284A2 /* RecentlyClosedMenuDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RecentlyClosedMenuDelegate.mm; sourceTree = "<group>"; };
+		8A453DA52156818D009284A2 /* IconsGenerator2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IconsGenerator2.h; sourceTree = "<group>"; };
+		8A453DA62156818D009284A2 /* IconsGenerator2.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IconsGenerator2.mm; sourceTree = "<group>"; };
+		8A453DA92156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PanelListViewColumnsMenu.xib; sourceTree = "<group>"; };
+		8A453DAA2156818D009284A2 /* Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Layout.h; sourceTree = "<group>"; };
+		8A453DAB2156818D009284A2 /* Layout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Layout.mm; sourceTree = "<group>"; };
+		8A453DAC2156818D009284A2 /* PanelListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListView.h; sourceTree = "<group>"; };
+		8A453DAD2156818D009284A2 /* PanelListView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListView.mm; sourceTree = "<group>"; };
+		8A453DAE2156818D009284A2 /* PanelListViewDateFormatting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewDateFormatting.h; sourceTree = "<group>"; };
+		8A453DAF2156818D009284A2 /* PanelListViewDateFormatting.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewDateFormatting.mm; sourceTree = "<group>"; };
+		8A453DB02156818D009284A2 /* PanelListViewDateTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewDateTimeView.h; sourceTree = "<group>"; };
+		8A453DB12156818D009284A2 /* PanelListViewDateTimeView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewDateTimeView.mm; sourceTree = "<group>"; };
+		8A453DB22156818D009284A2 /* PanelListViewGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewGeometry.h; sourceTree = "<group>"; };
+		8A453DB32156818D009284A2 /* PanelListViewGeometry.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewGeometry.mm; sourceTree = "<group>"; };
+		8A453DB42156818D009284A2 /* PanelListViewNameView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewNameView.h; sourceTree = "<group>"; };
+		8A453DB52156818D009284A2 /* PanelListViewNameView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewNameView.mm; sourceTree = "<group>"; };
+		8A453DB62156818D009284A2 /* PanelListViewRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewRowView.h; sourceTree = "<group>"; };
+		8A453DB72156818D009284A2 /* PanelListViewRowView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewRowView.mm; sourceTree = "<group>"; };
+		8A453DB82156818D009284A2 /* PanelListViewSizeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewSizeView.h; sourceTree = "<group>"; };
+		8A453DB92156818D009284A2 /* PanelListViewSizeView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewSizeView.mm; sourceTree = "<group>"; };
+		8A453DBA2156818D009284A2 /* PanelListViewTableHeaderCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewTableHeaderCell.h; sourceTree = "<group>"; };
+		8A453DBB2156818D009284A2 /* PanelListViewTableHeaderCell.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewTableHeaderCell.mm; sourceTree = "<group>"; };
+		8A453DBC2156818D009284A2 /* PanelListViewTableHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewTableHeaderView.h; sourceTree = "<group>"; };
+		8A453DBD2156818D009284A2 /* PanelListViewTableHeaderView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewTableHeaderView.mm; sourceTree = "<group>"; };
+		8A453DBE2156818D009284A2 /* PanelListViewTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelListViewTableView.h; sourceTree = "<group>"; };
+		8A453DBF2156818D009284A2 /* PanelListViewTableView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelListViewTableView.mm; sourceTree = "<group>"; };
+		8A453DC12156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PanelListViewColumnsMenu.strings; sourceTree = "<group>"; };
+		8A453DC22156818D009284A2 /* ListingPromise.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ListingPromise.cpp; sourceTree = "<group>"; };
+		8A453DC32156818D009284A2 /* ListingPromise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListingPromise.h; sourceTree = "<group>"; };
+		8A453DC42156818D009284A2 /* MainWindowFilePanelsStateToolbarDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowFilePanelsStateToolbarDelegate.h; sourceTree = "<group>"; };
+		8A453DC52156818D009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainWindowFilePanelsStateToolbarDelegate.mm; sourceTree = "<group>"; };
+		8A453DC62156818D009284A2 /* MainWindowFilePanelState+Menu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MainWindowFilePanelState+Menu.h"; sourceTree = "<group>"; };
+		8A453DC72156818D009284A2 /* MainWindowFilePanelState+Menu.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "MainWindowFilePanelState+Menu.mm"; sourceTree = "<group>"; };
+		8A453DC82156818D009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MainWindowFilePanelState+OverlappedTerminalSupport.h"; sourceTree = "<group>"; };
+		8A453DC92156818D009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "MainWindowFilePanelState+OverlappedTerminalSupport.mm"; sourceTree = "<group>"; };
+		8A453DCA2156818D009284A2 /* MainWindowFilePanelState+TabsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MainWindowFilePanelState+TabsSupport.h"; sourceTree = "<group>"; };
+		8A453DCB2156818D009284A2 /* MainWindowFilePanelState+TabsSupport.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "MainWindowFilePanelState+TabsSupport.mm"; sourceTree = "<group>"; };
+		8A453DCC2156818D009284A2 /* MainWindowFilePanelState+Tools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MainWindowFilePanelState+Tools.h"; sourceTree = "<group>"; };
+		8A453DCD2156818D009284A2 /* MainWindowFilePanelState+Tools.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "MainWindowFilePanelState+Tools.mm"; sourceTree = "<group>"; };
+		8A453DCE2156818D009284A2 /* MainWindowFilePanelState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowFilePanelState.h; sourceTree = "<group>"; };
+		8A453DCF2156818D009284A2 /* MainWindowFilePanelState.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainWindowFilePanelState.mm; sourceTree = "<group>"; };
+		8A453DD02156818D009284A2 /* NCPanelOpenWithMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCPanelOpenWithMenuDelegate.h; sourceTree = "<group>"; };
+		8A453DD12156818D009284A2 /* NCPanelOpenWithMenuDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NCPanelOpenWithMenuDelegate.mm; sourceTree = "<group>"; };
+		8A453DD22156818D009284A2 /* PanelAux.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelAux.h; sourceTree = "<group>"; };
+		8A453DD32156818D009284A2 /* PanelAux.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelAux.mm; sourceTree = "<group>"; };
+		8A453DD42156818D009284A2 /* PanelController+DataAccess.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PanelController+DataAccess.h"; sourceTree = "<group>"; };
+		8A453DD52156818D009284A2 /* PanelController+DataAccess.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "PanelController+DataAccess.mm"; sourceTree = "<group>"; };
+		8A453DD62156818D009284A2 /* PanelController+Menu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PanelController+Menu.h"; sourceTree = "<group>"; };
+		8A453DD72156818D009284A2 /* PanelController+Menu.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "PanelController+Menu.mm"; sourceTree = "<group>"; };
+		8A453DD82156818D009284A2 /* PanelController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelController.h; sourceTree = "<group>"; };
+		8A453DD92156818D009284A2 /* PanelController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelController.mm; sourceTree = "<group>"; };
+		8A453DDA2156818D009284A2 /* PanelControllerActions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelControllerActions.h; sourceTree = "<group>"; };
+		8A453DDB2156818D009284A2 /* PanelControllerActions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelControllerActions.mm; sourceTree = "<group>"; };
+		8A453DDC2156818D009284A2 /* PanelControllerActionsDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelControllerActionsDispatcher.h; sourceTree = "<group>"; };
+		8A453DDD2156818D009284A2 /* PanelControllerActionsDispatcher.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelControllerActionsDispatcher.mm; sourceTree = "<group>"; };
+		8A453DDE2156818D009284A2 /* PanelControllerPersistency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelControllerPersistency.h; sourceTree = "<group>"; };
+		8A453DDF2156818D009284A2 /* PanelControllerPersistency.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelControllerPersistency.mm; sourceTree = "<group>"; };
+		8A453DE02156818D009284A2 /* PanelData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelData.h; sourceTree = "<group>"; };
+		8A453DE12156818D009284A2 /* PanelData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelData.mm; sourceTree = "<group>"; };
+		8A453DE22156818D009284A2 /* PanelData_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelData_Tests.mm; sourceTree = "<group>"; };
+		8A453DE32156818D009284A2 /* PanelDataEntriesComparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataEntriesComparator.h; sourceTree = "<group>"; };
+		8A453DE42156818D009284A2 /* PanelDataEntriesComparator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelDataEntriesComparator.mm; sourceTree = "<group>"; };
+		8A453DE52156818D009284A2 /* PanelDataExternalEntryKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataExternalEntryKey.h; sourceTree = "<group>"; };
+		8A453DE62156818D009284A2 /* PanelDataExternalEntryKey.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelDataExternalEntryKey.mm; sourceTree = "<group>"; };
+		8A453DE72156818D009284A2 /* PanelDataFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataFilter.h; sourceTree = "<group>"; };
+		8A453DE82156818D009284A2 /* PanelDataFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelDataFilter.mm; sourceTree = "<group>"; };
+		8A453DE92156818D009284A2 /* PanelDataItemVolatileData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PanelDataItemVolatileData.cpp; sourceTree = "<group>"; };
+		8A453DEA2156818D009284A2 /* PanelDataItemVolatileData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataItemVolatileData.h; sourceTree = "<group>"; };
+		8A453DEB2156818D009284A2 /* PanelDataOptionsPersistence.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataOptionsPersistence.h; sourceTree = "<group>"; };
+		8A453DEC2156818D009284A2 /* PanelDataOptionsPersistence.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelDataOptionsPersistence.mm; sourceTree = "<group>"; };
+		8A453DED2156818D009284A2 /* PanelDataPersistency.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PanelDataPersistency.cpp; sourceTree = "<group>"; };
+		8A453DEE2156818D009284A2 /* PanelDataPersistency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataPersistency.h; sourceTree = "<group>"; };
+		8A453DEF2156818D009284A2 /* PanelDataSelection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataSelection.h; sourceTree = "<group>"; };
+		8A453DF02156818D009284A2 /* PanelDataSelection.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelDataSelection.mm; sourceTree = "<group>"; };
+		8A453DF12156818D009284A2 /* PanelDataSortMode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataSortMode.h; sourceTree = "<group>"; };
+		8A453DF22156818D009284A2 /* PanelDataSortMode.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelDataSortMode.mm; sourceTree = "<group>"; };
+		8A453DF32156818D009284A2 /* PanelDataStatistics.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PanelDataStatistics.cpp; sourceTree = "<group>"; };
+		8A453DF42156818D009284A2 /* PanelDataStatistics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataStatistics.h; sourceTree = "<group>"; };
+		8A453DF52156818D009284A2 /* PanelHistory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelHistory.h; sourceTree = "<group>"; };
+		8A453DF62156818D009284A2 /* PanelHistory.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelHistory.mm; sourceTree = "<group>"; };
+		8A453DF72156818D009284A2 /* PanelPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelPreview.h; sourceTree = "<group>"; };
+		8A453DF82156818D009284A2 /* PanelView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelView.h; sourceTree = "<group>"; };
+		8A453DF92156818D009284A2 /* PanelView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelView.mm; sourceTree = "<group>"; };
+		8A453DFA2156818D009284A2 /* PanelViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewDelegate.h; sourceTree = "<group>"; };
+		8A453DFB2156818D009284A2 /* PanelViewFieldEditor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewFieldEditor.h; sourceTree = "<group>"; };
+		8A453DFC2156818D009284A2 /* PanelViewFieldEditor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewFieldEditor.mm; sourceTree = "<group>"; };
+		8A453DFD2156818D009284A2 /* PanelViewFooter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewFooter.h; sourceTree = "<group>"; };
+		8A453DFE2156818D009284A2 /* PanelViewFooter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewFooter.mm; sourceTree = "<group>"; };
+		8A453DFF2156818D009284A2 /* PanelViewFooterVolumeInfoFetcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewFooterVolumeInfoFetcher.h; sourceTree = "<group>"; };
+		8A453E002156818D009284A2 /* PanelViewFooterVolumeInfoFetcher.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewFooterVolumeInfoFetcher.mm; sourceTree = "<group>"; };
+		8A453E012156818D009284A2 /* PanelViewHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewHeader.h; sourceTree = "<group>"; };
+		8A453E022156818D009284A2 /* PanelViewHeader.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewHeader.mm; sourceTree = "<group>"; };
+		8A453E032156818D009284A2 /* PanelViewImplementationProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewImplementationProtocol.h; sourceTree = "<group>"; };
+		8A453E042156818D009284A2 /* PanelViewKeystrokeSink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewKeystrokeSink.h; sourceTree = "<group>"; };
+		8A453E052156818D009284A2 /* PanelViewLayoutSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewLayoutSupport.h; sourceTree = "<group>"; };
+		8A453E062156818D009284A2 /* PanelViewLayoutSupport.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewLayoutSupport.mm; sourceTree = "<group>"; };
+		8A453E072156818D009284A2 /* PanelViewPresentationItemsColoringFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewPresentationItemsColoringFilter.h; sourceTree = "<group>"; };
+		8A453E082156818D009284A2 /* PanelViewPresentationItemsColoringFilter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewPresentationItemsColoringFilter.mm; sourceTree = "<group>"; };
+		8A453E092156818D009284A2 /* PanelViewPresentationSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewPresentationSettings.h; sourceTree = "<group>"; };
+		8A453E0A2156818D009284A2 /* PanelViewPresentationSettings.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewPresentationSettings.mm; sourceTree = "<group>"; };
+		8A453E0B2156818D009284A2 /* PanelViewTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewTypes.h; sourceTree = "<group>"; };
+		8A453E0C2156818D009284A2 /* QuickSearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickSearch.h; sourceTree = "<group>"; };
+		8A453E0D2156818D009284A2 /* QuickSearch.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickSearch.mm; sourceTree = "<group>"; };
+		8A453E0E2156818D009284A2 /* QuickSearch_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickSearch_Tests.mm; sourceTree = "<group>"; };
+		8A453E102156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ExternalToolParameterValueSheetController.strings; sourceTree = "<group>"; };
+		8A453E122156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FavoritesWindowController.strings; sourceTree = "<group>"; };
+		8A453E132156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FilePanelsContextMenu.strings; sourceTree = "<group>"; };
+		8A453E142156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FilePanelsQuickSearch.strings; sourceTree = "<group>"; };
+		8A453E162156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FindFilesSheetController.strings; sourceTree = "<group>"; };
+		8A453E182156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PanelViewHeaderSortPopup.strings; sourceTree = "<group>"; };
+		8A453E192156818D009284A2 /* SharingService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SharingService.h; sourceTree = "<group>"; };
+		8A453E1A2156818D009284A2 /* SharingService.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SharingService.mm; sourceTree = "<group>"; };
+		8A453E1B2156818D009284A2 /* StateActions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateActions.h; sourceTree = "<group>"; };
+		8A453E1C2156818D009284A2 /* StateActions.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StateActions.mm; sourceTree = "<group>"; };
+		8A453E1D2156818D009284A2 /* StateActionsDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StateActionsDispatcher.h; sourceTree = "<group>"; };
+		8A453E1E2156818D009284A2 /* StateActionsDispatcher.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = StateActionsDispatcher.mm; sourceTree = "<group>"; };
+		8A453E1F2156818D009284A2 /* TabContextMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabContextMenu.h; sourceTree = "<group>"; };
+		8A453E202156818D009284A2 /* TabContextMenu.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TabContextMenu.mm; sourceTree = "<group>"; };
+		8A453E212156818D009284A2 /* ToolsMenuDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ToolsMenuDelegate.h; sourceTree = "<group>"; };
+		8A453E222156818D009284A2 /* ToolsMenuDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ToolsMenuDelegate.mm; sourceTree = "<group>"; };
+		8A453E252156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ConnectToServer.xib; sourceTree = "<group>"; };
+		8A453E272156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DropboxAccountSheetController.xib; sourceTree = "<group>"; };
+		8A453E292156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FTPConnectionSheetController.xib; sourceTree = "<group>"; };
+		8A453E2B2156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GoToFolderSheetController.xib; sourceTree = "<group>"; };
+		8A453E2D2156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/NetworkShareSheetController.xib; sourceTree = "<group>"; };
+		8A453E2F2156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SFTPConnectionSheetController.xib; sourceTree = "<group>"; };
+		8A453E312156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SpotlightSearchPopupViewController.xib; sourceTree = "<group>"; };
+		8A453E332156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/WebDAVConnectionSheetController.xib; sourceTree = "<group>"; };
+		8A453E342156818D009284A2 /* BriefSystemOverview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BriefSystemOverview.h; sourceTree = "<group>"; };
+		8A453E352156818D009284A2 /* BriefSystemOverview.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = BriefSystemOverview.mm; sourceTree = "<group>"; };
+		8A453E362156818D009284A2 /* ConnectionSheetProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionSheetProtocol.h; sourceTree = "<group>"; };
+		8A453E372156818D009284A2 /* ConnectToServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectToServer.h; sourceTree = "<group>"; };
+		8A453E382156818D009284A2 /* ConnectToServer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ConnectToServer.mm; sourceTree = "<group>"; };
+		8A453E392156818D009284A2 /* DropboxAccountSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DropboxAccountSheetController.h; sourceTree = "<group>"; };
+		8A453E3A2156818D009284A2 /* DropboxAccountSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DropboxAccountSheetController.mm; sourceTree = "<group>"; };
+		8A453E3B2156818D009284A2 /* FilePanelMainSplitView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilePanelMainSplitView.h; sourceTree = "<group>"; };
+		8A453E3C2156818D009284A2 /* FilePanelMainSplitView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilePanelMainSplitView.mm; sourceTree = "<group>"; };
+		8A453E3D2156818D009284A2 /* FilePanelOverlappedTerminal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilePanelOverlappedTerminal.h; sourceTree = "<group>"; };
+		8A453E3E2156818D009284A2 /* FilePanelOverlappedTerminal.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilePanelOverlappedTerminal.mm; sourceTree = "<group>"; };
+		8A453E3F2156818D009284A2 /* FilePanelsTabbedHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilePanelsTabbedHolder.h; sourceTree = "<group>"; };
+		8A453E402156818D009284A2 /* FilePanelsTabbedHolder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilePanelsTabbedHolder.mm; sourceTree = "<group>"; };
+		8A453E412156818D009284A2 /* FTPConnectionSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTPConnectionSheetController.h; sourceTree = "<group>"; };
+		8A453E422156818D009284A2 /* FTPConnectionSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FTPConnectionSheetController.mm; sourceTree = "<group>"; };
+		8A453E432156818D009284A2 /* GoToFolderSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoToFolderSheetController.h; sourceTree = "<group>"; };
+		8A453E442156818D009284A2 /* GoToFolderSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GoToFolderSheetController.mm; sourceTree = "<group>"; };
+		8A453E452156818D009284A2 /* MainWndGoToButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWndGoToButton.h; sourceTree = "<group>"; };
+		8A453E462156818D009284A2 /* MainWndGoToButton.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainWndGoToButton.mm; sourceTree = "<group>"; };
+		8A453E472156818D009284A2 /* NetworkShareSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkShareSheetController.h; sourceTree = "<group>"; };
+		8A453E482156818D009284A2 /* NetworkShareSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkShareSheetController.mm; sourceTree = "<group>"; };
+		8A453E492156818D009284A2 /* OIDRedirectHTTPHandler+FixedPort.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OIDRedirectHTTPHandler+FixedPort.h"; sourceTree = "<group>"; };
+		8A453E4A2156818D009284A2 /* OIDRedirectHTTPHandler+FixedPort.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "OIDRedirectHTTPHandler+FixedPort.mm"; sourceTree = "<group>"; };
+		8A453E4B2156818D009284A2 /* QuickLookOverlay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickLookOverlay.h; sourceTree = "<group>"; };
+		8A453E4C2156818D009284A2 /* QuickLookOverlay.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickLookOverlay.mm; sourceTree = "<group>"; };
+		8A453E4D2156818D009284A2 /* QuickLookPanel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickLookPanel.h; sourceTree = "<group>"; };
+		8A453E4E2156818D009284A2 /* QuickLookPanel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickLookPanel.mm; sourceTree = "<group>"; };
+		8A453E4F2156818D009284A2 /* QuickLookVFSBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickLookVFSBridge.h; sourceTree = "<group>"; };
+		8A453E502156818D009284A2 /* QuickLookVFSBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickLookVFSBridge.mm; sourceTree = "<group>"; };
+		8A453E522156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ConnectToServer.strings; sourceTree = "<group>"; };
+		8A453E542156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/DropboxAccountSheetController.strings; sourceTree = "<group>"; };
+		8A453E562156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FTPConnectionSheetController.strings; sourceTree = "<group>"; };
+		8A453E582156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/GoToFolderSheetController.strings; sourceTree = "<group>"; };
+		8A453E5A2156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/NetworkShareSheetController.strings; sourceTree = "<group>"; };
+		8A453E5C2156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SFTPConnectionSheetController.strings; sourceTree = "<group>"; };
+		8A453E5E2156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SpotlightSearchPopupViewController.strings; sourceTree = "<group>"; };
+		8A453E602156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/WebDAVConnectionSheetController.strings; sourceTree = "<group>"; };
+		8A453E612156818D009284A2 /* SelectionWithMaskPopupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectionWithMaskPopupViewController.h; sourceTree = "<group>"; };
+		8A453E622156818D009284A2 /* SelectionWithMaskPopupViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SelectionWithMaskPopupViewController.mm; sourceTree = "<group>"; };
+		8A453E632156818D009284A2 /* SelectionWithMaskPopupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectionWithMaskPopupViewController.xib; sourceTree = "<group>"; };
+		8A453E642156818D009284A2 /* SFTPConnectionSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFTPConnectionSheetController.h; sourceTree = "<group>"; };
+		8A453E652156818D009284A2 /* SFTPConnectionSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SFTPConnectionSheetController.mm; sourceTree = "<group>"; };
+		8A453E662156818D009284A2 /* SpotlightSearchPopupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpotlightSearchPopupViewController.h; sourceTree = "<group>"; };
+		8A453E672156818D009284A2 /* SpotlightSearchPopupViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SpotlightSearchPopupViewController.mm; sourceTree = "<group>"; };
+		8A453E682156818D009284A2 /* TabBarStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabBarStyle.h; sourceTree = "<group>"; };
+		8A453E692156818D009284A2 /* TabBarStyle.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TabBarStyle.mm; sourceTree = "<group>"; };
+		8A453E6A2156818D009284A2 /* WebDAVConnectionSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebDAVConnectionSheetController.h; sourceTree = "<group>"; };
+		8A453E6B2156818D009284A2 /* WebDAVConnectionSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WebDAVConnectionSheetController.mm; sourceTree = "<group>"; };
+		8A453E6D2156818D009284A2 /* MainWindowInternalViewerState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowInternalViewerState.h; sourceTree = "<group>"; };
+		8A453E6E2156818D009284A2 /* MainWindowInternalViewerState.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainWindowInternalViewerState.mm; sourceTree = "<group>"; };
+		8A453E6F2156818D009284A2 /* MainWindowInternalViewerState.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindowInternalViewerState.xib; sourceTree = "<group>"; };
+		8A453E702156818D009284A2 /* MainWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindow.h; sourceTree = "<group>"; };
+		8A453E712156818D009284A2 /* MainWindow.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainWindow.mm; sourceTree = "<group>"; };
+		8A453E722156818D009284A2 /* MainWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowController.h; sourceTree = "<group>"; };
+		8A453E732156818D009284A2 /* MainWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MainWindowController.mm; sourceTree = "<group>"; };
+		8A453E742156818D009284A2 /* MainWindowStateProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainWindowStateProtocol.h; sourceTree = "<group>"; };
+		8A453E762156818D009284A2 /* ExternalEditorState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExternalEditorState.h; sourceTree = "<group>"; };
+		8A453E772156818D009284A2 /* ExternalEditorState.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalEditorState.mm; sourceTree = "<group>"; };
+		8A453E782156818D009284A2 /* SettingsAdaptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsAdaptor.h; sourceTree = "<group>"; };
+		8A453E792156818D009284A2 /* SettingsAdaptor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SettingsAdaptor.mm; sourceTree = "<group>"; };
+		8A453E7A2156818D009284A2 /* ShellState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShellState.h; sourceTree = "<group>"; };
+		8A453E7B2156818D009284A2 /* ShellState.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ShellState.mm; sourceTree = "<group>"; };
+		8A453E7D2156818D009284A2 /* AliasBadgeIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AliasBadgeIcon.icns; sourceTree = "<group>"; };
+		8A453E7F2156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Base; path = Base.lproj/Credits.rtf; sourceTree = "<group>"; };
+		8A453E812156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8A453E832156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8A453E842156818D009284A2 /* Config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Config.json; sourceTree = "<group>"; };
+		8A453E852156818D009284A2 /* Files-Lite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Files-Lite.entitlements"; sourceTree = "<group>"; };
+		8A453E862156818D009284A2 /* Files-Pro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Files-Pro.entitlements"; sourceTree = "<group>"; };
+		8A453E872156818D009284A2 /* Help.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Help.pdf; sourceTree = "<group>"; };
+		8A453E882156818D009284A2 /* main_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = main_icon.icns; sourceTree = "<group>"; };
+		8A453E892156818D009284A2 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		8A453E8A2156818D009284A2 /* NimbleCommander Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander Tests-Info.plist"; sourceTree = "<group>"; };
+		8A453E8B2156818D009284A2 /* NimbleCommander-CI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-CI-Info.plist"; sourceTree = "<group>"; };
+		8A453E8C2156818D009284A2 /* NimbleCommander-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-Info.plist"; sourceTree = "<group>"; };
+		8A453E8D2156818D009284A2 /* NimbleCommander-MAS-Free-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-MAS-Free-Info.plist"; sourceTree = "<group>"; };
+		8A453E8E2156818D009284A2 /* NimbleCommander-Pro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-Pro-Info.plist"; sourceTree = "<group>"; };
+		8A453E8F2156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8A453E902156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8A453E912156818E009284A2 /* SparkleDSA_Pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = SparkleDSA_Pub.pem; sourceTree = "<group>"; };
+		8A453E922156818E009284A2 /* State.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = State.json; sourceTree = "<group>"; };
+		8A453E942156818E009284A2 /* AskForPasswordWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AskForPasswordWindowController.h; sourceTree = "<group>"; };
+		8A453E952156818E009284A2 /* AskForPasswordWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AskForPasswordWindowController.mm; sourceTree = "<group>"; };
+		8A453E972156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AskForPasswordWindowController.xib; sourceTree = "<group>"; };
+		8A453E992156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CalculateChecksumSheetController.xib; sourceTree = "<group>"; };
+		8A453E9B2156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DetailedVolumeInformationSheetController.xib; sourceTree = "<group>"; };
+		8A453E9D2156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FeedbackWindow.xib; sourceTree = "<group>"; };
+		8A453E9F2156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProcessSheetController.xib; sourceTree = "<group>"; };
+		8A453EA12156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProFeaturesWindowController.xib; sourceTree = "<group>"; };
+		8A453EA32156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RegistrationInfoWindow.xib; sourceTree = "<group>"; };
+		8A453EA52156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/VFSListWindowController.xib; sourceTree = "<group>"; };
+		8A453EA62156818E009284A2 /* CalculateChecksumSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalculateChecksumSheetController.h; sourceTree = "<group>"; };
+		8A453EA72156818E009284A2 /* CalculateChecksumSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalculateChecksumSheetController.mm; sourceTree = "<group>"; };
+		8A453EA82156818E009284A2 /* DetailedVolumeInformationSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailedVolumeInformationSheetController.h; sourceTree = "<group>"; };
+		8A453EA92156818E009284A2 /* DetailedVolumeInformationSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DetailedVolumeInformationSheetController.mm; sourceTree = "<group>"; };
+		8A453EAA2156818E009284A2 /* FeedbackWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedbackWindow.h; sourceTree = "<group>"; };
+		8A453EAB2156818E009284A2 /* FeedbackWindow.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FeedbackWindow.mm; sourceTree = "<group>"; };
+		8A453EAC2156818E009284A2 /* FilterPopUpMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilterPopUpMenu.h; sourceTree = "<group>"; };
+		8A453EAD2156818E009284A2 /* FilterPopUpMenu.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterPopUpMenu.mm; sourceTree = "<group>"; };
+		8A453EAE2156818E009284A2 /* ProcessSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProcessSheetController.h; sourceTree = "<group>"; };
+		8A453EAF2156818E009284A2 /* ProcessSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProcessSheetController.mm; sourceTree = "<group>"; };
+		8A453EB02156818E009284A2 /* ProFeaturesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProFeaturesWindowController.h; sourceTree = "<group>"; };
+		8A453EB12156818E009284A2 /* ProFeaturesWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProFeaturesWindowController.mm; sourceTree = "<group>"; };
+		8A453EB22156818E009284A2 /* RegistrationInfoWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegistrationInfoWindow.h; sourceTree = "<group>"; };
+		8A453EB32156818E009284A2 /* RegistrationInfoWindow.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RegistrationInfoWindow.mm; sourceTree = "<group>"; };
+		8A453EB52156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AskForPasswordWindowController.strings; sourceTree = "<group>"; };
+		8A453EB72156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CalculateChecksumSheetController.strings; sourceTree = "<group>"; };
+		8A453EB92156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/DetailedVolumeInformationSheetController.strings; sourceTree = "<group>"; };
+		8A453EBB2156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FeedbackWindow.strings; sourceTree = "<group>"; };
+		8A453EBD2156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ProcessSheetController.strings; sourceTree = "<group>"; };
+		8A453EBF2156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ProFeaturesWindowController.strings; sourceTree = "<group>"; };
+		8A453EC12156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/RegistrationInfoWindow.strings; sourceTree = "<group>"; };
+		8A453EC32156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/VFSListWindowController.strings; sourceTree = "<group>"; };
+		8A453EC42156818E009284A2 /* TrialWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrialWindowController.h; sourceTree = "<group>"; };
+		8A453EC52156818E009284A2 /* TrialWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TrialWindowController.mm; sourceTree = "<group>"; };
+		8A453EC62156818E009284A2 /* TrialWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrialWindowController.xib; sourceTree = "<group>"; };
+		8A453EC72156818E009284A2 /* VFSListWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSListWindowController.h; sourceTree = "<group>"; };
+		8A453EC82156818E009284A2 /* VFSListWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VFSListWindowController.mm; sourceTree = "<group>"; };
 		8A548D762154EE410047A5B2 /* NimbleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NimbleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A548DA52154F0510047A5B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8A548DBF2154F0870047A5B2 /* libHabanero.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHabanero.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -6041,6 +6619,723 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		8A453C242156818C009284A2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8A453C252156818C009284A2 /* QLThumbnailsCache_Tests.mm */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		8A453C262156818C009284A2 /* Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				8A453C272156818C009284A2 /* BigFileViewSheet.xib */,
+				8A453C292156818C009284A2 /* InternalViewerController.xib */,
+				8A453C2B2156818C009284A2 /* InternalViewerToolbar.xib */,
+				8A453C2D2156818C009284A2 /* BigFileView.h */,
+				8A453C2E2156818C009284A2 /* BigFileView.mm */,
+				8A453C2F2156818C009284A2 /* BigFileViewDataBackend.h */,
+				8A453C302156818C009284A2 /* BigFileViewDataBackend.mm */,
+				8A453C312156818C009284A2 /* BigFileViewHex.h */,
+				8A453C322156818C009284A2 /* BigFileViewHex.mm */,
+				8A453C332156818C009284A2 /* BigFileViewProtocol.h */,
+				8A453C342156818C009284A2 /* BigFileViewSheet.h */,
+				8A453C352156818C009284A2 /* BigFileViewSheet.mm */,
+				8A453C362156818C009284A2 /* BigFileViewText.h */,
+				8A453C372156818C009284A2 /* BigFileViewText.mm */,
+				8A453C382156818C009284A2 /* InternalViewerController.h */,
+				8A453C392156818C009284A2 /* InternalViewerController.mm */,
+				8A453C3A2156818C009284A2 /* InternalViewerHistory.h */,
+				8A453C3B2156818C009284A2 /* InternalViewerHistory.mm */,
+				8A453C3C2156818C009284A2 /* InternalViewerToolbarProtocol.h */,
+				8A453C3D2156818C009284A2 /* InternalViewerToolbarProtocol.mm */,
+				8A453C3E2156818C009284A2 /* InternalViewerViewPreviewMode.h */,
+				8A453C3F2156818C009284A2 /* InternalViewerViewPreviewMode.mm */,
+				8A453C402156818C009284A2 /* InternalViewerWindowController.h */,
+				8A453C412156818C009284A2 /* InternalViewerWindowController.mm */,
+				8A453C422156818C009284A2 /* InternalViewerWindowController.xib */,
+				8A453C432156818C009284A2 /* BigFileViewSheet.strings */,
+				8A453C452156818C009284A2 /* InternalViewerController.strings */,
+				8A453C472156818C009284A2 /* InternalViewerToolbar.strings */,
+			);
+			path = Viewer;
+			sourceTree = "<group>";
+		};
+		8A453C492156818C009284A2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				8A453C4A2156818C009284A2 /* ActionShortcut.h */,
+				8A453C4B2156818C009284A2 /* ActionShortcut.mm */,
+				8A453C4C2156818C009284A2 /* ActionsShortcutsManager.h */,
+				8A453C4D2156818C009284A2 /* ActionsShortcutsManager.mm */,
+				8A453C4E2156818C009284A2 /* Alert.h */,
+				8A453C4F2156818C009284A2 /* Alert.mm */,
+				8A453C502156818C009284A2 /* AnyHolder.h */,
+				8A453C512156818C009284A2 /* AnyHolder.mm */,
+				8A453C522156818C009284A2 /* AppStoreHelper.h */,
+				8A453C532156818C009284A2 /* AppStoreHelper.mm */,
+				8A453C542156818C009284A2 /* Caches */,
+				8A453C5D2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.h */,
+				8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */,
+				8A453C5F2156818C009284A2 /* ConnectionsMenuDelegate.h */,
+				8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */,
+				8A453C612156818C009284A2 /* Dock.h */,
+				8A453C622156818C009284A2 /* Dock.mm */,
+				8A453C632156818C009284A2 /* FeedbackManager.h */,
+				8A453C642156818C009284A2 /* FeedbackManager.mm */,
+				8A453C652156818C009284A2 /* FileMask.cpp */,
+				8A453C662156818C009284A2 /* FileMask.h */,
+				8A453C672156818C009284A2 /* FileMask_Tests.mm */,
+				8A453C682156818C009284A2 /* FileWindow.cpp */,
+				8A453C692156818C009284A2 /* FileWindow.h */,
+				8A453C6A2156818C009284A2 /* FileWindow_Tests.mm */,
+				8A453C6B2156818C009284A2 /* GoogleAnalytics.h */,
+				8A453C6C2156818C009284A2 /* GoogleAnalytics.mm */,
+				8A453C6D2156818C009284A2 /* LaunchServices.h */,
+				8A453C6E2156818C009284A2 /* LaunchServices.mm */,
+				8A453C6F2156818C009284A2 /* Marketing */,
+				8A453C722156818C009284A2 /* NetworkConnectionIconProvider.h */,
+				8A453C732156818C009284A2 /* NetworkConnectionIconProvider.mm */,
+				8A453C742156818C009284A2 /* NetworkConnectionsManager.h */,
+				8A453C752156818C009284A2 /* NetworkConnectionsManager.mm */,
+				8A453C762156818C009284A2 /* rapidjson.cpp */,
+				8A453C772156818C009284A2 /* rapidjson.h */,
+				8A453C782156818C009284A2 /* rapidjson_fwd.h */,
+				8A453C792156818C009284A2 /* SandboxManager.h */,
+				8A453C7A2156818C009284A2 /* SandboxManager.mm */,
+				8A453C7B2156818C009284A2 /* SearchForFiles.cpp */,
+				8A453C7C2156818C009284A2 /* SearchForFiles.h */,
+				8A453C7D2156818C009284A2 /* SearchInFile.cpp */,
+				8A453C7E2156818C009284A2 /* SearchInFile.h */,
+				8A453C7F2156818C009284A2 /* ServicesHandler.h */,
+				8A453C802156818C009284A2 /* ServicesHandler.mm */,
+				8A453C812156818C009284A2 /* SimpleComboBoxPersistentDataSource.h */,
+				8A453C822156818C009284A2 /* SimpleComboBoxPersistentDataSource.mm */,
+				8A453C832156818C009284A2 /* TemporaryNativeFileChangesSentinel.cpp */,
+				8A453C842156818C009284A2 /* TemporaryNativeFileChangesSentinel.h */,
+				8A453C852156818C009284A2 /* TemporaryNativeFileStorage.cpp */,
+				8A453C862156818C009284A2 /* TemporaryNativeFileStorage.h */,
+				8A453C872156818C009284A2 /* Theming */,
+				8A453C902156818C009284A2 /* UserNotificationsCenter.h */,
+				8A453C912156818C009284A2 /* UserNotificationsCenter.mm */,
+				8A453C922156818C009284A2 /* VFSInstanceManager.cpp */,
+				8A453C932156818C009284A2 /* VFSInstanceManager.h */,
+				8A453C942156818C009284A2 /* VFSInstanceManagerImpl.cpp */,
+				8A453C952156818C009284A2 /* VFSInstanceManagerImpl.h */,
+				8A453C962156818C009284A2 /* VFSInstancePromise.cpp */,
+				8A453C972156818C009284A2 /* VFSInstancePromise.h */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		8A453C542156818C009284A2 /* Caches */ = {
+			isa = PBXGroup;
+			children = (
+				8A453C552156818C009284A2 /* QLThumbnailsCache.h */,
+				8A453C562156818C009284A2 /* QLThumbnailsCache.mm */,
+				8A453C572156818C009284A2 /* QLVFSThumbnailsCache.h */,
+				8A453C582156818C009284A2 /* QLVFSThumbnailsCache.mm */,
+				8A453C592156818C009284A2 /* WorkspaceExtensionIconsCache.h */,
+				8A453C5A2156818C009284A2 /* WorkspaceExtensionIconsCache.mm */,
+				8A453C5B2156818C009284A2 /* WorkspaceIconsCache.h */,
+				8A453C5C2156818C009284A2 /* WorkspaceIconsCache.mm */,
+			);
+			path = Caches;
+			sourceTree = "<group>";
+		};
+		8A453C6F2156818C009284A2 /* Marketing */ = {
+			isa = PBXGroup;
+			children = (
+				8A453C702156818C009284A2 /* MASAppInstalledChecker.cpp */,
+				8A453C712156818C009284A2 /* MASAppInstalledChecker.h */,
+			);
+			path = Marketing;
+			sourceTree = "<group>";
+		};
+		8A453C872156818C009284A2 /* Theming */ = {
+			isa = PBXGroup;
+			children = (
+				8A453C882156818C009284A2 /* CocoaAppearanceManager.h */,
+				8A453C892156818C009284A2 /* CocoaAppearanceManager.mm */,
+				8A453C8A2156818C009284A2 /* Theme.h */,
+				8A453C8B2156818C009284A2 /* Theme.mm */,
+				8A453C8C2156818C009284A2 /* ThemePersistence.h */,
+				8A453C8D2156818C009284A2 /* ThemePersistence.mm */,
+				8A453C8E2156818C009284A2 /* ThemesManager.h */,
+				8A453C8F2156818C009284A2 /* ThemesManager.mm */,
+			);
+			path = Theming;
+			sourceTree = "<group>";
+		};
+		8A453C982156818C009284A2 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				8A453C992156818C009284A2 /* Preferences.strings */,
+				8A453C9B2156818C009284A2 /* PreferencesWindowExternalEditorsTab.xib */,
+				8A453C9D2156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.xib */,
+				8A453C9F2156818C009284A2 /* PreferencesWindowGeneralTab.xib */,
+				8A453CA12156818C009284A2 /* PreferencesWindowHotkeysTab.xib */,
+				8A453CA32156818C009284A2 /* PreferencesWindowPanelsTab.xib */,
+				8A453CA52156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.xib */,
+				8A453CA72156818C009284A2 /* PreferencesWindowTerminalTab.xib */,
+				8A453CA92156818C009284A2 /* PreferencesWindowThemesTab.xib */,
+				8A453CAB2156818C009284A2 /* PreferencesWindowThemesTabColoringRulesControl.xib */,
+				8A453CAD2156818C009284A2 /* PreferencesWindowThemesTabImportSheet.xib */,
+				8A453CAF2156818C009284A2 /* PreferencesWindowToolsTab.xib */,
+				8A453CB12156818C009284A2 /* PreferencesWindowViewerTab.xib */,
+				8A453CB32156818C009284A2 /* Preferences.h */,
+				8A453CB42156818C009284A2 /* Preferences.mm */,
+				8A453CB52156818C009284A2 /* PreferencesWindowExternalEditorsTab.h */,
+				8A453CB62156818C009284A2 /* PreferencesWindowExternalEditorsTab.mm */,
+				8A453CB72156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.h */,
+				8A453CB82156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.mm */,
+				8A453CB92156818C009284A2 /* PreferencesWindowGeneralTab.h */,
+				8A453CBA2156818C009284A2 /* PreferencesWindowGeneralTab.mm */,
+				8A453CBB2156818C009284A2 /* PreferencesWindowHotkeysTab.h */,
+				8A453CBC2156818C009284A2 /* PreferencesWindowHotkeysTab.mm */,
+				8A453CBD2156818C009284A2 /* PreferencesWindowPanelsTab.h */,
+				8A453CBE2156818C009284A2 /* PreferencesWindowPanelsTab.mm */,
+				8A453CBF2156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.h */,
+				8A453CC02156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.mm */,
+				8A453CC12156818C009284A2 /* PreferencesWindowTerminalTab.h */,
+				8A453CC22156818C009284A2 /* PreferencesWindowTerminalTab.mm */,
+				8A453CC32156818C009284A2 /* PreferencesWindowThemesControls.h */,
+				8A453CC42156818C009284A2 /* PreferencesWindowThemesControls.mm */,
+				8A453CC52156818C009284A2 /* PreferencesWindowThemesTab.h */,
+				8A453CC62156818C009284A2 /* PreferencesWindowThemesTab.mm */,
+				8A453CC72156818C009284A2 /* PreferencesWindowThemesTabImportSheet.h */,
+				8A453CC82156818C009284A2 /* PreferencesWindowThemesTabImportSheet.mm */,
+				8A453CC92156818C009284A2 /* PreferencesWindowThemesTabModel.h */,
+				8A453CCA2156818C009284A2 /* PreferencesWindowThemesTabModel.mm */,
+				8A453CCB2156818C009284A2 /* PreferencesWindowToolsTab.h */,
+				8A453CCC2156818C009284A2 /* PreferencesWindowToolsTab.mm */,
+				8A453CCD2156818C009284A2 /* PreferencesWindowViewerTab.h */,
+				8A453CCE2156818C009284A2 /* PreferencesWindowViewerTab.mm */,
+				8A453CD02156818C009284A2 /* PreferencesWindowExternalEditorsTab.strings */,
+				8A453CD22156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.strings */,
+				8A453CD42156818C009284A2 /* PreferencesWindowGeneralTab.strings */,
+				8A453CD62156818C009284A2 /* PreferencesWindowHotkeysTab.strings */,
+				8A453CD82156818C009284A2 /* PreferencesWindowPanelsTab.strings */,
+				8A453CDA2156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.strings */,
+				8A453CDC2156818C009284A2 /* PreferencesWindowTerminalTab.strings */,
+				8A453CDE2156818C009284A2 /* PreferencesWindowThemesTab.strings */,
+				8A453CE02156818C009284A2 /* PreferencesWindowThemesTabColoringRulesControl.strings */,
+				8A453CE22156818D009284A2 /* PreferencesWindowThemesTabImportSheet.strings */,
+				8A453CE42156818D009284A2 /* PreferencesWindowToolsTab.strings */,
+				8A453CE62156818D009284A2 /* PreferencesWindowViewerTab.strings */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
+		8A453CE82156818D009284A2 /* Bootstrap */ = {
+			isa = PBXGroup;
+			children = (
+				8A453CE92156818D009284A2 /* ActivationManager.cpp */,
+				8A453CEA2156818D009284A2 /* ActivationManager.h */,
+				8A453CEB2156818D009284A2 /* AppDelegate+MainWindowCreation.h */,
+				8A453CEC2156818D009284A2 /* AppDelegate+MainWindowCreation.mm */,
+				8A453CED2156818D009284A2 /* AppDelegate+Migration.h */,
+				8A453CEE2156818D009284A2 /* AppDelegate+Migration.mm */,
+				8A453CEF2156818D009284A2 /* AppDelegate.h */,
+				8A453CF02156818D009284A2 /* AppDelegate.mm */,
+				8A453CF12156818D009284A2 /* AppDelegate.Private.h */,
+				8A453CF22156818D009284A2 /* AppDelegateCPP.h */,
+				8A453CF32156818D009284A2 /* AppDelegateCPP.mm */,
+				8A453CF42156818D009284A2 /* Application.h */,
+				8A453CF52156818D009284A2 /* Application.mm */,
+				8A453CF62156818D009284A2 /* MainMenu.xib */,
+				8A453CF82156818D009284A2 /* Config.cpp */,
+				8A453CF92156818D009284A2 /* Config.h */,
+				8A453CFA2156818D009284A2 /* Config.mm */,
+				8A453CFB2156818D009284A2 /* ConfigWiring.h */,
+				8A453CFC2156818D009284A2 /* ConfigWiring.mm */,
+				8A453CFD2156818D009284A2 /* Interactions.h */,
+				8A453CFE2156818D009284A2 /* Interactions.mm */,
+				8A453CFF2156818D009284A2 /* main.cpp */,
+				8A453D002156818D009284A2 /* NimbleCommander-Prefix.pch */,
+				8A453D012156818D009284A2 /* MainMenu.strings */,
+				8A453D032156818D009284A2 /* VFSInit.h */,
+				8A453D042156818D009284A2 /* VFSInit.mm */,
+			);
+			path = Bootstrap;
+			sourceTree = "<group>";
+		};
+		8A453D052156818D009284A2 /* States */ = {
+			isa = PBXGroup;
+			children = (
+				8A453D062156818D009284A2 /* FilePanels */,
+				8A453E6C2156818D009284A2 /* InternalViewer */,
+				8A453E702156818D009284A2 /* MainWindow.h */,
+				8A453E712156818D009284A2 /* MainWindow.mm */,
+				8A453E722156818D009284A2 /* MainWindowController.h */,
+				8A453E732156818D009284A2 /* MainWindowController.mm */,
+				8A453E742156818D009284A2 /* MainWindowStateProtocol.h */,
+				8A453E752156818D009284A2 /* Terminal */,
+			);
+			path = States;
+			sourceTree = "<group>";
+		};
+		8A453D062156818D009284A2 /* FilePanels */ = {
+			isa = PBXGroup;
+			children = (
+				8A453D072156818D009284A2 /* Actions */,
+				8A453D5E2156818D009284A2 /* AskingForRatingOverlayView.h */,
+				8A453D5F2156818D009284A2 /* AskingForRatingOverlayView.mm */,
+				8A453D602156818D009284A2 /* ExternalToolParameterValueSheetController.xib */,
+				8A453D622156818D009284A2 /* FavoritesWindowController.xib */,
+				8A453D642156818D009284A2 /* FilePanelsContextMenu.strings */,
+				8A453D662156818D009284A2 /* FilePanelsQuickSearch.strings */,
+				8A453D682156818D009284A2 /* FindFilesSheetController.xib */,
+				8A453D6A2156818D009284A2 /* PanelViewHeaderSortPopup.xib */,
+				8A453D6C2156818D009284A2 /* Brief */,
+				8A453D7D2156818D009284A2 /* ContextMenu.h */,
+				8A453D7E2156818D009284A2 /* ContextMenu.mm */,
+				8A453D7F2156818D009284A2 /* CursorBackup.h */,
+				8A453D802156818D009284A2 /* CursorBackup.mm */,
+				8A453D812156818D009284A2 /* DragReceiver.h */,
+				8A453D822156818D009284A2 /* DragReceiver.mm */,
+				8A453D832156818D009284A2 /* DragSender.h */,
+				8A453D842156818D009284A2 /* DragSender.mm */,
+				8A453D852156818D009284A2 /* ExternalEditorInfo.h */,
+				8A453D862156818D009284A2 /* ExternalEditorInfo.mm */,
+				8A453D872156818D009284A2 /* ExternalEditorInfoPrivate.h */,
+				8A453D882156818D009284A2 /* ExternalToolParameterValueSheetController.h */,
+				8A453D892156818D009284A2 /* ExternalToolParameterValueSheetController.mm */,
+				8A453D8A2156818D009284A2 /* ExternalToolsSupport.h */,
+				8A453D8B2156818D009284A2 /* ExternalToolsSupport.mm */,
+				8A453D8C2156818D009284A2 /* ExternalToolsSupport_Tests.mm */,
+				8A453D8D2156818D009284A2 /* FavoriteComposing.h */,
+				8A453D8E2156818D009284A2 /* FavoriteComposing.mm */,
+				8A453D8F2156818D009284A2 /* Favorites.cpp */,
+				8A453D902156818D009284A2 /* Favorites.h */,
+				8A453D912156818D009284A2 /* FavoritesImpl.cpp */,
+				8A453D922156818D009284A2 /* FavoritesImpl.h */,
+				8A453D932156818D009284A2 /* FavoritesMenuDelegate.h */,
+				8A453D942156818D009284A2 /* FavoritesMenuDelegate.mm */,
+				8A453D952156818D009284A2 /* FavoritesWindowController.h */,
+				8A453D962156818D009284A2 /* FavoritesWindowController.mm */,
+				8A453D972156818D009284A2 /* FilesDraggingSource.h */,
+				8A453D982156818D009284A2 /* FilesDraggingSource.mm */,
+				8A453D992156818D009284A2 /* FindFilesSheetController.h */,
+				8A453D9A2156818D009284A2 /* FindFilesSheetController.mm */,
+				8A453D9B2156818D009284A2 /* Helpers */,
+				8A453DA52156818D009284A2 /* IconsGenerator2.h */,
+				8A453DA62156818D009284A2 /* IconsGenerator2.mm */,
+				8A453DA72156818D009284A2 /* List */,
+				8A453DC22156818D009284A2 /* ListingPromise.cpp */,
+				8A453DC32156818D009284A2 /* ListingPromise.h */,
+				8A453DC42156818D009284A2 /* MainWindowFilePanelsStateToolbarDelegate.h */,
+				8A453DC52156818D009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm */,
+				8A453DC62156818D009284A2 /* MainWindowFilePanelState+Menu.h */,
+				8A453DC72156818D009284A2 /* MainWindowFilePanelState+Menu.mm */,
+				8A453DC82156818D009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.h */,
+				8A453DC92156818D009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm */,
+				8A453DCA2156818D009284A2 /* MainWindowFilePanelState+TabsSupport.h */,
+				8A453DCB2156818D009284A2 /* MainWindowFilePanelState+TabsSupport.mm */,
+				8A453DCC2156818D009284A2 /* MainWindowFilePanelState+Tools.h */,
+				8A453DCD2156818D009284A2 /* MainWindowFilePanelState+Tools.mm */,
+				8A453DCE2156818D009284A2 /* MainWindowFilePanelState.h */,
+				8A453DCF2156818D009284A2 /* MainWindowFilePanelState.mm */,
+				8A453DD02156818D009284A2 /* NCPanelOpenWithMenuDelegate.h */,
+				8A453DD12156818D009284A2 /* NCPanelOpenWithMenuDelegate.mm */,
+				8A453DD22156818D009284A2 /* PanelAux.h */,
+				8A453DD32156818D009284A2 /* PanelAux.mm */,
+				8A453DD42156818D009284A2 /* PanelController+DataAccess.h */,
+				8A453DD52156818D009284A2 /* PanelController+DataAccess.mm */,
+				8A453DD62156818D009284A2 /* PanelController+Menu.h */,
+				8A453DD72156818D009284A2 /* PanelController+Menu.mm */,
+				8A453DD82156818D009284A2 /* PanelController.h */,
+				8A453DD92156818D009284A2 /* PanelController.mm */,
+				8A453DDA2156818D009284A2 /* PanelControllerActions.h */,
+				8A453DDB2156818D009284A2 /* PanelControllerActions.mm */,
+				8A453DDC2156818D009284A2 /* PanelControllerActionsDispatcher.h */,
+				8A453DDD2156818D009284A2 /* PanelControllerActionsDispatcher.mm */,
+				8A453DDE2156818D009284A2 /* PanelControllerPersistency.h */,
+				8A453DDF2156818D009284A2 /* PanelControllerPersistency.mm */,
+				8A453DE02156818D009284A2 /* PanelData.h */,
+				8A453DE12156818D009284A2 /* PanelData.mm */,
+				8A453DE22156818D009284A2 /* PanelData_Tests.mm */,
+				8A453DE32156818D009284A2 /* PanelDataEntriesComparator.h */,
+				8A453DE42156818D009284A2 /* PanelDataEntriesComparator.mm */,
+				8A453DE52156818D009284A2 /* PanelDataExternalEntryKey.h */,
+				8A453DE62156818D009284A2 /* PanelDataExternalEntryKey.mm */,
+				8A453DE72156818D009284A2 /* PanelDataFilter.h */,
+				8A453DE82156818D009284A2 /* PanelDataFilter.mm */,
+				8A453DE92156818D009284A2 /* PanelDataItemVolatileData.cpp */,
+				8A453DEA2156818D009284A2 /* PanelDataItemVolatileData.h */,
+				8A453DEB2156818D009284A2 /* PanelDataOptionsPersistence.h */,
+				8A453DEC2156818D009284A2 /* PanelDataOptionsPersistence.mm */,
+				8A453DED2156818D009284A2 /* PanelDataPersistency.cpp */,
+				8A453DEE2156818D009284A2 /* PanelDataPersistency.h */,
+				8A453DEF2156818D009284A2 /* PanelDataSelection.h */,
+				8A453DF02156818D009284A2 /* PanelDataSelection.mm */,
+				8A453DF12156818D009284A2 /* PanelDataSortMode.h */,
+				8A453DF22156818D009284A2 /* PanelDataSortMode.mm */,
+				8A453DF32156818D009284A2 /* PanelDataStatistics.cpp */,
+				8A453DF42156818D009284A2 /* PanelDataStatistics.h */,
+				8A453DF52156818D009284A2 /* PanelHistory.h */,
+				8A453DF62156818D009284A2 /* PanelHistory.mm */,
+				8A453DF72156818D009284A2 /* PanelPreview.h */,
+				8A453DF82156818D009284A2 /* PanelView.h */,
+				8A453DF92156818D009284A2 /* PanelView.mm */,
+				8A453DFA2156818D009284A2 /* PanelViewDelegate.h */,
+				8A453DFB2156818D009284A2 /* PanelViewFieldEditor.h */,
+				8A453DFC2156818D009284A2 /* PanelViewFieldEditor.mm */,
+				8A453DFD2156818D009284A2 /* PanelViewFooter.h */,
+				8A453DFE2156818D009284A2 /* PanelViewFooter.mm */,
+				8A453DFF2156818D009284A2 /* PanelViewFooterVolumeInfoFetcher.h */,
+				8A453E002156818D009284A2 /* PanelViewFooterVolumeInfoFetcher.mm */,
+				8A453E012156818D009284A2 /* PanelViewHeader.h */,
+				8A453E022156818D009284A2 /* PanelViewHeader.mm */,
+				8A453E032156818D009284A2 /* PanelViewImplementationProtocol.h */,
+				8A453E042156818D009284A2 /* PanelViewKeystrokeSink.h */,
+				8A453E052156818D009284A2 /* PanelViewLayoutSupport.h */,
+				8A453E062156818D009284A2 /* PanelViewLayoutSupport.mm */,
+				8A453E072156818D009284A2 /* PanelViewPresentationItemsColoringFilter.h */,
+				8A453E082156818D009284A2 /* PanelViewPresentationItemsColoringFilter.mm */,
+				8A453E092156818D009284A2 /* PanelViewPresentationSettings.h */,
+				8A453E0A2156818D009284A2 /* PanelViewPresentationSettings.mm */,
+				8A453E0B2156818D009284A2 /* PanelViewTypes.h */,
+				8A453E0C2156818D009284A2 /* QuickSearch.h */,
+				8A453E0D2156818D009284A2 /* QuickSearch.mm */,
+				8A453E0E2156818D009284A2 /* QuickSearch_Tests.mm */,
+				8A453E0F2156818D009284A2 /* ExternalToolParameterValueSheetController.strings */,
+				8A453E112156818D009284A2 /* FavoritesWindowController.strings */,
+				8A453E152156818D009284A2 /* FindFilesSheetController.strings */,
+				8A453E172156818D009284A2 /* PanelViewHeaderSortPopup.strings */,
+				8A453E192156818D009284A2 /* SharingService.h */,
+				8A453E1A2156818D009284A2 /* SharingService.mm */,
+				8A453E1B2156818D009284A2 /* StateActions.h */,
+				8A453E1C2156818D009284A2 /* StateActions.mm */,
+				8A453E1D2156818D009284A2 /* StateActionsDispatcher.h */,
+				8A453E1E2156818D009284A2 /* StateActionsDispatcher.mm */,
+				8A453E1F2156818D009284A2 /* TabContextMenu.h */,
+				8A453E202156818D009284A2 /* TabContextMenu.mm */,
+				8A453E212156818D009284A2 /* ToolsMenuDelegate.h */,
+				8A453E222156818D009284A2 /* ToolsMenuDelegate.mm */,
+				8A453E232156818D009284A2 /* Views */,
+			);
+			path = FilePanels;
+			sourceTree = "<group>";
+		};
+		8A453D072156818D009284A2 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				8A453D082156818D009284A2 /* AddToFavorites.h */,
+				8A453D092156818D009284A2 /* AddToFavorites.mm */,
+				8A453D0A2156818D009284A2 /* BatchRename.h */,
+				8A453D0B2156818D009284A2 /* BatchRename.mm */,
+				8A453D0C2156818D009284A2 /* CalculateChecksum.h */,
+				8A453D0D2156818D009284A2 /* CalculateChecksum.mm */,
+				8A453D0E2156818D009284A2 /* CalculateSizes.h */,
+				8A453D0F2156818D009284A2 /* CalculateSizes.mm */,
+				8A453D102156818D009284A2 /* ChangeAttributes.h */,
+				8A453D112156818D009284A2 /* ChangeAttributes.mm */,
+				8A453D122156818D009284A2 /* Compress.h */,
+				8A453D132156818D009284A2 /* Compress.mm */,
+				8A453D142156818D009284A2 /* CopyFile.h */,
+				8A453D152156818D009284A2 /* CopyFile.mm */,
+				8A453D162156818D009284A2 /* CopyFilePaths.h */,
+				8A453D172156818D009284A2 /* CopyFilePaths.mm */,
+				8A453D182156818D009284A2 /* CopyToPasteboard.h */,
+				8A453D192156818D009284A2 /* CopyToPasteboard.mm */,
+				8A453D1A2156818D009284A2 /* DefaultAction.h */,
+				8A453D1B2156818D009284A2 /* DefaultAction.mm */,
+				8A453D1C2156818D009284A2 /* Delete.h */,
+				8A453D1D2156818D009284A2 /* Delete.mm */,
+				8A453D1E2156818D009284A2 /* Duplicate.h */,
+				8A453D1F2156818D009284A2 /* Duplicate.mm */,
+				8A453D202156818D009284A2 /* EjectVolume.h */,
+				8A453D212156818D009284A2 /* EjectVolume.mm */,
+				8A453D222156818D009284A2 /* Enter.h */,
+				8A453D232156818D009284A2 /* Enter.mm */,
+				8A453D242156818D009284A2 /* ExecuteExternalTool.h */,
+				8A453D252156818D009284A2 /* ExecuteExternalTool.mm */,
+				8A453D262156818D009284A2 /* ExecuteInTerminal.h */,
+				8A453D272156818D009284A2 /* ExecuteInTerminal.mm */,
+				8A453D282156818D009284A2 /* FindFiles.h */,
+				8A453D292156818D009284A2 /* FindFiles.mm */,
+				8A453D2A2156818D009284A2 /* GoToFolder.h */,
+				8A453D2B2156818D009284A2 /* GoToFolder.mm */,
+				8A453D2C2156818D009284A2 /* InsertFromPasteboard.h */,
+				8A453D2D2156818D009284A2 /* InsertFromPasteboard.mm */,
+				8A453D2E2156818D009284A2 /* Link.h */,
+				8A453D2F2156818D009284A2 /* Link.mm */,
+				8A453D302156818D009284A2 /* MakeNew.h */,
+				8A453D312156818D009284A2 /* MakeNew.mm */,
+				8A453D322156818D009284A2 /* NavigateHistory.h */,
+				8A453D332156818D009284A2 /* NavigateHistory.mm */,
+				8A453D342156818D009284A2 /* OpenFile.h */,
+				8A453D352156818D009284A2 /* OpenFile.mm */,
+				8A453D362156818D009284A2 /* OpenNetworkConnection.h */,
+				8A453D372156818D009284A2 /* OpenNetworkConnection.mm */,
+				8A453D382156818D009284A2 /* OpenWithExternalEditor.h */,
+				8A453D392156818D009284A2 /* OpenWithExternalEditor.mm */,
+				8A453D3A2156818D009284A2 /* OpenXAttr.h */,
+				8A453D3B2156818D009284A2 /* OpenXAttr.mm */,
+				8A453D3C2156818D009284A2 /* RefreshPanel.h */,
+				8A453D3D2156818D009284A2 /* RefreshPanel.mm */,
+				8A453D3E2156818D009284A2 /* RenameInPlace.h */,
+				8A453D3F2156818D009284A2 /* RenameInPlace.mm */,
+				8A453D402156818D009284A2 /* RevealInOppositePanel.h */,
+				8A453D412156818D009284A2 /* RevealInOppositePanel.mm */,
+				8A453D422156818D009284A2 /* Select.h */,
+				8A453D432156818D009284A2 /* Select.mm */,
+				8A453D442156818D009284A2 /* ShowGoToPopup.h */,
+				8A453D452156818D009284A2 /* ShowGoToPopup.mm */,
+				8A453D462156818D009284A2 /* ShowQuickLook.h */,
+				8A453D472156818D009284A2 /* ShowQuickLook.mm */,
+				8A453D482156818D009284A2 /* ShowSystemOverview.h */,
+				8A453D492156818D009284A2 /* ShowSystemOverview.mm */,
+				8A453D4A2156818D009284A2 /* ShowTabs.h */,
+				8A453D4B2156818D009284A2 /* ShowTabs.mm */,
+				8A453D4C2156818D009284A2 /* ShowTerminal.h */,
+				8A453D4D2156818D009284A2 /* ShowTerminal.mm */,
+				8A453D4E2156818D009284A2 /* ShowVolumeInformation.h */,
+				8A453D4F2156818D009284A2 /* ShowVolumeInformation.mm */,
+				8A453D502156818D009284A2 /* SpotlightSearch.h */,
+				8A453D512156818D009284A2 /* SpotlightSearch.mm */,
+				8A453D522156818D009284A2 /* SyncPanels.h */,
+				8A453D532156818D009284A2 /* SyncPanels.mm */,
+				8A453D542156818D009284A2 /* TabsManagement.h */,
+				8A453D552156818D009284A2 /* TabsManagement.mm */,
+				8A453D562156818D009284A2 /* ToggleLayout.h */,
+				8A453D572156818D009284A2 /* ToggleLayout.mm */,
+				8A453D582156818D009284A2 /* ToggleSingleOrDualMode.h */,
+				8A453D592156818D009284A2 /* ToggleSingleOrDualMode.mm */,
+				8A453D5A2156818D009284A2 /* ToggleSort.h */,
+				8A453D5B2156818D009284A2 /* ToggleSort.mm */,
+				8A453D5C2156818D009284A2 /* ViewFile.h */,
+				8A453D5D2156818D009284A2 /* ViewFile.mm */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
+		8A453D6C2156818D009284A2 /* Brief */ = {
+			isa = PBXGroup;
+			children = (
+				8A453D6D2156818D009284A2 /* Layout.h */,
+				8A453D6E2156818D009284A2 /* Layout.mm */,
+				8A453D6F2156818D009284A2 /* PanelBriefView.h */,
+				8A453D702156818D009284A2 /* PanelBriefView.mm */,
+				8A453D712156818D009284A2 /* PanelBriefViewCollectionView.h */,
+				8A453D722156818D009284A2 /* PanelBriefViewCollectionView.mm */,
+				8A453D732156818D009284A2 /* PanelBriefViewCollectionViewBackground.h */,
+				8A453D742156818D009284A2 /* PanelBriefViewCollectionViewBackground.mm */,
+				8A453D752156818D009284A2 /* PanelBriefViewCollectionViewItem.h */,
+				8A453D762156818D009284A2 /* PanelBriefViewCollectionViewItem.mm */,
+				8A453D772156818D009284A2 /* PanelBriefViewCollectionViewLayout.h */,
+				8A453D782156818D009284A2 /* PanelBriefViewCollectionViewLayout.mm */,
+				8A453D792156818D009284A2 /* PanelBriefViewItemCarrier.h */,
+				8A453D7A2156818D009284A2 /* PanelBriefViewItemCarrier.mm */,
+				8A453D7B2156818D009284A2 /* TextWidthsCache.h */,
+				8A453D7C2156818D009284A2 /* TextWidthsCache.mm */,
+			);
+			path = Brief;
+			sourceTree = "<group>";
+		};
+		8A453D9B2156818D009284A2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8A453D9C2156818D009284A2 /* ClosedPanelsHistory.h */,
+				8A453D9D2156818D009284A2 /* ClosedPanelsHistoryImpl.cpp */,
+				8A453D9E2156818D009284A2 /* ClosedPanelsHistoryImpl.h */,
+				8A453D9F2156818D009284A2 /* LocationFormatter.h */,
+				8A453DA02156818D009284A2 /* LocationFormatter.mm */,
+				8A453DA12156818D009284A2 /* Pasteboard.h */,
+				8A453DA22156818D009284A2 /* Pasteboard.mm */,
+				8A453DA32156818D009284A2 /* RecentlyClosedMenuDelegate.h */,
+				8A453DA42156818D009284A2 /* RecentlyClosedMenuDelegate.mm */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8A453DA72156818D009284A2 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				8A453DA82156818D009284A2 /* PanelListViewColumnsMenu.xib */,
+				8A453DAA2156818D009284A2 /* Layout.h */,
+				8A453DAB2156818D009284A2 /* Layout.mm */,
+				8A453DAC2156818D009284A2 /* PanelListView.h */,
+				8A453DAD2156818D009284A2 /* PanelListView.mm */,
+				8A453DAE2156818D009284A2 /* PanelListViewDateFormatting.h */,
+				8A453DAF2156818D009284A2 /* PanelListViewDateFormatting.mm */,
+				8A453DB02156818D009284A2 /* PanelListViewDateTimeView.h */,
+				8A453DB12156818D009284A2 /* PanelListViewDateTimeView.mm */,
+				8A453DB22156818D009284A2 /* PanelListViewGeometry.h */,
+				8A453DB32156818D009284A2 /* PanelListViewGeometry.mm */,
+				8A453DB42156818D009284A2 /* PanelListViewNameView.h */,
+				8A453DB52156818D009284A2 /* PanelListViewNameView.mm */,
+				8A453DB62156818D009284A2 /* PanelListViewRowView.h */,
+				8A453DB72156818D009284A2 /* PanelListViewRowView.mm */,
+				8A453DB82156818D009284A2 /* PanelListViewSizeView.h */,
+				8A453DB92156818D009284A2 /* PanelListViewSizeView.mm */,
+				8A453DBA2156818D009284A2 /* PanelListViewTableHeaderCell.h */,
+				8A453DBB2156818D009284A2 /* PanelListViewTableHeaderCell.mm */,
+				8A453DBC2156818D009284A2 /* PanelListViewTableHeaderView.h */,
+				8A453DBD2156818D009284A2 /* PanelListViewTableHeaderView.mm */,
+				8A453DBE2156818D009284A2 /* PanelListViewTableView.h */,
+				8A453DBF2156818D009284A2 /* PanelListViewTableView.mm */,
+				8A453DC02156818D009284A2 /* PanelListViewColumnsMenu.strings */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		8A453E232156818D009284A2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8A453E242156818D009284A2 /* ConnectToServer.xib */,
+				8A453E262156818D009284A2 /* DropboxAccountSheetController.xib */,
+				8A453E282156818D009284A2 /* FTPConnectionSheetController.xib */,
+				8A453E2A2156818D009284A2 /* GoToFolderSheetController.xib */,
+				8A453E2C2156818D009284A2 /* NetworkShareSheetController.xib */,
+				8A453E2E2156818D009284A2 /* SFTPConnectionSheetController.xib */,
+				8A453E302156818D009284A2 /* SpotlightSearchPopupViewController.xib */,
+				8A453E322156818D009284A2 /* WebDAVConnectionSheetController.xib */,
+				8A453E342156818D009284A2 /* BriefSystemOverview.h */,
+				8A453E352156818D009284A2 /* BriefSystemOverview.mm */,
+				8A453E362156818D009284A2 /* ConnectionSheetProtocol.h */,
+				8A453E372156818D009284A2 /* ConnectToServer.h */,
+				8A453E382156818D009284A2 /* ConnectToServer.mm */,
+				8A453E392156818D009284A2 /* DropboxAccountSheetController.h */,
+				8A453E3A2156818D009284A2 /* DropboxAccountSheetController.mm */,
+				8A453E3B2156818D009284A2 /* FilePanelMainSplitView.h */,
+				8A453E3C2156818D009284A2 /* FilePanelMainSplitView.mm */,
+				8A453E3D2156818D009284A2 /* FilePanelOverlappedTerminal.h */,
+				8A453E3E2156818D009284A2 /* FilePanelOverlappedTerminal.mm */,
+				8A453E3F2156818D009284A2 /* FilePanelsTabbedHolder.h */,
+				8A453E402156818D009284A2 /* FilePanelsTabbedHolder.mm */,
+				8A453E412156818D009284A2 /* FTPConnectionSheetController.h */,
+				8A453E422156818D009284A2 /* FTPConnectionSheetController.mm */,
+				8A453E432156818D009284A2 /* GoToFolderSheetController.h */,
+				8A453E442156818D009284A2 /* GoToFolderSheetController.mm */,
+				8A453E452156818D009284A2 /* MainWndGoToButton.h */,
+				8A453E462156818D009284A2 /* MainWndGoToButton.mm */,
+				8A453E472156818D009284A2 /* NetworkShareSheetController.h */,
+				8A453E482156818D009284A2 /* NetworkShareSheetController.mm */,
+				8A453E492156818D009284A2 /* OIDRedirectHTTPHandler+FixedPort.h */,
+				8A453E4A2156818D009284A2 /* OIDRedirectHTTPHandler+FixedPort.mm */,
+				8A453E4B2156818D009284A2 /* QuickLookOverlay.h */,
+				8A453E4C2156818D009284A2 /* QuickLookOverlay.mm */,
+				8A453E4D2156818D009284A2 /* QuickLookPanel.h */,
+				8A453E4E2156818D009284A2 /* QuickLookPanel.mm */,
+				8A453E4F2156818D009284A2 /* QuickLookVFSBridge.h */,
+				8A453E502156818D009284A2 /* QuickLookVFSBridge.mm */,
+				8A453E512156818D009284A2 /* ConnectToServer.strings */,
+				8A453E532156818D009284A2 /* DropboxAccountSheetController.strings */,
+				8A453E552156818D009284A2 /* FTPConnectionSheetController.strings */,
+				8A453E572156818D009284A2 /* GoToFolderSheetController.strings */,
+				8A453E592156818D009284A2 /* NetworkShareSheetController.strings */,
+				8A453E5B2156818D009284A2 /* SFTPConnectionSheetController.strings */,
+				8A453E5D2156818D009284A2 /* SpotlightSearchPopupViewController.strings */,
+				8A453E5F2156818D009284A2 /* WebDAVConnectionSheetController.strings */,
+				8A453E612156818D009284A2 /* SelectionWithMaskPopupViewController.h */,
+				8A453E622156818D009284A2 /* SelectionWithMaskPopupViewController.mm */,
+				8A453E632156818D009284A2 /* SelectionWithMaskPopupViewController.xib */,
+				8A453E642156818D009284A2 /* SFTPConnectionSheetController.h */,
+				8A453E652156818D009284A2 /* SFTPConnectionSheetController.mm */,
+				8A453E662156818D009284A2 /* SpotlightSearchPopupViewController.h */,
+				8A453E672156818D009284A2 /* SpotlightSearchPopupViewController.mm */,
+				8A453E682156818D009284A2 /* TabBarStyle.h */,
+				8A453E692156818D009284A2 /* TabBarStyle.mm */,
+				8A453E6A2156818D009284A2 /* WebDAVConnectionSheetController.h */,
+				8A453E6B2156818D009284A2 /* WebDAVConnectionSheetController.mm */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8A453E6C2156818D009284A2 /* InternalViewer */ = {
+			isa = PBXGroup;
+			children = (
+				8A453E6D2156818D009284A2 /* MainWindowInternalViewerState.h */,
+				8A453E6E2156818D009284A2 /* MainWindowInternalViewerState.mm */,
+				8A453E6F2156818D009284A2 /* MainWindowInternalViewerState.xib */,
+			);
+			path = InternalViewer;
+			sourceTree = "<group>";
+		};
+		8A453E752156818D009284A2 /* Terminal */ = {
+			isa = PBXGroup;
+			children = (
+				8A453E762156818D009284A2 /* ExternalEditorState.h */,
+				8A453E772156818D009284A2 /* ExternalEditorState.mm */,
+				8A453E782156818D009284A2 /* SettingsAdaptor.h */,
+				8A453E792156818D009284A2 /* SettingsAdaptor.mm */,
+				8A453E7A2156818D009284A2 /* ShellState.h */,
+				8A453E7B2156818D009284A2 /* ShellState.mm */,
+			);
+			path = Terminal;
+			sourceTree = "<group>";
+		};
+		8A453E7C2156818D009284A2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8A453E7D2156818D009284A2 /* AliasBadgeIcon.icns */,
+				8A453E7E2156818D009284A2 /* Credits.rtf */,
+				8A453E802156818D009284A2 /* InfoPlist.strings */,
+				8A453E822156818D009284A2 /* Localizable.strings */,
+				8A453E842156818D009284A2 /* Config.json */,
+				8A453E852156818D009284A2 /* Files-Lite.entitlements */,
+				8A453E862156818D009284A2 /* Files-Pro.entitlements */,
+				8A453E872156818D009284A2 /* Help.pdf */,
+				8A453E882156818D009284A2 /* main_icon.icns */,
+				8A453E892156818D009284A2 /* Media.xcassets */,
+				8A453E8A2156818D009284A2 /* NimbleCommander Tests-Info.plist */,
+				8A453E8B2156818D009284A2 /* NimbleCommander-CI-Info.plist */,
+				8A453E8C2156818D009284A2 /* NimbleCommander-Info.plist */,
+				8A453E8D2156818D009284A2 /* NimbleCommander-MAS-Free-Info.plist */,
+				8A453E8E2156818D009284A2 /* NimbleCommander-Pro-Info.plist */,
+				8A453E912156818E009284A2 /* SparkleDSA_Pub.pem */,
+				8A453E922156818E009284A2 /* State.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8A453E932156818E009284A2 /* GeneralUI */ = {
+			isa = PBXGroup;
+			children = (
+				8A453E942156818E009284A2 /* AskForPasswordWindowController.h */,
+				8A453E952156818E009284A2 /* AskForPasswordWindowController.mm */,
+				8A453E962156818E009284A2 /* AskForPasswordWindowController.xib */,
+				8A453E982156818E009284A2 /* CalculateChecksumSheetController.xib */,
+				8A453E9A2156818E009284A2 /* DetailedVolumeInformationSheetController.xib */,
+				8A453E9C2156818E009284A2 /* FeedbackWindow.xib */,
+				8A453E9E2156818E009284A2 /* ProcessSheetController.xib */,
+				8A453EA02156818E009284A2 /* ProFeaturesWindowController.xib */,
+				8A453EA22156818E009284A2 /* RegistrationInfoWindow.xib */,
+				8A453EA42156818E009284A2 /* VFSListWindowController.xib */,
+				8A453EA62156818E009284A2 /* CalculateChecksumSheetController.h */,
+				8A453EA72156818E009284A2 /* CalculateChecksumSheetController.mm */,
+				8A453EA82156818E009284A2 /* DetailedVolumeInformationSheetController.h */,
+				8A453EA92156818E009284A2 /* DetailedVolumeInformationSheetController.mm */,
+				8A453EAA2156818E009284A2 /* FeedbackWindow.h */,
+				8A453EAB2156818E009284A2 /* FeedbackWindow.mm */,
+				8A453EAC2156818E009284A2 /* FilterPopUpMenu.h */,
+				8A453EAD2156818E009284A2 /* FilterPopUpMenu.mm */,
+				8A453EAE2156818E009284A2 /* ProcessSheetController.h */,
+				8A453EAF2156818E009284A2 /* ProcessSheetController.mm */,
+				8A453EB02156818E009284A2 /* ProFeaturesWindowController.h */,
+				8A453EB12156818E009284A2 /* ProFeaturesWindowController.mm */,
+				8A453EB22156818E009284A2 /* RegistrationInfoWindow.h */,
+				8A453EB32156818E009284A2 /* RegistrationInfoWindow.mm */,
+				8A453EB42156818E009284A2 /* AskForPasswordWindowController.strings */,
+				8A453EB62156818E009284A2 /* CalculateChecksumSheetController.strings */,
+				8A453EB82156818E009284A2 /* DetailedVolumeInformationSheetController.strings */,
+				8A453EBA2156818E009284A2 /* FeedbackWindow.strings */,
+				8A453EBC2156818E009284A2 /* ProcessSheetController.strings */,
+				8A453EBE2156818E009284A2 /* ProFeaturesWindowController.strings */,
+				8A453EC02156818E009284A2 /* RegistrationInfoWindow.strings */,
+				8A453EC22156818E009284A2 /* VFSListWindowController.strings */,
+				8A453EC42156818E009284A2 /* TrialWindowController.h */,
+				8A453EC52156818E009284A2 /* TrialWindowController.mm */,
+				8A453EC62156818E009284A2 /* TrialWindowController.xib */,
+				8A453EC72156818E009284A2 /* VFSListWindowController.h */,
+				8A453EC82156818E009284A2 /* VFSListWindowController.mm */,
+			);
+			path = GeneralUI;
+			sourceTree = "<group>";
+		};
 		8A548D6D2154EE410047A5B2 = {
 			isa = PBXGroup;
 			children = (
@@ -6081,6 +7376,14 @@
 		8A548D782154EE410047A5B2 /* NimbleCommander */ = {
 			isa = PBXGroup;
 			children = (
+				8A453CE82156818D009284A2 /* Bootstrap */,
+				8A453C492156818C009284A2 /* Core */,
+				8A453E932156818E009284A2 /* GeneralUI */,
+				8A453C982156818C009284A2 /* Preferences */,
+				8A453E7C2156818D009284A2 /* Resources */,
+				8A453D052156818D009284A2 /* States */,
+				8A453C242156818C009284A2 /* Tests */,
+				8A453C262156818C009284A2 /* Viewer */,
 			);
 			path = NimbleCommander;
 			sourceTree = "<group>";
@@ -14535,6 +15838,651 @@
 				8A453B7221568144009284A2 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8A453C272156818C009284A2 /* BigFileViewSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C282156818C009284A2 /* Base */,
+			);
+			name = BigFileViewSheet.xib;
+			sourceTree = "<group>";
+		};
+		8A453C292156818C009284A2 /* InternalViewerController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C2A2156818C009284A2 /* Base */,
+			);
+			name = InternalViewerController.xib;
+			sourceTree = "<group>";
+		};
+		8A453C2B2156818C009284A2 /* InternalViewerToolbar.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C2C2156818C009284A2 /* Base */,
+			);
+			name = InternalViewerToolbar.xib;
+			sourceTree = "<group>";
+		};
+		8A453C432156818C009284A2 /* BigFileViewSheet.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C442156818C009284A2 /* ru */,
+			);
+			name = BigFileViewSheet.strings;
+			sourceTree = "<group>";
+		};
+		8A453C452156818C009284A2 /* InternalViewerController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C462156818C009284A2 /* ru */,
+			);
+			name = InternalViewerController.strings;
+			sourceTree = "<group>";
+		};
+		8A453C472156818C009284A2 /* InternalViewerToolbar.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C482156818C009284A2 /* ru */,
+			);
+			name = InternalViewerToolbar.strings;
+			sourceTree = "<group>";
+		};
+		8A453C992156818C009284A2 /* Preferences.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C9A2156818C009284A2 /* Base */,
+				8A453CCF2156818C009284A2 /* ru */,
+			);
+			name = Preferences.strings;
+			sourceTree = "<group>";
+		};
+		8A453C9B2156818C009284A2 /* PreferencesWindowExternalEditorsTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C9C2156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowExternalEditorsTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453C9D2156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453C9E2156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowExternalEditorsTabNewEditorSheet.xib;
+			sourceTree = "<group>";
+		};
+		8A453C9F2156818C009284A2 /* PreferencesWindowGeneralTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CA02156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowGeneralTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453CA12156818C009284A2 /* PreferencesWindowHotkeysTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CA22156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowHotkeysTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453CA32156818C009284A2 /* PreferencesWindowPanelsTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CA42156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowPanelsTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453CA52156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CA62156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowPanelsTabColoringFilterSheet.xib;
+			sourceTree = "<group>";
+		};
+		8A453CA72156818C009284A2 /* PreferencesWindowTerminalTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CA82156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowTerminalTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453CA92156818C009284A2 /* PreferencesWindowThemesTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CAA2156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowThemesTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453CAB2156818C009284A2 /* PreferencesWindowThemesTabColoringRulesControl.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CAC2156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowThemesTabColoringRulesControl.xib;
+			sourceTree = "<group>";
+		};
+		8A453CAD2156818C009284A2 /* PreferencesWindowThemesTabImportSheet.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CAE2156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowThemesTabImportSheet.xib;
+			sourceTree = "<group>";
+		};
+		8A453CAF2156818C009284A2 /* PreferencesWindowToolsTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CB02156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowToolsTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453CB12156818C009284A2 /* PreferencesWindowViewerTab.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CB22156818C009284A2 /* Base */,
+			);
+			name = PreferencesWindowViewerTab.xib;
+			sourceTree = "<group>";
+		};
+		8A453CD02156818C009284A2 /* PreferencesWindowExternalEditorsTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CD12156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowExternalEditorsTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CD22156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CD32156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowExternalEditorsTabNewEditorSheet.strings;
+			sourceTree = "<group>";
+		};
+		8A453CD42156818C009284A2 /* PreferencesWindowGeneralTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CD52156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowGeneralTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CD62156818C009284A2 /* PreferencesWindowHotkeysTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CD72156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowHotkeysTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CD82156818C009284A2 /* PreferencesWindowPanelsTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CD92156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowPanelsTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CDA2156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CDB2156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowPanelsTabColoringFilterSheet.strings;
+			sourceTree = "<group>";
+		};
+		8A453CDC2156818C009284A2 /* PreferencesWindowTerminalTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CDD2156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowTerminalTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CDE2156818C009284A2 /* PreferencesWindowThemesTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CDF2156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowThemesTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CE02156818C009284A2 /* PreferencesWindowThemesTabColoringRulesControl.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CE12156818C009284A2 /* ru */,
+			);
+			name = PreferencesWindowThemesTabColoringRulesControl.strings;
+			sourceTree = "<group>";
+		};
+		8A453CE22156818D009284A2 /* PreferencesWindowThemesTabImportSheet.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CE32156818D009284A2 /* ru */,
+			);
+			name = PreferencesWindowThemesTabImportSheet.strings;
+			sourceTree = "<group>";
+		};
+		8A453CE42156818D009284A2 /* PreferencesWindowToolsTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CE52156818D009284A2 /* ru */,
+			);
+			name = PreferencesWindowToolsTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CE62156818D009284A2 /* PreferencesWindowViewerTab.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CE72156818D009284A2 /* ru */,
+			);
+			name = PreferencesWindowViewerTab.strings;
+			sourceTree = "<group>";
+		};
+		8A453CF62156818D009284A2 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453CF72156818D009284A2 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		8A453D012156818D009284A2 /* MainMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453D022156818D009284A2 /* ru */,
+			);
+			name = MainMenu.strings;
+			sourceTree = "<group>";
+		};
+		8A453D602156818D009284A2 /* ExternalToolParameterValueSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453D612156818D009284A2 /* Base */,
+			);
+			name = ExternalToolParameterValueSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453D622156818D009284A2 /* FavoritesWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453D632156818D009284A2 /* Base */,
+			);
+			name = FavoritesWindowController.xib;
+			sourceTree = "<group>";
+		};
+		8A453D642156818D009284A2 /* FilePanelsContextMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453D652156818D009284A2 /* Base */,
+				8A453E132156818D009284A2 /* ru */,
+			);
+			name = FilePanelsContextMenu.strings;
+			sourceTree = "<group>";
+		};
+		8A453D662156818D009284A2 /* FilePanelsQuickSearch.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453D672156818D009284A2 /* Base */,
+				8A453E142156818D009284A2 /* ru */,
+			);
+			name = FilePanelsQuickSearch.strings;
+			sourceTree = "<group>";
+		};
+		8A453D682156818D009284A2 /* FindFilesSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453D692156818D009284A2 /* Base */,
+			);
+			name = FindFilesSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453D6A2156818D009284A2 /* PanelViewHeaderSortPopup.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453D6B2156818D009284A2 /* Base */,
+			);
+			name = PanelViewHeaderSortPopup.xib;
+			sourceTree = "<group>";
+		};
+		8A453DA82156818D009284A2 /* PanelListViewColumnsMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453DA92156818D009284A2 /* Base */,
+			);
+			name = PanelListViewColumnsMenu.xib;
+			sourceTree = "<group>";
+		};
+		8A453DC02156818D009284A2 /* PanelListViewColumnsMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453DC12156818D009284A2 /* ru */,
+			);
+			name = PanelListViewColumnsMenu.strings;
+			sourceTree = "<group>";
+		};
+		8A453E0F2156818D009284A2 /* ExternalToolParameterValueSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E102156818D009284A2 /* ru */,
+			);
+			name = ExternalToolParameterValueSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E112156818D009284A2 /* FavoritesWindowController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E122156818D009284A2 /* ru */,
+			);
+			name = FavoritesWindowController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E152156818D009284A2 /* FindFilesSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E162156818D009284A2 /* ru */,
+			);
+			name = FindFilesSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E172156818D009284A2 /* PanelViewHeaderSortPopup.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E182156818D009284A2 /* ru */,
+			);
+			name = PanelViewHeaderSortPopup.strings;
+			sourceTree = "<group>";
+		};
+		8A453E242156818D009284A2 /* ConnectToServer.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E252156818D009284A2 /* Base */,
+			);
+			name = ConnectToServer.xib;
+			sourceTree = "<group>";
+		};
+		8A453E262156818D009284A2 /* DropboxAccountSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E272156818D009284A2 /* Base */,
+			);
+			name = DropboxAccountSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E282156818D009284A2 /* FTPConnectionSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E292156818D009284A2 /* Base */,
+			);
+			name = FTPConnectionSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E2A2156818D009284A2 /* GoToFolderSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E2B2156818D009284A2 /* Base */,
+			);
+			name = GoToFolderSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E2C2156818D009284A2 /* NetworkShareSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E2D2156818D009284A2 /* Base */,
+			);
+			name = NetworkShareSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E2E2156818D009284A2 /* SFTPConnectionSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E2F2156818D009284A2 /* Base */,
+			);
+			name = SFTPConnectionSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E302156818D009284A2 /* SpotlightSearchPopupViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E312156818D009284A2 /* Base */,
+			);
+			name = SpotlightSearchPopupViewController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E322156818D009284A2 /* WebDAVConnectionSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E332156818D009284A2 /* Base */,
+			);
+			name = WebDAVConnectionSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E512156818D009284A2 /* ConnectToServer.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E522156818D009284A2 /* ru */,
+			);
+			name = ConnectToServer.strings;
+			sourceTree = "<group>";
+		};
+		8A453E532156818D009284A2 /* DropboxAccountSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E542156818D009284A2 /* ru */,
+			);
+			name = DropboxAccountSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E552156818D009284A2 /* FTPConnectionSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E562156818D009284A2 /* ru */,
+			);
+			name = FTPConnectionSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E572156818D009284A2 /* GoToFolderSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E582156818D009284A2 /* ru */,
+			);
+			name = GoToFolderSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E592156818D009284A2 /* NetworkShareSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E5A2156818D009284A2 /* ru */,
+			);
+			name = NetworkShareSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E5B2156818D009284A2 /* SFTPConnectionSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E5C2156818D009284A2 /* ru */,
+			);
+			name = SFTPConnectionSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E5D2156818D009284A2 /* SpotlightSearchPopupViewController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E5E2156818D009284A2 /* ru */,
+			);
+			name = SpotlightSearchPopupViewController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E5F2156818D009284A2 /* WebDAVConnectionSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E602156818D009284A2 /* ru */,
+			);
+			name = WebDAVConnectionSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453E7E2156818D009284A2 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E7F2156818D009284A2 /* Base */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		8A453E802156818D009284A2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E812156818D009284A2 /* Base */,
+				8A453E8F2156818D009284A2 /* ru */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8A453E822156818D009284A2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E832156818D009284A2 /* Base */,
+				8A453E902156818D009284A2 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		8A453E962156818E009284A2 /* AskForPasswordWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E972156818E009284A2 /* Base */,
+			);
+			name = AskForPasswordWindowController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E982156818E009284A2 /* CalculateChecksumSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E992156818E009284A2 /* Base */,
+			);
+			name = CalculateChecksumSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E9A2156818E009284A2 /* DetailedVolumeInformationSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E9B2156818E009284A2 /* Base */,
+			);
+			name = DetailedVolumeInformationSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453E9C2156818E009284A2 /* FeedbackWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E9D2156818E009284A2 /* Base */,
+			);
+			name = FeedbackWindow.xib;
+			sourceTree = "<group>";
+		};
+		8A453E9E2156818E009284A2 /* ProcessSheetController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453E9F2156818E009284A2 /* Base */,
+			);
+			name = ProcessSheetController.xib;
+			sourceTree = "<group>";
+		};
+		8A453EA02156818E009284A2 /* ProFeaturesWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EA12156818E009284A2 /* Base */,
+			);
+			name = ProFeaturesWindowController.xib;
+			sourceTree = "<group>";
+		};
+		8A453EA22156818E009284A2 /* RegistrationInfoWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EA32156818E009284A2 /* Base */,
+			);
+			name = RegistrationInfoWindow.xib;
+			sourceTree = "<group>";
+		};
+		8A453EA42156818E009284A2 /* VFSListWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EA52156818E009284A2 /* Base */,
+			);
+			name = VFSListWindowController.xib;
+			sourceTree = "<group>";
+		};
+		8A453EB42156818E009284A2 /* AskForPasswordWindowController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EB52156818E009284A2 /* ru */,
+			);
+			name = AskForPasswordWindowController.strings;
+			sourceTree = "<group>";
+		};
+		8A453EB62156818E009284A2 /* CalculateChecksumSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EB72156818E009284A2 /* ru */,
+			);
+			name = CalculateChecksumSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453EB82156818E009284A2 /* DetailedVolumeInformationSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EB92156818E009284A2 /* ru */,
+			);
+			name = DetailedVolumeInformationSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453EBA2156818E009284A2 /* FeedbackWindow.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EBB2156818E009284A2 /* ru */,
+			);
+			name = FeedbackWindow.strings;
+			sourceTree = "<group>";
+		};
+		8A453EBC2156818E009284A2 /* ProcessSheetController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EBD2156818E009284A2 /* ru */,
+			);
+			name = ProcessSheetController.strings;
+			sourceTree = "<group>";
+		};
+		8A453EBE2156818E009284A2 /* ProFeaturesWindowController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EBF2156818E009284A2 /* ru */,
+			);
+			name = ProFeaturesWindowController.strings;
+			sourceTree = "<group>";
+		};
+		8A453EC02156818E009284A2 /* RegistrationInfoWindow.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EC12156818E009284A2 /* ru */,
+			);
+			name = RegistrationInfoWindow.strings;
+			sourceTree = "<group>";
+		};
+		8A453EC22156818E009284A2 /* VFSListWindowController.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A453EC32156818E009284A2 /* ru */,
+			);
+			name = VFSListWindowController.strings;
 			sourceTree = "<group>";
 		};
 		8A67B6C52156725100E92BC9 /* DeletionDialog.xib */ = {
