@@ -1,7 +1,6 @@
 // Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "NCPanelOpenWithMenuDelegate.h"
 #include <NimbleCommander/Core/LaunchServices.h>
-#include <Sparkle/Sparkle.h>
 #include <VFS/VFS.h>
 #include "PanelAux.h"
 #include "PanelController.h"
@@ -25,6 +24,7 @@ static void SortAndPurgeDuplicateHandlers(vector<LaunchServiceHandler> &_handler
         return [_1st.Name() localizedCompare:_2nd.Name()] < 0;
     });
 
+#if 0
     for(int i = 0; i < (int)_handlers.size() - 1;) {
         if([_handlers[i].Name() isEqualToString:_handlers[i+1].Name()] &&
            [_handlers[i].Identifier() isEqualToString:_handlers[i+1].Identifier()]){
@@ -44,6 +44,7 @@ static void SortAndPurgeDuplicateHandlers(vector<LaunchServiceHandler> &_handler
         }
         ++i;
     }
+#endif
 }
 
 static FetchResult FetchHandlers(const vector<VFSListingItem> &_items)
@@ -105,8 +106,8 @@ static FetchResult FetchHandlers(const vector<VFSListingItem> &_items)
 
 - (BOOL)menuHasKeyEquivalent:(NSMenu*)menu
                     forEvent:(NSEvent*)event
-                      target:(__nullable id* _Nullable)target
-                      action:(__nullable SEL* _Nullable)action
+                      target:(__nullable id*)target
+                      action:(__nullable SEL*)action
 {
     return false;
 }

@@ -1,6 +1,4 @@
 // Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <Sparkle/Sparkle.h>
-#include <LetsMove/PFMoveApplication.h>
 #include <Habanero/CommonPaths.h>
 #include <Habanero/CFDefaultsCPP.h>
 #include <Habanero/algo.h>
@@ -9,7 +7,7 @@
 #include <Utility/PathManip.h>
 #include <Utility/FunctionKeysPass.h>
 #include <RoutedIO/RoutedIO.h>
-#include "../../3rd_Party/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
+#include "ThirdParty/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
 #include <NimbleCommander/Core/TemporaryNativeFileStorage.h>
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
 #include <NimbleCommander/Core/SandboxManager.h>
@@ -51,8 +49,6 @@
 #include <NimbleCommander/Core/VFSInstanceManagerImpl.h>
 
 using namespace nc::bootstrap;
-
-static SUUpdater *g_Sparkle = nil;
 
 static auto g_ConfigDirPostfix = @"/Config/";
 static auto g_StateDirPostfix = @"/State/";
@@ -353,24 +349,7 @@ static NCAppDelegate *g_Me = nil;
     TemporaryNativeFileStorage::Instance(); // starting background purging implicitly
     
     auto &am = ActivationManager::Instance();
-    
-    // Non-MAS version stuff below:
-    if( !ActivationManager::ForAppStore() && !self.isRunningTests ) {
-        if( am.ShouldShowTrialNagScreen() ) // check if we should show a nag screen
-            dispatch_to_main_queue_after(500ms, []{ [TrialWindowController showTrialWindow]; });
 
-        // setup Sparkle updater stuff
-        g_Sparkle = [SUUpdater sharedUpdater];
-        NSMenuItem *item = [[NSMenuItem alloc] init];
-        item.title = NSLocalizedString(@"Check for Updates...", "Menu item title for check if any Nimble Commander updates are available");
-        item.target = g_Sparkle;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wselector"
-        item.action = @selector(checkForUpdates:);
-#pragma clang diagnostic pop
-        [[NSApp.mainMenu itemAtIndex:0].submenu insertItem:item atIndex:1];
-    }
-    
     // initialize stuff related with in-app purchases
     if( ActivationManager::Type() == ActivationManager::Distribution::Free ) {
         m_AppStoreHelper = [AppStoreHelper new];
@@ -394,9 +373,6 @@ static NCAppDelegate *g_Me = nil;
         am.IsTrialPeriod() == false )
         self.dock.SetUnregisteredBadge( true );
 
-    if( !ActivationManager::ForAppStore() && !self.isRunningTests )
-        PFMoveToApplicationsFolderIfNecessary();
-    
     ConfigWiring{GlobalConfig()}.Wire();
     
     [[NSNotificationCenter defaultCenter] addObserver:self

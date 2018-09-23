@@ -332,7 +332,7 @@ int BigFileViewText::CharIndexFromPoint(CGPoint _point)
     if(ind < 0)
         return -1;
 
-    ind = clamp(ind, 0, (int)line.unichar_no + (int)line.unichar_len - 1); // TODO: check if this is right
+    ind = std::clamp(ind, 0, (int)line.unichar_no + (int)line.unichar_len - 1); // TODO: check if this is right
     
     return ind;
 }
@@ -504,7 +504,7 @@ void BigFileViewText::MoveLinesDelta(int _delta)
                 assert(anchor_glob_offset > window_size/4); // internal logic check
                 // TODO: need something more intelligent here
                 uint64_t desired_window_offset = anchor_glob_offset - window_size/4;
-                desired_window_offset = clamp(desired_window_offset, 0ull, file_size - window_size);
+                desired_window_offset = std::clamp(desired_window_offset, 0ull, file_size - window_size);
                 
                 MoveFileWindowTo(desired_window_offset, anchor_glob_offset, anchor_pos_on_screen);
             }
@@ -659,7 +659,7 @@ void BigFileViewText::ScrollToByteOffset(uint64_t _offset)
         }
         else if(window_pos + window_size == file_size)
         { // trying to scroll below bottom
-            m_VerticalOffset = clamp((int)m_Lines.size()-m_FrameLines, 0, (int)m_Lines.size()-1);
+            m_VerticalOffset = std::clamp((int)m_Lines.size()-m_FrameLines, 0, (int)m_Lines.size()-1);
             [m_View setNeedsDisplay];
             return;
         }
@@ -669,7 +669,7 @@ void BigFileViewText::ScrollToByteOffset(uint64_t _offset)
     uint64_t desired_wnd_pos = _offset > window_size / 2 ?
                                 _offset - window_size / 2 :
                                 0;
-    desired_wnd_pos = clamp(desired_wnd_pos, 0ull, file_size - window_size);
+    desired_wnd_pos = std::clamp(desired_wnd_pos, 0ull, file_size - window_size);
     
     MoveFileWindowTo(desired_wnd_pos, _offset, 0);
     
@@ -872,7 +872,7 @@ void BigFileViewText::HandleSelectionWithTripleClick(NSEvent* event)
 void BigFileViewText::HandleSelectionWithDoubleClick(NSEvent* event)
 {
     NSPoint pt = [m_View convertPoint:[event locationInWindow] fromView:nil];
-    int uc_index = clamp(CharIndexFromPoint(pt), 0, (int)m_StringBufferSize);
+    int uc_index = std::clamp(CharIndexFromPoint(pt), 0, (int)m_StringBufferSize);
 
     __block int sel_start = 0, sel_end = 0;
     
@@ -914,14 +914,14 @@ void BigFileViewText::HandleSelectionWithMouseDragging(NSEvent* event)
     bool modifying_existing_selection = (event.modifierFlags & NSShiftKeyMask) ? true : false;
     
     NSPoint first_down = [m_View convertPoint:event.locationInWindow fromView:nil];
-    int first_ind = clamp(CharIndexFromPoint(first_down), 0, (int)m_StringBufferSize);
+    int first_ind = std::clamp(CharIndexFromPoint(first_down), 0, (int)m_StringBufferSize);
     
     CFRange orig_sel = [m_View SelectionWithinWindowUnichars];
     
     while (event.type != NSLeftMouseUp)
     {
         NSPoint curr_loc = [m_View convertPoint:event.locationInWindow fromView:nil];
-        int curr_ind = clamp(CharIndexFromPoint(curr_loc), 0, (int)m_StringBufferSize);
+        int curr_ind = std::clamp(CharIndexFromPoint(curr_loc), 0, (int)m_StringBufferSize);
         
         int base_ind = first_ind;
         if(modifying_existing_selection && orig_sel.length > 0)

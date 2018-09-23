@@ -835,7 +835,7 @@ shouldReorderColumn:(NSInteger)columnIndex
         
         auto layout = self.columnsLayout;
         
-        const auto t = find_if(begin(layout.columns),
+		const auto t = std::find_if(begin(layout.columns),
                                end(layout.columns),
                                [&](const auto &_i){ return _i.kind == kind;});
 

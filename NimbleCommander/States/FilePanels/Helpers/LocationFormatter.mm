@@ -1,7 +1,7 @@
 // Copyright (C) 2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "LocationFormatter.h"
 #include "../ListingPromise.h"
-#include <compose_visitors.hpp>
+#include <ThirdParty/compose_visitors.hpp>
 #include <VFS/Native.h>
 #include <NimbleCommander/Core/NetworkConnectionIconProvider.h>
 #include "../PanelDataPersistency.h"

@@ -1,7 +1,7 @@
 // Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/NSMenu+Hierarchical.h>
 #include <Utility/FunctionKeysPass.h>
-#import <3rd_Party/GTMHotKeyTextField/GTMHotKeyTextField.h>
+#import <ThirdParty/GTMHotKeyTextField/GTMHotKeyTextField.h>
 #include "../Core/ActionsShortcutsManager.h"
 #include "../States/FilePanels/ExternalToolsSupport.h"
 #include "../Bootstrap/ActivationManager.h"

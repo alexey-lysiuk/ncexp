@@ -39,8 +39,8 @@ using namespace nc::panel;
 
 - (BOOL)menuHasKeyEquivalent:(NSMenu*)menu
                     forEvent:(NSEvent*)event
-                      target:(__nullable id* _Nullable)target
-                      action:(__nullable SEL* _Nullable)action
+                      target:(__nullable id*)target
+                      action:(__nullable SEL*)action
 {
     if( m_RestoreLast.keyEquivalentModifierMask == event.modifierFlags &&
         [m_RestoreLast.keyEquivalent isEqualToString:event.charactersIgnoringModifiers] ) {

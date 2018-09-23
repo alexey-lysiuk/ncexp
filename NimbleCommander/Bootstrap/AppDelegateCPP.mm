@@ -1,6 +1,6 @@
 // Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/PathManip.h>
-#include "../../3rd_Party/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
+#include "ThirdParty/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
 #include "AppDelegate.h"
 #include "AppDelegateCPP.h"
 

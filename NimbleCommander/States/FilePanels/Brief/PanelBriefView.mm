@@ -309,7 +309,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
                 m_MaxFilenamePxWidth :
                 m_FilenamesPxWidths[index];
             width += 2*layout.inset_left + layout.icon_size + layout.inset_right;
-            width = clamp(width,
+			width = std::clamp(width,
                           m_ColumnsLayout.dynamic_width_min,
                           m_ColumnsLayout.dynamic_width_max );
             return NSMakeSize( width, layout.item_height );

@@ -71,6 +71,241 @@
 		8A4534F4215674BF009284A2 /* Progress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B72B2156725500E92BC9 /* Progress.cpp */; };
 		8A4534F5215674BF009284A2 /* Statistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B7512156725600E92BC9 /* Statistics.cpp */; };
 		8A4534F6215674BF009284A2 /* StatisticsFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6E42156725200E92BC9 /* StatisticsFormatter.mm */; };
+		8A453ECA21568228009284A2 /* AppDelegate+MainWindowCreation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CEC2156818D009284A2 /* AppDelegate+MainWindowCreation.mm */; };
+		8A453ECB21568228009284A2 /* AppDelegate+Migration.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CEE2156818D009284A2 /* AppDelegate+Migration.mm */; };
+		8A453ECC21568228009284A2 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF02156818D009284A2 /* AppDelegate.mm */; };
+		8A453ECD21568228009284A2 /* AppDelegateCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF32156818D009284A2 /* AppDelegateCPP.mm */; };
+		8A453ECE21568228009284A2 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF52156818D009284A2 /* Application.mm */; };
+		8A453ECF21568228009284A2 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF82156818D009284A2 /* Config.cpp */; };
+		8A453ED021568228009284A2 /* Config.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFA2156818D009284A2 /* Config.mm */; };
+		8A453ED121568228009284A2 /* ConfigWiring.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFC2156818D009284A2 /* ConfigWiring.mm */; };
+		8A453ED221568228009284A2 /* Interactions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFE2156818D009284A2 /* Interactions.mm */; };
+		8A453ED321568228009284A2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFF2156818D009284A2 /* main.cpp */; };
+		8A453ED421568228009284A2 /* VFSInit.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D042156818D009284A2 /* VFSInit.mm */; };
+		8A453ED6215682AD009284A2 /* libHabanero.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A548DBF2154F0870047A5B2 /* libHabanero.a */; };
+		8A453ED7215682AF009284A2 /* libUtility.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A171C4B2154F5760043D119 /* libUtility.a */; };
+		8A453ED8215682B1009284A2 /* libRoutedIO.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF05FDF2154FAEC00895FEF /* libRoutedIO.a */; };
+		8A453ED9215682B3009284A2 /* libTerm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF0731E2155191900895FEF /* libTerm.a */; };
+		8A453EDA215682C0009284A2 /* libVFS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF0D8E21566BA900BC1103 /* libVFS.a */; };
+		8A453EDB215682C5009284A2 /* libOperations.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A4534C32156729E009284A2 /* libOperations.a */; };
+		8A453EF821568310009284A2 /* libboost_system.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF073052155171F00895FEF /* libboost_system.a */; };
+		8A453EF921568314009284A2 /* libboost_filesystem.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF0730D2155172E00895FEF /* libboost_filesystem.a */; };
+		8A453EFA21568316009284A2 /* libunrar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AF073ED2155237600895FEF /* libunrar.a */; };
+		8A453EFB21568318009284A2 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF065A2156382600BC1103 /* libcrypto.a */; };
+		8A453EFC2156831C009284A2 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF09272156429300BC1103 /* libssl.a */; };
+		8A453EFD21568322009284A2 /* libarchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF0BEB215650F900BC1103 /* libarchive.a */; };
+		8A453EFE21568326009284A2 /* liblzma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF09AD21564B8600BC1103 /* liblzma.a */; };
+		8A453EFF2156832E009284A2 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF095B2156488D00BC1103 /* libssh2.a */; };
+		8A453F0021568E92009284A2 /* QLThumbnailsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C562156818C009284A2 /* QLThumbnailsCache.mm */; };
+		8A453F0121568E92009284A2 /* QLVFSThumbnailsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C582156818C009284A2 /* QLVFSThumbnailsCache.mm */; };
+		8A453F0221568E92009284A2 /* WorkspaceExtensionIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5A2156818C009284A2 /* WorkspaceExtensionIconsCache.mm */; };
+		8A453F0321568E92009284A2 /* WorkspaceIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5C2156818C009284A2 /* WorkspaceIconsCache.mm */; };
+		8A453F0421568EAF009284A2 /* CocoaAppearanceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C892156818C009284A2 /* CocoaAppearanceManager.mm */; };
+		8A453F0521568EAF009284A2 /* Theme.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C8B2156818C009284A2 /* Theme.mm */; };
+		8A453F0621568EAF009284A2 /* ThemePersistence.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C8D2156818C009284A2 /* ThemePersistence.mm */; };
+		8A453F0721568EAF009284A2 /* ThemesManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C8F2156818C009284A2 /* ThemesManager.mm */; };
+		8A453F0821568ED0009284A2 /* ActionShortcut.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C4B2156818C009284A2 /* ActionShortcut.mm */; };
+		8A453F0921568ED0009284A2 /* ActionsShortcutsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C4D2156818C009284A2 /* ActionsShortcutsManager.mm */; };
+		8A453F0A21568ED0009284A2 /* Alert.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C4F2156818C009284A2 /* Alert.mm */; };
+		8A453F0B21568ED0009284A2 /* AnyHolder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C512156818C009284A2 /* AnyHolder.mm */; };
+		8A453F0C21568ED0009284A2 /* AppStoreHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C532156818C009284A2 /* AppStoreHelper.mm */; };
+		8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */; };
+		8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */; };
+		8A453F0F21568ED0009284A2 /* Dock.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C622156818C009284A2 /* Dock.mm */; };
+		8A453F1021568ED0009284A2 /* FeedbackManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C642156818C009284A2 /* FeedbackManager.mm */; };
+		8A453F1121568ED0009284A2 /* FileMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C652156818C009284A2 /* FileMask.cpp */; };
+		8A453F1321568ED0009284A2 /* FileWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C682156818C009284A2 /* FileWindow.cpp */; };
+		8A453F1621568ED0009284A2 /* LaunchServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C6E2156818C009284A2 /* LaunchServices.mm */; };
+		8A453F1721568ED0009284A2 /* NetworkConnectionIconProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C732156818C009284A2 /* NetworkConnectionIconProvider.mm */; };
+		8A453F1821568ED0009284A2 /* NetworkConnectionsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C752156818C009284A2 /* NetworkConnectionsManager.mm */; };
+		8A453F1921568ED0009284A2 /* rapidjson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C762156818C009284A2 /* rapidjson.cpp */; };
+		8A453F1A21568ED0009284A2 /* SandboxManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7A2156818C009284A2 /* SandboxManager.mm */; };
+		8A453F1B21568ED0009284A2 /* SearchForFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7B2156818C009284A2 /* SearchForFiles.cpp */; };
+		8A453F1C21568ED0009284A2 /* SearchInFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7D2156818C009284A2 /* SearchInFile.cpp */; };
+		8A453F1D21568ED0009284A2 /* ServicesHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C802156818C009284A2 /* ServicesHandler.mm */; };
+		8A453F1E21568ED0009284A2 /* SimpleComboBoxPersistentDataSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C822156818C009284A2 /* SimpleComboBoxPersistentDataSource.mm */; };
+		8A453F1F21568ED0009284A2 /* TemporaryNativeFileChangesSentinel.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C832156818C009284A2 /* TemporaryNativeFileChangesSentinel.cpp */; };
+		8A453F2021568ED0009284A2 /* TemporaryNativeFileStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C852156818C009284A2 /* TemporaryNativeFileStorage.cpp */; };
+		8A453F2121568ED0009284A2 /* UserNotificationsCenter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C912156818C009284A2 /* UserNotificationsCenter.mm */; };
+		8A453F2221568ED0009284A2 /* VFSInstanceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C922156818C009284A2 /* VFSInstanceManager.cpp */; };
+		8A453F2321568ED0009284A2 /* VFSInstanceManagerImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C942156818C009284A2 /* VFSInstanceManagerImpl.cpp */; };
+		8A453F2421568ED0009284A2 /* VFSInstancePromise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C962156818C009284A2 /* VFSInstancePromise.cpp */; };
+		8A453F2521568FD8009284A2 /* AskForPasswordWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E952156818E009284A2 /* AskForPasswordWindowController.mm */; };
+		8A453F2621568FD8009284A2 /* CalculateChecksumSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EA72156818E009284A2 /* CalculateChecksumSheetController.mm */; };
+		8A453F2721568FD8009284A2 /* DetailedVolumeInformationSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EA92156818E009284A2 /* DetailedVolumeInformationSheetController.mm */; };
+		8A453F2821568FD8009284A2 /* FeedbackWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAB2156818E009284A2 /* FeedbackWindow.mm */; };
+		8A453F2921568FD8009284A2 /* FilterPopUpMenu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAD2156818E009284A2 /* FilterPopUpMenu.mm */; };
+		8A453F2A21568FD8009284A2 /* ProcessSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAF2156818E009284A2 /* ProcessSheetController.mm */; };
+		8A453F2B21568FD8009284A2 /* ProFeaturesWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EB12156818E009284A2 /* ProFeaturesWindowController.mm */; };
+		8A453F2C21568FD8009284A2 /* RegistrationInfoWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EB32156818E009284A2 /* RegistrationInfoWindow.mm */; };
+		8A453F2D21568FD8009284A2 /* TrialWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EC52156818E009284A2 /* TrialWindowController.mm */; };
+		8A453F2E21568FD8009284A2 /* VFSListWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EC82156818E009284A2 /* VFSListWindowController.mm */; };
+		8A453F2F21568FF1009284A2 /* Preferences.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CB42156818C009284A2 /* Preferences.mm */; };
+		8A453F3021568FF1009284A2 /* PreferencesWindowExternalEditorsTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CB62156818C009284A2 /* PreferencesWindowExternalEditorsTab.mm */; };
+		8A453F3121568FF1009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CB82156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.mm */; };
+		8A453F3221568FF1009284A2 /* PreferencesWindowGeneralTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CBA2156818C009284A2 /* PreferencesWindowGeneralTab.mm */; };
+		8A453F3321568FF1009284A2 /* PreferencesWindowHotkeysTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CBC2156818C009284A2 /* PreferencesWindowHotkeysTab.mm */; };
+		8A453F3421568FF1009284A2 /* PreferencesWindowPanelsTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CBE2156818C009284A2 /* PreferencesWindowPanelsTab.mm */; };
+		8A453F3521568FF1009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CC02156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.mm */; };
+		8A453F3621568FF1009284A2 /* PreferencesWindowTerminalTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CC22156818C009284A2 /* PreferencesWindowTerminalTab.mm */; };
+		8A453F3721568FF1009284A2 /* PreferencesWindowThemesControls.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CC42156818C009284A2 /* PreferencesWindowThemesControls.mm */; };
+		8A453F3821568FF1009284A2 /* PreferencesWindowThemesTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CC62156818C009284A2 /* PreferencesWindowThemesTab.mm */; };
+		8A453F3921568FF1009284A2 /* PreferencesWindowThemesTabImportSheet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CC82156818C009284A2 /* PreferencesWindowThemesTabImportSheet.mm */; };
+		8A453F3A21568FF1009284A2 /* PreferencesWindowThemesTabModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CCA2156818C009284A2 /* PreferencesWindowThemesTabModel.mm */; };
+		8A453F3B21568FF1009284A2 /* PreferencesWindowToolsTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CCC2156818C009284A2 /* PreferencesWindowToolsTab.mm */; };
+		8A453F3C21568FF1009284A2 /* PreferencesWindowViewerTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CCE2156818C009284A2 /* PreferencesWindowViewerTab.mm */; };
+		8A453F3D215690C7009284A2 /* AddToFavorites.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D092156818D009284A2 /* AddToFavorites.mm */; };
+		8A453F3E215690C7009284A2 /* BatchRename.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D0B2156818D009284A2 /* BatchRename.mm */; };
+		8A453F3F215690C7009284A2 /* CalculateChecksum.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D0D2156818D009284A2 /* CalculateChecksum.mm */; };
+		8A453F40215690C7009284A2 /* CalculateSizes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D0F2156818D009284A2 /* CalculateSizes.mm */; };
+		8A453F41215690C7009284A2 /* ChangeAttributes.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D112156818D009284A2 /* ChangeAttributes.mm */; };
+		8A453F42215690C7009284A2 /* Compress.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D132156818D009284A2 /* Compress.mm */; };
+		8A453F43215690C7009284A2 /* CopyFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D152156818D009284A2 /* CopyFile.mm */; };
+		8A453F44215690C7009284A2 /* CopyFilePaths.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D172156818D009284A2 /* CopyFilePaths.mm */; };
+		8A453F45215690C7009284A2 /* CopyToPasteboard.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D192156818D009284A2 /* CopyToPasteboard.mm */; };
+		8A453F46215690C7009284A2 /* DefaultAction.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D1B2156818D009284A2 /* DefaultAction.mm */; };
+		8A453F47215690C7009284A2 /* Delete.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D1D2156818D009284A2 /* Delete.mm */; };
+		8A453F48215690C7009284A2 /* Duplicate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D1F2156818D009284A2 /* Duplicate.mm */; };
+		8A453F49215690C7009284A2 /* EjectVolume.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D212156818D009284A2 /* EjectVolume.mm */; };
+		8A453F4A215690C7009284A2 /* Enter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D232156818D009284A2 /* Enter.mm */; };
+		8A453F4B215690C7009284A2 /* ExecuteExternalTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D252156818D009284A2 /* ExecuteExternalTool.mm */; };
+		8A453F4C215690C7009284A2 /* ExecuteInTerminal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D272156818D009284A2 /* ExecuteInTerminal.mm */; };
+		8A453F4D215690C7009284A2 /* FindFiles.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D292156818D009284A2 /* FindFiles.mm */; };
+		8A453F4E215690C7009284A2 /* GoToFolder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D2B2156818D009284A2 /* GoToFolder.mm */; };
+		8A453F4F215690C7009284A2 /* InsertFromPasteboard.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D2D2156818D009284A2 /* InsertFromPasteboard.mm */; };
+		8A453F50215690C7009284A2 /* Link.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D2F2156818D009284A2 /* Link.mm */; };
+		8A453F51215690C7009284A2 /* MakeNew.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D312156818D009284A2 /* MakeNew.mm */; };
+		8A453F52215690C7009284A2 /* NavigateHistory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D332156818D009284A2 /* NavigateHistory.mm */; };
+		8A453F53215690C7009284A2 /* OpenFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D352156818D009284A2 /* OpenFile.mm */; };
+		8A453F54215690C7009284A2 /* OpenNetworkConnection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D372156818D009284A2 /* OpenNetworkConnection.mm */; };
+		8A453F55215690C7009284A2 /* OpenWithExternalEditor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D392156818D009284A2 /* OpenWithExternalEditor.mm */; };
+		8A453F56215690C7009284A2 /* OpenXAttr.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D3B2156818D009284A2 /* OpenXAttr.mm */; };
+		8A453F57215690C7009284A2 /* RefreshPanel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D3D2156818D009284A2 /* RefreshPanel.mm */; };
+		8A453F58215690C7009284A2 /* RenameInPlace.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D3F2156818D009284A2 /* RenameInPlace.mm */; };
+		8A453F59215690C7009284A2 /* RevealInOppositePanel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D412156818D009284A2 /* RevealInOppositePanel.mm */; };
+		8A453F5A215690C7009284A2 /* Select.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D432156818D009284A2 /* Select.mm */; };
+		8A453F5B215690C7009284A2 /* ShowGoToPopup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D452156818D009284A2 /* ShowGoToPopup.mm */; };
+		8A453F5C215690C7009284A2 /* ShowQuickLook.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D472156818D009284A2 /* ShowQuickLook.mm */; };
+		8A453F5D215690C7009284A2 /* ShowSystemOverview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D492156818D009284A2 /* ShowSystemOverview.mm */; };
+		8A453F5E215690C7009284A2 /* ShowTabs.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D4B2156818D009284A2 /* ShowTabs.mm */; };
+		8A453F5F215690C7009284A2 /* ShowTerminal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D4D2156818D009284A2 /* ShowTerminal.mm */; };
+		8A453F60215690C7009284A2 /* ShowVolumeInformation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D4F2156818D009284A2 /* ShowVolumeInformation.mm */; };
+		8A453F61215690C7009284A2 /* SpotlightSearch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D512156818D009284A2 /* SpotlightSearch.mm */; };
+		8A453F62215690C7009284A2 /* SyncPanels.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D532156818D009284A2 /* SyncPanels.mm */; };
+		8A453F63215690C7009284A2 /* TabsManagement.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D552156818D009284A2 /* TabsManagement.mm */; };
+		8A453F64215690C7009284A2 /* ToggleLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D572156818D009284A2 /* ToggleLayout.mm */; };
+		8A453F65215690C7009284A2 /* ToggleSingleOrDualMode.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D592156818D009284A2 /* ToggleSingleOrDualMode.mm */; };
+		8A453F66215690C7009284A2 /* ToggleSort.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D5B2156818D009284A2 /* ToggleSort.mm */; };
+		8A453F67215690C7009284A2 /* ViewFile.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D5D2156818D009284A2 /* ViewFile.mm */; };
+		8A453F68215690D5009284A2 /* Layout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D6E2156818D009284A2 /* Layout.mm */; };
+		8A453F69215690D5009284A2 /* PanelBriefView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D702156818D009284A2 /* PanelBriefView.mm */; };
+		8A453F6A215690D5009284A2 /* PanelBriefViewCollectionView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D722156818D009284A2 /* PanelBriefViewCollectionView.mm */; };
+		8A453F6B215690D5009284A2 /* PanelBriefViewCollectionViewBackground.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D742156818D009284A2 /* PanelBriefViewCollectionViewBackground.mm */; };
+		8A453F6C215690D5009284A2 /* PanelBriefViewCollectionViewItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D762156818D009284A2 /* PanelBriefViewCollectionViewItem.mm */; };
+		8A453F6D215690D5009284A2 /* PanelBriefViewCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D782156818D009284A2 /* PanelBriefViewCollectionViewLayout.mm */; };
+		8A453F6E215690D5009284A2 /* PanelBriefViewItemCarrier.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D7A2156818D009284A2 /* PanelBriefViewItemCarrier.mm */; };
+		8A453F6F215690D5009284A2 /* TextWidthsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D7C2156818D009284A2 /* TextWidthsCache.mm */; };
+		8A453F70215690E1009284A2 /* ClosedPanelsHistoryImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D9D2156818D009284A2 /* ClosedPanelsHistoryImpl.cpp */; };
+		8A453F71215690E1009284A2 /* LocationFormatter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DA02156818D009284A2 /* LocationFormatter.mm */; };
+		8A453F72215690E1009284A2 /* Pasteboard.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DA22156818D009284A2 /* Pasteboard.mm */; };
+		8A453F73215690E1009284A2 /* RecentlyClosedMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DA42156818D009284A2 /* RecentlyClosedMenuDelegate.mm */; };
+		8A453F74215690F7009284A2 /* Layout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DAB2156818D009284A2 /* Layout.mm */; };
+		8A453F75215690F7009284A2 /* PanelListView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DAD2156818D009284A2 /* PanelListView.mm */; };
+		8A453F76215690F7009284A2 /* PanelListViewDateFormatting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DAF2156818D009284A2 /* PanelListViewDateFormatting.mm */; };
+		8A453F77215690F7009284A2 /* PanelListViewDateTimeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB12156818D009284A2 /* PanelListViewDateTimeView.mm */; };
+		8A453F78215690F7009284A2 /* PanelListViewGeometry.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB32156818D009284A2 /* PanelListViewGeometry.mm */; };
+		8A453F79215690F7009284A2 /* PanelListViewNameView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB52156818D009284A2 /* PanelListViewNameView.mm */; };
+		8A453F7A215690F7009284A2 /* PanelListViewRowView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB72156818D009284A2 /* PanelListViewRowView.mm */; };
+		8A453F7B215690F7009284A2 /* PanelListViewSizeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB92156818D009284A2 /* PanelListViewSizeView.mm */; };
+		8A453F7C215690F7009284A2 /* PanelListViewTableHeaderCell.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DBB2156818D009284A2 /* PanelListViewTableHeaderCell.mm */; };
+		8A453F7D215690F7009284A2 /* PanelListViewTableHeaderView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DBD2156818D009284A2 /* PanelListViewTableHeaderView.mm */; };
+		8A453F7E215690F7009284A2 /* PanelListViewTableView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DBF2156818D009284A2 /* PanelListViewTableView.mm */; };
+		8A453F7F21569111009284A2 /* BriefSystemOverview.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E352156818D009284A2 /* BriefSystemOverview.mm */; };
+		8A453F8021569111009284A2 /* ConnectToServer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E382156818D009284A2 /* ConnectToServer.mm */; };
+		8A453F8121569111009284A2 /* DropboxAccountSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E3A2156818D009284A2 /* DropboxAccountSheetController.mm */; };
+		8A453F8221569111009284A2 /* FilePanelMainSplitView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E3C2156818D009284A2 /* FilePanelMainSplitView.mm */; };
+		8A453F8321569111009284A2 /* FilePanelOverlappedTerminal.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E3E2156818D009284A2 /* FilePanelOverlappedTerminal.mm */; };
+		8A453F8421569111009284A2 /* FilePanelsTabbedHolder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E402156818D009284A2 /* FilePanelsTabbedHolder.mm */; };
+		8A453F8521569111009284A2 /* FTPConnectionSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E422156818D009284A2 /* FTPConnectionSheetController.mm */; };
+		8A453F8621569111009284A2 /* GoToFolderSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E442156818D009284A2 /* GoToFolderSheetController.mm */; };
+		8A453F8821569111009284A2 /* NetworkShareSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E482156818D009284A2 /* NetworkShareSheetController.mm */; };
+		8A453F8921569111009284A2 /* OIDRedirectHTTPHandler+FixedPort.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E4A2156818D009284A2 /* OIDRedirectHTTPHandler+FixedPort.mm */; };
+		8A453F8A21569111009284A2 /* QuickLookOverlay.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E4C2156818D009284A2 /* QuickLookOverlay.mm */; };
+		8A453F8B21569111009284A2 /* QuickLookPanel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E4E2156818D009284A2 /* QuickLookPanel.mm */; };
+		8A453F8C21569111009284A2 /* QuickLookVFSBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E502156818D009284A2 /* QuickLookVFSBridge.mm */; };
+		8A453F8D21569111009284A2 /* SelectionWithMaskPopupViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E622156818D009284A2 /* SelectionWithMaskPopupViewController.mm */; };
+		8A453F8E21569111009284A2 /* SFTPConnectionSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E652156818D009284A2 /* SFTPConnectionSheetController.mm */; };
+		8A453F8F21569111009284A2 /* SpotlightSearchPopupViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E672156818D009284A2 /* SpotlightSearchPopupViewController.mm */; };
+		8A453F9021569111009284A2 /* TabBarStyle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E692156818D009284A2 /* TabBarStyle.mm */; };
+		8A453F9121569111009284A2 /* WebDAVConnectionSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E6B2156818D009284A2 /* WebDAVConnectionSheetController.mm */; };
+		8A453F9221569159009284A2 /* AskingForRatingOverlayView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D5F2156818D009284A2 /* AskingForRatingOverlayView.mm */; };
+		8A453F9321569159009284A2 /* ContextMenu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D7E2156818D009284A2 /* ContextMenu.mm */; };
+		8A453F9421569159009284A2 /* CursorBackup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D802156818D009284A2 /* CursorBackup.mm */; };
+		8A453F9521569159009284A2 /* DragReceiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D822156818D009284A2 /* DragReceiver.mm */; };
+		8A453F9621569159009284A2 /* DragSender.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D842156818D009284A2 /* DragSender.mm */; };
+		8A453F9721569159009284A2 /* ExternalEditorInfo.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D862156818D009284A2 /* ExternalEditorInfo.mm */; };
+		8A453F9821569159009284A2 /* ExternalToolParameterValueSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D892156818D009284A2 /* ExternalToolParameterValueSheetController.mm */; };
+		8A453F9921569159009284A2 /* ExternalToolsSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D8B2156818D009284A2 /* ExternalToolsSupport.mm */; };
+		8A453F9B21569159009284A2 /* FavoriteComposing.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D8E2156818D009284A2 /* FavoriteComposing.mm */; };
+		8A453F9D21569159009284A2 /* FavoritesImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D912156818D009284A2 /* FavoritesImpl.cpp */; };
+		8A453F9E21569159009284A2 /* FavoritesMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D942156818D009284A2 /* FavoritesMenuDelegate.mm */; };
+		8A453F9F21569159009284A2 /* FavoritesWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D962156818D009284A2 /* FavoritesWindowController.mm */; };
+		8A453FA021569159009284A2 /* FilesDraggingSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D982156818D009284A2 /* FilesDraggingSource.mm */; };
+		8A453FA121569159009284A2 /* FindFilesSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D9A2156818D009284A2 /* FindFilesSheetController.mm */; };
+		8A453FA221569159009284A2 /* IconsGenerator2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DA62156818D009284A2 /* IconsGenerator2.mm */; };
+		8A453FA321569159009284A2 /* ListingPromise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DC22156818D009284A2 /* ListingPromise.cpp */; };
+		8A453FA421569159009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DC52156818D009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm */; };
+		8A453FA621569159009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DC92156818D009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm */; };
+		8A453FA721569159009284A2 /* MainWindowFilePanelState+TabsSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DCB2156818D009284A2 /* MainWindowFilePanelState+TabsSupport.mm */; };
+		8A453FA921569159009284A2 /* MainWindowFilePanelState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DCF2156818D009284A2 /* MainWindowFilePanelState.mm */; };
+		8A453FAA21569159009284A2 /* NCPanelOpenWithMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DD12156818D009284A2 /* NCPanelOpenWithMenuDelegate.mm */; };
+		8A453FAB21569159009284A2 /* PanelAux.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DD32156818D009284A2 /* PanelAux.mm */; };
+		8A453FAC21569159009284A2 /* PanelController+DataAccess.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DD52156818D009284A2 /* PanelController+DataAccess.mm */; };
+		8A453FAE21569159009284A2 /* PanelController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DD92156818D009284A2 /* PanelController.mm */; };
+		8A453FAF21569159009284A2 /* PanelControllerActions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DDB2156818D009284A2 /* PanelControllerActions.mm */; };
+		8A453FB021569159009284A2 /* PanelControllerActionsDispatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DDD2156818D009284A2 /* PanelControllerActionsDispatcher.mm */; };
+		8A453FB121569159009284A2 /* PanelControllerPersistency.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DDF2156818D009284A2 /* PanelControllerPersistency.mm */; };
+		8A453FB221569159009284A2 /* PanelData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DE12156818D009284A2 /* PanelData.mm */; };
+		8A453FB421569159009284A2 /* PanelDataEntriesComparator.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DE42156818D009284A2 /* PanelDataEntriesComparator.mm */; };
+		8A453FB521569159009284A2 /* PanelDataExternalEntryKey.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DE62156818D009284A2 /* PanelDataExternalEntryKey.mm */; };
+		8A453FB621569159009284A2 /* PanelDataFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DE82156818D009284A2 /* PanelDataFilter.mm */; };
+		8A453FB721569159009284A2 /* PanelDataItemVolatileData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DE92156818D009284A2 /* PanelDataItemVolatileData.cpp */; };
+		8A453FB821569159009284A2 /* PanelDataOptionsPersistence.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DEC2156818D009284A2 /* PanelDataOptionsPersistence.mm */; };
+		8A453FB921569159009284A2 /* PanelDataPersistency.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DED2156818D009284A2 /* PanelDataPersistency.cpp */; };
+		8A453FBA21569159009284A2 /* PanelDataSelection.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DF02156818D009284A2 /* PanelDataSelection.mm */; };
+		8A453FBB21569159009284A2 /* PanelDataSortMode.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DF22156818D009284A2 /* PanelDataSortMode.mm */; };
+		8A453FBC21569159009284A2 /* PanelDataStatistics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DF32156818D009284A2 /* PanelDataStatistics.cpp */; };
+		8A453FBD21569159009284A2 /* PanelHistory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DF62156818D009284A2 /* PanelHistory.mm */; };
+		8A453FBE21569159009284A2 /* PanelView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DF92156818D009284A2 /* PanelView.mm */; };
+		8A453FBF21569159009284A2 /* PanelViewFieldEditor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DFC2156818D009284A2 /* PanelViewFieldEditor.mm */; };
+		8A453FC021569159009284A2 /* PanelViewFooter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DFE2156818D009284A2 /* PanelViewFooter.mm */; };
+		8A453FC121569159009284A2 /* PanelViewFooterVolumeInfoFetcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E002156818D009284A2 /* PanelViewFooterVolumeInfoFetcher.mm */; };
+		8A453FC221569159009284A2 /* PanelViewHeader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E022156818D009284A2 /* PanelViewHeader.mm */; };
+		8A453FC321569159009284A2 /* PanelViewLayoutSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E062156818D009284A2 /* PanelViewLayoutSupport.mm */; };
+		8A453FC421569159009284A2 /* PanelViewPresentationItemsColoringFilter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E082156818D009284A2 /* PanelViewPresentationItemsColoringFilter.mm */; };
+		8A453FC521569159009284A2 /* PanelViewPresentationSettings.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E0A2156818D009284A2 /* PanelViewPresentationSettings.mm */; };
+		8A453FC621569159009284A2 /* QuickSearch.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E0D2156818D009284A2 /* QuickSearch.mm */; };
+		8A453FC821569159009284A2 /* SharingService.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E1A2156818D009284A2 /* SharingService.mm */; };
+		8A453FC921569159009284A2 /* StateActions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E1C2156818D009284A2 /* StateActions.mm */; };
+		8A453FCA21569159009284A2 /* StateActionsDispatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E1E2156818D009284A2 /* StateActionsDispatcher.mm */; };
+		8A453FCB21569159009284A2 /* TabContextMenu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E202156818D009284A2 /* TabContextMenu.mm */; };
+		8A453FCC21569159009284A2 /* ToolsMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E222156818D009284A2 /* ToolsMenuDelegate.mm */; };
+		8A453FCD21569164009284A2 /* MainWindowInternalViewerState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E6E2156818D009284A2 /* MainWindowInternalViewerState.mm */; };
+		8A453FCE21569165009284A2 /* ExternalEditorState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E772156818D009284A2 /* ExternalEditorState.mm */; };
+		8A453FCF21569165009284A2 /* SettingsAdaptor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E792156818D009284A2 /* SettingsAdaptor.mm */; };
+		8A453FD021569165009284A2 /* ShellState.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E7B2156818D009284A2 /* ShellState.mm */; };
+		8A453FD12156916F009284A2 /* MainWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E712156818D009284A2 /* MainWindow.mm */; };
+		8A453FD22156916F009284A2 /* MainWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E732156818D009284A2 /* MainWindowController.mm */; };
+		8A453FD321569193009284A2 /* BigFileView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C2E2156818C009284A2 /* BigFileView.mm */; };
+		8A453FD421569193009284A2 /* BigFileViewDataBackend.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C302156818C009284A2 /* BigFileViewDataBackend.mm */; };
+		8A453FD521569193009284A2 /* BigFileViewHex.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C322156818C009284A2 /* BigFileViewHex.mm */; };
+		8A453FD621569193009284A2 /* BigFileViewSheet.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C352156818C009284A2 /* BigFileViewSheet.mm */; };
+		8A453FD721569193009284A2 /* BigFileViewText.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C372156818C009284A2 /* BigFileViewText.mm */; };
+		8A453FD821569193009284A2 /* InternalViewerController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C392156818C009284A2 /* InternalViewerController.mm */; };
+		8A453FD921569193009284A2 /* InternalViewerHistory.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C3B2156818C009284A2 /* InternalViewerHistory.mm */; };
+		8A453FDA21569193009284A2 /* InternalViewerToolbarProtocol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C3D2156818C009284A2 /* InternalViewerToolbarProtocol.mm */; };
+		8A453FDB21569193009284A2 /* InternalViewerViewPreviewMode.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C3F2156818C009284A2 /* InternalViewerViewPreviewMode.mm */; };
+		8A453FDC21569193009284A2 /* InternalViewerWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C412156818C009284A2 /* InternalViewerWindowController.mm */; };
 		8AAA8BD421566FD30053BE9D /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAA8BA721566FB20053BE9D /* pugixml.cpp */; };
 		8AB24CC92154F6CA00A1C3A7 /* BlinkingCaret.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB92154F65200A1C3A7 /* BlinkingCaret.mm */; };
 		8AB24CCA2154F6CA00A1C3A7 /* ButtonWithTextColor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC32154F65300A1C3A7 /* ButtonWithTextColor.mm */; };
@@ -1178,9 +1413,111 @@
 		8AF074422155240D00895FEF /* volume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF073E42155232700895FEF /* volume.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8A453EDC215682D2009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A548DBE2154F0870047A5B2;
+			remoteInfo = Habanero;
+		};
+		8A453EDE215682D3009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A171C4A2154F5760043D119;
+			remoteInfo = Utility;
+		};
+		8A453EE0215682D4009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AF05FDE2154FAEC00895FEF;
+			remoteInfo = RoutedIO;
+		};
+		8A453EE2215682D6009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AF0731D2155191900895FEF;
+			remoteInfo = Term;
+		};
+		8A453EE4215682D7009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8ABF0D8D21566BA900BC1103;
+			remoteInfo = VFS;
+		};
+		8A453EE6215682D8009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A4534C22156729E009284A2;
+			remoteInfo = Operations;
+		};
+		8A453EE8215682EA009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8ABF0BEA215650F900BC1103;
+			remoteInfo = archive;
+		};
+		8A453EEA215682EE009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8ABF06592156382600BC1103;
+			remoteInfo = crypto;
+		};
+		8A453EEC215682F1009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AF073042155171F00895FEF;
+			remoteInfo = boost_system;
+		};
+		8A453EEE215682F4009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AF0730C2155172E00895FEF;
+			remoteInfo = boost_filesystem;
+		};
+		8A453EF021568300009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8ABF09AC21564B8600BC1103;
+			remoteInfo = lzma;
+		};
+		8A453EF221568302009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8ABF095A2156488D00BC1103;
+			remoteInfo = ssh2;
+		};
+		8A453EF421568304009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8ABF09262156429300BC1103;
+			remoteInfo = ssl;
+		};
+		8A453EF621568305009284A2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AF073EC2155237600895FEF;
+			remoteInfo = unrar;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		8A16C195215776F500A4FDCE /* MMAddButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMAddButton.m; sourceTree = "<group>"; };
 		8A16C196215776F500A4FDCE /* MMAddButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMAddButton.h; sourceTree = "<group>"; };
+		8A16C1972157797800A4FDCE /* compose_visitors.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = compose_visitors.hpp; sourceTree = "<group>"; };
 		8A171C082154F1B60043D119 /* dispatch_cpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dispatch_cpp.h; path = include/Habanero/dispatch_cpp.h; sourceTree = "<group>"; };
 		8A171C092154F1B60043D119 /* GoogleAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GoogleAnalytics.h; path = include/Habanero/GoogleAnalytics.h; sourceTree = "<group>"; };
 		8A171C0A2154F1B60043D119 /* algo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = algo.h; path = include/Habanero/algo.h; sourceTree = "<group>"; };
@@ -2046,7 +2383,6 @@
 		8A453EC72156818E009284A2 /* VFSListWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSListWindowController.h; sourceTree = "<group>"; };
 		8A453EC82156818E009284A2 /* VFSListWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VFSListWindowController.mm; sourceTree = "<group>"; };
 		8A548D762154EE410047A5B2 /* NimbleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NimbleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8A548DA52154F0510047A5B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8A548DBF2154F0870047A5B2 /* libHabanero.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libHabanero.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A67B6BB2156725000E92BC9 /* HaltReasonDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HaltReasonDialog.h; path = source/HaltReasonDialog.h; sourceTree = "<group>"; };
 		8A67B6BC2156725000E92BC9 /* Operation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = Operation.mm; path = source/Operation.mm; sourceTree = "<group>"; };
@@ -3976,6 +4312,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A453ED6215682AD009284A2 /* libHabanero.a in Frameworks */,
+				8A453ED7215682AF009284A2 /* libUtility.a in Frameworks */,
+				8A453ED8215682B1009284A2 /* libRoutedIO.a in Frameworks */,
+				8A453ED9215682B3009284A2 /* libTerm.a in Frameworks */,
+				8A453EDA215682C0009284A2 /* libVFS.a in Frameworks */,
+				8A453EDB215682C5009284A2 /* libOperations.a in Frameworks */,
+				8A453EFD21568322009284A2 /* libarchive.a in Frameworks */,
+				8A453EF821568310009284A2 /* libboost_system.a in Frameworks */,
+				8A453EF921568314009284A2 /* libboost_filesystem.a in Frameworks */,
+				8A453EFB21568318009284A2 /* libcrypto.a in Frameworks */,
+				8A453EFE21568326009284A2 /* liblzma.a in Frameworks */,
+				8A453EFF2156832E009284A2 /* libssh2.a in Frameworks */,
+				8A453EFC2156831C009284A2 /* libssl.a in Frameworks */,
+				8A453EFA21568316009284A2 /* libunrar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4445,6 +4795,9 @@
 		8A453C492156818C009284A2 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				8A453C542156818C009284A2 /* Caches */,
+				8A453C6F2156818C009284A2 /* Marketing */,
+				8A453C872156818C009284A2 /* Theming */,
 				8A453C4A2156818C009284A2 /* ActionShortcut.h */,
 				8A453C4B2156818C009284A2 /* ActionShortcut.mm */,
 				8A453C4C2156818C009284A2 /* ActionsShortcutsManager.h */,
@@ -4455,7 +4808,6 @@
 				8A453C512156818C009284A2 /* AnyHolder.mm */,
 				8A453C522156818C009284A2 /* AppStoreHelper.h */,
 				8A453C532156818C009284A2 /* AppStoreHelper.mm */,
-				8A453C542156818C009284A2 /* Caches */,
 				8A453C5D2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.h */,
 				8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */,
 				8A453C5F2156818C009284A2 /* ConnectionsMenuDelegate.h */,
@@ -4466,15 +4818,12 @@
 				8A453C642156818C009284A2 /* FeedbackManager.mm */,
 				8A453C652156818C009284A2 /* FileMask.cpp */,
 				8A453C662156818C009284A2 /* FileMask.h */,
-				8A453C672156818C009284A2 /* FileMask_Tests.mm */,
 				8A453C682156818C009284A2 /* FileWindow.cpp */,
 				8A453C692156818C009284A2 /* FileWindow.h */,
-				8A453C6A2156818C009284A2 /* FileWindow_Tests.mm */,
 				8A453C6B2156818C009284A2 /* GoogleAnalytics.h */,
 				8A453C6C2156818C009284A2 /* GoogleAnalytics.mm */,
 				8A453C6D2156818C009284A2 /* LaunchServices.h */,
 				8A453C6E2156818C009284A2 /* LaunchServices.mm */,
-				8A453C6F2156818C009284A2 /* Marketing */,
 				8A453C722156818C009284A2 /* NetworkConnectionIconProvider.h */,
 				8A453C732156818C009284A2 /* NetworkConnectionIconProvider.mm */,
 				8A453C742156818C009284A2 /* NetworkConnectionsManager.h */,
@@ -4496,7 +4845,6 @@
 				8A453C842156818C009284A2 /* TemporaryNativeFileChangesSentinel.h */,
 				8A453C852156818C009284A2 /* TemporaryNativeFileStorage.cpp */,
 				8A453C862156818C009284A2 /* TemporaryNativeFileStorage.h */,
-				8A453C872156818C009284A2 /* Theming */,
 				8A453C902156818C009284A2 /* UserNotificationsCenter.h */,
 				8A453C912156818C009284A2 /* UserNotificationsCenter.mm */,
 				8A453C922156818C009284A2 /* VFSInstanceManager.cpp */,
@@ -4646,12 +4994,12 @@
 			children = (
 				8A453D062156818D009284A2 /* FilePanels */,
 				8A453E6C2156818D009284A2 /* InternalViewer */,
+				8A453E752156818D009284A2 /* Terminal */,
 				8A453E702156818D009284A2 /* MainWindow.h */,
 				8A453E712156818D009284A2 /* MainWindow.mm */,
 				8A453E722156818D009284A2 /* MainWindowController.h */,
 				8A453E732156818D009284A2 /* MainWindowController.mm */,
 				8A453E742156818D009284A2 /* MainWindowStateProtocol.h */,
-				8A453E752156818D009284A2 /* Terminal */,
 			);
 			path = States;
 			sourceTree = "<group>";
@@ -4660,6 +5008,10 @@
 			isa = PBXGroup;
 			children = (
 				8A453D072156818D009284A2 /* Actions */,
+				8A453D6C2156818D009284A2 /* Brief */,
+				8A453D9B2156818D009284A2 /* Helpers */,
+				8A453DA72156818D009284A2 /* List */,
+				8A453E232156818D009284A2 /* Views */,
 				8A453D5E2156818D009284A2 /* AskingForRatingOverlayView.h */,
 				8A453D5F2156818D009284A2 /* AskingForRatingOverlayView.mm */,
 				8A453D602156818D009284A2 /* ExternalToolParameterValueSheetController.xib */,
@@ -4668,7 +5020,6 @@
 				8A453D662156818D009284A2 /* FilePanelsQuickSearch.strings */,
 				8A453D682156818D009284A2 /* FindFilesSheetController.xib */,
 				8A453D6A2156818D009284A2 /* PanelViewHeaderSortPopup.xib */,
-				8A453D6C2156818D009284A2 /* Brief */,
 				8A453D7D2156818D009284A2 /* ContextMenu.h */,
 				8A453D7E2156818D009284A2 /* ContextMenu.mm */,
 				8A453D7F2156818D009284A2 /* CursorBackup.h */,
@@ -4684,7 +5035,6 @@
 				8A453D892156818D009284A2 /* ExternalToolParameterValueSheetController.mm */,
 				8A453D8A2156818D009284A2 /* ExternalToolsSupport.h */,
 				8A453D8B2156818D009284A2 /* ExternalToolsSupport.mm */,
-				8A453D8C2156818D009284A2 /* ExternalToolsSupport_Tests.mm */,
 				8A453D8D2156818D009284A2 /* FavoriteComposing.h */,
 				8A453D8E2156818D009284A2 /* FavoriteComposing.mm */,
 				8A453D8F2156818D009284A2 /* Favorites.cpp */,
@@ -4699,10 +5049,8 @@
 				8A453D982156818D009284A2 /* FilesDraggingSource.mm */,
 				8A453D992156818D009284A2 /* FindFilesSheetController.h */,
 				8A453D9A2156818D009284A2 /* FindFilesSheetController.mm */,
-				8A453D9B2156818D009284A2 /* Helpers */,
 				8A453DA52156818D009284A2 /* IconsGenerator2.h */,
 				8A453DA62156818D009284A2 /* IconsGenerator2.mm */,
-				8A453DA72156818D009284A2 /* List */,
 				8A453DC22156818D009284A2 /* ListingPromise.cpp */,
 				8A453DC32156818D009284A2 /* ListingPromise.h */,
 				8A453DC42156818D009284A2 /* MainWindowFilePanelsStateToolbarDelegate.h */,
@@ -4735,7 +5083,6 @@
 				8A453DDF2156818D009284A2 /* PanelControllerPersistency.mm */,
 				8A453DE02156818D009284A2 /* PanelData.h */,
 				8A453DE12156818D009284A2 /* PanelData.mm */,
-				8A453DE22156818D009284A2 /* PanelData_Tests.mm */,
 				8A453DE32156818D009284A2 /* PanelDataEntriesComparator.h */,
 				8A453DE42156818D009284A2 /* PanelDataEntriesComparator.mm */,
 				8A453DE52156818D009284A2 /* PanelDataExternalEntryKey.h */,
@@ -4779,7 +5126,6 @@
 				8A453E0B2156818D009284A2 /* PanelViewTypes.h */,
 				8A453E0C2156818D009284A2 /* QuickSearch.h */,
 				8A453E0D2156818D009284A2 /* QuickSearch.mm */,
-				8A453E0E2156818D009284A2 /* QuickSearch_Tests.mm */,
 				8A453E0F2156818D009284A2 /* ExternalToolParameterValueSheetController.strings */,
 				8A453E112156818D009284A2 /* FavoritesWindowController.strings */,
 				8A453E152156818D009284A2 /* FindFilesSheetController.strings */,
@@ -4794,7 +5140,6 @@
 				8A453E202156818D009284A2 /* TabContextMenu.mm */,
 				8A453E212156818D009284A2 /* ToolsMenuDelegate.h */,
 				8A453E222156818D009284A2 /* ToolsMenuDelegate.mm */,
-				8A453E232156818D009284A2 /* Views */,
 			);
 			path = FilePanels;
 			sourceTree = "<group>";
@@ -5116,6 +5461,13 @@
 			path = GeneralUI;
 			sourceTree = "<group>";
 		};
+		8A453ED5215682AD009284A2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8A548D6D2154EE410047A5B2 = {
 			isa = PBXGroup;
 			children = (
@@ -5128,6 +5480,7 @@
 				8AAA8BD5215671400053BE9D /* Operations */,
 				8AF06992215516E000895FEF /* ThirdParty */,
 				8A548D772154EE410047A5B2 /* Products */,
+				8A453ED5215682AD009284A2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -5162,7 +5515,6 @@
 				8A453C982156818C009284A2 /* Preferences */,
 				8A453E7C2156818D009284A2 /* Resources */,
 				8A453D052156818D009284A2 /* States */,
-				8A453C242156818C009284A2 /* Tests */,
 				8A453C262156818C009284A2 /* Viewer */,
 			);
 			path = NimbleCommander;
@@ -5173,7 +5525,6 @@
 			children = (
 				8A171C072154F1A90043D119 /* Headers */,
 				8A548DEF2154F1750047A5B2 /* Sources */,
-				8A548DA52154F0510047A5B2 /* README.md */,
 			);
 			path = Habanero;
 			sourceTree = "<group>";
@@ -8006,6 +8357,7 @@
 				8A453B1D21568144009284A2 /* RHPreferences */,
 				8ABF095F215648EF00BC1103 /* ssh2 */,
 				8AF073512155232700895FEF /* unrar */,
+				8A16C1972157797800A4FDCE /* compose_visitors.hpp */,
 			);
 			path = ThirdParty;
 			sourceTree = "<group>";
@@ -8313,6 +8665,20 @@
 			buildRules = (
 			);
 			dependencies = (
+				8A453EDD215682D2009284A2 /* PBXTargetDependency */,
+				8A453EDF215682D3009284A2 /* PBXTargetDependency */,
+				8A453EE1215682D4009284A2 /* PBXTargetDependency */,
+				8A453EE3215682D6009284A2 /* PBXTargetDependency */,
+				8A453EE5215682D7009284A2 /* PBXTargetDependency */,
+				8A453EE7215682D8009284A2 /* PBXTargetDependency */,
+				8A453EE9215682EA009284A2 /* PBXTargetDependency */,
+				8A453EED215682F1009284A2 /* PBXTargetDependency */,
+				8A453EEF215682F4009284A2 /* PBXTargetDependency */,
+				8A453EEB215682EE009284A2 /* PBXTargetDependency */,
+				8A453EF121568300009284A2 /* PBXTargetDependency */,
+				8A453EF321568302009284A2 /* PBXTargetDependency */,
+				8A453EF521568304009284A2 /* PBXTargetDependency */,
+				8A453EF721568305009284A2 /* PBXTargetDependency */,
 			);
 			name = NimbleCommander;
 			productName = NimbleCommander;
@@ -8577,9 +8943,9 @@
 				8ABF0D8D21566BA900BC1103 /* VFS */,
 				8A4534C22156729E009284A2 /* Operations */,
 				8ABF0BEA215650F900BC1103 /* archive */,
-				8ABF06592156382600BC1103 /* crypto */,
 				8AF073042155171F00895FEF /* boost_system */,
 				8AF0730C2155172E00895FEF /* boost_filesystem */,
+				8ABF06592156382600BC1103 /* crypto */,
 				8ABF09AC21564B8600BC1103 /* lzma */,
 				8ABF095A2156488D00BC1103 /* ssh2 */,
 				8ABF09262156429300BC1103 /* ssl */,
@@ -8697,6 +9063,227 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A453ECA21568228009284A2 /* AppDelegate+MainWindowCreation.mm in Sources */,
+				8A453ECB21568228009284A2 /* AppDelegate+Migration.mm in Sources */,
+				8A453ECC21568228009284A2 /* AppDelegate.mm in Sources */,
+				8A453ECD21568228009284A2 /* AppDelegateCPP.mm in Sources */,
+				8A453ECE21568228009284A2 /* Application.mm in Sources */,
+				8A453ECF21568228009284A2 /* Config.cpp in Sources */,
+				8A453ED021568228009284A2 /* Config.mm in Sources */,
+				8A453ED121568228009284A2 /* ConfigWiring.mm in Sources */,
+				8A453ED221568228009284A2 /* Interactions.mm in Sources */,
+				8A453ED321568228009284A2 /* main.cpp in Sources */,
+				8A453ED421568228009284A2 /* VFSInit.mm in Sources */,
+				8A453F0021568E92009284A2 /* QLThumbnailsCache.mm in Sources */,
+				8A453F0121568E92009284A2 /* QLVFSThumbnailsCache.mm in Sources */,
+				8A453F0221568E92009284A2 /* WorkspaceExtensionIconsCache.mm in Sources */,
+				8A453F0321568E92009284A2 /* WorkspaceIconsCache.mm in Sources */,
+				8A453F0421568EAF009284A2 /* CocoaAppearanceManager.mm in Sources */,
+				8A453F0521568EAF009284A2 /* Theme.mm in Sources */,
+				8A453F0621568EAF009284A2 /* ThemePersistence.mm in Sources */,
+				8A453F0721568EAF009284A2 /* ThemesManager.mm in Sources */,
+				8A453F0821568ED0009284A2 /* ActionShortcut.mm in Sources */,
+				8A453F0921568ED0009284A2 /* ActionsShortcutsManager.mm in Sources */,
+				8A453F0A21568ED0009284A2 /* Alert.mm in Sources */,
+				8A453F0B21568ED0009284A2 /* AnyHolder.mm in Sources */,
+				8A453F0C21568ED0009284A2 /* AppStoreHelper.mm in Sources */,
+				8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */,
+				8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */,
+				8A453F0F21568ED0009284A2 /* Dock.mm in Sources */,
+				8A453F1021568ED0009284A2 /* FeedbackManager.mm in Sources */,
+				8A453F1121568ED0009284A2 /* FileMask.cpp in Sources */,
+				8A453F1321568ED0009284A2 /* FileWindow.cpp in Sources */,
+				8A453F1621568ED0009284A2 /* LaunchServices.mm in Sources */,
+				8A453F1721568ED0009284A2 /* NetworkConnectionIconProvider.mm in Sources */,
+				8A453F1821568ED0009284A2 /* NetworkConnectionsManager.mm in Sources */,
+				8A453F1921568ED0009284A2 /* rapidjson.cpp in Sources */,
+				8A453F1A21568ED0009284A2 /* SandboxManager.mm in Sources */,
+				8A453F1B21568ED0009284A2 /* SearchForFiles.cpp in Sources */,
+				8A453F1C21568ED0009284A2 /* SearchInFile.cpp in Sources */,
+				8A453F1D21568ED0009284A2 /* ServicesHandler.mm in Sources */,
+				8A453F1E21568ED0009284A2 /* SimpleComboBoxPersistentDataSource.mm in Sources */,
+				8A453F1F21568ED0009284A2 /* TemporaryNativeFileChangesSentinel.cpp in Sources */,
+				8A453F2021568ED0009284A2 /* TemporaryNativeFileStorage.cpp in Sources */,
+				8A453F2121568ED0009284A2 /* UserNotificationsCenter.mm in Sources */,
+				8A453F2221568ED0009284A2 /* VFSInstanceManager.cpp in Sources */,
+				8A453F2321568ED0009284A2 /* VFSInstanceManagerImpl.cpp in Sources */,
+				8A453F2421568ED0009284A2 /* VFSInstancePromise.cpp in Sources */,
+				8A453F2521568FD8009284A2 /* AskForPasswordWindowController.mm in Sources */,
+				8A453F2621568FD8009284A2 /* CalculateChecksumSheetController.mm in Sources */,
+				8A453F2721568FD8009284A2 /* DetailedVolumeInformationSheetController.mm in Sources */,
+				8A453F2821568FD8009284A2 /* FeedbackWindow.mm in Sources */,
+				8A453F2921568FD8009284A2 /* FilterPopUpMenu.mm in Sources */,
+				8A453F2A21568FD8009284A2 /* ProcessSheetController.mm in Sources */,
+				8A453F2B21568FD8009284A2 /* ProFeaturesWindowController.mm in Sources */,
+				8A453F2C21568FD8009284A2 /* RegistrationInfoWindow.mm in Sources */,
+				8A453F2D21568FD8009284A2 /* TrialWindowController.mm in Sources */,
+				8A453F2E21568FD8009284A2 /* VFSListWindowController.mm in Sources */,
+				8A453F2F21568FF1009284A2 /* Preferences.mm in Sources */,
+				8A453F3021568FF1009284A2 /* PreferencesWindowExternalEditorsTab.mm in Sources */,
+				8A453F3121568FF1009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.mm in Sources */,
+				8A453F3221568FF1009284A2 /* PreferencesWindowGeneralTab.mm in Sources */,
+				8A453F3321568FF1009284A2 /* PreferencesWindowHotkeysTab.mm in Sources */,
+				8A453F3421568FF1009284A2 /* PreferencesWindowPanelsTab.mm in Sources */,
+				8A453F3521568FF1009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.mm in Sources */,
+				8A453F3621568FF1009284A2 /* PreferencesWindowTerminalTab.mm in Sources */,
+				8A453F3721568FF1009284A2 /* PreferencesWindowThemesControls.mm in Sources */,
+				8A453F3821568FF1009284A2 /* PreferencesWindowThemesTab.mm in Sources */,
+				8A453F3921568FF1009284A2 /* PreferencesWindowThemesTabImportSheet.mm in Sources */,
+				8A453F3A21568FF1009284A2 /* PreferencesWindowThemesTabModel.mm in Sources */,
+				8A453F3B21568FF1009284A2 /* PreferencesWindowToolsTab.mm in Sources */,
+				8A453F3C21568FF1009284A2 /* PreferencesWindowViewerTab.mm in Sources */,
+				8A453F3D215690C7009284A2 /* AddToFavorites.mm in Sources */,
+				8A453F3E215690C7009284A2 /* BatchRename.mm in Sources */,
+				8A453F3F215690C7009284A2 /* CalculateChecksum.mm in Sources */,
+				8A453F40215690C7009284A2 /* CalculateSizes.mm in Sources */,
+				8A453F41215690C7009284A2 /* ChangeAttributes.mm in Sources */,
+				8A453F42215690C7009284A2 /* Compress.mm in Sources */,
+				8A453F43215690C7009284A2 /* CopyFile.mm in Sources */,
+				8A453F44215690C7009284A2 /* CopyFilePaths.mm in Sources */,
+				8A453F45215690C7009284A2 /* CopyToPasteboard.mm in Sources */,
+				8A453F46215690C7009284A2 /* DefaultAction.mm in Sources */,
+				8A453F47215690C7009284A2 /* Delete.mm in Sources */,
+				8A453F48215690C7009284A2 /* Duplicate.mm in Sources */,
+				8A453F49215690C7009284A2 /* EjectVolume.mm in Sources */,
+				8A453F4A215690C7009284A2 /* Enter.mm in Sources */,
+				8A453F4B215690C7009284A2 /* ExecuteExternalTool.mm in Sources */,
+				8A453F4C215690C7009284A2 /* ExecuteInTerminal.mm in Sources */,
+				8A453F4D215690C7009284A2 /* FindFiles.mm in Sources */,
+				8A453F4E215690C7009284A2 /* GoToFolder.mm in Sources */,
+				8A453F4F215690C7009284A2 /* InsertFromPasteboard.mm in Sources */,
+				8A453F50215690C7009284A2 /* Link.mm in Sources */,
+				8A453F51215690C7009284A2 /* MakeNew.mm in Sources */,
+				8A453F52215690C7009284A2 /* NavigateHistory.mm in Sources */,
+				8A453F53215690C7009284A2 /* OpenFile.mm in Sources */,
+				8A453F54215690C7009284A2 /* OpenNetworkConnection.mm in Sources */,
+				8A453F55215690C7009284A2 /* OpenWithExternalEditor.mm in Sources */,
+				8A453F56215690C7009284A2 /* OpenXAttr.mm in Sources */,
+				8A453F57215690C7009284A2 /* RefreshPanel.mm in Sources */,
+				8A453F58215690C7009284A2 /* RenameInPlace.mm in Sources */,
+				8A453F59215690C7009284A2 /* RevealInOppositePanel.mm in Sources */,
+				8A453F5A215690C7009284A2 /* Select.mm in Sources */,
+				8A453F5B215690C7009284A2 /* ShowGoToPopup.mm in Sources */,
+				8A453F5C215690C7009284A2 /* ShowQuickLook.mm in Sources */,
+				8A453F5D215690C7009284A2 /* ShowSystemOverview.mm in Sources */,
+				8A453F5E215690C7009284A2 /* ShowTabs.mm in Sources */,
+				8A453F5F215690C7009284A2 /* ShowTerminal.mm in Sources */,
+				8A453F60215690C7009284A2 /* ShowVolumeInformation.mm in Sources */,
+				8A453F61215690C7009284A2 /* SpotlightSearch.mm in Sources */,
+				8A453F62215690C7009284A2 /* SyncPanels.mm in Sources */,
+				8A453F63215690C7009284A2 /* TabsManagement.mm in Sources */,
+				8A453F64215690C7009284A2 /* ToggleLayout.mm in Sources */,
+				8A453F65215690C7009284A2 /* ToggleSingleOrDualMode.mm in Sources */,
+				8A453F66215690C7009284A2 /* ToggleSort.mm in Sources */,
+				8A453F67215690C7009284A2 /* ViewFile.mm in Sources */,
+				8A453F68215690D5009284A2 /* Layout.mm in Sources */,
+				8A453F69215690D5009284A2 /* PanelBriefView.mm in Sources */,
+				8A453F6A215690D5009284A2 /* PanelBriefViewCollectionView.mm in Sources */,
+				8A453F6B215690D5009284A2 /* PanelBriefViewCollectionViewBackground.mm in Sources */,
+				8A453F6C215690D5009284A2 /* PanelBriefViewCollectionViewItem.mm in Sources */,
+				8A453F6D215690D5009284A2 /* PanelBriefViewCollectionViewLayout.mm in Sources */,
+				8A453F6E215690D5009284A2 /* PanelBriefViewItemCarrier.mm in Sources */,
+				8A453F6F215690D5009284A2 /* TextWidthsCache.mm in Sources */,
+				8A453F70215690E1009284A2 /* ClosedPanelsHistoryImpl.cpp in Sources */,
+				8A453F71215690E1009284A2 /* LocationFormatter.mm in Sources */,
+				8A453F72215690E1009284A2 /* Pasteboard.mm in Sources */,
+				8A453F73215690E1009284A2 /* RecentlyClosedMenuDelegate.mm in Sources */,
+				8A453F74215690F7009284A2 /* Layout.mm in Sources */,
+				8A453F75215690F7009284A2 /* PanelListView.mm in Sources */,
+				8A453F76215690F7009284A2 /* PanelListViewDateFormatting.mm in Sources */,
+				8A453F77215690F7009284A2 /* PanelListViewDateTimeView.mm in Sources */,
+				8A453F78215690F7009284A2 /* PanelListViewGeometry.mm in Sources */,
+				8A453F79215690F7009284A2 /* PanelListViewNameView.mm in Sources */,
+				8A453F7A215690F7009284A2 /* PanelListViewRowView.mm in Sources */,
+				8A453F7B215690F7009284A2 /* PanelListViewSizeView.mm in Sources */,
+				8A453F7C215690F7009284A2 /* PanelListViewTableHeaderCell.mm in Sources */,
+				8A453F7D215690F7009284A2 /* PanelListViewTableHeaderView.mm in Sources */,
+				8A453F7E215690F7009284A2 /* PanelListViewTableView.mm in Sources */,
+				8A453F7F21569111009284A2 /* BriefSystemOverview.mm in Sources */,
+				8A453F8021569111009284A2 /* ConnectToServer.mm in Sources */,
+				8A453F8121569111009284A2 /* DropboxAccountSheetController.mm in Sources */,
+				8A453F8221569111009284A2 /* FilePanelMainSplitView.mm in Sources */,
+				8A453F8321569111009284A2 /* FilePanelOverlappedTerminal.mm in Sources */,
+				8A453F8421569111009284A2 /* FilePanelsTabbedHolder.mm in Sources */,
+				8A453F8521569111009284A2 /* FTPConnectionSheetController.mm in Sources */,
+				8A453F8621569111009284A2 /* GoToFolderSheetController.mm in Sources */,
+				8A453F8821569111009284A2 /* NetworkShareSheetController.mm in Sources */,
+				8A453F8921569111009284A2 /* OIDRedirectHTTPHandler+FixedPort.mm in Sources */,
+				8A453F8A21569111009284A2 /* QuickLookOverlay.mm in Sources */,
+				8A453F8B21569111009284A2 /* QuickLookPanel.mm in Sources */,
+				8A453F8C21569111009284A2 /* QuickLookVFSBridge.mm in Sources */,
+				8A453F8D21569111009284A2 /* SelectionWithMaskPopupViewController.mm in Sources */,
+				8A453F8E21569111009284A2 /* SFTPConnectionSheetController.mm in Sources */,
+				8A453F8F21569111009284A2 /* SpotlightSearchPopupViewController.mm in Sources */,
+				8A453F9021569111009284A2 /* TabBarStyle.mm in Sources */,
+				8A453F9121569111009284A2 /* WebDAVConnectionSheetController.mm in Sources */,
+				8A453F9221569159009284A2 /* AskingForRatingOverlayView.mm in Sources */,
+				8A453F9321569159009284A2 /* ContextMenu.mm in Sources */,
+				8A453F9421569159009284A2 /* CursorBackup.mm in Sources */,
+				8A453F9521569159009284A2 /* DragReceiver.mm in Sources */,
+				8A453F9621569159009284A2 /* DragSender.mm in Sources */,
+				8A453F9721569159009284A2 /* ExternalEditorInfo.mm in Sources */,
+				8A453F9821569159009284A2 /* ExternalToolParameterValueSheetController.mm in Sources */,
+				8A453F9921569159009284A2 /* ExternalToolsSupport.mm in Sources */,
+				8A453F9B21569159009284A2 /* FavoriteComposing.mm in Sources */,
+				8A453F9D21569159009284A2 /* FavoritesImpl.cpp in Sources */,
+				8A453F9E21569159009284A2 /* FavoritesMenuDelegate.mm in Sources */,
+				8A453F9F21569159009284A2 /* FavoritesWindowController.mm in Sources */,
+				8A453FA021569159009284A2 /* FilesDraggingSource.mm in Sources */,
+				8A453FA121569159009284A2 /* FindFilesSheetController.mm in Sources */,
+				8A453FA221569159009284A2 /* IconsGenerator2.mm in Sources */,
+				8A453FA321569159009284A2 /* ListingPromise.cpp in Sources */,
+				8A453FA421569159009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm in Sources */,
+				8A453FA621569159009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm in Sources */,
+				8A453FA721569159009284A2 /* MainWindowFilePanelState+TabsSupport.mm in Sources */,
+				8A453FA921569159009284A2 /* MainWindowFilePanelState.mm in Sources */,
+				8A453FAA21569159009284A2 /* NCPanelOpenWithMenuDelegate.mm in Sources */,
+				8A453FAB21569159009284A2 /* PanelAux.mm in Sources */,
+				8A453FAC21569159009284A2 /* PanelController+DataAccess.mm in Sources */,
+				8A453FAE21569159009284A2 /* PanelController.mm in Sources */,
+				8A453FAF21569159009284A2 /* PanelControllerActions.mm in Sources */,
+				8A453FB021569159009284A2 /* PanelControllerActionsDispatcher.mm in Sources */,
+				8A453FB121569159009284A2 /* PanelControllerPersistency.mm in Sources */,
+				8A453FB221569159009284A2 /* PanelData.mm in Sources */,
+				8A453FB421569159009284A2 /* PanelDataEntriesComparator.mm in Sources */,
+				8A453FB521569159009284A2 /* PanelDataExternalEntryKey.mm in Sources */,
+				8A453FB621569159009284A2 /* PanelDataFilter.mm in Sources */,
+				8A453FB721569159009284A2 /* PanelDataItemVolatileData.cpp in Sources */,
+				8A453FB821569159009284A2 /* PanelDataOptionsPersistence.mm in Sources */,
+				8A453FB921569159009284A2 /* PanelDataPersistency.cpp in Sources */,
+				8A453FBA21569159009284A2 /* PanelDataSelection.mm in Sources */,
+				8A453FBB21569159009284A2 /* PanelDataSortMode.mm in Sources */,
+				8A453FBC21569159009284A2 /* PanelDataStatistics.cpp in Sources */,
+				8A453FBD21569159009284A2 /* PanelHistory.mm in Sources */,
+				8A453FBE21569159009284A2 /* PanelView.mm in Sources */,
+				8A453FBF21569159009284A2 /* PanelViewFieldEditor.mm in Sources */,
+				8A453FC021569159009284A2 /* PanelViewFooter.mm in Sources */,
+				8A453FC121569159009284A2 /* PanelViewFooterVolumeInfoFetcher.mm in Sources */,
+				8A453FC221569159009284A2 /* PanelViewHeader.mm in Sources */,
+				8A453FC321569159009284A2 /* PanelViewLayoutSupport.mm in Sources */,
+				8A453FC421569159009284A2 /* PanelViewPresentationItemsColoringFilter.mm in Sources */,
+				8A453FC521569159009284A2 /* PanelViewPresentationSettings.mm in Sources */,
+				8A453FC621569159009284A2 /* QuickSearch.mm in Sources */,
+				8A453FC821569159009284A2 /* SharingService.mm in Sources */,
+				8A453FC921569159009284A2 /* StateActions.mm in Sources */,
+				8A453FCA21569159009284A2 /* StateActionsDispatcher.mm in Sources */,
+				8A453FCB21569159009284A2 /* TabContextMenu.mm in Sources */,
+				8A453FCC21569159009284A2 /* ToolsMenuDelegate.mm in Sources */,
+				8A453FCD21569164009284A2 /* MainWindowInternalViewerState.mm in Sources */,
+				8A453FCE21569165009284A2 /* ExternalEditorState.mm in Sources */,
+				8A453FCF21569165009284A2 /* SettingsAdaptor.mm in Sources */,
+				8A453FD021569165009284A2 /* ShellState.mm in Sources */,
+				8A453FD12156916F009284A2 /* MainWindow.mm in Sources */,
+				8A453FD22156916F009284A2 /* MainWindowController.mm in Sources */,
+				8A453FD321569193009284A2 /* BigFileView.mm in Sources */,
+				8A453FD421569193009284A2 /* BigFileViewDataBackend.mm in Sources */,
+				8A453FD521569193009284A2 /* BigFileViewHex.mm in Sources */,
+				8A453FD621569193009284A2 /* BigFileViewSheet.mm in Sources */,
+				8A453FD721569193009284A2 /* BigFileViewText.mm in Sources */,
+				8A453FD821569193009284A2 /* InternalViewerController.mm in Sources */,
+				8A453FD921569193009284A2 /* InternalViewerHistory.mm in Sources */,
+				8A453FDA21569193009284A2 /* InternalViewerToolbarProtocol.mm in Sources */,
+				8A453FDB21569193009284A2 /* InternalViewerViewPreviewMode.mm in Sources */,
+				8A453FDC21569193009284A2 /* InternalViewerWindowController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9875,6 +10462,79 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8A453EDD215682D2009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A548DBE2154F0870047A5B2 /* Habanero */;
+			targetProxy = 8A453EDC215682D2009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EDF215682D3009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A171C4A2154F5760043D119 /* Utility */;
+			targetProxy = 8A453EDE215682D3009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EE1215682D4009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AF05FDE2154FAEC00895FEF /* RoutedIO */;
+			targetProxy = 8A453EE0215682D4009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EE3215682D6009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AF0731D2155191900895FEF /* Term */;
+			targetProxy = 8A453EE2215682D6009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EE5215682D7009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8ABF0D8D21566BA900BC1103 /* VFS */;
+			targetProxy = 8A453EE4215682D7009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EE7215682D8009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A4534C22156729E009284A2 /* Operations */;
+			targetProxy = 8A453EE6215682D8009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EE9215682EA009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8ABF0BEA215650F900BC1103 /* archive */;
+			targetProxy = 8A453EE8215682EA009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EEB215682EE009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8ABF06592156382600BC1103 /* crypto */;
+			targetProxy = 8A453EEA215682EE009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EED215682F1009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AF073042155171F00895FEF /* boost_system */;
+			targetProxy = 8A453EEC215682F1009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EEF215682F4009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AF0730C2155172E00895FEF /* boost_filesystem */;
+			targetProxy = 8A453EEE215682F4009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EF121568300009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8ABF09AC21564B8600BC1103 /* lzma */;
+			targetProxy = 8A453EF021568300009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EF321568302009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8ABF095A2156488D00BC1103 /* ssh2 */;
+			targetProxy = 8A453EF221568302009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EF521568304009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8ABF09262156429300BC1103 /* ssl */;
+			targetProxy = 8A453EF421568304009284A2 /* PBXContainerItemProxy */;
+		};
+		8A453EF721568305009284A2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AF073EC2155237600895FEF /* unrar */;
+			targetProxy = 8A453EF621568305009284A2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		8A453B2121568144009284A2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -10853,6 +11513,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NimbleCommander/Bootstrap/NimbleCommander-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					ThirdParty/AppAuth/Source,
+					ThirdParty/AppAuth/Source/macOS,
+					ThirdParty/archive,
+					ThirdParty/boost,
+					"ThirdParty/c++/include",
+					ThirdParty/MMTabBarView/,
+					ThirdParty/rapidjson/include,
+					ThirdParty/unrar,
+					Habanero/include,
+					Utility/include,
+					RoutedIO/include,
+					VFS/include,
+					Operations/include,
+					Term/include,
+					.,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alexey-lysiuk.NimbleCommander";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -10862,6 +11541,25 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NimbleCommander/Bootstrap/NimbleCommander-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					ThirdParty/AppAuth/Source,
+					ThirdParty/AppAuth/Source/macOS,
+					ThirdParty/archive,
+					ThirdParty/boost,
+					"ThirdParty/c++/include",
+					ThirdParty/MMTabBarView/,
+					ThirdParty/rapidjson/include,
+					ThirdParty/unrar,
+					Habanero/include,
+					Utility/include,
+					RoutedIO/include,
+					VFS/include,
+					Operations/include,
+					Term/include,
+					.,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alexey-lysiuk.NimbleCommander";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
