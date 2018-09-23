@@ -1,6 +1,5 @@
 // Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/FontExtras.h>
-#include "../Bootstrap/ActivationManager.h"
 #include "../Viewer/InternalViewerHistory.h"
 #include "Utility/Encodings.h"
 #include "PreferencesWindowViewerTab.h"
@@ -77,7 +76,6 @@ static const auto g_ConfigDefaultEncoding = "viewer.defaultEncoding";
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:self.identifier];
     item.image = self.toolbarItemImage;
     item.label = self.toolbarItemLabel;
-    item.enabled = ActivationManager::Instance().HasInternalViewer();
     return item;
 }
 

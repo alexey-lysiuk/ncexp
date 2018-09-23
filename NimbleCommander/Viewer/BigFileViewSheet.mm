@@ -1,5 +1,4 @@
 // Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "BigFileViewSheet.h"
 #include "InternalViewerController.h"
@@ -79,8 +78,6 @@
     [m_Controller show];
     m_Controller.nextResponder = self.window.nextResponder;
     self.window.nextResponder = m_Controller;
-
-    GA().PostScreenView("File Viewer Sheet");
 }
 
 - (IBAction)OnClose:(id)sender

@@ -13,7 +13,6 @@
 #include <Operations/Pool.h>
 #include <Operations/AggregateProgressTracker.h>
 #include "Config.h"
-#include "ActivationManager.h"
 
 static const auto g_ConfigRestoreLastWindowState = "filePanel.general.restoreLastWindowState";
 
@@ -129,7 +128,6 @@ static PanelController* PanelFactory()
     auto actions_dispatcher = [[NCPanelsStateActionsDispatcher alloc]
                                initWithState:file_state
                                andActionsMap:self.stateActionsMap];
-    actions_dispatcher.hasTerminal = ActivationManager::Instance().HasTerminal();
     file_state.attachedResponder = actions_dispatcher;
     
     file_state.closedPanelsHistory = self.closedPanelsHistory;

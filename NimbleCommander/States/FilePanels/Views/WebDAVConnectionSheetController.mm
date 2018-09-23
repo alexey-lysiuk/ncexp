@@ -1,6 +1,5 @@
 // Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "WebDAVConnectionSheetController.h"
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include <boost/algorithm/string.hpp>
 
@@ -41,8 +40,6 @@
     if( self.setupMode )
         self.connectButton.title = self.connectButton.alternateTitle;
 
-    GA().PostScreenView("WebDAV Connection");
-    
     if( m_Original ) {
         auto &c = m_Original->Get<NetworkConnectionsManager::WebDAV>();
         self.titleTextField.stringValue = [NSString stringWithUTF8StdString:c.title];

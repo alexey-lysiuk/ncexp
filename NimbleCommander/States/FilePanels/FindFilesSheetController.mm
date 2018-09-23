@@ -9,11 +9,9 @@
 #include <NimbleCommander/Viewer/InternalViewerWindowController.h>
 #include <NimbleCommander/Core/SearchForFiles.h>
 #include <Utility/ByteCountFormatter.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/rapidjson.h>
 #include <NimbleCommander/States/FilePanels/PanelAux.h>
 #include <NimbleCommander/Bootstrap/Config.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
 #include <NimbleCommander/Core/VFSInstanceManager.h>
 #include <NimbleCommander/Core/VFSInstancePromise.h>
@@ -289,22 +287,6 @@ private:
     sheet.onCtrlP = [sheet makeClickHotkey:self.PanelButton];
     sheet.onCtrlG = [sheet makeClickHotkey:self.GoToButton];
     sheet.onCtrlV = [sheet makeClickHotkey:self.ViewButton];
-    
-    if( !ActivationManager::Instance().HasTemporaryPanels() ) {
-        [self.PanelButton unbind:@"enabled2"];
-        [self.PanelButton unbind:@"enabled"];
-        self.PanelButton.enabled = false;
-    }
-    if( !ActivationManager::Instance().HasInternalViewer() ) {
-        [self.ViewButton unbind:@"enabled"];
-        self.ViewButton.enabled = false;
-    }
-    if( !ActivationManager::Instance().HasArchivesBrowsing() ) {
-        [self.SearchInArchivesButton  unbind:@"enabled"];
-        self.SearchInArchivesButton.enabled = false;
-    }
-    
-    GA().PostScreenView("Find Files");
 }
 
 - (void) dealloc
@@ -536,9 +518,6 @@ private:
 
 - (VFSHostPtr)spawnArchiveFromPath:(const char*)_path inVFS:(const VFSHostPtr&)_host
 {
-    if( !ActivationManager::Instance().HasArchivesBrowsing() )
-        return nullptr;
-    
     char extension[MAXPATHLEN];
     if( !GetExtensionFromPath(_path, extension) )
         return nullptr;

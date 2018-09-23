@@ -3,7 +3,6 @@
 #include <Habanero/CommonPaths.h>
 #include <VFS/Native.h>
 #include <VFS/PS.h>
-#include <NimbleCommander/Core/SandboxManager.h>
 #include "../Views/GoToFolderSheetController.h"
 #include "../PanelController.h"
 #include "../PanelData.h"
@@ -12,7 +11,6 @@
 #include "NavigateHistory.h"
 #include "../PanelView.h"
 #include "../PanelAux.h"
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <NimbleCommander/GeneralUI/AskForPasswordWindowController.h>
 
 namespace nc::panel::actions {
@@ -35,8 +33,7 @@ void GoToFolder::Perform( PanelController *_target, id _sender ) const
             });
         };
 
-        bool access_allowed = !c->VFS->IsNativeFS() ||
-                                SandboxManager::EnsurePathAccess(c->RequestedDirectory);
+        bool access_allowed = !c->VFS->IsNativeFS();
         if( access_allowed )
             [_target GoToDirWithContext:c];
     }];
@@ -44,8 +41,7 @@ void GoToFolder::Perform( PanelController *_target, id _sender ) const
 
 static void GoToNativeDir( const string& _path, PanelController *_target )
 {
-    if( SandboxManager::EnsurePathAccess(_path) )
-        [_target GoToDir:_path vfs:VFSNativeHost::SharedHost() select_entry:"" async:true];
+	[_target GoToDir:_path vfs:VFSNativeHost::SharedHost() select_entry:"" async:true];
 }
 
 void GoToHomeFolder::Perform( PanelController *_target, id _sender ) const
@@ -115,11 +111,6 @@ bool GoToEnclosingFolder::Predicate( PanelController *_target ) const
         return GoBack{}.Predicate(_target);
 }
 
-static bool SandboxAccessDenied( const VFSHost &_host, const string &_path )
-{
-    return _host.IsNativeFS() && !SandboxManager::EnsurePathAccess(_path);
-}
-
 void GoToEnclosingFolder::Perform( PanelController *_target, id _sender ) const
 {
     if( _target.isUniform  ) {
@@ -136,9 +127,6 @@ void GoToEnclosingFolder::Perform( PanelController *_target, id _sender ) const
                 string dir = junct.parent_path().native();
                 string sel_fn = junct.filename().native();
                 
-                if( SandboxAccessDenied(*parent_vfs, dir) )
-                    return; // silently reap this command, since user refuses to grant an access
-                
                 [_target GoToDir:dir
                              vfs:parent_vfs
                     select_entry:sel_fn
@@ -149,9 +137,6 @@ void GoToEnclosingFolder::Perform( PanelController *_target, id _sender ) const
         else {
             string dir = cur.parent_path().remove_filename().native();
             string sel_fn = cur.parent_path().filename().native();
-            
-            if( SandboxAccessDenied(*vfs, dir) )
-                return;
             
             [_target GoToDir:dir
                          vfs:vfs
@@ -190,9 +175,6 @@ bool GoIntoFolder::Predicate( PanelController *_target ) const
     if( item.IsDir() )
         return true;
     
-    if( !ActivationManager::Instance().HasArchivesBrowsing() )
-        return false;
-    
     if( m_ForceArchivesChecking )
         return true;
     else
@@ -209,43 +191,38 @@ void GoIntoFolder::Perform( PanelController *_target, id _sender ) const
         if( item.IsDotDot() )
             actions::GoToEnclosingFolder{}.Perform(_target, _target);
         
-        if( SandboxAccessDenied(*item.Host(), item.Path()) )
-            return;
-        
         [_target GoToDir:item.Path()
                      vfs:item.Host()
             select_entry:""
                    async:true];
     }
-    
-    if( ActivationManager::Instance().HasArchivesBrowsing() ) {
-        const auto eligible_to_check = m_ForceArchivesChecking || IsItemInArchivesWhitelist(item);
-        if( eligible_to_check ) {
-            
-            auto task = [item, _target]( const function<bool()> &_cancelled ) {
-                auto pwd_ask = [=]{
-                    string p;
-                    return RunAskForPasswordModalWindow(item.Filename(), p) ? p : "";
-                };
-                
-                auto arhost = VFSArchiveProxy::OpenFileAsArchive(item.Path(),
-                                                                 item.Host(),
-                                                                 pwd_ask,
-                                                                 _cancelled
-                                                                 );
-                
-                if( arhost )
-                    dispatch_to_main_queue([=]{
-                        [_target GoToDir:"/"
-                                     vfs:arhost
-                            select_entry:""
-                                   async:true];
-                    });
-            };
-            
-            [_target commitCancelableLoadingTask:move(task)];
-        }
-    }
+
+	const auto eligible_to_check = m_ForceArchivesChecking || IsItemInArchivesWhitelist(item);
+	if( eligible_to_check ) {
+
+		auto task = [item, _target]( const function<bool()> &_cancelled ) {
+			auto pwd_ask = [=]{
+				string p;
+				return RunAskForPasswordModalWindow(item.Filename(), p) ? p : "";
+			};
+
+			auto arhost = VFSArchiveProxy::OpenFileAsArchive(item.Path(),
+															 item.Host(),
+															 pwd_ask,
+															 _cancelled
+															 );
+
+			if( arhost )
+				dispatch_to_main_queue([=]{
+					[_target GoToDir:"/"
+								 vfs:arhost
+						select_entry:""
+							   async:true];
+				});
+		};
+
+		[_target commitCancelableLoadingTask:move(task)];
+	}
 }
 
 };

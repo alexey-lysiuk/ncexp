@@ -1,5 +1,4 @@
 // Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "../Core/VFSInstanceManager.h"
 #include "../Core/VFSInstancePromise.h"
@@ -49,7 +48,6 @@
 {
     [self showWindow:self];
     m_Self = self;
-    GA().PostScreenView("VFS List Window");
 }
 
 - (void) updateData

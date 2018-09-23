@@ -4,11 +4,11 @@
 #include <sys/types.h>
 #include <sys/dirent.h>
 #include <Habanero/CommonPaths.h>
+#include <Utility/SystemInformation.h>
 #include <NimbleCommander/Core/Caches/QLThumbnailsCache.h>
 #include <NimbleCommander/Core/Caches/QLVFSThumbnailsCache.h>
 #include <NimbleCommander/Core/Caches/WorkspaceIconsCache.h>
 #include <NimbleCommander/Core/Caches/WorkspaceExtensionIconsCache.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include "PanelData.h"
 #include "PanelDataItemVolatileData.h"
 #include "IconsGenerator2.h"
@@ -48,7 +48,7 @@ static NSImage *ProduceThumbnailForVFS(const string &_path,
     
     char filename_temp[MAXPATHLEN];
     sprintf(filename_temp,
-        ("%s" + ActivationManager::BundleID() + ".ico.XXXXXX").c_str(),
+        ("%s" + sysinfo::GetBundleID() + ".ico.XXXXXX").c_str(),
         CommonPaths::AppTemporaryDirectory().c_str());
     
     int fd = mkstemp(filename_temp);

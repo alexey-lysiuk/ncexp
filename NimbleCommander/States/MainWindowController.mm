@@ -10,7 +10,6 @@
 #include "Terminal/ExternalEditorState.h"
 #include "InternalViewer/MainWindowInternalViewerState.h"
 #include "../Viewer/InternalViewerWindowController.h"
-#include "../GeneralUI/RegistrationInfoWindow.h"
 #include <Utility/NativeFSManager.h>
 #include "MainWindowController.h"
 #include "MainWindow.h"
@@ -18,9 +17,7 @@
 #include "FilePanels/MainWindowFilePanelState.h"
 #include "FilePanels/PanelController.h"
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <Habanero/SerialQueue.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include <NimbleCommander/Core/UserNotificationsCenter.h>
 #include <Operations/Pool.h>
@@ -445,12 +442,6 @@ static const auto g_ShowToolbarTitle = NSLocalizedString(@"Show Toolbar", "Menu 
     return true;
 }
 
-- (IBAction)onMainMenuPerformShowRegistrationInfo:(id)sender
-{
-    RegistrationInfoWindow *w = [[RegistrationInfoWindow alloc] init];
-    [self.window beginSheet:w.window completionHandler:^(NSModalResponse){}];    
-}
-
 - (void)enqueueOperation:(const shared_ptr<nc::ops::Operation> &)_operation
 {
     m_OperationsPool->Enqueue(_operation);
@@ -466,8 +457,6 @@ static const auto g_ShowToolbarTitle = NSLocalizedString(@"Show Toolbar", "Menu 
     CocoaAppearanceManager::Instance().ManageWindowApperance(sheetWindow);
     __block NSWindow *wnd = sheetWindow;
     __block NSWindowController *ctrl = wnd.windowController;
-    if( auto name = ctrl.className.UTF8String)
-        GA().PostScreenView(name);
     [self.window beginSheet:sheetWindow completionHandler:^(NSModalResponse _r){
         if( handler )
             handler(_r);

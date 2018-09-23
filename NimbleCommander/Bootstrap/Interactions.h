@@ -3,11 +3,9 @@
 
 namespace nc::bootstrap {
 
-optional<string> AskUserForLicenseFile();
 bool AskUserToResetDefaults();
 bool AskUserToProvideUsageStatistics();
 bool AskToExitWithRunningOperations();
-void ThankUserForBuyingALicense();
 void WarnAboutFailingToAccessPriviledgedHelper();
     
 }

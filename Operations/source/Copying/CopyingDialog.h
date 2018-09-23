@@ -7,7 +7,6 @@
 @property (readonly) string                     resultDestination;
 @property (readonly) VFSHostPtr                 resultHost;
 @property (readonly) nc::ops::CopyingOptions    resultOptions;
-@property bool allowVerification;
 
 - (instancetype) initWithItems:(vector<VFSListingItem>)_source_items
                      sourceVFS:(const VFSHostPtr&)_source_host

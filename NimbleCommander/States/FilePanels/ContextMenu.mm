@@ -1,7 +1,6 @@
 // Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ContextMenu.h"
 #include "PanelController.h"
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include "Actions/CopyToPasteboard.h"
 #include "Actions/Delete.h"
 #include "Actions/Duplicate.h"
@@ -126,19 +125,17 @@ using namespace nc::panel;
     
     //////////////////////////////////////////////////////////////////////
     // Compression stuff
-    const auto compression_enabled = ActivationManager::Instance().HasCompressionOperation();
-   
     const auto compress_here_item = [NSMenuItem new];
     compress_here_item.title = NSLocalizedStringFromTable(@"Compress", @"FilePanelsContextMenu", "Compress some items here");
     compress_here_item.target = self;
-    compress_here_item.action = compression_enabled ? @selector(OnCompressToCurrentPanel:) : nil;
+    compress_here_item.action = @selector(OnCompressToCurrentPanel:);
     compress_here_item.keyEquivalent = @"";
     [self addItem:compress_here_item];
     
     const auto compress_in_opposite_item = [NSMenuItem new];
     compress_in_opposite_item.title = NSLocalizedStringFromTable(@"Compress in Opposite Panel", @"FilePanelsContextMenu", "Compress some items");
     compress_in_opposite_item.target = self;
-    compress_in_opposite_item.action = compression_enabled ? @selector(OnCompressToOppositePanel:) : nil;
+    compress_in_opposite_item.action = @selector(OnCompressToOppositePanel:);
     compress_in_opposite_item.keyEquivalent = @"";
     compress_in_opposite_item.alternate = YES;
     compress_in_opposite_item.keyEquivalentModifierMask = NSAlternateKeyMask;

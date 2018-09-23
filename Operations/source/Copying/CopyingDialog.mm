@@ -79,7 +79,6 @@ static string MakeCanonicPath(string _input)
 {
     self = [super initWithWindowNibName:@"CopyingDialog"];
     if( self ) {
-        self.allowVerification = false;
         m_SourceItems = move( _source_items );
         m_SourceDirectory = _source_directory;
         m_SourceHost = _source_host;
@@ -131,8 +130,6 @@ static string MakeCanonicPath(string _input)
         self.CopyButton.title = self.RenameButtonStringStub.title;
     }
     [self.VerifySetting selectItemWithTag:(int)m_Options.verification];
-    if( !self.allowVerification )
-        self.VerifySetting.enabled = false;
 }
 
 - (IBAction)OnCopy:(id)sender

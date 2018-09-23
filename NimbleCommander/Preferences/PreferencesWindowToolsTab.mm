@@ -1,6 +1,5 @@
 // Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PreferencesWindowToolsTab.h"
-#include "../Bootstrap/ActivationManager.h"
 #include "../States/FilePanels/ExternalToolsSupport.h"
 
 @interface PreferencesWindowToolsTab ()
@@ -14,7 +13,6 @@
 @property (nonatomic) IBOutlet NSMenu                                 *parametersMenu;
 @property (nonatomic) IBOutlet NSButton                               *addParameterButton;
 @property (nonatomic) bool                                             anySelected;
-@property (readonly, nonatomic) bool                                haveCommandLineTools;
 @property (readonly, nonatomic) shared_ptr<const ExternalTool>      selectedTool;
 
 @end
@@ -57,7 +55,6 @@ static bool AskUserToDeleteTool()
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:self.identifier];
     item.image = self.toolbarItemImage;
     item.label = self.toolbarItemLabel;
-    item.enabled = ActivationManager::Instance().HasExternalTools();
     return item;
 }
 
@@ -359,11 +356,6 @@ static bool AskUserToDeleteTool()
     m_ToolsStorage().MoveTool( drag_from, drag_to );
     
     return true;
-}
-
-- (bool) haveCommandLineTools
-{
-    return ActivationManager::Instance().HasTerminal();
 }
 
 @end

@@ -1,6 +1,5 @@
 // Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/CommonPaths.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include <VFS/NetSFTP.h>
 #include "SFTPConnectionSheetController.h"
@@ -60,9 +59,6 @@ static bool ValidateFileExistence( const string &_filepath )
     if( self.setupMode )
         self.connectButton.title = self.connectButton.alternateTitle;
 
-    GA().PostScreenView("SFTP Connection");
-    
-    
     if( m_Original ) {
         auto &c = m_Original->Get<NetworkConnectionsManager::SFTP>();
         self.title = [NSString stringWithUTF8StdString:c.title];

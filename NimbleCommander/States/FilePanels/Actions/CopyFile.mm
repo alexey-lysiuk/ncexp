@@ -8,7 +8,6 @@
 #include "../PanelAux.h"
 #include <Operations/Copying.h>
 #include <Operations/CopyingDialog.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <NimbleCommander/States/MainWindowController.h>
 
 namespace nc::panel::actions {
@@ -57,8 +56,6 @@ void CopyTo::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      initialDestination:opp_uniform ? opp_pc.currentDirectoryPath : ""
                      destinationVFS:opp_uniform ? opp_pc.vfs : nullptr
                      operationOptions:MakeDefaultFileCopyOptions()];
-    
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
 
     const auto handler = ^(NSModalResponse returnCode){
         if( returnCode != NSModalResponseOK )
@@ -117,7 +114,6 @@ void CopyAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      initialDestination:item.Filename()
                      destinationVFS:item.Host()
                      operationOptions:MakeDefaultFileCopyOptions()];
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
     
     const auto handler = ^(NSModalResponse returnCode) {
         if( returnCode != NSModalResponseOK )
@@ -199,7 +195,6 @@ void MoveTo::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      initialDestination:opp_uniform ? opp_pc.currentDirectoryPath : ""
                      destinationVFS:opp_uniform ? opp_pc.vfs : nullptr
                      operationOptions:MakeDefaultFileMoveOptions()];
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
     
     const auto handler = ^(NSModalResponse returnCode) {
         if( returnCode != NSModalResponseOK )
@@ -258,7 +253,6 @@ void MoveAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      initialDestination:item.Filename()
                      destinationVFS:item.Host()
                      operationOptions:MakeDefaultFileMoveOptions()];
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
     
     const auto handler = ^(NSModalResponse returnCode){
         if( returnCode != NSModalResponseOK )

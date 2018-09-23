@@ -2,7 +2,6 @@
 #include <Utility/VolumeInformation.h>
 #include <Utility/NSTimer+Tolerance.h>
 #include <Utility/NativeFSManager.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "DetailedVolumeInformationSheetController.h"
 
@@ -288,8 +287,6 @@ static NSString* Bool2ToString(const bool b[2])
     
     NSString *advstr = [NSString stringWithFormat:@"%@%@%@%@%@%@%@", uuid, formatcap, formatint, attrcmn, attrvol, attrdir, attrfile];
     [[self AdvancedTextView] setString:advstr];
-    
-    GA().PostScreenView("Detailed Volume Information");
 }
 
 - (void)showSheetForWindow:(NSWindow *)_window withPath: (const string&)_path

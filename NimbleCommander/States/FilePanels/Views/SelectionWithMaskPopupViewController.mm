@@ -1,5 +1,4 @@
 // Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/SimpleComboBoxPersistentDataSource.h>
 #include "SelectionWithMaskPopupViewController.h"
 
@@ -50,8 +49,6 @@ static spinlock                         g_InitialMaskLock;
         auto i = g_InitialMask.find(m_TargetWnd);
         self.comboBox.stringValue = i != end(g_InitialMask) ? (*i).second : @"*.*";
     }
-    
-    GA().PostScreenView("Mask Selection Popup");
 }
 
 - (IBAction)OnComboBox:(id)sender

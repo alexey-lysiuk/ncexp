@@ -14,7 +14,6 @@ namespace nc::panel {
 }
 
 @interface NCPanelsStateActionsDispatcher : AttachedResponder
-@property (nonatomic, readwrite) bool hasTerminal;
 
 - (instancetype)initWithState:(MainWindowFilePanelState*)_state
                      andActionsMap:(const nc::panel::StateActionsMap&)_actions_map;

@@ -1,7 +1,6 @@
 // Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <VFS/VFS.h>
 #include <NimbleCommander/Bootstrap/Config.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/States/FilePanels/PanelController.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "GoToFolderSheetController.h"
@@ -73,7 +72,6 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
     
     self.Text.delegate = self;
     [self controlTextDidChange:[NSNotification notificationWithName:@"" object:nil]];
-    GA().PostScreenView("Go To Folder");
 }
 
 - (void)showSheetWithParentWindow:(NSWindow *)_window handler:(function<void()>)_handler

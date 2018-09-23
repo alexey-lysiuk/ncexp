@@ -3,7 +3,6 @@
 #include <Habanero/SerialQueue.h>
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <NimbleCommander/Core/Alert.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "CalculateChecksumSheetController.h"
 
@@ -169,8 +168,6 @@ const static vector<pair<NSString*,int>> g_Algos = {
     self.Progress.maxValue = double(m_TotalSize);
     self.Progress.controlSize = NSMiniControlSize;
     [self.Progress setIndeterminate:false];
-    
-    GA().PostScreenView("Calculate Checksum");
 }
 
 - (IBAction)OnClose:(id)sender

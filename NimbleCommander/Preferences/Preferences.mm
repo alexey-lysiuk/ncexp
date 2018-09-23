@@ -1,6 +1,5 @@
 // Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include "PreferencesWindowGeneralTab.h"
 #include "PreferencesWindowPanelsTab.h"
 #include "PreferencesWindowViewerTab.h"
@@ -29,5 +28,4 @@ void ShowPreferencesWindow()
     }();
     
     [preferences showWindow:nil];
-    GA().PostScreenView("Preferences Window");
 }

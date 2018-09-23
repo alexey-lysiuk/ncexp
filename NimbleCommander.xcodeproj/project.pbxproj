@@ -185,14 +185,12 @@
 		8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */; };
 		8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */; };
 		8A453F0F21568ED0009284A2 /* Dock.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C622156818C009284A2 /* Dock.mm */; };
-		8A453F1021568ED0009284A2 /* FeedbackManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C642156818C009284A2 /* FeedbackManager.mm */; };
 		8A453F1121568ED0009284A2 /* FileMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C652156818C009284A2 /* FileMask.cpp */; };
 		8A453F1321568ED0009284A2 /* FileWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C682156818C009284A2 /* FileWindow.cpp */; };
 		8A453F1621568ED0009284A2 /* LaunchServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C6E2156818C009284A2 /* LaunchServices.mm */; };
 		8A453F1721568ED0009284A2 /* NetworkConnectionIconProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C732156818C009284A2 /* NetworkConnectionIconProvider.mm */; };
 		8A453F1821568ED0009284A2 /* NetworkConnectionsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C752156818C009284A2 /* NetworkConnectionsManager.mm */; };
 		8A453F1921568ED0009284A2 /* rapidjson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C762156818C009284A2 /* rapidjson.cpp */; };
-		8A453F1A21568ED0009284A2 /* SandboxManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7A2156818C009284A2 /* SandboxManager.mm */; };
 		8A453F1B21568ED0009284A2 /* SearchForFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7B2156818C009284A2 /* SearchForFiles.cpp */; };
 		8A453F1C21568ED0009284A2 /* SearchInFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7D2156818C009284A2 /* SearchInFile.cpp */; };
 		8A453F1D21568ED0009284A2 /* ServicesHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C802156818C009284A2 /* ServicesHandler.mm */; };
@@ -206,11 +204,8 @@
 		8A453F2521568FD8009284A2 /* AskForPasswordWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E952156818E009284A2 /* AskForPasswordWindowController.mm */; };
 		8A453F2621568FD8009284A2 /* CalculateChecksumSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EA72156818E009284A2 /* CalculateChecksumSheetController.mm */; };
 		8A453F2721568FD8009284A2 /* DetailedVolumeInformationSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EA92156818E009284A2 /* DetailedVolumeInformationSheetController.mm */; };
-		8A453F2821568FD8009284A2 /* FeedbackWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAB2156818E009284A2 /* FeedbackWindow.mm */; };
 		8A453F2921568FD8009284A2 /* FilterPopUpMenu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAD2156818E009284A2 /* FilterPopUpMenu.mm */; };
 		8A453F2A21568FD8009284A2 /* ProcessSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAF2156818E009284A2 /* ProcessSheetController.mm */; };
-		8A453F2C21568FD8009284A2 /* RegistrationInfoWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EB32156818E009284A2 /* RegistrationInfoWindow.mm */; };
-		8A453F2D21568FD8009284A2 /* TrialWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EC52156818E009284A2 /* TrialWindowController.mm */; };
 		8A453F2E21568FD8009284A2 /* VFSListWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EC82156818E009284A2 /* VFSListWindowController.mm */; };
 		8A453F2F21568FF1009284A2 /* Preferences.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CB42156818C009284A2 /* Preferences.mm */; };
 		8A453F3021568FF1009284A2 /* PreferencesWindowExternalEditorsTab.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CB62156818C009284A2 /* PreferencesWindowExternalEditorsTab.mm */; };
@@ -310,7 +305,6 @@
 		8A453F8F21569111009284A2 /* SpotlightSearchPopupViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E672156818D009284A2 /* SpotlightSearchPopupViewController.mm */; };
 		8A453F9021569111009284A2 /* TabBarStyle.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E692156818D009284A2 /* TabBarStyle.mm */; };
 		8A453F9121569111009284A2 /* WebDAVConnectionSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453E6B2156818D009284A2 /* WebDAVConnectionSheetController.mm */; };
-		8A453F9221569159009284A2 /* AskingForRatingOverlayView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D5F2156818D009284A2 /* AskingForRatingOverlayView.mm */; };
 		8A453F9321569159009284A2 /* ContextMenu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D7E2156818D009284A2 /* ContextMenu.mm */; };
 		8A453F9421569159009284A2 /* CursorBackup.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D802156818D009284A2 /* CursorBackup.mm */; };
 		8A453F9521569159009284A2 /* DragReceiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D822156818D009284A2 /* DragReceiver.mm */; };
@@ -1069,7 +1063,6 @@
 		8ABF090F215641F700BC1103 /* ex_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0426215636BB00BC1103 /* ex_data.c */; };
 		8ABF0910215641F700BC1103 /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0453215636BB00BC1103 /* init.c */; };
 		8ABF0911215641F700BC1103 /* mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0472215636BB00BC1103 /* mem.c */; };
-		8ABF0912215641F700BC1103 /* mem_clr.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0473215636BB00BC1103 /* mem_clr.c */; };
 		8ABF0913215641F700BC1103 /* mem_dbg.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0474215636BB00BC1103 /* mem_dbg.c */; };
 		8ABF0914215641F700BC1103 /* mem_sec.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0475215636BB00BC1103 /* mem_sec.c */; };
 		8ABF0915215641F700BC1103 /* o_dir.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0485215636BB00BC1103 /* o_dir.c */; };
@@ -1589,7 +1582,6 @@
 		8A16C196215776F500A4FDCE /* MMAddButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMAddButton.h; sourceTree = "<group>"; };
 		8A16C1972157797800A4FDCE /* compose_visitors.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = compose_visitors.hpp; sourceTree = "<group>"; };
 		8A171C082154F1B60043D119 /* dispatch_cpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = dispatch_cpp.h; path = include/Habanero/dispatch_cpp.h; sourceTree = "<group>"; };
-		8A171C092154F1B60043D119 /* GoogleAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GoogleAnalytics.h; path = include/Habanero/GoogleAnalytics.h; sourceTree = "<group>"; };
 		8A171C0A2154F1B60043D119 /* algo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = algo.h; path = include/Habanero/algo.h; sourceTree = "<group>"; };
 		8A171C0B2154F1B60043D119 /* CFString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CFString.h; path = include/Habanero/CFString.h; sourceTree = "<group>"; };
 		8A171C0C2154F1B60043D119 /* mach_time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mach_time.h; path = include/Habanero/mach_time.h; sourceTree = "<group>"; };
@@ -1616,7 +1608,6 @@
 		8A171C212154F1C20043D119 /* IdleSleepPreventer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = IdleSleepPreventer.cpp; path = source/IdleSleepPreventer.cpp; sourceTree = "<group>"; };
 		8A171C222154F1C20043D119 /* spinlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = spinlock.cpp; path = source/spinlock.cpp; sourceTree = "<group>"; };
 		8A171C232154F1C20043D119 /* DispatchGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DispatchGroup.cpp; path = source/DispatchGroup.cpp; sourceTree = "<group>"; };
-		8A171C242154F1C20043D119 /* GoogleAnalytics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = GoogleAnalytics.mm; path = source/GoogleAnalytics.mm; sourceTree = "<group>"; };
 		8A171C252154F1C20043D119 /* CFStackAllocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CFStackAllocator.cpp; path = source/CFStackAllocator.cpp; sourceTree = "<group>"; };
 		8A171C262154F1C20043D119 /* dispatch_cpp.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = dispatch_cpp.cpp; path = source/dispatch_cpp.cpp; sourceTree = "<group>"; };
 		8A171C272154F1C20043D119 /* chained_strings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = chained_strings.cpp; path = source/chained_strings.cpp; sourceTree = "<group>"; };
@@ -1945,14 +1936,10 @@
 		8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ConnectionsMenuDelegate.mm; sourceTree = "<group>"; };
 		8A453C612156818C009284A2 /* Dock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dock.h; sourceTree = "<group>"; };
 		8A453C622156818C009284A2 /* Dock.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Dock.mm; sourceTree = "<group>"; };
-		8A453C632156818C009284A2 /* FeedbackManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedbackManager.h; sourceTree = "<group>"; };
-		8A453C642156818C009284A2 /* FeedbackManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FeedbackManager.mm; sourceTree = "<group>"; };
 		8A453C652156818C009284A2 /* FileMask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileMask.cpp; sourceTree = "<group>"; };
 		8A453C662156818C009284A2 /* FileMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileMask.h; sourceTree = "<group>"; };
 		8A453C682156818C009284A2 /* FileWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileWindow.cpp; sourceTree = "<group>"; };
 		8A453C692156818C009284A2 /* FileWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileWindow.h; sourceTree = "<group>"; };
-		8A453C6B2156818C009284A2 /* GoogleAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleAnalytics.h; sourceTree = "<group>"; };
-		8A453C6C2156818C009284A2 /* GoogleAnalytics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GoogleAnalytics.mm; sourceTree = "<group>"; };
 		8A453C6D2156818C009284A2 /* LaunchServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchServices.h; sourceTree = "<group>"; };
 		8A453C6E2156818C009284A2 /* LaunchServices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LaunchServices.mm; sourceTree = "<group>"; };
 		8A453C702156818C009284A2 /* MASAppInstalledChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MASAppInstalledChecker.cpp; sourceTree = "<group>"; };
@@ -1964,8 +1951,6 @@
 		8A453C762156818C009284A2 /* rapidjson.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rapidjson.cpp; sourceTree = "<group>"; };
 		8A453C772156818C009284A2 /* rapidjson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rapidjson.h; sourceTree = "<group>"; };
 		8A453C782156818C009284A2 /* rapidjson_fwd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rapidjson_fwd.h; sourceTree = "<group>"; };
-		8A453C792156818C009284A2 /* SandboxManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SandboxManager.h; sourceTree = "<group>"; };
-		8A453C7A2156818C009284A2 /* SandboxManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SandboxManager.mm; sourceTree = "<group>"; };
 		8A453C7B2156818C009284A2 /* SearchForFiles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SearchForFiles.cpp; sourceTree = "<group>"; };
 		8A453C7C2156818C009284A2 /* SearchForFiles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchForFiles.h; sourceTree = "<group>"; };
 		8A453C7D2156818C009284A2 /* SearchInFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SearchInFile.cpp; sourceTree = "<group>"; };
@@ -2048,8 +2033,6 @@
 		8A453CE32156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowThemesTabImportSheet.strings; sourceTree = "<group>"; };
 		8A453CE52156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowToolsTab.strings; sourceTree = "<group>"; };
 		8A453CE72156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PreferencesWindowViewerTab.strings; sourceTree = "<group>"; };
-		8A453CE92156818D009284A2 /* ActivationManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ActivationManager.cpp; sourceTree = "<group>"; };
-		8A453CEA2156818D009284A2 /* ActivationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ActivationManager.h; sourceTree = "<group>"; };
 		8A453CEB2156818D009284A2 /* AppDelegate+MainWindowCreation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+MainWindowCreation.h"; sourceTree = "<group>"; };
 		8A453CEC2156818D009284A2 /* AppDelegate+MainWindowCreation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "AppDelegate+MainWindowCreation.mm"; sourceTree = "<group>"; };
 		8A453CED2156818D009284A2 /* AppDelegate+Migration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AppDelegate+Migration.h"; sourceTree = "<group>"; };
@@ -2160,8 +2143,6 @@
 		8A453D5B2156818D009284A2 /* ToggleSort.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ToggleSort.mm; sourceTree = "<group>"; };
 		8A453D5C2156818D009284A2 /* ViewFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewFile.h; sourceTree = "<group>"; };
 		8A453D5D2156818D009284A2 /* ViewFile.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewFile.mm; sourceTree = "<group>"; };
-		8A453D5E2156818D009284A2 /* AskingForRatingOverlayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AskingForRatingOverlayView.h; sourceTree = "<group>"; };
-		8A453D5F2156818D009284A2 /* AskingForRatingOverlayView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AskingForRatingOverlayView.mm; sourceTree = "<group>"; };
 		8A453D612156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ExternalToolParameterValueSheetController.xib; sourceTree = "<group>"; };
 		8A453D632156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FavoritesWindowController.xib; sourceTree = "<group>"; };
 		8A453D652156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/FilePanelsContextMenu.strings; sourceTree = "<group>"; };
@@ -2433,36 +2414,21 @@
 		8A453E972156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AskForPasswordWindowController.xib; sourceTree = "<group>"; };
 		8A453E992156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/CalculateChecksumSheetController.xib; sourceTree = "<group>"; };
 		8A453E9B2156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/DetailedVolumeInformationSheetController.xib; sourceTree = "<group>"; };
-		8A453E9D2156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/FeedbackWindow.xib; sourceTree = "<group>"; };
 		8A453E9F2156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProcessSheetController.xib; sourceTree = "<group>"; };
-		8A453EA12156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ProFeaturesWindowController.xib; sourceTree = "<group>"; };
-		8A453EA32156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/RegistrationInfoWindow.xib; sourceTree = "<group>"; };
 		8A453EA52156818E009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/VFSListWindowController.xib; sourceTree = "<group>"; };
 		8A453EA62156818E009284A2 /* CalculateChecksumSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CalculateChecksumSheetController.h; sourceTree = "<group>"; };
 		8A453EA72156818E009284A2 /* CalculateChecksumSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = CalculateChecksumSheetController.mm; sourceTree = "<group>"; };
 		8A453EA82156818E009284A2 /* DetailedVolumeInformationSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailedVolumeInformationSheetController.h; sourceTree = "<group>"; };
 		8A453EA92156818E009284A2 /* DetailedVolumeInformationSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DetailedVolumeInformationSheetController.mm; sourceTree = "<group>"; };
-		8A453EAA2156818E009284A2 /* FeedbackWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedbackWindow.h; sourceTree = "<group>"; };
-		8A453EAB2156818E009284A2 /* FeedbackWindow.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FeedbackWindow.mm; sourceTree = "<group>"; };
 		8A453EAC2156818E009284A2 /* FilterPopUpMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilterPopUpMenu.h; sourceTree = "<group>"; };
 		8A453EAD2156818E009284A2 /* FilterPopUpMenu.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilterPopUpMenu.mm; sourceTree = "<group>"; };
 		8A453EAE2156818E009284A2 /* ProcessSheetController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProcessSheetController.h; sourceTree = "<group>"; };
 		8A453EAF2156818E009284A2 /* ProcessSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProcessSheetController.mm; sourceTree = "<group>"; };
-		8A453EB02156818E009284A2 /* ProFeaturesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProFeaturesWindowController.h; sourceTree = "<group>"; };
-		8A453EB12156818E009284A2 /* ProFeaturesWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ProFeaturesWindowController.mm; sourceTree = "<group>"; };
-		8A453EB22156818E009284A2 /* RegistrationInfoWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegistrationInfoWindow.h; sourceTree = "<group>"; };
-		8A453EB32156818E009284A2 /* RegistrationInfoWindow.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RegistrationInfoWindow.mm; sourceTree = "<group>"; };
 		8A453EB52156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AskForPasswordWindowController.strings; sourceTree = "<group>"; };
 		8A453EB72156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/CalculateChecksumSheetController.strings; sourceTree = "<group>"; };
 		8A453EB92156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/DetailedVolumeInformationSheetController.strings; sourceTree = "<group>"; };
-		8A453EBB2156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FeedbackWindow.strings; sourceTree = "<group>"; };
 		8A453EBD2156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ProcessSheetController.strings; sourceTree = "<group>"; };
-		8A453EBF2156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ProFeaturesWindowController.strings; sourceTree = "<group>"; };
-		8A453EC12156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/RegistrationInfoWindow.strings; sourceTree = "<group>"; };
 		8A453EC32156818E009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/VFSListWindowController.strings; sourceTree = "<group>"; };
-		8A453EC42156818E009284A2 /* TrialWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrialWindowController.h; sourceTree = "<group>"; };
-		8A453EC52156818E009284A2 /* TrialWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TrialWindowController.mm; sourceTree = "<group>"; };
-		8A453EC62156818E009284A2 /* TrialWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrialWindowController.xib; sourceTree = "<group>"; };
 		8A453EC72156818E009284A2 /* VFSListWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VFSListWindowController.h; sourceTree = "<group>"; };
 		8A453EC82156818E009284A2 /* VFSListWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = VFSListWindowController.mm; sourceTree = "<group>"; };
 		8A548D762154EE410047A5B2 /* NimbleCommander.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NimbleCommander.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -4444,7 +4410,6 @@
 				8A171C082154F1B60043D119 /* dispatch_cpp.h */,
 				8A171C132154F1B60043D119 /* DispatchGroup.h */,
 				8A171C1C2154F1B70043D119 /* fixed_eytzinger_map.h */,
-				8A171C092154F1B60043D119 /* GoogleAnalytics.h */,
 				8A171C142154F1B70043D119 /* Hash.h */,
 				8A171C172154F1B70043D119 /* IdleSleepPreventer.h */,
 				8A171C182154F1B70043D119 /* KVO.h */,
@@ -4901,14 +4866,10 @@
 				8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */,
 				8A453C612156818C009284A2 /* Dock.h */,
 				8A453C622156818C009284A2 /* Dock.mm */,
-				8A453C632156818C009284A2 /* FeedbackManager.h */,
-				8A453C642156818C009284A2 /* FeedbackManager.mm */,
 				8A453C652156818C009284A2 /* FileMask.cpp */,
 				8A453C662156818C009284A2 /* FileMask.h */,
 				8A453C682156818C009284A2 /* FileWindow.cpp */,
 				8A453C692156818C009284A2 /* FileWindow.h */,
-				8A453C6B2156818C009284A2 /* GoogleAnalytics.h */,
-				8A453C6C2156818C009284A2 /* GoogleAnalytics.mm */,
 				8A453C6D2156818C009284A2 /* LaunchServices.h */,
 				8A453C6E2156818C009284A2 /* LaunchServices.mm */,
 				8A453C722156818C009284A2 /* NetworkConnectionIconProvider.h */,
@@ -4918,8 +4879,6 @@
 				8A453C762156818C009284A2 /* rapidjson.cpp */,
 				8A453C772156818C009284A2 /* rapidjson.h */,
 				8A453C782156818C009284A2 /* rapidjson_fwd.h */,
-				8A453C792156818C009284A2 /* SandboxManager.h */,
-				8A453C7A2156818C009284A2 /* SandboxManager.mm */,
 				8A453C7B2156818C009284A2 /* SearchForFiles.cpp */,
 				8A453C7C2156818C009284A2 /* SearchForFiles.h */,
 				8A453C7D2156818C009284A2 /* SearchInFile.cpp */,
@@ -5046,8 +5005,6 @@
 		8A453CE82156818D009284A2 /* Bootstrap */ = {
 			isa = PBXGroup;
 			children = (
-				8A453CE92156818D009284A2 /* ActivationManager.cpp */,
-				8A453CEA2156818D009284A2 /* ActivationManager.h */,
 				8A453CEB2156818D009284A2 /* AppDelegate+MainWindowCreation.h */,
 				8A453CEC2156818D009284A2 /* AppDelegate+MainWindowCreation.mm */,
 				8A453CED2156818D009284A2 /* AppDelegate+Migration.h */,
@@ -5099,8 +5056,6 @@
 				8A453D9B2156818D009284A2 /* Helpers */,
 				8A453DA72156818D009284A2 /* List */,
 				8A453E232156818D009284A2 /* Views */,
-				8A453D5E2156818D009284A2 /* AskingForRatingOverlayView.h */,
-				8A453D5F2156818D009284A2 /* AskingForRatingOverlayView.mm */,
 				8A453D602156818D009284A2 /* ExternalToolParameterValueSheetController.xib */,
 				8A453D622156818D009284A2 /* FavoritesWindowController.xib */,
 				8A453D642156818D009284A2 /* FilePanelsContextMenu.strings */,
@@ -5512,36 +5467,21 @@
 				8A453E962156818E009284A2 /* AskForPasswordWindowController.xib */,
 				8A453E982156818E009284A2 /* CalculateChecksumSheetController.xib */,
 				8A453E9A2156818E009284A2 /* DetailedVolumeInformationSheetController.xib */,
-				8A453E9C2156818E009284A2 /* FeedbackWindow.xib */,
 				8A453E9E2156818E009284A2 /* ProcessSheetController.xib */,
-				8A453EA02156818E009284A2 /* ProFeaturesWindowController.xib */,
-				8A453EA22156818E009284A2 /* RegistrationInfoWindow.xib */,
 				8A453EA42156818E009284A2 /* VFSListWindowController.xib */,
 				8A453EA62156818E009284A2 /* CalculateChecksumSheetController.h */,
 				8A453EA72156818E009284A2 /* CalculateChecksumSheetController.mm */,
 				8A453EA82156818E009284A2 /* DetailedVolumeInformationSheetController.h */,
 				8A453EA92156818E009284A2 /* DetailedVolumeInformationSheetController.mm */,
-				8A453EAA2156818E009284A2 /* FeedbackWindow.h */,
-				8A453EAB2156818E009284A2 /* FeedbackWindow.mm */,
 				8A453EAC2156818E009284A2 /* FilterPopUpMenu.h */,
 				8A453EAD2156818E009284A2 /* FilterPopUpMenu.mm */,
 				8A453EAE2156818E009284A2 /* ProcessSheetController.h */,
 				8A453EAF2156818E009284A2 /* ProcessSheetController.mm */,
-				8A453EB02156818E009284A2 /* ProFeaturesWindowController.h */,
-				8A453EB12156818E009284A2 /* ProFeaturesWindowController.mm */,
-				8A453EB22156818E009284A2 /* RegistrationInfoWindow.h */,
-				8A453EB32156818E009284A2 /* RegistrationInfoWindow.mm */,
 				8A453EB42156818E009284A2 /* AskForPasswordWindowController.strings */,
 				8A453EB62156818E009284A2 /* CalculateChecksumSheetController.strings */,
 				8A453EB82156818E009284A2 /* DetailedVolumeInformationSheetController.strings */,
-				8A453EBA2156818E009284A2 /* FeedbackWindow.strings */,
 				8A453EBC2156818E009284A2 /* ProcessSheetController.strings */,
-				8A453EBE2156818E009284A2 /* ProFeaturesWindowController.strings */,
-				8A453EC02156818E009284A2 /* RegistrationInfoWindow.strings */,
 				8A453EC22156818E009284A2 /* VFSListWindowController.strings */,
-				8A453EC42156818E009284A2 /* TrialWindowController.h */,
-				8A453EC52156818E009284A2 /* TrialWindowController.mm */,
-				8A453EC62156818E009284A2 /* TrialWindowController.xib */,
 				8A453EC72156818E009284A2 /* VFSListWindowController.h */,
 				8A453EC82156818E009284A2 /* VFSListWindowController.mm */,
 			);
@@ -5644,7 +5584,6 @@
 				8A171C292154F1C20043D119 /* debug.cpp */,
 				8A171C262154F1C20043D119 /* dispatch_cpp.cpp */,
 				8A171C232154F1C20043D119 /* DispatchGroup.cpp */,
-				8A171C242154F1C20043D119 /* GoogleAnalytics.mm */,
 				8A171C1F2154F1C20043D119 /* Hash.cpp */,
 				8A171C212154F1C20043D119 /* IdleSleepPreventer.cpp */,
 				8A171C2C2154F1C20043D119 /* KVO.cpp */,
@@ -9248,14 +9187,12 @@
 				8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */,
 				8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */,
 				8A453F0F21568ED0009284A2 /* Dock.mm in Sources */,
-				8A453F1021568ED0009284A2 /* FeedbackManager.mm in Sources */,
 				8A453F1121568ED0009284A2 /* FileMask.cpp in Sources */,
 				8A453F1321568ED0009284A2 /* FileWindow.cpp in Sources */,
 				8A453F1621568ED0009284A2 /* LaunchServices.mm in Sources */,
 				8A453F1721568ED0009284A2 /* NetworkConnectionIconProvider.mm in Sources */,
 				8A453F1821568ED0009284A2 /* NetworkConnectionsManager.mm in Sources */,
 				8A453F1921568ED0009284A2 /* rapidjson.cpp in Sources */,
-				8A453F1A21568ED0009284A2 /* SandboxManager.mm in Sources */,
 				8A453F1B21568ED0009284A2 /* SearchForFiles.cpp in Sources */,
 				8A453F1C21568ED0009284A2 /* SearchInFile.cpp in Sources */,
 				8A453F1D21568ED0009284A2 /* ServicesHandler.mm in Sources */,
@@ -9269,11 +9206,8 @@
 				8A453F2521568FD8009284A2 /* AskForPasswordWindowController.mm in Sources */,
 				8A453F2621568FD8009284A2 /* CalculateChecksumSheetController.mm in Sources */,
 				8A453F2721568FD8009284A2 /* DetailedVolumeInformationSheetController.mm in Sources */,
-				8A453F2821568FD8009284A2 /* FeedbackWindow.mm in Sources */,
 				8A453F2921568FD8009284A2 /* FilterPopUpMenu.mm in Sources */,
 				8A453F2A21568FD8009284A2 /* ProcessSheetController.mm in Sources */,
-				8A453F2C21568FD8009284A2 /* RegistrationInfoWindow.mm in Sources */,
-				8A453F2D21568FD8009284A2 /* TrialWindowController.mm in Sources */,
 				8A453F2E21568FD8009284A2 /* VFSListWindowController.mm in Sources */,
 				8A453F2F21568FF1009284A2 /* Preferences.mm in Sources */,
 				8A453F3021568FF1009284A2 /* PreferencesWindowExternalEditorsTab.mm in Sources */,
@@ -9373,7 +9307,6 @@
 				8A453F8F21569111009284A2 /* SpotlightSearchPopupViewController.mm in Sources */,
 				8A453F9021569111009284A2 /* TabBarStyle.mm in Sources */,
 				8A453F9121569111009284A2 /* WebDAVConnectionSheetController.mm in Sources */,
-				8A453F9221569159009284A2 /* AskingForRatingOverlayView.mm in Sources */,
 				8A453F9321569159009284A2 /* ContextMenu.mm in Sources */,
 				8A453F9421569159009284A2 /* CursorBackup.mm in Sources */,
 				8A453F9521569159009284A2 /* DragReceiver.mm in Sources */,
@@ -10130,7 +10063,6 @@
 				8ABF090F215641F700BC1103 /* ex_data.c in Sources */,
 				8ABF0910215641F700BC1103 /* init.c in Sources */,
 				8ABF0911215641F700BC1103 /* mem.c in Sources */,
-				8ABF0912215641F700BC1103 /* mem_clr.c in Sources */,
 				8ABF0913215641F700BC1103 /* mem_dbg.c in Sources */,
 				8ABF0914215641F700BC1103 /* mem_sec.c in Sources */,
 				8ABF0915215641F700BC1103 /* o_dir.c in Sources */,
@@ -11251,36 +11183,12 @@
 			name = DetailedVolumeInformationSheetController.xib;
 			sourceTree = "<group>";
 		};
-		8A453E9C2156818E009284A2 /* FeedbackWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8A453E9D2156818E009284A2 /* Base */,
-			);
-			name = FeedbackWindow.xib;
-			sourceTree = "<group>";
-		};
 		8A453E9E2156818E009284A2 /* ProcessSheetController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				8A453E9F2156818E009284A2 /* Base */,
 			);
 			name = ProcessSheetController.xib;
-			sourceTree = "<group>";
-		};
-		8A453EA02156818E009284A2 /* ProFeaturesWindowController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8A453EA12156818E009284A2 /* Base */,
-			);
-			name = ProFeaturesWindowController.xib;
-			sourceTree = "<group>";
-		};
-		8A453EA22156818E009284A2 /* RegistrationInfoWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8A453EA32156818E009284A2 /* Base */,
-			);
-			name = RegistrationInfoWindow.xib;
 			sourceTree = "<group>";
 		};
 		8A453EA42156818E009284A2 /* VFSListWindowController.xib */ = {
@@ -11315,36 +11223,12 @@
 			name = DetailedVolumeInformationSheetController.strings;
 			sourceTree = "<group>";
 		};
-		8A453EBA2156818E009284A2 /* FeedbackWindow.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8A453EBB2156818E009284A2 /* ru */,
-			);
-			name = FeedbackWindow.strings;
-			sourceTree = "<group>";
-		};
 		8A453EBC2156818E009284A2 /* ProcessSheetController.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				8A453EBD2156818E009284A2 /* ru */,
 			);
 			name = ProcessSheetController.strings;
-			sourceTree = "<group>";
-		};
-		8A453EBE2156818E009284A2 /* ProFeaturesWindowController.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8A453EBF2156818E009284A2 /* ru */,
-			);
-			name = ProFeaturesWindowController.strings;
-			sourceTree = "<group>";
-		};
-		8A453EC02156818E009284A2 /* RegistrationInfoWindow.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8A453EC12156818E009284A2 /* ru */,
-			);
-			name = RegistrationInfoWindow.strings;
 			sourceTree = "<group>";
 		};
 		8A453EC22156818E009284A2 /* VFSListWindowController.strings */ = {

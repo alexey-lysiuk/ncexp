@@ -7,9 +7,7 @@
 #include "WebDAVConnectionSheetController.h"
 #include <Utility/SheetWithHotkeys.h>
 #include <NimbleCommander/Core/Alert.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <Carbon/Carbon.h>
 
 namespace {
@@ -75,8 +73,6 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
 @property (nonatomic) IBOutlet NSMenu *addNewConnectionMenu;
 @property (nonatomic) IBOutlet NSButton *connectButton;
 
-@property (nonatomic, readonly) bool LANSharesEnabled;
-
 @end
 
 @implementation ConnectToServer
@@ -105,8 +101,6 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
     
     CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
-    GA().PostScreenView("Network Connections Management");
- 
     auto sheet = objc_cast<SheetWithHotkeys>(self.window);
     sheet.onCtrlA = ^{ PeformClickIfEnabled(self.controlButtons, 0); };
     sheet.onCtrlI = [sheet makeFocusHotkey:self.connectionsTable];
@@ -354,11 +348,6 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
     }
 
     return [super keyDown:event];
-}
-
-- (bool) LANSharesEnabled
-{
-    return ActivationManager::Instance().HasLANSharesMounting();
 }
 
 @end

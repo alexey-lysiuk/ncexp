@@ -9,10 +9,8 @@
 #include "Views/BriefSystemOverview.h"
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
-#include <NimbleCommander/Core/SandboxManager.h>
 #include <NimbleCommander/Bootstrap/Config.h>
 #include "PanelDataPersistency.h"
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include "PanelViewLayoutSupport.h"
 #include "PanelDataItemVolatileData.h"
 #include "PanelDataOptionsPersistence.h"
@@ -689,16 +687,6 @@ static void ShowAlertAboutInvalidFilename( const string &_filename )
     [self.state activePanelChangedTo:self];
     [self updateAttachedQuickLook];
     [self updateAttachedBriefSystemOverview];
-}
-
-+ (bool) ensureCanGoToNativeFolderSync:(const string&)_path
-{
-    return SandboxManager::EnsurePathAccess(_path);
-}
-
-- (bool)ensureCanGoToNativeFolderSync:(const string&)_path
-{
-    return [PanelController ensureCanGoToNativeFolderSync:_path];
 }
 
 - (void)changeDataOptions:(const function<void(nc::panel::data::Model& _data)>&)_workload

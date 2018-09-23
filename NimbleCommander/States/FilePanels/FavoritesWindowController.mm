@@ -3,7 +3,6 @@
 #include <Habanero/algo.h>
 #include <Utility/SheetWithHotkeys.h>
 #include <NimbleCommander/Core/Alert.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include <NimbleCommander/States/MainWindowController.h>
 #include <NimbleCommander/States/FilePanels/MainWindowFilePanelState.h>
@@ -52,7 +51,6 @@ static const auto g_FavoritesWindowControllerDragDataType =
 {
     [super windowDidLoad];
     CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
-    GA().PostScreenView("Favorites");
     
     [self.table registerForDraggedTypes:@[FilesDraggingSource.fileURLsDragUTI,
                                           FilesDraggingSource.privateDragUTI,

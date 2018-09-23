@@ -10,7 +10,6 @@
 #include <NimbleCommander/States/FilePanels/PanelController.h>
 #include <NimbleCommander/States/MainWindowController.h>
 #include "PanelAux.h"
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include "ExternalEditorInfo.h"
 #include <Operations/Copying.h>
 
@@ -328,8 +327,6 @@ bool IsEligbleToTryToExecuteInConsole(const VFSListingItem& _item)
 
 static ops::CopyingOptions::ChecksumVerification DefaultChecksumVerificationSetting()
 {
-    if( !ActivationManager::Instance().HasCopyVerification() )
-        return ops::CopyingOptions::ChecksumVerification::Never;
     int v = GlobalConfig().GetInt(g_ConfigDefaultVerificationSetting);
     if( v == (int)ops::CopyingOptions::ChecksumVerification::Always )
        return ops::CopyingOptions::ChecksumVerification::Always;

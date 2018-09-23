@@ -5,20 +5,15 @@
 #include <Utility/ColoredSeparatorLine.h>
 #include <VFS/Native.h>
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <NimbleCommander/Core/rapidjson.h>
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
-#include <NimbleCommander/Core/SandboxManager.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/Theme.h>
-#include <NimbleCommander/Core/FeedbackManager.h>
 #include <NimbleCommander/States/MainWindowController.h>
 #include "MainWindowFilePanelState.h"
 #include "PanelController.h"
 #include "PanelController+DataAccess.h"
 #include "MainWindowFilePanelsStateToolbarDelegate.h"
-#include "AskingForRatingOverlayView.h"
 #include "Favorites.h"
 #include "Views/QuickLookOverlay.h"
 #include "Views/FilePanelMainSplitView.h"
@@ -72,72 +67,6 @@ static string ExpandPath(const string &_ref )
     }
     
     return {};
-}
-
-static void SetupUnregisteredLabel(NSView *_background_view)
-{
-    NSTextField *tf = [[NSTextField alloc] initWithFrame:NSMakeRect(0,0,0,0)];
-    tf.translatesAutoresizingMaskIntoConstraints = false;
-    tf.stringValue = @"UNREGISTERED";
-    tf.editable = false;
-    tf.bordered = false;
-    tf.drawsBackground = false;
-    tf.alignment = NSTextAlignmentCenter;
-    tf.textColor = NSColor.tertiaryLabelColor;
-    tf.font = [NSFont labelFontOfSize:12];
-    
-    [_background_view addSubview:tf];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:tf
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:tf
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view layoutSubtreeIfNeeded];
-}
-
-static void SetupRatingOverlay(NSView *_background_view)
-{
-    AskingForRatingOverlayView *v = [[AskingForRatingOverlayView alloc] initWithFrame:_background_view.bounds];
-    v.translatesAutoresizingMaskIntoConstraints = false;
-    [_background_view addSubview:v];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view layoutSubtreeIfNeeded];
 }
 
 static bool GoToForcesPanelActivation()
@@ -293,7 +222,6 @@ static NSString *TitleForData( const data::Model* _data );
 
 - (void) loadDefaultPanelContent
 {
-    auto &am = ActivationManager::Instance();
     auto left_controller = m_LeftPanelControllers.front();
     auto right_controller = m_RightPanelControllers.front();
     
@@ -309,26 +237,16 @@ static NSString *TitleForData( const data::Model* _data );
     left_panel_desired_paths.emplace_back( CommonPaths::Home() );
     right_panel_desired_paths.emplace_back( CommonPaths::Home() );
     
-    // 3rd attempt - load first reachable folder in case of sandboxed environment
-    if( am.Sandboxed() ) {
-        left_panel_desired_paths.emplace_back( SandboxManager::Instance().FirstFolderWithAccess() );
-        right_panel_desired_paths.emplace_back( SandboxManager::Instance().FirstFolderWithAccess() );
-    }
-    
-    // 4rth attempt - load dir at startup cwd
+    // 3rd attempt - load dir at startup cwd
     left_panel_desired_paths.emplace_back( CommonPaths::StartupCWD() );
     right_panel_desired_paths.emplace_back( CommonPaths::StartupCWD() );
     
     for( auto &p: left_panel_desired_paths ) {
-        if( am.Sandboxed() && !SandboxManager::Instance().CanAccessFolder(p) )
-            continue;
         if( [left_controller GoToDir:p vfs:VFSNativeHost::SharedHost() select_entry:"" async:false] == VFSError::Ok )
             break;
     }
 
     for( auto &p: right_panel_desired_paths ) {
-        if( am.Sandboxed() && !SandboxManager::Instance().CanAccessFolder(p) )
-            continue;
         if( [right_controller GoToDir:p vfs:VFSNativeHost::SharedHost() select_entry:"" async:false] == VFSError::Ok )
             break;
     }
@@ -373,37 +291,19 @@ static NSString *TitleForData( const data::Model* _data );
     m_MainSplitViewBottomConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
     [self addConstraint:m_MainSplitViewBottomConstraint];
     
-    if( ActivationManager::Instance().HasTerminal() ) {
-        m_OverlappedTerminal->terminal = [[FilePanelOverlappedTerminal alloc] initWithFrame:self.bounds];
-        m_OverlappedTerminal->terminal.translatesAutoresizingMaskIntoConstraints = false;
-        [self addSubview:m_OverlappedTerminal->terminal positioned:NSWindowBelow relativeTo:nil];
-        
-        auto terminal = m_OverlappedTerminal->terminal;
-        views = NSDictionaryOfVariableBindings(terminal, m_SeparatorLine);
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[m_SeparatorLine]-(0)-[terminal]-(==0)-|" options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[terminal]-(0)-|" options:0 metrics:nil views:views]];
-        
-        
-        [NSNotificationCenter.defaultCenter addObserver:self
-                                               selector:@selector(overlappedTerminalFrameDidChange)
-                                                   name:NSViewFrameDidChangeNotification
-                                                 object:m_OverlappedTerminal->terminal];
-    }
-    else {
-        /* Fixing bugs in NSISEngine, kinda */
-        NSView *dummy = [[NSView alloc] initWithFrame:self.bounds];
-        dummy.translatesAutoresizingMaskIntoConstraints = false;
-        [self addSubview:dummy positioned:NSWindowBelow relativeTo:nil];
-        views = NSDictionaryOfVariableBindings(dummy);
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(==1)-[dummy(>=100)]-(==0)-|" options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[dummy(>=100)]-(0)-|" options:0 metrics:nil views:views]];
-    }
-    
-    if( FeedbackManager::Instance().ShouldShowRatingOverlayView() )
-        SetupRatingOverlay( m_ToolbarDelegate.operationsPoolViewController.idleView );
-    else if( ActivationManager::Type() == ActivationManager::Distribution::Trial &&
-            !ActivationManager::Instance().UserHadRegistered() )
-        SetupUnregisteredLabel( m_ToolbarDelegate.operationsPoolViewController.idleView );
+	m_OverlappedTerminal->terminal = [[FilePanelOverlappedTerminal alloc] initWithFrame:self.bounds];
+	m_OverlappedTerminal->terminal.translatesAutoresizingMaskIntoConstraints = false;
+	[self addSubview:m_OverlappedTerminal->terminal positioned:NSWindowBelow relativeTo:nil];
+
+	auto terminal = m_OverlappedTerminal->terminal;
+	views = NSDictionaryOfVariableBindings(terminal, m_SeparatorLine);
+	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[m_SeparatorLine]-(0)-[terminal]-(==0)-|" options:0 metrics:nil views:views]];
+	[self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[terminal]-(0)-|" options:0 metrics:nil views:views]];
+
+	[NSNotificationCenter.defaultCenter addObserver:self
+										   selector:@selector(overlappedTerminalFrameDidChange)
+											   name:NSViewFrameDidChangeNotification
+											 object:m_OverlappedTerminal->terminal];
 }
 
 - (void) windowStateDidBecomeAssigned
@@ -431,9 +331,6 @@ static NSString *TitleForData( const data::Model* _data );
     [self updateTitle];
     
     [m_ToolbarDelegate notifyStateWasAssigned];
-    
-    // think it's a bad idea to post messages on every new window created
-    GA().PostScreenView("File Panels State");
 }
 
 - (void)viewWillMoveToWindow:(NSWindow *)_wnd

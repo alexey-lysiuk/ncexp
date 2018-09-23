@@ -8,7 +8,6 @@
 #include "../PanelView.h"
 #include "../MainWindowFilePanelState.h"
 #include <NimbleCommander/Core/TemporaryNativeFileStorage.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <NimbleCommander/States/MainWindowController.h>
 #include <NimbleCommander/Core/AnyHolder.h>
 #include <Term/Task.h>
@@ -230,9 +229,6 @@ static void RunExtTool(const ExternalTool &_tool,
     }
     
     if( startup_mode == ExternalTool::StartupMode::RunInTerminal ) {
-        if( !ActivationManager::Instance().HasTerminal() )
-            return;
-        
         if( tool_is_bundle ) {
             // bundled UI tool starting in terminal
             string exec_path = _tool.m_ExecutablePath;

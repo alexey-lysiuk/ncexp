@@ -10,10 +10,6 @@
 #include "ThirdParty/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
 #include <NimbleCommander/Core/TemporaryNativeFileStorage.h>
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
-#include <NimbleCommander/Core/SandboxManager.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
-#include <NimbleCommander/Core/FeedbackManager.h>
-#include <NimbleCommander/Core/AppStoreHelper.h>
 #include <NimbleCommander/Core/Dock.h>
 #include <NimbleCommander/Core/ServicesHandler.h>
 #include <NimbleCommander/Core/ConfigBackedNetworkConnectionsManager.h>
@@ -31,14 +27,12 @@
 #include <NimbleCommander/Preferences/Preferences.h>
 #include <NimbleCommander/Viewer/InternalViewerController.h>
 #include <NimbleCommander/Viewer/InternalViewerWindowController.h>
-#include <NimbleCommander/GeneralUI/TrialWindowController.h>
 #include <NimbleCommander/GeneralUI/VFSListWindowController.h>
 #include <Operations/Pool.h>
 #include <Operations/AggregateProgressTracker.h>
 #include "AppDelegate.h"
 #include "Config.h"
 #include "AppDelegate+Migration.h"
-#include "ActivationManager.h"
 #include "ConfigWiring.h"
 #include "VFSInit.h"
 #include "Interactions.h"
@@ -103,18 +97,6 @@ static void UpdateMenuItemsPlaceholders( const char *_action )
     UpdateMenuItemsPlaceholders( ActionsShortcutsManager::Instance().TagFromAction(_action) );
 }
 
-static void CheckMASReceipt()
-{
-    if constexpr ( ActivationManager::ForAppStore() ) {
-        const auto path = NSBundle.mainBundle.appStoreReceiptURL.path;
-        const auto exists = [NSFileManager.defaultManager fileExistsAtPath:path];
-        if( !exists ) {
-            cerr << "No receipt - exit the app with code 173" << endl;
-            exit(173);
-        }
-    }
-}
-
 static void CheckDefaultsReset()
 {
     const auto erase_mask = NSAlphaShiftKeyMask | NSShiftKeyMask |
@@ -166,7 +148,6 @@ static NCAppDelegate *g_Me = nil;
         g_Me = self;
         m_IsRunningTests = NSClassFromString(@"XCTestCase") != nullptr;
         m_FilesToOpen = [[NSMutableArray alloc] init];
-        CheckMASReceipt();
         CheckDefaultsReset();
         m_SupportDirectory =
             EnsureTrailingSlash(NSFileManager.defaultManager.
@@ -186,7 +167,6 @@ static NCAppDelegate *g_Me = nil;
     RegisterAvailableVFS();
     
     NativeFSManager::Instance();
-    FeedbackManager::Instance();
     [self themesManager];
     [self favoriteLocationsStorage];
     
@@ -196,33 +176,7 @@ static NCAppDelegate *g_Me = nil;
     ActionsShortcutsManager::Instance().SetMenuShortCuts([NSApp mainMenu]);
     
     [self wireMenuDelegates];
- 
-    bool showed_modal_dialog = false;
-    if( ActivationManager::Instance().Sandboxed() ) {
-        auto &sm = SandboxManager::Instance();
-        if( sm.Empty() ) {
-            sm.AskAccessForPathSync(CommonPaths::Home(), false);
-            showed_modal_dialog = true;
-            if( self.mainWindowControllers.empty() ) {
-                auto ctrl = [self allocateDefaultMainWindow];
-                [ctrl showWindow:self];
-            }
-        }
-    }
-    
-    // if no option already set - ask user to provide anonymous usage statistics
-    // ask him only on 5th startup or later
-    // ask only if there were no modal dialogs before
-    if( !m_IsRunningTests &&
-        !showed_modal_dialog &&
-        !CFDefaultsGetOptionalBool(GoogleAnalytics::g_DefaultsTrackingEnabledKey) &&
-        FeedbackManager::Instance().ApplicationRunsCount() >= 5 ) {
-        CFDefaultsSetBool( GoogleAnalytics::g_DefaultsTrackingEnabledKey, AskUserToProvideUsageStatistics() );
-        GA().UpdateEnabledStatus();
-    }
-    
-    GA().PostEvent( "Appearance", "Set", self.themesManager.SelectedThemeName().c_str() );
-}
+ }
 
 - (void) wireMenuDelegates
 {
@@ -283,47 +237,6 @@ static NCAppDelegate *g_Me = nil;
     auto enable             = [&](const char *_action, bool _enabled) {
         current_menuitem(_action).action = _enabled ? initial_menuitem(_action).action : nil;
     };
-    auto &am = ActivationManager::Instance();
-    
-    // one-way items hiding
-    if( !am.HasTerminal() ) {                   hide("menu.view.show_terminal");
-                                                hide("menu.view.panels_position.move_up");
-                                                hide("menu.view.panels_position.move_down");
-                                                hide("menu.view.panels_position.showpanels");
-                                                hide("menu.view.panels_position.focusterminal");
-                                                hide("menu.file.feed_filename_to_terminal");
-                                                hide("menu.file.feed_filenames_to_terminal"); }
-    if( am.ForAppStore() ) {                    hide("menu.nimble_commander.active_license_file");
-                                                hide("menu.nimble_commander.purchase_license"); }
-    if( am.Type() != ActivationManager::Distribution::Free || am.UsedHadPurchasedProFeatures() ) {
-                                                hide("menu.nimble_commander.purchase_pro_features");
-                                                hide("menu.nimble_commander.restore_purchases"); }
-    if( am.Type() != ActivationManager::Distribution::Trial || am.UserHadRegistered() ) {
-                                                hide("menu.nimble_commander.active_license_file");
-                                                hide("menu.nimble_commander.purchase_license"); }
-    if( !am.HasRoutedIO() )                     hide("menu.nimble_commander.toggle_admin_mode");
-    
-    // reversible items disabling / enabling
-    enable( "menu.file.calculate_checksum",     am.HasChecksumCalculation() );
-    enable( "menu.file.find_with_spotlight",    am.HasSpotlightSearch() );
-    enable( "menu.go.processes_list",           am.HasPSFS() );
-    enable( "menu.go.connect.ftp",              am.HasNetworkConnectivity() );
-    enable( "menu.go.connect.sftp",             am.HasNetworkConnectivity() );
-    enable( "menu.go.connect.webdav",           am.HasNetworkConnectivity() );
-    enable( "menu.go.connect.lanshare",         am.HasLANSharesMounting() );
-    enable( "menu.go.connect.dropbox",          am.HasNetworkConnectivity() );
-    enable( "menu.go.connect.network_server",   am.HasNetworkConnectivity() );
-    enable( "menu.command.system_overview",     am.HasBriefSystemOverview() );
-    enable( "menu.command.file_attributes",     am.HasUnixAttributesEditing() );
-    enable( "menu.command.volume_information",  am.HasDetailedVolumeInformation() );
-    enable( "menu.command.batch_rename",        am.HasBatchRename() );
-    enable( "menu.command.internal_viewer",     am.HasInternalViewer() );
-    enable( "menu.command.compress_here",       am.HasCompressionOperation() );
-    enable( "menu.command.compress_to_opposite",am.HasCompressionOperation() );
-    enable( "menu.command.link_create_soft",    am.HasLinksManipulation() );
-    enable( "menu.command.link_create_hard",    am.HasLinksManipulation() );
-    enable( "menu.command.link_edit",           am.HasLinksManipulation());
-    enable( "menu.command.open_xattr",          am.HasXAttrFS() );
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -348,30 +261,10 @@ static NCAppDelegate *g_Me = nil;
     // calling modules running in background
     TemporaryNativeFileStorage::Instance(); // starting background purging implicitly
     
-    auto &am = ActivationManager::Instance();
-
-    // initialize stuff related with in-app purchases
-    if( ActivationManager::Type() == ActivationManager::Distribution::Free ) {
-        m_AppStoreHelper = [AppStoreHelper new];
-        m_AppStoreHelper.onProductPurchased = [=](const string &_id){
-            if( ActivationManager::Instance().ReCheckProFeaturesInAppPurchased() ) {
-                [self updateMainMenuFeaturesByVersionAndState];
-                GA().PostEvent("Licensing", "Buy", "Pro features IAP purchased");
-            }
-        };
-        dispatch_to_main_queue_after(500ms, [=]{ [m_AppStoreHelper showProFeaturesWindowIfNeededAsNagScreen]; });
-    }
-    
     // accessibility stuff for NonMAS version
-    if( ActivationManager::Type() == ActivationManager::Distribution::Trial &&
-        GlobalConfig().GetBool(g_ConfigForceFn) ) {
+    if( GlobalConfig().GetBool(g_ConfigForceFn) ) {
         FunctionalKeysPass::Instance().Enable();
     }
-    
-    if( ActivationManager::Type() == ActivationManager::Distribution::Trial &&
-        am.UserHadRegistered() == false &&
-        am.IsTrialPeriod() == false )
-        self.dock.SetUnregisteredBadge( true );
 
     ConfigWiring{GlobalConfig()}.Wire();
     
@@ -490,11 +383,6 @@ static NCAppDelegate *g_Me = nil;
     return NSTerminateNow;
 }
 
-- (IBAction)OnMenuSendFeedback:(id)sender
-{
-    FeedbackManager::Instance().EmailFeedback();
-}
-
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
 {
     return true;
@@ -514,35 +402,12 @@ static NCAppDelegate *g_Me = nil;
 }
 
 
-- (bool) processLicenseFileActivation:(NSArray<NSString *> *)_filenames
-{
-    static const auto nc_license_extension = "."s + ActivationManager::LicenseFileExtension();
-    
-    if( _filenames.count != 1)
-        return false;
-    
-    for( NSString *pathstring in _filenames )
-        if( auto fs = pathstring.fileSystemRepresentationSafe ) {
-            if constexpr( ActivationManager::Type() == ActivationManager::Distribution::Trial ) {
-                if( _filenames.count == 1 && path(fs).extension() == nc_license_extension ) {
-                    string p = fs;
-                    dispatch_to_main_queue([=]{
-                        [self processProvidedLicenseFile:p];
-                    });
-                    return true;
-                }
-            }
-        }
-    return false;
-}
-
 - (void)drainFilesToOpen
 {
     if( m_FilesToOpen.count == 0 )
         return;
-    
-    if( ![self processLicenseFileActivation:m_FilesToOpen] )
-        self.servicesHandler.OpenFiles(m_FilesToOpen);
+
+	self.servicesHandler.OpenFiles(m_FilesToOpen);
 
     [m_FilesToOpen removeAllObjects];
 }
@@ -559,40 +424,6 @@ static NCAppDelegate *g_Me = nil;
     [m_FilesToOpen addObjectsFromArray:filenames];
     dispatch_to_main_queue_after(250ms, []{ [g_Me drainFilesToOpen]; });
     [NSApp replyToOpenOrPrint:NSApplicationDelegateReplySuccess];
-}
-
-- (void) processProvidedLicenseFile:(const string&)_path
-{
-    const bool valid_and_installed = ActivationManager::Instance().ProcessLicenseFile(_path);
-    if( valid_and_installed ) {
-        ThankUserForBuyingALicense();
-        [self updateMainMenuFeaturesByVersionAndState];
-        self.dock.SetUnregisteredBadge( false );
-        GA().PostEvent("Licensing", "Buy", "Successful external license activation");
-    }
-}
-
-- (IBAction)OnActivateExternalLicense:(id)sender
-{
-    if( auto path = AskUserForLicenseFile() )
-        [self processProvidedLicenseFile:*path];
-}
-
-- (IBAction)OnPurchaseExternalLicense:(id)sender
-{
-    const auto url = [NSURL URLWithString:@"http://magnumbytes.com/redirectlinks/buy_license"];
-    [NSWorkspace.sharedWorkspace openURL:url];
-    GA().PostEvent("Licensing", "Buy", "Go to 3rd party registrator");
-}
-
-- (IBAction)OnPurchaseProFeaturesInApp:(id)sender
-{
-    [m_AppStoreHelper showProFeaturesWindow];
-}
-
-- (IBAction)OnRestoreInAppPurchases:(id)sender
-{
-    [m_AppStoreHelper askUserToRestorePurchases];
 }
 
 - (void)openFolderService:(NSPasteboard *)pboard userData:(NSString *)data error:(__strong NSString **)error
@@ -614,14 +445,6 @@ static NCAppDelegate *g_Me = nil;
 {
     const auto url = [NSBundle.mainBundle URLForResource:@"Help" withExtension:@"pdf"];
     [NSWorkspace.sharedWorkspace openURL:url];
-    GA().PostEvent("Help", "Click", "Open Help");
-}
-
-- (IBAction)onMainMenuPerformGoToProductForum:(id)sender
-{
-    const auto url = [NSURL URLWithString:@"http://magnumbytes.com/forum/"];
-    [NSWorkspace.sharedWorkspace openURL:url];
-    GA().PostEvent("Help", "Click", "Visit Forum");
 }
 
 - (IBAction)OnMenuToggleAdminMode:(id)sender
@@ -629,8 +452,6 @@ static NCAppDelegate *g_Me = nil;
     if( RoutedIO::Instance().Enabled() )
         RoutedIO::Instance().TurnOff();
     else {
-        GA().PostScreenView("Admin Mode");
-        
         const auto turned_on = RoutedIO::Instance().TurnOn();
         if( !turned_on )
             WarnAboutFailingToAccessPriviledgedHelper();

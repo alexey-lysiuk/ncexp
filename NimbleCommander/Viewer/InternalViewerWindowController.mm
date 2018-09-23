@@ -1,7 +1,6 @@
 // Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "../Bootstrap/AppDelegate.h"
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include "BigFileView.h"
 #include "InternalViewerController.h"
 #include "InternalViewerWindowController.h"
@@ -69,8 +68,7 @@
     m_Controller.nextResponder = self.window.nextResponder;
     self.window.nextResponder = m_Controller;
         
-    [self.window bind:@"title" toObject:m_Controller withKeyPath:@"verboseTitle" options:nil];
-    GA().PostScreenView("File Viewer Window");    
+    [self.window bind:@"title" toObject:m_Controller withKeyPath:@"verboseTitle" options:nil];    
 }
 
 - (bool) performBackgrounOpening

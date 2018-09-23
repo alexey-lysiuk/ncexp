@@ -4,16 +4,12 @@
 #include "../PanelView.h"
 #include "../PanelAux.h"
 #include "../MainWindowFilePanelState.h"
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <VFS/VFS.h>
 
 namespace nc::panel::actions {
 
 bool ExecuteInTerminal::Predicate( PanelController *_target ) const
 {
-    if( !ActivationManager::Instance().HasTerminal() )
-        return false;
-
     const auto item = _target.view.item;
     if( !item || !item.Host()->IsNativeFS() )
         return false;

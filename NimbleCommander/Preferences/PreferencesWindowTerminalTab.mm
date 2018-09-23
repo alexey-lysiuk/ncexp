@@ -1,7 +1,6 @@
 // Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/FontExtras.h>
 #include "../Bootstrap/Config.h"
-#include "../Bootstrap/ActivationManager.h"
 #include "PreferencesWindowTerminalTab.h"
 
 static const auto g_ConfigFont = "terminal.font";
@@ -85,7 +84,6 @@ private:
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:self.identifier];
     item.image = self.toolbarItemImage;
     item.label = self.toolbarItemLabel;
-    item.enabled = ActivationManager::Instance().HasTerminal();
     return item;
 }
 

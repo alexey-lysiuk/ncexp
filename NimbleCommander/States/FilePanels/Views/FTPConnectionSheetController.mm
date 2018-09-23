@@ -1,6 +1,5 @@
 // Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/Alert.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/NetworkConnectionsManager.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "FTPConnectionSheetController.h"
@@ -40,8 +39,6 @@
         self.connectButton.title = self.connectButton.alternateTitle;
     
     CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
-    
-    GA().PostScreenView("FTP Connection");
     
     if( m_Original  ) {
         auto &c = m_Original->Get<NetworkConnectionsManager::FTP>();

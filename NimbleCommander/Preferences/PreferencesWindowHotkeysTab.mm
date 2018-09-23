@@ -4,7 +4,6 @@
 #import <ThirdParty/GTMHotKeyTextField/GTMHotKeyTextField.h>
 #include "../Core/ActionsShortcutsManager.h"
 #include "../States/FilePanels/ExternalToolsSupport.h"
-#include "../Bootstrap/ActivationManager.h"
 #include "PreferencesWindowHotkeysTab.h"
 
 static NSString *ComposeVerboseMenuItemTitle(NSMenuItem *_item);
@@ -188,9 +187,6 @@ enum class SourceType
 {
     [super loadView];
     m_Tools = m_ToolsStorage().GetAllTools();
-    
-    if( ActivationManager::Instance().Sandboxed() )
-        self.forceFnButton.hidden = true;
     
     m_ToolsObserver = m_ToolsStorage().ObserveChanges([=]{
         dispatch_to_main_queue([=]{

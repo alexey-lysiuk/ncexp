@@ -7,7 +7,6 @@
 #include <rapidjson/prettywriter.h>
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <NimbleCommander/Core/Theming/ThemesManager.h>
 #include <NimbleCommander/Core/Theming/ThemePersistence.h>
 #include <NimbleCommander/States/FilePanels/PanelViewPresentationItemsColoringFilter.h>
@@ -98,9 +97,6 @@ static NSTextField *SpawnEntryTitle( NSString *_title )
 {
     [super viewDidLoad];
     // Do view setup here.
-    self.importButton.enabled = ActivationManager::Instance().HasThemesManipulation();
-    self.exportButton.enabled = ActivationManager::Instance().HasThemesManipulation();
-        
     [self buildThemeNamesPopup];
     [self.outlineView expandItem:nil expandChildren:true];
 }

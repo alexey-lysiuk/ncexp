@@ -1,5 +1,4 @@
 // Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "AskForPasswordWindowController.h"
 
@@ -17,7 +16,6 @@
     if(self) {
         (void)self.window;
         self.Resource.stringValue = _name;
-        GA().PostScreenView("Ask For Password");
     }
     return self;
 }

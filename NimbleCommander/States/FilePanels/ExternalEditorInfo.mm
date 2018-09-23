@@ -5,7 +5,6 @@
 #include <NimbleCommander/Core/FileMask.h>
 #include <NimbleCommander/Core/rapidjson.h>
 #include <NimbleCommander/Bootstrap/Config.h>
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include "ExternalEditorInfo.h"
 #include "ExternalEditorInfoPrivate.h"
 
@@ -242,10 +241,6 @@ bool ExternalEditorStartupInfo::OpenInTerminal() const noexcept
 
 bool ExternalEditorStartupInfo::IsValidForItem(const VFSListingItem&_item) const
 {
-    if( !ActivationManager::Instance().HasTerminal() &&
-        m_OpenInTerminal )
-        return false;
-
     if( m_Mask.empty() ) // why is this?
         return false;
     
