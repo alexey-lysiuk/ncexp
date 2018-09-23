@@ -2,27 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSAppleScriptEnabled</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>nimblecommanderlicense</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>License File Type</string>
-			<key>CFBundleTypeRole</key>
-			<string>Viewer</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSTypeIsPackage</key>
-			<integer>0</integer>
-		</dict>
-	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
@@ -45,9 +26,10 @@
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
+	<key>NSAppleScriptEnabled</key>
+	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2013-2018 Michael Kazakov.
-All rights reserved.</string>
+	<string>Copyright © 2013-2018 Michael Kazakov. All rights reserved.</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
@@ -90,14 +72,5 @@ All rights reserved.</string>
 			<dict/>
 		</dict>
 	</array>
-	<key>SMPrivilegedExecutables</key>
-	<dict>
-		<key>info.filesmanager.Files.PrivilegedIOHelperV2</key>
-		<string>identifier info.filesmanager.Files.PrivilegedIOHelperV2 and certificate leaf[subject.CN] = &quot;Developer ID Application: Mikhail Kazakov (AC5SJT236H)&quot;</string>
-	</dict>
-	<key>SUFeedURL</key>
-	<string>https://magnumbytes.com/downloads/releases/sparkle-nimble-commander.xml</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>SparkleDSA_Pub.pem</string>
 </dict>
 </plist>

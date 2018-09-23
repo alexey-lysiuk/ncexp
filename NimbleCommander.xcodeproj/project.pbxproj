@@ -26,6 +26,71 @@
 		8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C222154F1C20043D119 /* spinlock.cpp */; };
 		8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C312154F1C20043D119 /* StringsBulk.cpp */; };
 		8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2F2154F1C20043D119 /* tiny_string.cpp */; };
+		8A1C532F2157B1D80042E319 /* AskForPasswordWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E962156818E009284A2 /* AskForPasswordWindowController.xib */; };
+		8A1C53302157B1D80042E319 /* CalculateChecksumSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E982156818E009284A2 /* CalculateChecksumSheetController.xib */; };
+		8A1C53312157B1D80042E319 /* DetailedVolumeInformationSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E9A2156818E009284A2 /* DetailedVolumeInformationSheetController.xib */; };
+		8A1C53322157B1D80042E319 /* ProcessSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E9E2156818E009284A2 /* ProcessSheetController.xib */; };
+		8A1C53332157B1D80042E319 /* VFSListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453EA42156818E009284A2 /* VFSListWindowController.xib */; };
+		8A1C53342157B1E10042E319 /* AskForPasswordWindowController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453EB42156818E009284A2 /* AskForPasswordWindowController.strings */; };
+		8A1C53352157B1E10042E319 /* CalculateChecksumSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453EB62156818E009284A2 /* CalculateChecksumSheetController.strings */; };
+		8A1C53362157B1E10042E319 /* DetailedVolumeInformationSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453EB82156818E009284A2 /* DetailedVolumeInformationSheetController.strings */; };
+		8A1C53372157B1E10042E319 /* ProcessSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453EBC2156818E009284A2 /* ProcessSheetController.strings */; };
+		8A1C53382157B1E10042E319 /* VFSListWindowController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453EC22156818E009284A2 /* VFSListWindowController.strings */; };
+		8A1C53392157B1ED0042E319 /* Preferences.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C992156818C009284A2 /* Preferences.strings */; };
+		8A1C533A2157B1ED0042E319 /* PreferencesWindowExternalEditorsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C9B2156818C009284A2 /* PreferencesWindowExternalEditorsTab.xib */; };
+		8A1C533B2157B1ED0042E319 /* PreferencesWindowExternalEditorsTabNewEditorSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C9D2156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.xib */; };
+		8A1C533C2157B1ED0042E319 /* PreferencesWindowGeneralTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C9F2156818C009284A2 /* PreferencesWindowGeneralTab.xib */; };
+		8A1C533D2157B1ED0042E319 /* PreferencesWindowHotkeysTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CA12156818C009284A2 /* PreferencesWindowHotkeysTab.xib */; };
+		8A1C533E2157B1ED0042E319 /* PreferencesWindowPanelsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CA32156818C009284A2 /* PreferencesWindowPanelsTab.xib */; };
+		8A1C533F2157B1ED0042E319 /* PreferencesWindowPanelsTabColoringFilterSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CA52156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.xib */; };
+		8A1C53402157B1ED0042E319 /* PreferencesWindowTerminalTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CA72156818C009284A2 /* PreferencesWindowTerminalTab.xib */; };
+		8A1C53412157B1ED0042E319 /* PreferencesWindowThemesTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CA92156818C009284A2 /* PreferencesWindowThemesTab.xib */; };
+		8A1C53422157B1ED0042E319 /* PreferencesWindowThemesTabColoringRulesControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CAB2156818C009284A2 /* PreferencesWindowThemesTabColoringRulesControl.xib */; };
+		8A1C53432157B1ED0042E319 /* PreferencesWindowThemesTabImportSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CAD2156818C009284A2 /* PreferencesWindowThemesTabImportSheet.xib */; };
+		8A1C53442157B1ED0042E319 /* PreferencesWindowToolsTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CAF2156818C009284A2 /* PreferencesWindowToolsTab.xib */; };
+		8A1C53452157B1ED0042E319 /* PreferencesWindowViewerTab.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CB12156818C009284A2 /* PreferencesWindowViewerTab.xib */; };
+		8A1C53462157B1F80042E319 /* PreferencesWindowExternalEditorsTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CD02156818C009284A2 /* PreferencesWindowExternalEditorsTab.strings */; };
+		8A1C53472157B1F80042E319 /* PreferencesWindowExternalEditorsTabNewEditorSheet.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CD22156818C009284A2 /* PreferencesWindowExternalEditorsTabNewEditorSheet.strings */; };
+		8A1C53482157B1F80042E319 /* PreferencesWindowGeneralTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CD42156818C009284A2 /* PreferencesWindowGeneralTab.strings */; };
+		8A1C53492157B1F80042E319 /* PreferencesWindowHotkeysTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CD62156818C009284A2 /* PreferencesWindowHotkeysTab.strings */; };
+		8A1C534A2157B1F80042E319 /* PreferencesWindowPanelsTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CD82156818C009284A2 /* PreferencesWindowPanelsTab.strings */; };
+		8A1C534B2157B1F80042E319 /* PreferencesWindowPanelsTabColoringFilterSheet.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CDA2156818C009284A2 /* PreferencesWindowPanelsTabColoringFilterSheet.strings */; };
+		8A1C534C2157B1F80042E319 /* PreferencesWindowTerminalTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CDC2156818C009284A2 /* PreferencesWindowTerminalTab.strings */; };
+		8A1C534D2157B1F80042E319 /* PreferencesWindowThemesTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CDE2156818C009284A2 /* PreferencesWindowThemesTab.strings */; };
+		8A1C534E2157B1F80042E319 /* PreferencesWindowThemesTabColoringRulesControl.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CE02156818C009284A2 /* PreferencesWindowThemesTabColoringRulesControl.strings */; };
+		8A1C534F2157B1F80042E319 /* PreferencesWindowThemesTabImportSheet.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CE22156818D009284A2 /* PreferencesWindowThemesTabImportSheet.strings */; };
+		8A1C53502157B1F80042E319 /* PreferencesWindowToolsTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CE42156818D009284A2 /* PreferencesWindowToolsTab.strings */; };
+		8A1C53512157B1F80042E319 /* PreferencesWindowViewerTab.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CE62156818D009284A2 /* PreferencesWindowViewerTab.strings */; };
+		8A1C53522157B2140042E319 /* PanelListViewColumnsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453DA82156818D009284A2 /* PanelListViewColumnsMenu.xib */; };
+		8A1C53532157B2180042E319 /* PanelListViewColumnsMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453DC02156818D009284A2 /* PanelListViewColumnsMenu.strings */; };
+		8A1C53542157B22D0042E319 /* ConnectToServer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E242156818D009284A2 /* ConnectToServer.xib */; };
+		8A1C53552157B22D0042E319 /* DropboxAccountSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E262156818D009284A2 /* DropboxAccountSheetController.xib */; };
+		8A1C53562157B22D0042E319 /* FTPConnectionSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E282156818D009284A2 /* FTPConnectionSheetController.xib */; };
+		8A1C53572157B22D0042E319 /* GoToFolderSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E2A2156818D009284A2 /* GoToFolderSheetController.xib */; };
+		8A1C53582157B22D0042E319 /* NetworkShareSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E2C2156818D009284A2 /* NetworkShareSheetController.xib */; };
+		8A1C53592157B22D0042E319 /* SFTPConnectionSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E2E2156818D009284A2 /* SFTPConnectionSheetController.xib */; };
+		8A1C535A2157B22D0042E319 /* SpotlightSearchPopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E302156818D009284A2 /* SpotlightSearchPopupViewController.xib */; };
+		8A1C535B2157B22D0042E319 /* WebDAVConnectionSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E322156818D009284A2 /* WebDAVConnectionSheetController.xib */; };
+		8A1C535C2157B22D0042E319 /* ConnectToServer.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E512156818D009284A2 /* ConnectToServer.strings */; };
+		8A1C535D2157B22D0042E319 /* DropboxAccountSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E532156818D009284A2 /* DropboxAccountSheetController.strings */; };
+		8A1C535E2157B22D0042E319 /* FTPConnectionSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E552156818D009284A2 /* FTPConnectionSheetController.strings */; };
+		8A1C535F2157B22D0042E319 /* GoToFolderSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E572156818D009284A2 /* GoToFolderSheetController.strings */; };
+		8A1C53602157B22D0042E319 /* NetworkShareSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E592156818D009284A2 /* NetworkShareSheetController.strings */; };
+		8A1C53612157B22D0042E319 /* SFTPConnectionSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E5B2156818D009284A2 /* SFTPConnectionSheetController.strings */; };
+		8A1C53622157B22D0042E319 /* SpotlightSearchPopupViewController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E5D2156818D009284A2 /* SpotlightSearchPopupViewController.strings */; };
+		8A1C53632157B22D0042E319 /* WebDAVConnectionSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E5F2156818D009284A2 /* WebDAVConnectionSheetController.strings */; };
+		8A1C53642157B22D0042E319 /* SelectionWithMaskPopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E632156818D009284A2 /* SelectionWithMaskPopupViewController.xib */; };
+		8A1C53652157B2470042E319 /* ExternalToolParameterValueSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453D602156818D009284A2 /* ExternalToolParameterValueSheetController.xib */; };
+		8A1C53662157B2470042E319 /* FavoritesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453D622156818D009284A2 /* FavoritesWindowController.xib */; };
+		8A1C53672157B2470042E319 /* FilePanelsContextMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453D642156818D009284A2 /* FilePanelsContextMenu.strings */; };
+		8A1C53682157B2470042E319 /* FilePanelsQuickSearch.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453D662156818D009284A2 /* FilePanelsQuickSearch.strings */; };
+		8A1C53692157B2470042E319 /* FindFilesSheetController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453D682156818D009284A2 /* FindFilesSheetController.xib */; };
+		8A1C536A2157B2470042E319 /* PanelViewHeaderSortPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453D6A2156818D009284A2 /* PanelViewHeaderSortPopup.xib */; };
+		8A1C536B2157B2470042E319 /* ExternalToolParameterValueSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E0F2156818D009284A2 /* ExternalToolParameterValueSheetController.strings */; };
+		8A1C536C2157B2470042E319 /* FavoritesWindowController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E112156818D009284A2 /* FavoritesWindowController.strings */; };
+		8A1C536D2157B2470042E319 /* FindFilesSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E152156818D009284A2 /* FindFilesSheetController.strings */; };
+		8A1C536E2157B2470042E319 /* PanelViewHeaderSortPopup.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E172156818D009284A2 /* PanelViewHeaderSortPopup.strings */; };
+		8A1C536F2157B2590042E319 /* MainWindowInternalViewerState.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E6F2156818D009284A2 /* MainWindowInternalViewerState.xib */; };
 		8A25278E21577EA9006AD68F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25278D21577EA9006AD68F /* Cocoa.framework */; };
 		8A25279021577ECE006AD68F /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25278F21577ECE006AD68F /* libbz2.tbd */; };
 		8A25279221577ED8006AD68F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279121577ED8006AD68F /* libz.tbd */; };
@@ -100,6 +165,15 @@
 		8A252802215785D0006AD68F /* async_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF02A5215636BB00BC1103 /* async_posix.c */; };
 		8A2528032157865B006AD68F /* dll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0736D2155232700895FEF /* dll.cpp */; };
 		8A25280521578D39006AD68F /* x86_64cpuid.s in Sources */ = {isa = PBXBuildFile; fileRef = 8A25280421578D1A006AD68F /* x86_64cpuid.s */; };
+		8A25280621579AF2006AD68F /* main_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E882156818D009284A2 /* main_icon.icns */; };
+		8A25280721579B39006AD68F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453CF62156818D009284A2 /* MainMenu.xib */; };
+		8A25280821579BB0006AD68F /* AliasBadgeIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E7D2156818D009284A2 /* AliasBadgeIcon.icns */; };
+		8A25280921579BB3006AD68F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E7E2156818D009284A2 /* Credits.rtf */; };
+		8A25280A21579BBB006AD68F /* Config.json in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E842156818D009284A2 /* Config.json */; };
+		8A25280B21579BBE006AD68F /* Help.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E872156818D009284A2 /* Help.pdf */; };
+		8A25280C21579BC7006AD68F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E892156818D009284A2 /* Media.xcassets */; };
+		8A25280D21579BCB006AD68F /* State.json in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E922156818E009284A2 /* State.json */; };
+		8A25282B2157A43D006AD68F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E822156818D009284A2 /* Localizable.strings */; };
 		8A4534C7215672CA009284A2 /* AttrsChanging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D72156725200E92BC9 /* AttrsChanging.mm */; };
 		8A4534C8215672CD009284A2 /* AttrsChangingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */; };
 		8A4534C9215672CF009284A2 /* AttrsChangingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */; };
@@ -1942,8 +2016,6 @@
 		8A453C692156818C009284A2 /* FileWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileWindow.h; sourceTree = "<group>"; };
 		8A453C6D2156818C009284A2 /* LaunchServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchServices.h; sourceTree = "<group>"; };
 		8A453C6E2156818C009284A2 /* LaunchServices.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LaunchServices.mm; sourceTree = "<group>"; };
-		8A453C702156818C009284A2 /* MASAppInstalledChecker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MASAppInstalledChecker.cpp; sourceTree = "<group>"; };
-		8A453C712156818C009284A2 /* MASAppInstalledChecker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MASAppInstalledChecker.h; sourceTree = "<group>"; };
 		8A453C722156818C009284A2 /* NetworkConnectionIconProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkConnectionIconProvider.h; sourceTree = "<group>"; };
 		8A453C732156818C009284A2 /* NetworkConnectionIconProvider.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NetworkConnectionIconProvider.mm; sourceTree = "<group>"; };
 		8A453C742156818C009284A2 /* NetworkConnectionsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkConnectionsManager.h; sourceTree = "<group>"; };
@@ -2395,19 +2467,12 @@
 		8A453E812156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A453E832156818D009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8A453E842156818D009284A2 /* Config.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Config.json; sourceTree = "<group>"; };
-		8A453E852156818D009284A2 /* Files-Lite.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Files-Lite.entitlements"; sourceTree = "<group>"; };
-		8A453E862156818D009284A2 /* Files-Pro.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Files-Pro.entitlements"; sourceTree = "<group>"; };
 		8A453E872156818D009284A2 /* Help.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Help.pdf; sourceTree = "<group>"; };
 		8A453E882156818D009284A2 /* main_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = main_icon.icns; sourceTree = "<group>"; };
 		8A453E892156818D009284A2 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		8A453E8A2156818D009284A2 /* NimbleCommander Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander Tests-Info.plist"; sourceTree = "<group>"; };
-		8A453E8B2156818D009284A2 /* NimbleCommander-CI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-CI-Info.plist"; sourceTree = "<group>"; };
-		8A453E8C2156818D009284A2 /* NimbleCommander-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-Info.plist"; sourceTree = "<group>"; };
-		8A453E8D2156818D009284A2 /* NimbleCommander-MAS-Free-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-MAS-Free-Info.plist"; sourceTree = "<group>"; };
-		8A453E8E2156818D009284A2 /* NimbleCommander-Pro-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-Pro-Info.plist"; sourceTree = "<group>"; };
+		8A453E8E2156818D009284A2 /* NimbleCommander-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NimbleCommander-Info.plist"; sourceTree = "<group>"; };
 		8A453E8F2156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A453E902156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8A453E912156818E009284A2 /* SparkleDSA_Pub.pem */ = {isa = PBXFileReference; lastKnownFileType = text; path = SparkleDSA_Pub.pem; sourceTree = "<group>"; };
 		8A453E922156818E009284A2 /* State.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = State.json; sourceTree = "<group>"; };
 		8A453E942156818E009284A2 /* AskForPasswordWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AskForPasswordWindowController.h; sourceTree = "<group>"; };
 		8A453E952156818E009284A2 /* AskForPasswordWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AskForPasswordWindowController.mm; sourceTree = "<group>"; };
@@ -4848,7 +4913,6 @@
 			isa = PBXGroup;
 			children = (
 				8A453C542156818C009284A2 /* Caches */,
-				8A453C6F2156818C009284A2 /* Marketing */,
 				8A453C872156818C009284A2 /* Theming */,
 				8A453C4A2156818C009284A2 /* ActionShortcut.h */,
 				8A453C4B2156818C009284A2 /* ActionShortcut.mm */,
@@ -4916,15 +4980,6 @@
 				8A453C5C2156818C009284A2 /* WorkspaceIconsCache.mm */,
 			);
 			path = Caches;
-			sourceTree = "<group>";
-		};
-		8A453C6F2156818C009284A2 /* Marketing */ = {
-			isa = PBXGroup;
-			children = (
-				8A453C702156818C009284A2 /* MASAppInstalledChecker.cpp */,
-				8A453C712156818C009284A2 /* MASAppInstalledChecker.h */,
-			);
-			path = Marketing;
 			sourceTree = "<group>";
 		};
 		8A453C872156818C009284A2 /* Theming */ = {
@@ -5443,17 +5498,10 @@
 				8A453E802156818D009284A2 /* InfoPlist.strings */,
 				8A453E822156818D009284A2 /* Localizable.strings */,
 				8A453E842156818D009284A2 /* Config.json */,
-				8A453E852156818D009284A2 /* Files-Lite.entitlements */,
-				8A453E862156818D009284A2 /* Files-Pro.entitlements */,
 				8A453E872156818D009284A2 /* Help.pdf */,
 				8A453E882156818D009284A2 /* main_icon.icns */,
 				8A453E892156818D009284A2 /* Media.xcassets */,
-				8A453E8A2156818D009284A2 /* NimbleCommander Tests-Info.plist */,
-				8A453E8B2156818D009284A2 /* NimbleCommander-CI-Info.plist */,
-				8A453E8C2156818D009284A2 /* NimbleCommander-Info.plist */,
-				8A453E8D2156818D009284A2 /* NimbleCommander-MAS-Free-Info.plist */,
-				8A453E8E2156818D009284A2 /* NimbleCommander-Pro-Info.plist */,
-				8A453E912156818E009284A2 /* SparkleDSA_Pub.pem */,
+				8A453E8E2156818D009284A2 /* NimbleCommander-Info.plist */,
 				8A453E922156818E009284A2 /* State.json */,
 			);
 			path = Resources;
@@ -9002,6 +9050,80 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A25280721579B39006AD68F /* MainMenu.xib in Resources */,
+				8A1C532F2157B1D80042E319 /* AskForPasswordWindowController.xib in Resources */,
+				8A1C53302157B1D80042E319 /* CalculateChecksumSheetController.xib in Resources */,
+				8A1C53312157B1D80042E319 /* DetailedVolumeInformationSheetController.xib in Resources */,
+				8A1C53322157B1D80042E319 /* ProcessSheetController.xib in Resources */,
+				8A1C53332157B1D80042E319 /* VFSListWindowController.xib in Resources */,
+				8A1C53342157B1E10042E319 /* AskForPasswordWindowController.strings in Resources */,
+				8A1C53352157B1E10042E319 /* CalculateChecksumSheetController.strings in Resources */,
+				8A1C53362157B1E10042E319 /* DetailedVolumeInformationSheetController.strings in Resources */,
+				8A1C53372157B1E10042E319 /* ProcessSheetController.strings in Resources */,
+				8A1C53382157B1E10042E319 /* VFSListWindowController.strings in Resources */,
+				8A1C53392157B1ED0042E319 /* Preferences.strings in Resources */,
+				8A1C533A2157B1ED0042E319 /* PreferencesWindowExternalEditorsTab.xib in Resources */,
+				8A1C533B2157B1ED0042E319 /* PreferencesWindowExternalEditorsTabNewEditorSheet.xib in Resources */,
+				8A1C533C2157B1ED0042E319 /* PreferencesWindowGeneralTab.xib in Resources */,
+				8A1C533D2157B1ED0042E319 /* PreferencesWindowHotkeysTab.xib in Resources */,
+				8A1C533E2157B1ED0042E319 /* PreferencesWindowPanelsTab.xib in Resources */,
+				8A1C533F2157B1ED0042E319 /* PreferencesWindowPanelsTabColoringFilterSheet.xib in Resources */,
+				8A1C53402157B1ED0042E319 /* PreferencesWindowTerminalTab.xib in Resources */,
+				8A1C53412157B1ED0042E319 /* PreferencesWindowThemesTab.xib in Resources */,
+				8A1C53422157B1ED0042E319 /* PreferencesWindowThemesTabColoringRulesControl.xib in Resources */,
+				8A1C53432157B1ED0042E319 /* PreferencesWindowThemesTabImportSheet.xib in Resources */,
+				8A1C53442157B1ED0042E319 /* PreferencesWindowToolsTab.xib in Resources */,
+				8A1C53452157B1ED0042E319 /* PreferencesWindowViewerTab.xib in Resources */,
+				8A1C53462157B1F80042E319 /* PreferencesWindowExternalEditorsTab.strings in Resources */,
+				8A1C53472157B1F80042E319 /* PreferencesWindowExternalEditorsTabNewEditorSheet.strings in Resources */,
+				8A1C53482157B1F80042E319 /* PreferencesWindowGeneralTab.strings in Resources */,
+				8A1C53492157B1F80042E319 /* PreferencesWindowHotkeysTab.strings in Resources */,
+				8A1C534A2157B1F80042E319 /* PreferencesWindowPanelsTab.strings in Resources */,
+				8A1C534B2157B1F80042E319 /* PreferencesWindowPanelsTabColoringFilterSheet.strings in Resources */,
+				8A1C534C2157B1F80042E319 /* PreferencesWindowTerminalTab.strings in Resources */,
+				8A1C534D2157B1F80042E319 /* PreferencesWindowThemesTab.strings in Resources */,
+				8A1C534E2157B1F80042E319 /* PreferencesWindowThemesTabColoringRulesControl.strings in Resources */,
+				8A1C534F2157B1F80042E319 /* PreferencesWindowThemesTabImportSheet.strings in Resources */,
+				8A1C53502157B1F80042E319 /* PreferencesWindowToolsTab.strings in Resources */,
+				8A1C53512157B1F80042E319 /* PreferencesWindowViewerTab.strings in Resources */,
+				8A1C53522157B2140042E319 /* PanelListViewColumnsMenu.xib in Resources */,
+				8A1C53532157B2180042E319 /* PanelListViewColumnsMenu.strings in Resources */,
+				8A1C53542157B22D0042E319 /* ConnectToServer.xib in Resources */,
+				8A1C53552157B22D0042E319 /* DropboxAccountSheetController.xib in Resources */,
+				8A1C53562157B22D0042E319 /* FTPConnectionSheetController.xib in Resources */,
+				8A1C53572157B22D0042E319 /* GoToFolderSheetController.xib in Resources */,
+				8A1C53582157B22D0042E319 /* NetworkShareSheetController.xib in Resources */,
+				8A1C53592157B22D0042E319 /* SFTPConnectionSheetController.xib in Resources */,
+				8A1C535A2157B22D0042E319 /* SpotlightSearchPopupViewController.xib in Resources */,
+				8A1C535B2157B22D0042E319 /* WebDAVConnectionSheetController.xib in Resources */,
+				8A1C535C2157B22D0042E319 /* ConnectToServer.strings in Resources */,
+				8A1C535D2157B22D0042E319 /* DropboxAccountSheetController.strings in Resources */,
+				8A1C535E2157B22D0042E319 /* FTPConnectionSheetController.strings in Resources */,
+				8A1C535F2157B22D0042E319 /* GoToFolderSheetController.strings in Resources */,
+				8A1C53602157B22D0042E319 /* NetworkShareSheetController.strings in Resources */,
+				8A1C53612157B22D0042E319 /* SFTPConnectionSheetController.strings in Resources */,
+				8A1C53622157B22D0042E319 /* SpotlightSearchPopupViewController.strings in Resources */,
+				8A1C53632157B22D0042E319 /* WebDAVConnectionSheetController.strings in Resources */,
+				8A1C53642157B22D0042E319 /* SelectionWithMaskPopupViewController.xib in Resources */,
+				8A1C53652157B2470042E319 /* ExternalToolParameterValueSheetController.xib in Resources */,
+				8A1C53662157B2470042E319 /* FavoritesWindowController.xib in Resources */,
+				8A1C53672157B2470042E319 /* FilePanelsContextMenu.strings in Resources */,
+				8A1C53682157B2470042E319 /* FilePanelsQuickSearch.strings in Resources */,
+				8A1C53692157B2470042E319 /* FindFilesSheetController.xib in Resources */,
+				8A1C536A2157B2470042E319 /* PanelViewHeaderSortPopup.xib in Resources */,
+				8A1C536B2157B2470042E319 /* ExternalToolParameterValueSheetController.strings in Resources */,
+				8A1C536C2157B2470042E319 /* FavoritesWindowController.strings in Resources */,
+				8A1C536D2157B2470042E319 /* FindFilesSheetController.strings in Resources */,
+				8A1C536E2157B2470042E319 /* PanelViewHeaderSortPopup.strings in Resources */,
+				8A1C536F2157B2590042E319 /* MainWindowInternalViewerState.xib in Resources */,
+				8A25280821579BB0006AD68F /* AliasBadgeIcon.icns in Resources */,
+				8A25280921579BB3006AD68F /* Credits.rtf in Resources */,
+				8A25282B2157A43D006AD68F /* Localizable.strings in Resources */,
+				8A25280A21579BBB006AD68F /* Config.json in Resources */,
+				8A25280B21579BBE006AD68F /* Help.pdf in Resources */,
+				8A25280621579AF2006AD68F /* main_icon.icns in Resources */,
+				8A25280C21579BC7006AD68F /* Media.xcassets in Resources */,
+				8A25280D21579BCB006AD68F /* State.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11574,6 +11696,11 @@
 					Term/include,
 					.,
 				);
+				INFOPLIST_FILE = "NimbleCommander/Resources/NimbleCommander-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alexey-lysiuk.NimbleCommander";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11601,6 +11728,11 @@
 					Operations/include,
 					Term/include,
 					.,
+				);
+				INFOPLIST_FILE = "NimbleCommander/Resources/NimbleCommander-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.github.alexey-lysiuk.NimbleCommander";
 				PRODUCT_NAME = "$(TARGET_NAME)";
