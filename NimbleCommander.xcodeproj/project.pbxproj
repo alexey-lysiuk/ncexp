@@ -91,6 +91,40 @@
 		8A1C536D2157B2470042E319 /* FindFilesSheetController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E152156818D009284A2 /* FindFilesSheetController.strings */; };
 		8A1C536E2157B2470042E319 /* PanelViewHeaderSortPopup.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E172156818D009284A2 /* PanelViewHeaderSortPopup.strings */; };
 		8A1C536F2157B2590042E319 /* MainWindowInternalViewerState.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E6F2156818D009284A2 /* MainWindowInternalViewerState.xib */; };
+		8A1C53702157D5DE0042E319 /* AttrsChangingDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6DC2156725200E92BC9 /* AttrsChangingDialog.xib */; };
+		8A1C53732157D6420042E319 /* PoolViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6BD2156725000E92BC9 /* PoolViewController.xib */; };
+		8A1C53742157DB870042E319 /* AttrsChangingDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6DF2156725200E92BC9 /* AttrsChangingDialog.strings */; };
+		8A1C53752157DB910042E319 /* BatchRenamingDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7152156725400E92BC9 /* BatchRenamingDialog.xib */; };
+		8A1C53762157DB910042E319 /* BatchRenamingRangeSelectionPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7172156725400E92BC9 /* BatchRenamingRangeSelectionPopover.xib */; };
+		8A1C53772157DB910042E319 /* BatchRenamingDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7232156725400E92BC9 /* BatchRenamingDialog.strings */; };
+		8A1C53782157DB910042E319 /* BatchRenamingRangeSelectionPopover.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7252156725400E92BC9 /* BatchRenamingRangeSelectionPopover.strings */; };
+		8A1C53792157DB9F0042E319 /* CopyingDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6ED2156725300E92BC9 /* CopyingDialog.xib */; };
+		8A1C537A2157DB9F0042E319 /* CopyingDialogDisclosedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6EF2156725300E92BC9 /* CopyingDialogDisclosedView.xib */; };
+		8A1C537B2157DB9F0042E319 /* FileAlreadyExistDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6F12156725300E92BC9 /* FileAlreadyExistDialog.xib */; };
+		8A1C537C2157DB9F0042E319 /* CopyingDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7042156725300E92BC9 /* CopyingDialog.strings */; };
+		8A1C537D2157DB9F0042E319 /* CopyingDialogDisclosedView.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7062156725300E92BC9 /* CopyingDialogDisclosedView.strings */; };
+		8A1C537E2157DB9F0042E319 /* FileAlreadyExistDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7082156725300E92BC9 /* FileAlreadyExistDialog.strings */; };
+		8A1C537F2157DBA70042E319 /* DeletionDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6C52156725100E92BC9 /* DeletionDialog.xib */; };
+		8A1C53802157DBA70042E319 /* DeletionDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6CE2156725100E92BC9 /* DeletionDialog.strings */; };
+		8A1C53812157DBB10042E319 /* DirectoryCreationDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7452156725500E92BC9 /* DirectoryCreationDialog.xib */; };
+		8A1C53822157DBB10042E319 /* DirectoryCreationDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B74D2156725500E92BC9 /* DirectoryCreationDialog.strings */; };
+		8A1C53832157DBBE0042E319 /* AlterSymlinkDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B72F2156725500E92BC9 /* AlterSymlinkDialog.xib */; };
+		8A1C53842157DBBE0042E319 /* CreateHardlinkDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7312156725500E92BC9 /* CreateHardlinkDialog.xib */; };
+		8A1C53852157DBBE0042E319 /* CreateSymlinkDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7332156725500E92BC9 /* CreateSymlinkDialog.xib */; };
+		8A1C53862157DBBE0042E319 /* AlterSymlinkDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B73E2156725500E92BC9 /* AlterSymlinkDialog.strings */; };
+		8A1C53872157DBBE0042E319 /* CreateHardlinkDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7402156725500E92BC9 /* CreateHardlinkDialog.strings */; };
+		8A1C53882157DBBE0042E319 /* CreateSymlinkDialog.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B7422156725500E92BC9 /* CreateSymlinkDialog.strings */; };
+		8A1C53892157DBCC0042E319 /* BriefOperationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6D42156725200E92BC9 /* BriefOperationViewController.xib */; };
+		8A1C538A2157DBCC0042E319 /* GenericErrorDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B70E2156725300E92BC9 /* GenericErrorDialog.xib */; };
+		8A1C538B2157DBCD0042E319 /* HaltReasonDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A67B6BF2156725100E92BC9 /* HaltReasonDialog.xib */; };
+		8A1C538C2157DC580042E319 /* RHPreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453B2421568144009284A2 /* RHPreferencesWindow.xib */; };
+		8A1C538D2157DE610042E319 /* BigFileViewSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C272156818C009284A2 /* BigFileViewSheet.xib */; };
+		8A1C538E2157DE610042E319 /* InternalViewerController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C292156818C009284A2 /* InternalViewerController.xib */; };
+		8A1C538F2157DE610042E319 /* InternalViewerToolbar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C2B2156818C009284A2 /* InternalViewerToolbar.xib */; };
+		8A1C53902157DE610042E319 /* InternalViewerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C422156818C009284A2 /* InternalViewerWindowController.xib */; };
+		8A1C53912157DE610042E319 /* BigFileViewSheet.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C432156818C009284A2 /* BigFileViewSheet.strings */; };
+		8A1C53922157DE610042E319 /* InternalViewerController.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C452156818C009284A2 /* InternalViewerController.strings */; };
+		8A1C53932157DE610042E319 /* InternalViewerToolbar.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453C472156818C009284A2 /* InternalViewerToolbar.strings */; };
 		8A25278E21577EA9006AD68F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25278D21577EA9006AD68F /* Cocoa.framework */; };
 		8A25279021577ECE006AD68F /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25278F21577ECE006AD68F /* libbz2.tbd */; };
 		8A25279221577ED8006AD68F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279121577ED8006AD68F /* libz.tbd */; };
@@ -9050,6 +9084,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A1C538C2157DC580042E319 /* RHPreferencesWindow.xib in Resources */,
+				8A1C53702157D5DE0042E319 /* AttrsChangingDialog.xib in Resources */,
+				8A1C53742157DB870042E319 /* AttrsChangingDialog.strings in Resources */,
+				8A1C53752157DB910042E319 /* BatchRenamingDialog.xib in Resources */,
+				8A1C53762157DB910042E319 /* BatchRenamingRangeSelectionPopover.xib in Resources */,
+				8A1C53772157DB910042E319 /* BatchRenamingDialog.strings in Resources */,
+				8A1C53782157DB910042E319 /* BatchRenamingRangeSelectionPopover.strings in Resources */,
+				8A1C53792157DB9F0042E319 /* CopyingDialog.xib in Resources */,
+				8A1C537A2157DB9F0042E319 /* CopyingDialogDisclosedView.xib in Resources */,
+				8A1C537B2157DB9F0042E319 /* FileAlreadyExistDialog.xib in Resources */,
+				8A1C537C2157DB9F0042E319 /* CopyingDialog.strings in Resources */,
+				8A1C537D2157DB9F0042E319 /* CopyingDialogDisclosedView.strings in Resources */,
+				8A1C537E2157DB9F0042E319 /* FileAlreadyExistDialog.strings in Resources */,
+				8A1C537F2157DBA70042E319 /* DeletionDialog.xib in Resources */,
+				8A1C53802157DBA70042E319 /* DeletionDialog.strings in Resources */,
+				8A1C53812157DBB10042E319 /* DirectoryCreationDialog.xib in Resources */,
+				8A1C53822157DBB10042E319 /* DirectoryCreationDialog.strings in Resources */,
+				8A1C53832157DBBE0042E319 /* AlterSymlinkDialog.xib in Resources */,
+				8A1C53842157DBBE0042E319 /* CreateHardlinkDialog.xib in Resources */,
+				8A1C53852157DBBE0042E319 /* CreateSymlinkDialog.xib in Resources */,
+				8A1C53862157DBBE0042E319 /* AlterSymlinkDialog.strings in Resources */,
+				8A1C53872157DBBE0042E319 /* CreateHardlinkDialog.strings in Resources */,
+				8A1C53882157DBBE0042E319 /* CreateSymlinkDialog.strings in Resources */,
+				8A1C53892157DBCC0042E319 /* BriefOperationViewController.xib in Resources */,
+				8A1C538A2157DBCC0042E319 /* GenericErrorDialog.xib in Resources */,
+				8A1C538B2157DBCD0042E319 /* HaltReasonDialog.xib in Resources */,
+				8A1C53732157D6420042E319 /* PoolViewController.xib in Resources */,
 				8A25280721579B39006AD68F /* MainMenu.xib in Resources */,
 				8A1C532F2157B1D80042E319 /* AskForPasswordWindowController.xib in Resources */,
 				8A1C53302157B1D80042E319 /* CalculateChecksumSheetController.xib in Resources */,
@@ -9116,6 +9177,13 @@
 				8A1C536D2157B2470042E319 /* FindFilesSheetController.strings in Resources */,
 				8A1C536E2157B2470042E319 /* PanelViewHeaderSortPopup.strings in Resources */,
 				8A1C536F2157B2590042E319 /* MainWindowInternalViewerState.xib in Resources */,
+				8A1C538D2157DE610042E319 /* BigFileViewSheet.xib in Resources */,
+				8A1C538E2157DE610042E319 /* InternalViewerController.xib in Resources */,
+				8A1C538F2157DE610042E319 /* InternalViewerToolbar.xib in Resources */,
+				8A1C53902157DE610042E319 /* InternalViewerWindowController.xib in Resources */,
+				8A1C53912157DE610042E319 /* BigFileViewSheet.strings in Resources */,
+				8A1C53922157DE610042E319 /* InternalViewerController.strings in Resources */,
+				8A1C53932157DE610042E319 /* InternalViewerToolbar.strings in Resources */,
 				8A25280821579BB0006AD68F /* AliasBadgeIcon.icns in Resources */,
 				8A25280921579BB3006AD68F /* Credits.rtf in Resources */,
 				8A25282B2157A43D006AD68F /* Localizable.strings in Resources */,
