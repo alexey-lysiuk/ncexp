@@ -26,6 +26,80 @@
 		8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C222154F1C20043D119 /* spinlock.cpp */; };
 		8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C312154F1C20043D119 /* StringsBulk.cpp */; };
 		8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A171C2F2154F1C20043D119 /* tiny_string.cpp */; };
+		8A25278E21577EA9006AD68F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25278D21577EA9006AD68F /* Cocoa.framework */; };
+		8A25279021577ECE006AD68F /* libbz2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25278F21577ECE006AD68F /* libbz2.tbd */; };
+		8A25279221577ED8006AD68F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279121577ED8006AD68F /* libz.tbd */; };
+		8A25279421577EE5006AD68F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279321577EE5006AD68F /* libiconv.tbd */; };
+		8A25279621577EF0006AD68F /* libcurl.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279521577EF0006AD68F /* libcurl.tbd */; };
+		8A25279A21577F6D006AD68F /* OpenDirectory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279921577F6D006AD68F /* OpenDirectory.framework */; };
+		8A25279C21577F8E006AD68F /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279B21577F8E006AD68F /* DiskArbitration.framework */; };
+		8A25279E21577FA0006AD68F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279D21577FA0006AD68F /* Carbon.framework */; };
+		8A2527A021577FB8006AD68F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A25279F21577FB8006AD68F /* IOKit.framework */; };
+		8A2527A221577FD2006AD68F /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527A121577FD1006AD68F /* Security.framework */; };
+		8A2527A421577FED006AD68F /* NetFS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527A321577FED006AD68F /* NetFS.framework */; };
+		8A2527A621578010006AD68F /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527A521578010006AD68F /* QuickLook.framework */; };
+		8A2527A821578070006AD68F /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527A721578070006AD68F /* ServiceManagement.framework */; };
+		8A2527AA215780EE006AD68F /* libexpat.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527A9215780ED006AD68F /* libexpat.tbd */; };
+		8A2527AC2157811E006AD68F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527AB2157811E006AD68F /* SystemConfiguration.framework */; };
+		8A2527AD21578148006AD68F /* GTMHotKeyTextField.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6E21568144009284A2 /* GTMHotKeyTextField.mm */; };
+		8A2527AE2157815D006AD68F /* OIDLoopbackHTTPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3021568144009284A2 /* OIDLoopbackHTTPServer.m */; };
+		8A2527AF21578160006AD68F /* OIDAuthorizationService+Mac.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3221568144009284A2 /* OIDAuthorizationService+Mac.m */; };
+		8A2527B021578162006AD68F /* OIDAuthState+Mac.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3421568144009284A2 /* OIDAuthState+Mac.m */; };
+		8A2527B121578165006AD68F /* OIDExternalUserAgentMac.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3621568144009284A2 /* OIDExternalUserAgentMac.m */; };
+		8A2527B221578169006AD68F /* OIDRedirectHTTPHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3821568144009284A2 /* OIDRedirectHTTPHandler.m */; };
+		8A2527B3215781D3006AD68F /* OIDAuthorizationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3B21568144009284A2 /* OIDAuthorizationRequest.m */; };
+		8A2527B4215781D3006AD68F /* OIDAuthorizationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3D21568144009284A2 /* OIDAuthorizationResponse.m */; };
+		8A2527B5215781D3006AD68F /* OIDAuthorizationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B3F21568144009284A2 /* OIDAuthorizationService.m */; };
+		8A2527B6215781D3006AD68F /* OIDAuthState.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B4121568144009284A2 /* OIDAuthState.m */; };
+		8A2527B7215781D3006AD68F /* OIDClientMetadataParameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B4521568144009284A2 /* OIDClientMetadataParameters.m */; };
+		8A2527B8215781D3006AD68F /* OIDError.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B4821568144009284A2 /* OIDError.m */; };
+		8A2527B9215781D3006AD68F /* OIDErrorUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B4A21568144009284A2 /* OIDErrorUtilities.m */; };
+		8A2527BA215781D3006AD68F /* OIDFieldMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B4F21568144009284A2 /* OIDFieldMapping.m */; };
+		8A2527BB215781D3006AD68F /* OIDGrantTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5121568144009284A2 /* OIDGrantTypes.m */; };
+		8A2527BC215781D3006AD68F /* OIDIDToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5321568144009284A2 /* OIDIDToken.m */; };
+		8A2527BD215781D3006AD68F /* OIDRegistrationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5521568144009284A2 /* OIDRegistrationRequest.m */; };
+		8A2527BE215781D3006AD68F /* OIDRegistrationResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5721568144009284A2 /* OIDRegistrationResponse.m */; };
+		8A2527BF215781D3006AD68F /* OIDResponseTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5921568144009284A2 /* OIDResponseTypes.m */; };
+		8A2527C0215781D3006AD68F /* OIDScopes.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5B21568144009284A2 /* OIDScopes.m */; };
+		8A2527C1215781D3006AD68F /* OIDScopeUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5D21568144009284A2 /* OIDScopeUtilities.m */; };
+		8A2527C2215781D3006AD68F /* OIDServiceConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B5F21568144009284A2 /* OIDServiceConfiguration.m */; };
+		8A2527C3215781D3006AD68F /* OIDServiceDiscovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6121568144009284A2 /* OIDServiceDiscovery.m */; };
+		8A2527C4215781D3006AD68F /* OIDTokenRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6321568144009284A2 /* OIDTokenRequest.m */; };
+		8A2527C5215781D3006AD68F /* OIDTokenResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6521568144009284A2 /* OIDTokenResponse.m */; };
+		8A2527C6215781D3006AD68F /* OIDTokenUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6721568144009284A2 /* OIDTokenUtilities.m */; };
+		8A2527C7215781D3006AD68F /* OIDURLQueryComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6921568144009284A2 /* OIDURLQueryComponent.m */; };
+		8A2527C8215781D3006AD68F /* OIDURLSessionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6B21568144009284A2 /* OIDURLSessionProvider.m */; };
+		8A2527C9215781F0006AD68F /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B1C21568144009284A2 /* NSFileManager+DirectoryLocations.m */; };
+		8A2527CB21578225006AD68F /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527CA21578225006AD68F /* Quartz.framework */; };
+		8A2527CC21578265006AD68F /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B2621568144009284A2 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8A2527E5215783CD006AD68F /* MMAddButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A16C195215776F500A4FDCE /* MMAddButton.m */; };
+		8A2527E6215783CD006AD68F /* MMAttachedTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B9F21568144009284A2 /* MMAttachedTabBarButton.m */; };
+		8A2527E7215783CD006AD68F /* MMAttachedTabBarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BA121568144009284A2 /* MMAttachedTabBarButtonCell.m */; };
+		8A2527E8215783CD006AD68F /* MMOverflowPopUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BA321568144009284A2 /* MMOverflowPopUpButton.m */; };
+		8A2527E9215783CD006AD68F /* MMOverflowPopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BA521568144009284A2 /* MMOverflowPopUpButtonCell.m */; };
+		8A2527EA215783CD006AD68F /* MMProgressIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BA721568144009284A2 /* MMProgressIndicator.m */; };
+		8A2527EB215783CD006AD68F /* MMRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BA921568144009284A2 /* MMRolloverButton.m */; };
+		8A2527EC215783CD006AD68F /* MMRolloverButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BAB21568144009284A2 /* MMRolloverButtonCell.m */; };
+		8A2527ED215783CD006AD68F /* MMSlideButtonsAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BAD21568144009284A2 /* MMSlideButtonsAnimation.m */; };
+		8A2527EE215783CD006AD68F /* MMTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BB021568144009284A2 /* MMTabBarButton.m */; };
+		8A2527EF215783CD006AD68F /* MMTabBarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BB321568144009284A2 /* MMTabBarButtonCell.m */; };
+		8A2527F0215783CD006AD68F /* MMTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BB621568144009284A2 /* MMTabBarController.m */; };
+		8A2527F1215783CD006AD68F /* MMTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BBA21568144009284A2 /* MMTabBarView.m */; };
+		8A2527F2215783CD006AD68F /* MMTabDragAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BBD21568144009284A2 /* MMTabDragAssistant.m */; };
+		8A2527F3215783CD006AD68F /* MMTabDragView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BBF21568144009284A2 /* MMTabDragView.m */; };
+		8A2527F4215783CD006AD68F /* MMTabDragWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BC121568144009284A2 /* MMTabDragWindow.m */; };
+		8A2527F5215783CD006AD68F /* MMTabDragWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BC321568144009284A2 /* MMTabDragWindowController.m */; };
+		8A2527F6215783CD006AD68F /* MMTabPasteboardItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BC521568144009284A2 /* MMTabPasteboardItem.m */; };
+		8A2527F7215783CD006AD68F /* NSAffineTransform+MMTabBarViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BC821568144009284A2 /* NSAffineTransform+MMTabBarViewExtensions.m */; };
+		8A2527F8215783CD006AD68F /* NSBezierPath+MMTabBarViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BCA21568144009284A2 /* NSBezierPath+MMTabBarViewExtensions.m */; };
+		8A2527F9215783CD006AD68F /* NSCell+MMTabBarViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BCC21568144009284A2 /* NSCell+MMTabBarViewExtensions.m */; };
+		8A2527FA215783CD006AD68F /* NSString+MMTabBarViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BCE21568144009284A2 /* NSString+MMTabBarViewExtensions.m */; };
+		8A2527FB215783CD006AD68F /* NSTabViewItem+MMTabBarViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BD021568144009284A2 /* NSTabViewItem+MMTabBarViewExtensions.m */; };
+		8A2527FC215783CD006AD68F /* NSView+MMTabBarViewExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BD221568144009284A2 /* NSView+MMTabBarViewExtensions.m */; };
+		8A2528012157852E006AD68F /* MMMetalTabStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BDD21568144009284A2 /* MMMetalTabStyle.m */; };
+		8A252802215785D0006AD68F /* async_posix.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF02A5215636BB00BC1103 /* async_posix.c */; };
+		8A2528032157865B006AD68F /* dll.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AF0736D2155232700895FEF /* dll.cpp */; };
+		8A25280521578D39006AD68F /* x86_64cpuid.s in Sources */ = {isa = PBXBuildFile; fileRef = 8A25280421578D1A006AD68F /* x86_64cpuid.s */; };
 		8A4534C7215672CA009284A2 /* AttrsChanging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D72156725200E92BC9 /* AttrsChanging.mm */; };
 		8A4534C8215672CD009284A2 /* AttrsChangingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */; };
 		8A4534C9215672CF009284A2 /* AttrsChangingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */; };
@@ -108,7 +182,6 @@
 		8A453F0921568ED0009284A2 /* ActionsShortcutsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C4D2156818C009284A2 /* ActionsShortcutsManager.mm */; };
 		8A453F0A21568ED0009284A2 /* Alert.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C4F2156818C009284A2 /* Alert.mm */; };
 		8A453F0B21568ED0009284A2 /* AnyHolder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C512156818C009284A2 /* AnyHolder.mm */; };
-		8A453F0C21568ED0009284A2 /* AppStoreHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C532156818C009284A2 /* AppStoreHelper.mm */; };
 		8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */; };
 		8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */; };
 		8A453F0F21568ED0009284A2 /* Dock.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C622156818C009284A2 /* Dock.mm */; };
@@ -136,7 +209,6 @@
 		8A453F2821568FD8009284A2 /* FeedbackWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAB2156818E009284A2 /* FeedbackWindow.mm */; };
 		8A453F2921568FD8009284A2 /* FilterPopUpMenu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAD2156818E009284A2 /* FilterPopUpMenu.mm */; };
 		8A453F2A21568FD8009284A2 /* ProcessSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EAF2156818E009284A2 /* ProcessSheetController.mm */; };
-		8A453F2B21568FD8009284A2 /* ProFeaturesWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EB12156818E009284A2 /* ProFeaturesWindowController.mm */; };
 		8A453F2C21568FD8009284A2 /* RegistrationInfoWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EB32156818E009284A2 /* RegistrationInfoWindow.mm */; };
 		8A453F2D21568FD8009284A2 /* TrialWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EC52156818E009284A2 /* TrialWindowController.mm */; };
 		8A453F2E21568FD8009284A2 /* VFSListWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453EC82156818E009284A2 /* VFSListWindowController.mm */; };
@@ -1006,9 +1078,7 @@
 		8ABF0918215641F700BC1103 /* o_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0488215636BB00BC1103 /* o_init.c */; };
 		8ABF0919215641F700BC1103 /* o_str.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0489215636BB00BC1103 /* o_str.c */; };
 		8ABF091A215641F700BC1103 /* o_time.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF048A215636BB00BC1103 /* o_time.c */; };
-		8ABF091B215641F700BC1103 /* ppccap.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF04D0215636BB00BC1103 /* ppccap.c */; };
 		8ABF091C215641F700BC1103 /* s390xcap.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF050E215636BB00BC1103 /* s390xcap.c */; };
-		8ABF091D215641F700BC1103 /* sparcv9cap.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0535215636BB00BC1103 /* sparcv9cap.c */; };
 		8ABF091E215641F700BC1103 /* threads_none.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0543215636BB00BC1103 /* threads_none.c */; };
 		8ABF091F215641F700BC1103 /* threads_pthread.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0544215636BB00BC1103 /* threads_pthread.c */; };
 		8ABF0920215641F700BC1103 /* threads_win.c in Sources */ = {isa = PBXBuildFile; fileRef = 8ABF0545215636BB00BC1103 /* threads_win.c */; };
@@ -1562,20 +1632,33 @@
 		8A171C312154F1C20043D119 /* StringsBulk.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = StringsBulk.cpp; path = source/StringsBulk.cpp; sourceTree = "<group>"; };
 		8A171C322154F1C20043D119 /* CommonPaths.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CommonPaths.cpp; path = source/CommonPaths.cpp; sourceTree = "<group>"; };
 		8A171C4B2154F5760043D119 /* libUtility.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libUtility.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A25278D21577EA9006AD68F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8A25278F21577ECE006AD68F /* libbz2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libbz2.tbd; path = usr/lib/libbz2.tbd; sourceTree = SDKROOT; };
+		8A25279121577ED8006AD68F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		8A25279321577EE5006AD68F /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		8A25279521577EF0006AD68F /* libcurl.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurl.tbd; path = usr/lib/libcurl.tbd; sourceTree = SDKROOT; };
+		8A25279921577F6D006AD68F /* OpenDirectory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenDirectory.framework; path = System/Library/Frameworks/OpenDirectory.framework; sourceTree = SDKROOT; };
+		8A25279B21577F8E006AD68F /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = System/Library/Frameworks/DiskArbitration.framework; sourceTree = SDKROOT; };
+		8A25279D21577FA0006AD68F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		8A25279F21577FB8006AD68F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		8A2527A121577FD1006AD68F /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		8A2527A321577FED006AD68F /* NetFS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetFS.framework; path = System/Library/Frameworks/NetFS.framework; sourceTree = SDKROOT; };
+		8A2527A521578010006AD68F /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		8A2527A721578070006AD68F /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
+		8A2527A9215780ED006AD68F /* libexpat.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libexpat.tbd; path = usr/lib/libexpat.tbd; sourceTree = SDKROOT; };
+		8A2527AB2157811E006AD68F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		8A2527CA21578225006AD68F /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		8A25280421578D1A006AD68F /* x86_64cpuid.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = x86_64cpuid.s; sourceTree = "<group>"; };
 		8A4534C32156729E009284A2 /* libOperations.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOperations.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A4534D12156747B009284A2 /* any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		8A453B1B21568144009284A2 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
 		8A453B1C21568144009284A2 /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
-		8A453B1E21568144009284A2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		8A453B1F21568144009284A2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8A453B2221568144009284A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A453B2321568144009284A2 /* RHPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RHPreferences.h; sourceTree = "<group>"; };
 		8A453B2421568144009284A2 /* RHPreferencesWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RHPreferencesWindow.xib; sourceTree = "<group>"; };
 		8A453B2521568144009284A2 /* RHPreferencesWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RHPreferencesWindowController.h; sourceTree = "<group>"; };
 		8A453B2621568144009284A2 /* RHPreferencesWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RHPreferencesWindowController.m; sourceTree = "<group>"; };
-		8A453B2821568144009284A2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8A453B2A21568144009284A2 /* AppAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppAuth.h; sourceTree = "<group>"; };
-		8A453B2C21568144009284A2 /* AppAuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppAuth.h; sourceTree = "<group>"; };
 		8A453B2F21568144009284A2 /* OIDLoopbackHTTPServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OIDLoopbackHTTPServer.h; sourceTree = "<group>"; };
 		8A453B3021568144009284A2 /* OIDLoopbackHTTPServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OIDLoopbackHTTPServer.m; sourceTree = "<group>"; };
 		8A453B3121568144009284A2 /* OIDAuthorizationService+Mac.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OIDAuthorizationService+Mac.h"; sourceTree = "<group>"; };
@@ -4312,6 +4395,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A25279E21577FA0006AD68F /* Carbon.framework in Frameworks */,
+				8A25278E21577EA9006AD68F /* Cocoa.framework in Frameworks */,
+				8A25279C21577F8E006AD68F /* DiskArbitration.framework in Frameworks */,
+				8A2527A021577FB8006AD68F /* IOKit.framework in Frameworks */,
+				8A2527A421577FED006AD68F /* NetFS.framework in Frameworks */,
+				8A25279A21577F6D006AD68F /* OpenDirectory.framework in Frameworks */,
+				8A2527CB21578225006AD68F /* Quartz.framework in Frameworks */,
+				8A2527A621578010006AD68F /* QuickLook.framework in Frameworks */,
+				8A2527A221577FD2006AD68F /* Security.framework in Frameworks */,
+				8A2527A821578070006AD68F /* ServiceManagement.framework in Frameworks */,
+				8A2527AC2157811E006AD68F /* SystemConfiguration.framework in Frameworks */,
+				8A25279021577ECE006AD68F /* libbz2.tbd in Frameworks */,
+				8A25279621577EF0006AD68F /* libcurl.tbd in Frameworks */,
+				8A2527AA215780EE006AD68F /* libexpat.tbd in Frameworks */,
+				8A25279421577EE5006AD68F /* libiconv.tbd in Frameworks */,
+				8A25279221577ED8006AD68F /* libz.tbd in Frameworks */,
 				8A453ED6215682AD009284A2 /* libHabanero.a in Frameworks */,
 				8A453ED7215682AF009284A2 /* libUtility.a in Frameworks */,
 				8A453ED8215682B1009284A2 /* libRoutedIO.a in Frameworks */,
@@ -4390,8 +4489,6 @@
 		8A453B1D21568144009284A2 /* RHPreferences */ = {
 			isa = PBXGroup;
 			children = (
-				8A453B1E21568144009284A2 /* LICENSE */,
-				8A453B1F21568144009284A2 /* README.md */,
 				8A453B2021568144009284A2 /* RHPreferences */,
 			);
 			path = RHPreferences;
@@ -4412,7 +4509,6 @@
 		8A453B2721568144009284A2 /* AppAuth */ = {
 			isa = PBXGroup;
 			children = (
-				8A453B2821568144009284A2 /* LICENSE */,
 				8A453B2921568144009284A2 /* Source */,
 			);
 			path = AppAuth;
@@ -4421,9 +4517,8 @@
 		8A453B2921568144009284A2 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				8A453B2A21568144009284A2 /* AppAuth.h */,
-				8A453B2B21568144009284A2 /* Framework */,
 				8A453B2D21568144009284A2 /* macOS */,
+				8A453B2A21568144009284A2 /* AppAuth.h */,
 				8A453B3921568144009284A2 /* OIDAuthorizationFlowSession.h */,
 				8A453B3A21568144009284A2 /* OIDAuthorizationRequest.h */,
 				8A453B3B21568144009284A2 /* OIDAuthorizationRequest.m */,
@@ -4477,14 +4572,6 @@
 				8A453B6B21568144009284A2 /* OIDURLSessionProvider.m */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		8A453B2B21568144009284A2 /* Framework */ = {
-			isa = PBXGroup;
-			children = (
-				8A453B2C21568144009284A2 /* AppAuth.h */,
-			);
-			path = Framework;
 			sourceTree = "<group>";
 		};
 		8A453B2D21568144009284A2 /* macOS */ = {
@@ -5464,6 +5551,22 @@
 		8A453ED5215682AD009284A2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8A25279D21577FA0006AD68F /* Carbon.framework */,
+				8A25278D21577EA9006AD68F /* Cocoa.framework */,
+				8A25279B21577F8E006AD68F /* DiskArbitration.framework */,
+				8A25279F21577FB8006AD68F /* IOKit.framework */,
+				8A2527A321577FED006AD68F /* NetFS.framework */,
+				8A25279921577F6D006AD68F /* OpenDirectory.framework */,
+				8A2527CA21578225006AD68F /* Quartz.framework */,
+				8A2527A521578010006AD68F /* QuickLook.framework */,
+				8A2527A121577FD1006AD68F /* Security.framework */,
+				8A2527A721578070006AD68F /* ServiceManagement.framework */,
+				8A2527AB2157811E006AD68F /* SystemConfiguration.framework */,
+				8A25278F21577ECE006AD68F /* libbz2.tbd */,
+				8A25279521577EF0006AD68F /* libcurl.tbd */,
+				8A2527A9215780ED006AD68F /* libexpat.tbd */,
+				8A25279321577EE5006AD68F /* libiconv.tbd */,
+				8A25279121577ED8006AD68F /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -5479,8 +5582,8 @@
 				8ABF0D9221566BCF00BC1103 /* VFS */,
 				8AAA8BD5215671400053BE9D /* Operations */,
 				8AF06992215516E000895FEF /* ThirdParty */,
-				8A548D772154EE410047A5B2 /* Products */,
 				8A453ED5215682AD009284A2 /* Frameworks */,
+				8A548D772154EE410047A5B2 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -6159,6 +6262,7 @@
 				8ABF0545215636BB00BC1103 /* threads_win.c */,
 				8ABF055C215636BB00BC1103 /* uid.c */,
 				8ABF055D215636BB00BC1103 /* vms_rms.h */,
+				8A25280421578D1A006AD68F /* x86_64cpuid.s */,
 			);
 			path = crypto;
 			sourceTree = "<group>";
@@ -9063,6 +9167,61 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A2527AE2157815D006AD68F /* OIDLoopbackHTTPServer.m in Sources */,
+				8A2527AF21578160006AD68F /* OIDAuthorizationService+Mac.m in Sources */,
+				8A2527B021578162006AD68F /* OIDAuthState+Mac.m in Sources */,
+				8A2527B121578165006AD68F /* OIDExternalUserAgentMac.m in Sources */,
+				8A2527B221578169006AD68F /* OIDRedirectHTTPHandler.m in Sources */,
+				8A2527B3215781D3006AD68F /* OIDAuthorizationRequest.m in Sources */,
+				8A2527B4215781D3006AD68F /* OIDAuthorizationResponse.m in Sources */,
+				8A2527B5215781D3006AD68F /* OIDAuthorizationService.m in Sources */,
+				8A2527B6215781D3006AD68F /* OIDAuthState.m in Sources */,
+				8A2527B7215781D3006AD68F /* OIDClientMetadataParameters.m in Sources */,
+				8A2527B8215781D3006AD68F /* OIDError.m in Sources */,
+				8A2527B9215781D3006AD68F /* OIDErrorUtilities.m in Sources */,
+				8A2527BA215781D3006AD68F /* OIDFieldMapping.m in Sources */,
+				8A2527BB215781D3006AD68F /* OIDGrantTypes.m in Sources */,
+				8A2527BC215781D3006AD68F /* OIDIDToken.m in Sources */,
+				8A2527BD215781D3006AD68F /* OIDRegistrationRequest.m in Sources */,
+				8A2527BE215781D3006AD68F /* OIDRegistrationResponse.m in Sources */,
+				8A2527BF215781D3006AD68F /* OIDResponseTypes.m in Sources */,
+				8A2527C0215781D3006AD68F /* OIDScopes.m in Sources */,
+				8A2527C1215781D3006AD68F /* OIDScopeUtilities.m in Sources */,
+				8A2527C2215781D3006AD68F /* OIDServiceConfiguration.m in Sources */,
+				8A2527C3215781D3006AD68F /* OIDServiceDiscovery.m in Sources */,
+				8A2527C4215781D3006AD68F /* OIDTokenRequest.m in Sources */,
+				8A2527C5215781D3006AD68F /* OIDTokenResponse.m in Sources */,
+				8A2527C6215781D3006AD68F /* OIDTokenUtilities.m in Sources */,
+				8A2527C7215781D3006AD68F /* OIDURLQueryComponent.m in Sources */,
+				8A2527C8215781D3006AD68F /* OIDURLSessionProvider.m in Sources */,
+				8A2527AD21578148006AD68F /* GTMHotKeyTextField.mm in Sources */,
+				8A2528012157852E006AD68F /* MMMetalTabStyle.m in Sources */,
+				8A2527E5215783CD006AD68F /* MMAddButton.m in Sources */,
+				8A2527E6215783CD006AD68F /* MMAttachedTabBarButton.m in Sources */,
+				8A2527E7215783CD006AD68F /* MMAttachedTabBarButtonCell.m in Sources */,
+				8A2527E8215783CD006AD68F /* MMOverflowPopUpButton.m in Sources */,
+				8A2527E9215783CD006AD68F /* MMOverflowPopUpButtonCell.m in Sources */,
+				8A2527EA215783CD006AD68F /* MMProgressIndicator.m in Sources */,
+				8A2527EB215783CD006AD68F /* MMRolloverButton.m in Sources */,
+				8A2527EC215783CD006AD68F /* MMRolloverButtonCell.m in Sources */,
+				8A2527ED215783CD006AD68F /* MMSlideButtonsAnimation.m in Sources */,
+				8A2527EE215783CD006AD68F /* MMTabBarButton.m in Sources */,
+				8A2527EF215783CD006AD68F /* MMTabBarButtonCell.m in Sources */,
+				8A2527F0215783CD006AD68F /* MMTabBarController.m in Sources */,
+				8A2527F1215783CD006AD68F /* MMTabBarView.m in Sources */,
+				8A2527F2215783CD006AD68F /* MMTabDragAssistant.m in Sources */,
+				8A2527F3215783CD006AD68F /* MMTabDragView.m in Sources */,
+				8A2527F4215783CD006AD68F /* MMTabDragWindow.m in Sources */,
+				8A2527F5215783CD006AD68F /* MMTabDragWindowController.m in Sources */,
+				8A2527F6215783CD006AD68F /* MMTabPasteboardItem.m in Sources */,
+				8A2527F7215783CD006AD68F /* NSAffineTransform+MMTabBarViewExtensions.m in Sources */,
+				8A2527F8215783CD006AD68F /* NSBezierPath+MMTabBarViewExtensions.m in Sources */,
+				8A2527F9215783CD006AD68F /* NSCell+MMTabBarViewExtensions.m in Sources */,
+				8A2527FA215783CD006AD68F /* NSString+MMTabBarViewExtensions.m in Sources */,
+				8A2527FB215783CD006AD68F /* NSTabViewItem+MMTabBarViewExtensions.m in Sources */,
+				8A2527FC215783CD006AD68F /* NSView+MMTabBarViewExtensions.m in Sources */,
+				8A2527C9215781F0006AD68F /* NSFileManager+DirectoryLocations.m in Sources */,
+				8A2527CC21578265006AD68F /* RHPreferencesWindowController.m in Sources */,
 				8A453ECA21568228009284A2 /* AppDelegate+MainWindowCreation.mm in Sources */,
 				8A453ECB21568228009284A2 /* AppDelegate+Migration.mm in Sources */,
 				8A453ECC21568228009284A2 /* AppDelegate.mm in Sources */,
@@ -9086,7 +9245,6 @@
 				8A453F0921568ED0009284A2 /* ActionsShortcutsManager.mm in Sources */,
 				8A453F0A21568ED0009284A2 /* Alert.mm in Sources */,
 				8A453F0B21568ED0009284A2 /* AnyHolder.mm in Sources */,
-				8A453F0C21568ED0009284A2 /* AppStoreHelper.mm in Sources */,
 				8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */,
 				8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */,
 				8A453F0F21568ED0009284A2 /* Dock.mm in Sources */,
@@ -9114,7 +9272,6 @@
 				8A453F2821568FD8009284A2 /* FeedbackWindow.mm in Sources */,
 				8A453F2921568FD8009284A2 /* FilterPopUpMenu.mm in Sources */,
 				8A453F2A21568FD8009284A2 /* ProcessSheetController.mm in Sources */,
-				8A453F2B21568FD8009284A2 /* ProFeaturesWindowController.mm in Sources */,
 				8A453F2C21568FD8009284A2 /* RegistrationInfoWindow.mm in Sources */,
 				8A453F2D21568FD8009284A2 /* TrialWindowController.mm in Sources */,
 				8A453F2E21568FD8009284A2 /* VFSListWindowController.mm in Sources */,
@@ -9397,6 +9554,7 @@
 				8ABF06B22156386200BC1103 /* x_sig.c in Sources */,
 				8ABF06B32156386200BC1103 /* x_spki.c in Sources */,
 				8ABF06B42156386200BC1103 /* x_val.c in Sources */,
+				8A252802215785D0006AD68F /* async_posix.c in Sources */,
 				8ABF06C921563AC800BC1103 /* async.c in Sources */,
 				8ABF06CA21563AC800BC1103 /* async_err.c in Sources */,
 				8ABF06CB21563AC800BC1103 /* async_wait.c in Sources */,
@@ -9981,13 +10139,12 @@
 				8ABF0918215641F700BC1103 /* o_init.c in Sources */,
 				8ABF0919215641F700BC1103 /* o_str.c in Sources */,
 				8ABF091A215641F700BC1103 /* o_time.c in Sources */,
-				8ABF091B215641F700BC1103 /* ppccap.c in Sources */,
 				8ABF091C215641F700BC1103 /* s390xcap.c in Sources */,
-				8ABF091D215641F700BC1103 /* sparcv9cap.c in Sources */,
 				8ABF091E215641F700BC1103 /* threads_none.c in Sources */,
 				8ABF091F215641F700BC1103 /* threads_pthread.c in Sources */,
 				8ABF0920215641F700BC1103 /* threads_win.c in Sources */,
 				8ABF0921215641F700BC1103 /* uid.c in Sources */,
+				8A25280521578D39006AD68F /* x86_64cpuid.s in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -10413,6 +10570,7 @@
 				8AF073FD2155240D00895FEF /* consio.cpp in Sources */,
 				8AF073FE2155240D00895FEF /* crc.cpp in Sources */,
 				8AF073FF2155240D00895FEF /* crypt.cpp in Sources */,
+				8A2528032157865B006AD68F /* dll.cpp in Sources */,
 				8AF074052155240D00895FEF /* encname.cpp in Sources */,
 				8AF074062155240D00895FEF /* errhnd.cpp in Sources */,
 				8AF074072155240D00895FEF /* extinfo.cpp in Sources */,
@@ -12019,6 +12177,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
+					RARDLL,
 					"_FILE_OFFSET_BITS=64",
 					_LARGEFILE_SOURCE,
 					RAR_SMP,

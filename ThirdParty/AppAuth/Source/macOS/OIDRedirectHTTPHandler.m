@@ -22,7 +22,7 @@
 #import "OIDAuthorizationService.h"
 #import "OIDErrorUtilities.h"
 #import "OIDExternalUserAgentSession.h"
-#import "OIDLoopbackHTTPServer.h"
+#import "LoopbackHTTPServer/OIDLoopbackHTTPServer.h"
 
 /*! @brief Page that is returned following a completed authorization. Show your own page instead by
         supplying a URL in @c initWithSuccessURL that the user will be redirected to.
