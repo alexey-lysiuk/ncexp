@@ -1473,7 +1473,6 @@
 		8A453C2021568144009284A2 /* YosemiteTabNewPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YosemiteTabNewPressed@2x.png"; sourceTree = "<group>"; };
 		8A453C2121568144009284A2 /* MMYosemiteTabStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MMYosemiteTabStyle.h; sourceTree = "<group>"; };
 		8A453C2221568144009284A2 /* MMYosemiteTabStyle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMYosemiteTabStyle.m; sourceTree = "<group>"; };
-		8A453C252156818C009284A2 /* QLThumbnailsCache_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QLThumbnailsCache_Tests.mm; sourceTree = "<group>"; };
 		8A453C282156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/BigFileViewSheet.xib; sourceTree = "<group>"; };
 		8A453C2A2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/InternalViewerController.xib; sourceTree = "<group>"; };
 		8A453C2C2156818C009284A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/InternalViewerToolbar.xib; sourceTree = "<group>"; };
@@ -1530,10 +1529,8 @@
 		8A453C642156818C009284A2 /* FeedbackManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FeedbackManager.mm; sourceTree = "<group>"; };
 		8A453C652156818C009284A2 /* FileMask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileMask.cpp; sourceTree = "<group>"; };
 		8A453C662156818C009284A2 /* FileMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileMask.h; sourceTree = "<group>"; };
-		8A453C672156818C009284A2 /* FileMask_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileMask_Tests.mm; sourceTree = "<group>"; };
 		8A453C682156818C009284A2 /* FileWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileWindow.cpp; sourceTree = "<group>"; };
 		8A453C692156818C009284A2 /* FileWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileWindow.h; sourceTree = "<group>"; };
-		8A453C6A2156818C009284A2 /* FileWindow_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FileWindow_Tests.mm; sourceTree = "<group>"; };
 		8A453C6B2156818C009284A2 /* GoogleAnalytics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleAnalytics.h; sourceTree = "<group>"; };
 		8A453C6C2156818C009284A2 /* GoogleAnalytics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GoogleAnalytics.mm; sourceTree = "<group>"; };
 		8A453C6D2156818C009284A2 /* LaunchServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchServices.h; sourceTree = "<group>"; };
@@ -1782,7 +1779,6 @@
 		8A453D892156818D009284A2 /* ExternalToolParameterValueSheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalToolParameterValueSheetController.mm; sourceTree = "<group>"; };
 		8A453D8A2156818D009284A2 /* ExternalToolsSupport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExternalToolsSupport.h; sourceTree = "<group>"; };
 		8A453D8B2156818D009284A2 /* ExternalToolsSupport.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalToolsSupport.mm; sourceTree = "<group>"; };
-		8A453D8C2156818D009284A2 /* ExternalToolsSupport_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExternalToolsSupport_Tests.mm; sourceTree = "<group>"; };
 		8A453D8D2156818D009284A2 /* FavoriteComposing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FavoriteComposing.h; sourceTree = "<group>"; };
 		8A453D8E2156818D009284A2 /* FavoriteComposing.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FavoriteComposing.mm; sourceTree = "<group>"; };
 		8A453D8F2156818D009284A2 /* Favorites.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Favorites.cpp; sourceTree = "<group>"; };
@@ -1864,7 +1860,6 @@
 		8A453DDF2156818D009284A2 /* PanelControllerPersistency.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelControllerPersistency.mm; sourceTree = "<group>"; };
 		8A453DE02156818D009284A2 /* PanelData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelData.h; sourceTree = "<group>"; };
 		8A453DE12156818D009284A2 /* PanelData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelData.mm; sourceTree = "<group>"; };
-		8A453DE22156818D009284A2 /* PanelData_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelData_Tests.mm; sourceTree = "<group>"; };
 		8A453DE32156818D009284A2 /* PanelDataEntriesComparator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataEntriesComparator.h; sourceTree = "<group>"; };
 		8A453DE42156818D009284A2 /* PanelDataEntriesComparator.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelDataEntriesComparator.mm; sourceTree = "<group>"; };
 		8A453DE52156818D009284A2 /* PanelDataExternalEntryKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelDataExternalEntryKey.h; sourceTree = "<group>"; };
@@ -1908,7 +1903,6 @@
 		8A453E0B2156818D009284A2 /* PanelViewTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewTypes.h; sourceTree = "<group>"; };
 		8A453E0C2156818D009284A2 /* QuickSearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuickSearch.h; sourceTree = "<group>"; };
 		8A453E0D2156818D009284A2 /* QuickSearch.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickSearch.mm; sourceTree = "<group>"; };
-		8A453E0E2156818D009284A2 /* QuickSearch_Tests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuickSearch_Tests.mm; sourceTree = "<group>"; };
 		8A453E102156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/ExternalToolParameterValueSheetController.strings; sourceTree = "<group>"; };
 		8A453E122156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FavoritesWindowController.strings; sourceTree = "<group>"; };
 		8A453E132156818D009284A2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/FilePanelsContextMenu.strings; sourceTree = "<group>"; };
@@ -4411,14 +4405,6 @@
 				8A453C2021568144009284A2 /* YosemiteTabNewPressed@2x.png */,
 			);
 			path = Images;
-			sourceTree = "<group>";
-		};
-		8A453C242156818C009284A2 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				8A453C252156818C009284A2 /* QLThumbnailsCache_Tests.mm */,
-			);
-			path = Tests;
 			sourceTree = "<group>";
 		};
 		8A453C262156818C009284A2 /* Viewer */ = {
