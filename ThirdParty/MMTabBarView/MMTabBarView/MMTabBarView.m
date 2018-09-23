@@ -14,14 +14,14 @@
 #import "MMOverflowPopUpButtonCell.h"
 #import "MMRolloverButton.h"
 #import "MMTabStyle.h"
-#import "MMMetalTabStyle.h"
+/*#import "MMMetalTabStyle.h"
 #import "MMAquaTabStyle.h"
 #import "MMUnifiedTabStyle.h"
 #import "MMAdiumTabStyle.h"
 #import "MMLiveChatTabStyle.h"
 #import "MMCardTabStyle.h"
 #import "MMSafariTabStyle.h"
-#import "MMYosemiteTabStyle.h"
+#import "MMYosemiteTabStyle.h"*/
 #import "MMTabDragAssistant.h"
 #import "MMTabBarController.h"
 #import "MMAttachedTabBarButton.h"
@@ -29,6 +29,7 @@
 #import "MMSlideButtonsAnimation.h"
 #import "NSView+MMTabBarViewExtensions.h"
 #import "MMTabBarItem.h"
+#import "MMAddButton.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -55,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
     // control basics
     NSTabView                       *_tabView;                    // the tab view being navigated
     MMOverflowPopUpButton           *_overflowPopUpButton;        // for too many tabs
-    MMRolloverButton                *_addTabButton;
+    MMAddButton                     *_addTabButton;
     MMTabBarController              *_controller;
 
     // Spring-loading.
@@ -69,6 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL                            _disableTabClose;
     BOOL                            _hideForSingleTab;
     BOOL                            _showAddTabButton;
+    BOOL                            _allowAddTabButtonMenu;
     BOOL                            _sizeButtonsToFit;
     BOOL                            _useOverflowMenu;
     BOOL                            _alwaysShowActiveTab;
@@ -100,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
     BOOL                            _needsUpdate;
 
     // delegate
-    id <MMTabBarViewDelegate>       _delegate;
+    __weak id <MMTabBarViewDelegate>       _delegate;
 }
 
 static NSMutableDictionary *registeredStyleClasses = nil;
@@ -231,15 +233,8 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 
 - (NSSize)intrinsicContentSize
 {
-	/*CMC EDITED*/
-	//Height auto-adjusts based on if we are hidden or not.  This lets autolayout adjust for when we hide/show the tab bar.
     if ([_style respondsToSelector:@selector(intrinsicContentSizeOfTabBarView:)])
-	{
-		if(_isHidden)
-			return NSMakeSize(NSViewNoIntrinsicMetric, 0);
-		else
-			return [_style intrinsicContentSizeOfTabBarView:self];
-	}
+        return [_style intrinsicContentSizeOfTabBarView:self];
 
     return NSMakeSize(NSViewNoInstrinsicMetric, NSViewNoInstrinsicMetric);
 }
@@ -271,7 +266,8 @@ static NSMutableDictionary *registeredStyleClasses = nil;
     
         //Don't let attached buttons overlap the add tab button if it is visible
 	if ([self showAddTabButton]) {
-		result -= [self addTabButtonSize].width + 2*kMMTabBarCellPadding;
+//		result -= [self addTabButtonSize].width + 2*kMMTabBarCellPadding;
+		result -= [self addTabButtonSize].width;
 	}
     
     return result;
@@ -347,9 +343,13 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 
 - (void)windowStatusDidChange:(NSNotification *)notification {
 
-    [self _updateImages];
+    // why on earth this call was here??? this is madness!
+   // [self _updateImages];
 
 	[self setNeedsDisplay:YES];
+
+    for( NSView *v in self.subviews )
+        [v setNeedsDisplay:true];
 }
 
 #pragma mark -
@@ -357,14 +357,14 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 
 + (void)registerDefaultTabStyleClasses {
 
-    [self registerTabStyleClass:[MMAquaTabStyle class]];
+/*    [self registerTabStyleClass:[MMAquaTabStyle class]];
     [self registerTabStyleClass:[MMUnifiedTabStyle class]];
     [self registerTabStyleClass:[MMAdiumTabStyle class]];
     [self registerTabStyleClass:[MMMetalTabStyle class]];
     [self registerTabStyleClass:[MMCardTabStyle class]];
     [self registerTabStyleClass:[MMLiveChatTabStyle class]];
     [self registerTabStyleClass:[MMSafariTabStyle class]];
-    [self registerTabStyleClass:[MMYosemiteTabStyle class]];
+    [self registerTabStyleClass:[MMYosemiteTabStyle class]];*/
 }
 
 + (void)registerTabStyleClass:(Class <MMTabStyle>)aStyleClass {
@@ -966,6 +966,20 @@ static NSMutableDictionary *registeredStyleClasses = nil;
     [self setNeedsUpdate:YES];
 }
 
+- (BOOL)allowAddTabButtonMenu {
+    return _allowAddTabButtonMenu;
+}
+
+- (void)setAllowAddTabButtonMenu:(BOOL)allowAddTabButtonMenu
+{
+    _allowAddTabButtonMenu = allowAddTabButtonMenu;
+    
+    if( _allowAddTabButtonMenu  )
+        [_addTabButton setLongPressAction:@selector(_showAddNewTabMenu:)];
+    else
+        [_addTabButton setLongPressAction:nil];
+}
+
 - (NSInteger)buttonMinWidth {
 	return _buttonMinWidth;
 }
@@ -1301,9 +1315,9 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 		}
 	}
 
-//	if (hide)
-//        [self setHidden:YES];
-	
+	if (hide)
+        [self setHidden:YES];
+        
 	if (_partnerView) {
             // resize self and view
 		NSRect resizeRect;
@@ -1314,25 +1328,13 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 		}
 
         if (animate) {
-
-			/*CMC EDITED*/
-			//Animate our intrinsic content size (for people using autolayout)
-			[NSAnimationContext runAnimationGroup:^(NSAnimationContext * _Nonnull context) {
-				context.duration = 0.1;
-				context.allowsImplicitAnimation = YES;
-				[self invalidateIntrinsicContentSize];
-				[self.superview layoutSubtreeIfNeeded];
-			} completionHandler:^{
-				if (hide)
-					[self setHidden:YES];
-			}];
-			
+        
                 // stop running animation
             if (_hideShowTabBarAnimation) {
                 [_hideShowTabBarAnimation stopAnimation];
                 _hideShowTabBarAnimation = nil;
             }
-			
+                
                 // start animated update of partner view
             NSDictionary *partnerAnimDict = [NSDictionary dictionaryWithObjectsAndKeys:
                 _partnerView, NSViewAnimationTargetKey,
@@ -1342,17 +1344,13 @@ static NSMutableDictionary *registeredStyleClasses = nil;
                 nil];
 
             NSArray *animDictArray = [NSArray arrayWithObjects:partnerAnimDict,nil];
-			
+                
             _hideShowTabBarAnimation = [[NSViewAnimation alloc] initWithViewAnimations:animDictArray    ];
             [_hideShowTabBarAnimation setDuration:0.1];
             [_hideShowTabBarAnimation setDelegate:self];
             [_hideShowTabBarAnimation startAnimation];
         } else {
             [_partnerView setFrame:resizeRect];
-			[self invalidateIntrinsicContentSize];
-			[self.superview setNeedsLayout: YES];
-			if (hide)
-				[self setHidden:YES];
         }
 	} else {
             // resize self and window
@@ -1992,7 +1990,7 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 #pragma mark -
 #pragma mark NSTabViewDelegate
 
-- (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+- (void)tabView:(NSTabView *)aTabView didSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
 
     [self _synchronizeSelection];
     
@@ -2001,7 +1999,7 @@ static NSMutableDictionary *registeredStyleClasses = nil;
     }
 }
 
-- (BOOL)tabView:(NSTabView *)aTabView shouldSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+- (BOOL)tabView:(NSTabView *)aTabView shouldSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
 	if ([[self delegate] respondsToSelector:@selector(tabView:shouldSelectTabViewItem:)]) {
 		return [[self delegate] tabView:aTabView shouldSelectTabViewItem:tabViewItem];
 	} else {
@@ -2009,7 +2007,7 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 	}
 }
 
-- (void)tabView:(NSTabView *)aTabView willSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+- (void)tabView:(NSTabView *)aTabView willSelectTabViewItem:(nullable NSTabViewItem *)tabViewItem {
 	if ([[self delegate] respondsToSelector:@selector(tabView:willSelectTabViewItem:)]) {
 		[[self delegate] performSelector:@selector(tabView:willSelectTabViewItem:) withObject:aTabView withObject:tabViewItem];
 	}
@@ -2212,6 +2210,13 @@ static NSMutableDictionary *registeredStyleClasses = nil;
     }
 }
 
+- (void)_showAddNewTabMenu:(id)sender {
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(showAddTabMenuForTabView:)]) {
+        [_delegate showAddTabMenuForTabView:_tabView];
+    }
+}
+
 - (void)_overflowMenuAction:(id)sender {
 	NSTabViewItem *tabViewItem = (NSTabViewItem *)[sender representedObject];
 	[_tabView selectTabViewItem:tabViewItem];
@@ -2219,6 +2224,27 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 
 - (void)_didClickTabButton:(id)sender {
 	[_tabView selectTabViewItem:[sender tabViewItem]];
+}
+
+- (void)_didClickSelectedTabButton:(id)sender {
+    
+    MMAttachedTabBarButton *button = (MMAttachedTabBarButton *)sender;
+    if (!button || ![button isKindOfClass:[MMAttachedTabBarButton class]])
+        {
+            NSBeep();
+            return;
+        }
+    
+    NSTabViewItem *tabViewItem = [button tabViewItem];
+    if (!tabViewItem || ![tabViewItem isKindOfClass:[NSTabViewItem class]])
+        {
+            NSBeep();
+            return;
+        }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(tabView:receivedClickOnSelectedTabViewItem:)]) {
+        [_delegate tabView:_tabView receivedClickOnSelectedTabViewItem:tabViewItem];
+    }
 }
 
 - (void)_didClickCloseButton:(id)sender {
@@ -2287,6 +2313,7 @@ static NSMutableDictionary *registeredStyleClasses = nil;
 	_canCloseOnlyTab = NO;
 	_disableTabClose = NO;
 	_showAddTabButton = NO;
+    _allowAddTabButtonMenu = NO;
 	_hideForSingleTab = NO;
 	_sizeButtonsToFit = NO;
 	_isHidden = NO;
@@ -2774,7 +2801,7 @@ StaticImage(AquaTabNewRollover)
     }
         // new tab button
 	NSRect addTabButtonRect = [self addTabButtonRect];
-	_addTabButton = [[MMRolloverButton alloc] initWithFrame:addTabButtonRect];
+	_addTabButton = [[MMAddButton alloc] initWithFrame:addTabButtonRect];
     
     [_addTabButton setImage:_staticAquaTabNewImage()];
     [_addTabButton setAlternateImage:_staticAquaTabNewPressedImage()];
@@ -2791,6 +2818,11 @@ StaticImage(AquaTabNewRollover)
 
     [_addTabButton setTarget:self];
     [_addTabButton setAction:@selector(_addNewTab:)];
+
+    if( _allowAddTabButtonMenu  )
+        [_addTabButton setLongPressAction:@selector(_showAddNewTabMenu:)];
+    else
+        [_addTabButton setLongPressAction:nil];
     
     [self addSubview:_addTabButton];
 

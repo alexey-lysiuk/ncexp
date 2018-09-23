@@ -37,14 +37,14 @@ FOUNDATION_EXPORT const unsigned char MMTabBarViewVersionString[];
 #import <MMTabBarView/MMOverflowPopUpButton.h>
 #import <MMTabBarView/MMOverflowPopUpButtonCell.h>
 
-#import <MMTabBarView/MMAdiumTabStyle.h>
-#import <MMTabBarView/MMAquaTabStyle.h>
-#import <MMTabBarView/MMCardTabStyle.h>
-#import <MMTabBarView/MMLiveChatTabStyle.h>
-#import <MMTabBarView/MMMetalTabStyle.h>
-#import <MMTabBarView/MMSafariTabStyle.h>
-#import <MMTabBarView/MMUnifiedTabStyle.h>
-#import <MMTabBarView/MMYosemiteTabStyle.h>
+#import <MMTabBarView/Styles/MMAdiumTabStyle.h>
+#import <MMTabBarView/Styles/MMAquaTabStyle.h>
+#import <MMTabBarView/Styles/MMCardTabStyle.h>
+#import <MMTabBarView/Styles/MMLiveChatTabStyle.h>
+#import <MMTabBarView/Styles/MMMetalTabStyle.h>
+#import <MMTabBarView/Styles/Safari Tab Style/MMSafariTabStyle.h>
+#import <MMTabBarView/Styles/MMUnifiedTabStyle.h>
+#import <MMTabBarView/Styles/Yosemite Tab Style/MMYosemiteTabStyle.h>
 
 #import <MMTabBarView/NSBezierPath+MMTabBarViewExtensions.h>
 #import <MMTabBarView/NSTabViewItem+MMTabBarViewExtensions.h>
@@ -61,7 +61,10 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol MMTabStyle;
 @protocol MMTabBarViewDelegate;
 
-@interface MMTabBarView : NSView <NSDraggingSource, NSDraggingDestination, NSAnimationDelegate>
+// Mike: next time you will wonder why NSTabViewDelegate is here - that's because in git repo
+// there's no such mention, but MMTabBarView is in fact a delegate, which is usualy being set
+// via IB.
+@interface MMTabBarView : NSView <NSTabViewDelegate, NSDraggingSource, NSDraggingDestination, NSAnimationDelegate>
 
 #pragma mark Basics
 
@@ -464,6 +467,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (assign) BOOL showAddTabButton;
 
+@property (assign) BOOL allowAddTabButtonMenu;
+
 /**
  *  Minimum width of tab bar buttons
  */
@@ -602,6 +607,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)drawButtonBezelsInRect:(NSRect)rect;
 - (void)drawInteriorInRect:(NSRect)rect;
 
+// hacking:
+- (void)windowStatusDidChange:(NSNotification *)notification;
+
+
 @end
 
 @protocol MMTabBarViewDelegate <NSTabViewDelegate>
@@ -624,6 +633,7 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Adding tabs
 - (void)addNewTabToTabView:(NSTabView *)aTabView;
+- (void)showAddTabMenuForTabView:(NSTabView *)aTabView;
 
     // Contextual menu support
 - (NSMenu *)tabView:(NSTabView *)aTabView menuForTabViewItem:(NSTabViewItem *)tabViewItem;
@@ -653,6 +663,9 @@ NS_ASSUME_NONNULL_BEGIN
 
     // Accessibility
 - (NSString *)accessibilityStringForTabView:(NSTabView *)aTabView objectCount:(NSInteger)objectCount;
+
+    // Hacks
+- (void)tabView:(NSTabView *)aTabView receivedClickOnSelectedTabViewItem:(NSTabViewItem *)tabViewItem;
 
     // Deprecated Methods
 - (BOOL)tabView:(NSTabView *)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(id)tabBarControl __attribute__((deprecated("implement -tabView:shouldDragTabViewItem:inTabBarView: instead.")));

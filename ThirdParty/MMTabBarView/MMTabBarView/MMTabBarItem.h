@@ -21,17 +21,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  Title
  */
-@property (copy, nullable)   NSString  *title;
+@property (copy)   NSString  *title;
 
 /**
  *  Icon
  */
-@property (strong, nullable) NSImage   *icon;
+@property (strong) NSImage   *icon;
 
 /**
  *  Large image
  */
-@property (strong, nullable) NSImage   *largeImage;
+@property (strong) NSImage   *largeImage;
 
 /**
  *  Object count to display

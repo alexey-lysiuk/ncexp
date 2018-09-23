@@ -18,9 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 #define MAX_OVERFLOW_MENUITEM_TITLE_LENGTH      60
 
 @interface MMTabBarController()
-
-@property (weak) MMTabBarView* tabBarView;
-
 @end
 
 @implementation MMTabBarController
@@ -33,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
     @method     initWithTabBarView:
     @abstract   Creates a new MMTabBarController instance.
     @discussion Creates a new MMTabBarController for controlling a MMTabBarView. Should only be called by MMTabBarView.
-    @param      A MMTabBarView.
+    @param      aTabBarView MMTabBarView.
     @returns    A newly created MMTabBarController instance.
  */
 - (instancetype)initWithTabBarView:(MMTabBarView *)aTabBarView {
@@ -87,8 +84,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion The array is summed using, for each item, the minimum between the current value and the passed minimum value.
  *             This is useful for getting a sum if the array has size-to-fit widths which will be allowed to be less than the
  *             specified minimum.
- * @param      An array of widths
- * @param      The minimum
+ * @param      array An array of widths
+ * @param      minimum The minimum
  * @returns    The smallest possible sum for the array
  */
 static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
@@ -129,7 +126,7 @@ static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
     @method     _generateWidthsFromAttachedButtons:
     @abstract   Calculates the width of attached buttons that would be visible.
     @discussion Calculates the width of attached buttons in the tab bar and returns an array of widths for the buttons that would be visible. Uses large blocks of code that were previously in MMTabBarView's update method.
-    @param      An array of MMAttachedTabBarButton.
+    @param      buttons array of MMAttachedTabBarButton.
     @returns    An array of numbers representing the widths of attached buttons that would be visible.
 */
 - (NSArray *)_generateWidthsFromAttachedButtons:(NSArray *)buttons {
@@ -167,11 +164,12 @@ static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
             }
             else if (_tabBarView.resizeTabsToFitTotalWidth) {
                 width = availableWidth / (CGFloat)buttonCount;
+                int remainder = (int)availableWidth % (int)buttonCount;
+                width = i >= remainder ? floor(width) : ceil(width);
 			} else {
 				width = [_tabBarView buttonOptimumWidth];
+                width = ceil(width);
 			}
-
-			width = ceil(width);
 
 			//check to see if there is not enough space to place all tabs as preferred
 			if (totalOccupiedWidth + width > availableWidth) {
@@ -421,18 +419,17 @@ static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
 
     [_tabBarView enumerateAttachedButtons:buttons inRange:NSMakeRange(0, [widths count]) withOptions:MMAttachedButtonsEnumerationUpdateButtonState|MMAttachedButtonsEnumerationUpdateTabStateMask usingBlock:
         ^(MMAttachedTabBarButton *aButton, NSUInteger idx, MMAttachedTabBarButton *previousButton, MMAttachedTabBarButton *nextButton, BOOL *stop) {
-
-			MMTabBarView* const tabBarView = self.tabBarView;
-            if ([[tabBarView delegate] respondsToSelector:@selector(tabView:toolTipForTabViewItem:)]) {
-                NSString *toolTip = [[tabBarView delegate] tabView:[tabBarView tabView] toolTipForTabViewItem:[aButton tabViewItem]];
+                
+            if ([[_tabBarView delegate] respondsToSelector:@selector(tabView:toolTipForTabViewItem:)]) {
+                NSString *toolTip = [[_tabBarView delegate] tabView:[_tabBarView tabView] toolTipForTabViewItem:[aButton tabViewItem]];
                 [aButton setToolTip:toolTip];
             }
 
-            [aButton setTarget:tabBarView];
+            [aButton setTarget:_tabBarView];
             [aButton setAction:@selector(_didClickTabButton:)];
             
             if ([aButton shouldDisplayCloseButton]) {
-                [[aButton closeButton] setTarget:tabBarView];
+                [[aButton closeButton] setTarget:_tabBarView];
                 [aButton setCloseButtonAction:@selector(_didClickCloseButton:)];
             } else {
                 [[aButton closeButton] setTarget:nil];
@@ -440,10 +437,10 @@ static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
             }
         
 			// set button frame
-			if ([tabBarView orientation] == MMTabBarHorizontalOrientation) {
+			if ([_tabBarView orientation] == MMTabBarHorizontalOrientation) {
 				buttonRect.size.width = [[widths objectAtIndex:idx] doubleValue];
 			} else {
-				buttonRect.size.width = [tabBarView frame].size.width;
+				buttonRect.size.width = [_tabBarView frame].size.width;
 				buttonRect.origin.y = [[widths objectAtIndex:idx] doubleValue];
 				buttonRect.origin.x = 0;
 			}
@@ -459,13 +456,13 @@ static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
                 [aButton setIsOverflowButton:NO];
 
 			// next...
-            if ([tabBarView orientation] == MMTabBarHorizontalOrientation)
+            if ([_tabBarView orientation] == MMTabBarHorizontalOrientation)
                 buttonRect.origin.x += [[widths objectAtIndex:idx] doubleValue];
             else
                 buttonRect.origin.y += buttonRect.size.height;
                 
-            if ([[tabBarView delegate] respondsToSelector:@selector(tabView:tabViewItem:isInOverflowMenu:)]) {
-                [[tabBarView delegate] tabView:[tabBarView tabView] tabViewItem:[aButton tabViewItem] isInOverflowMenu:NO];
+            if ([[_tabBarView delegate] respondsToSelector:@selector(tabView:tabViewItem:isInOverflowMenu:)]) {
+                [[_tabBarView delegate] tabView:[_tabBarView tabView] tabViewItem:[aButton tabViewItem] isInOverflowMenu:NO];
             }
         }];
     
@@ -474,8 +471,7 @@ static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
         [buttons enumerateObjectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange([widths count], buttonCount-[widths count])] options:0 usingBlock:
             ^(MMAttachedTabBarButton *aButton, NSUInteger idx, BOOL *stop) {
 
-				MMTabBarView* const tabBarView = self.tabBarView;
-                [tabBarView removeAttachedButton:aButton synchronizeTabViewItems:NO];
+                [_tabBarView removeAttachedButton:aButton synchronizeTabViewItems:NO];
 
                 [self _addItemToOverflowMenu:[aButton tabViewItem] withTitle:[[aButton attributedStringValue] string]];                
             }];
@@ -578,9 +574,9 @@ static NSInteger potentialMinimumForArray(NSArray *array, NSInteger minimum){
 /*!
  *  @method _shrinkWidths:towardMinimum:withAvailableWidth:
  *  @abstract Decreases widths in an array toward a minimum until they fit within availableWidth, if possible
- *  @param An array of NSNumbers
- *  @param The target minimum
- *  @param The maximum available width
+ *  @param newWidths An array of NSNumbers
+ *  @param minimum The target minimum
+ *  @param availableWidth The maximum available width
  *  @returns The amount by which the total array width was shrunk
  */
 - (NSInteger)_shrinkWidths:(NSMutableArray *)newWidths towardMinimum:(NSInteger)minimum withAvailableWidth:(CGFloat)availableWidth {

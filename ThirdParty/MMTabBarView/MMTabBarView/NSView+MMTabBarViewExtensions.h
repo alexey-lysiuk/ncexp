@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)mm_dragShouldBeginFromMouseDown:(NSEvent *)mouseDownEvent withExpiration:(NSDate *)expiration;
 - (BOOL)mm_dragShouldBeginFromMouseDown:(NSEvent *)mouseDownEvent withExpiration:(NSDate *)expiration xHysteresis:(CGFloat)xHysteresis yHysteresis:(CGFloat)yHysteresis;
 
-- (NSView *)mm_superviewOfClass:(Class)class;
+- (NSView *)mm_superviewOfClass:(Class)aclass;
 
 - (MMTabBarView *)enclosingTabBarView;
 - (MMTabBarButton *)enclosingTabBarButton;

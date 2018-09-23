@@ -11,7 +11,7 @@
 #else
 #import <Cocoa/Cocoa.h>
 #endif
-#import "MMTabStyle.h"
+#import "../MMTabStyle.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
