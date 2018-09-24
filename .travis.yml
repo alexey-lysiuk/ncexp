@@ -1,0 +1,11 @@
+language: objective-c 
+
+osx_image: xcode9.4
+
+matrix:
+  include:
+    - env: BUILD_CONFIG=Debug
+    - env: BUILD_CONFIG=Release
+
+script:
+  - set -o pipefail && xcodebuild -configuration $BUILD_CONFIG | xcpretty
