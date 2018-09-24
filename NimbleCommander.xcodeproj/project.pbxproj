@@ -12261,10 +12261,10 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					RARDLL,
 					"_FILE_OFFSET_BITS=64",
 					_LARGEFILE_SOURCE,
 					RAR_SMP,
+					RARDLL,
 					UNRAR,
 				);
 				HEADER_SEARCH_PATHS = ThirdParty/unrar;
@@ -12286,6 +12286,7 @@
 					"_FILE_OFFSET_BITS=64",
 					_LARGEFILE_SOURCE,
 					RAR_SMP,
+					RARDLL,
 					UNRAR,
 				);
 				HEADER_SEARCH_PATHS = ThirdParty/unrar;
