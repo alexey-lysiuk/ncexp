@@ -9,3 +9,6 @@ matrix:
 
 script:
   - set -o pipefail && xcodebuild -configuration $BUILD_CONFIG | xcpretty
+
+notifications:
+  email: false
