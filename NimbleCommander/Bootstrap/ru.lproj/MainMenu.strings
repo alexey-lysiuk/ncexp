@@ -1,9 +1,6 @@
 /* Class = "NSMenuItem"; title = "5"; ObjectID = "0D4-mI-wvg"; */
 "0D4-mI-wvg.title" = "5";
 
-/* Class = "NSMenuItem"; title = "Restore Purchases"; ObjectID = "0Y5-VP-Vjw"; */
-"0Y5-VP-Vjw.title" = "Восстановить покупки";
-
 /* Class = "NSMenu"; title = "Go"; ObjectID = "01c-vh-In9"; */
 "01c-vh-In9.title" = "Переход";
 
@@ -220,12 +217,6 @@
 /* Class = "NSMenuItem"; title = "4"; ObjectID = "885"; */
 "885.title" = "4";
 
-/* Class = "NSMenuItem"; ibShadowedToolTip = "Questions? Comments? Send me an email!"; ObjectID = "891"; */
-"891.ibShadowedToolTip" = "Вопросы? Комментарии? Отправьте мне письмо!";
-
-/* Class = "NSMenuItem"; title = "Email the Developer..."; ObjectID = "891"; */
-"891.title" = "Написать разработчику...";
-
 /* Class = "NSMenuItem"; title = "Preview"; ObjectID = "894"; */
 "894.title" = "Быстрый просмотр";
 
@@ -342,12 +333,6 @@
 
 /* Class = "NSMenuItem"; title = "Show/Hide Tab Bar"; ObjectID = "NK3-hW-YDx"; */
 "NK3-hW-YDx.title" = "Показать/скрыть панель вкладок";
-
-/* Class = "NSMenuItem"; title = "Purchase License"; ObjectID = "NOq-ty-cHI"; */
-"NOq-ty-cHI.title" = "Купить лицензию";
-
-/* Class = "NSMenuItem"; title = "Activate License..."; ObjectID = "Obg-B8-YTv"; */
-"Obg-B8-YTv.title" = "Активировать лицензию...";
 
 /* Class = "NSMenuItem"; title = "Batch Rename..."; ObjectID = "PDv-pQ-u5w"; */
 "PDv-pQ-u5w.title" = "Групповое переименование...";
@@ -501,9 +486,6 @@
 
 /* Class = "NSMenuItem"; title = "Processes List"; ObjectID = "ooW-Y5-gXA"; */
 "ooW-Y5-gXA.title" = "Список процессов";
-
-/* Class = "NSMenuItem"; title = "Registration Info..."; ObjectID = "p5z-kC-qPf"; */
-"p5z-kC-qPf.title" = "Информация о лицензии...";
 
 /* Class = "NSMenuItem"; title = "Show/Hide Panels"; ObjectID = "pGI-yr-mvL"; */
 "pGI-yr-mvL.title" = "Показать/скрыть панели";
