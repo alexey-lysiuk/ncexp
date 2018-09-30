@@ -2716,13 +2716,6 @@
 		8AAA8BEF215671B00053BE9D /* Pool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Pool.h; path = include/Operations/Pool.h; sourceTree = "<group>"; };
 		8AAA8BF0215671B00053BE9D /* DirectoryCreationDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DirectoryCreationDialog.h; path = include/Operations/DirectoryCreationDialog.h; sourceTree = "<group>"; };
 		8AAA8BF1215671B00053BE9D /* Linkage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Linkage.h; path = include/Operations/Linkage.h; sourceTree = "<group>"; };
-		8AAA8C012156721A0053BE9D /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = Localizable.stringsdict; path = resources/Localizable.stringsdict; sourceTree = "<group>"; };
-		8AAA8C02215672320053BE9D /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Media.xcassets; path = resources/Media.xcassets; sourceTree = "<group>"; };
-		8AAA8C05215672320053BE9D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Localizable.strings; sourceTree = "<group>"; };
-		8AAA8C08215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "Info-FrameworkPlist.strings"; sourceTree = "<group>"; };
-		8AAA8C0A215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = "Info-TestsPlist.strings"; sourceTree = "<group>"; };
-		8AAA8C0C215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Localizable.strings; sourceTree = "<group>"; };
-		8AAA8C0E215672320053BE9D /* ru */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = ru; path = Media.xcassets; sourceTree = "<group>"; };
 		8AB24C832154F64500A1C3A7 /* NSView+Sugar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSView+Sugar.h"; path = "Utility/include/Utility/NSView+Sugar.h"; sourceTree = SOURCE_ROOT; };
 		8AB24C842154F64500A1C3A7 /* NSMenu+Hierarchical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSMenu+Hierarchical.h"; path = "Utility/include/Utility/NSMenu+Hierarchical.h"; sourceTree = SOURCE_ROOT; };
 		8AB24C852154F64500A1C3A7 /* Encodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Encodings.h; path = Utility/include/Utility/Encodings.h; sourceTree = SOURCE_ROOT; };
@@ -6011,7 +6004,6 @@
 			isa = PBXGroup;
 			children = (
 				8AAA8BD92156718D0053BE9D /* Headers */,
-				8AAA8BD8215671890053BE9D /* Resources */,
 				8AAA8BD6215671740053BE9D /* Sources */,
 			);
 			path = Operations;
@@ -6067,17 +6059,6 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
-		8AAA8BD8215671890053BE9D /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				8AAA8C03215672320053BE9D /* Base.lproj */,
-				8AAA8C06215672320053BE9D /* ru.lproj */,
-				8AAA8C02215672320053BE9D /* Media.xcassets */,
-				8AAA8C012156721A0053BE9D /* Localizable.stringsdict */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-		};
 		8AAA8BD92156718D0053BE9D /* Headers */ = {
 			isa = PBXGroup;
 			children = (
@@ -6107,27 +6088,6 @@
 				8AAA8BE9215671AF0053BE9D /* Statistics.h */,
 			);
 			name = Headers;
-			sourceTree = "<group>";
-		};
-		8AAA8C03215672320053BE9D /* Base.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				8AAA8C04215672320053BE9D /* Localizable.strings */,
-			);
-			name = Base.lproj;
-			path = resources/Base.lproj;
-			sourceTree = "<group>";
-		};
-		8AAA8C06215672320053BE9D /* ru.lproj */ = {
-			isa = PBXGroup;
-			children = (
-				8AAA8C07215672320053BE9D /* Info-FrameworkPlist.strings */,
-				8AAA8C09215672320053BE9D /* Info-TestsPlist.strings */,
-				8AAA8C0B215672320053BE9D /* Localizable.strings */,
-				8AAA8C0D215672320053BE9D /* Media.xcassets */,
-			);
-			name = ru.lproj;
-			path = resources/ru.lproj;
 			sourceTree = "<group>";
 		};
 		8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */ = {
@@ -11603,46 +11563,6 @@
 				8A67B74E2156725500E92BC9 /* ru */,
 			);
 			name = DirectoryCreationDialog.strings;
-			sourceTree = "<group>";
-		};
-		8AAA8C04215672320053BE9D /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8AAA8C05215672320053BE9D /* Base */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		8AAA8C07215672320053BE9D /* Info-FrameworkPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8AAA8C08215672320053BE9D /* ru */,
-			);
-			name = "Info-FrameworkPlist.strings";
-			sourceTree = "<group>";
-		};
-		8AAA8C09215672320053BE9D /* Info-TestsPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8AAA8C0A215672320053BE9D /* ru */,
-			);
-			name = "Info-TestsPlist.strings";
-			sourceTree = "<group>";
-		};
-		8AAA8C0B215672320053BE9D /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8AAA8C0C215672320053BE9D /* ru */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		8AAA8C0D215672320053BE9D /* Media.xcassets */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8AAA8C0E215672320053BE9D /* ru */,
-			);
-			name = Media.xcassets;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
