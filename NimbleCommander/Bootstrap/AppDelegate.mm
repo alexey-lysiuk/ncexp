@@ -123,7 +123,6 @@ static NCAppDelegate *g_Me = nil;
     vector<NCMainWindowController *>            m_MainWindows;
     vector<InternalViewerWindowController*>     m_ViewerWindows;
     spinlock                                    m_ViewerWindowsLock;
-    bool                m_IsRunningTests;
     string              m_SupportDirectory;
     string              m_ConfigDirectory;
     string              m_StateDirectory;
@@ -134,7 +133,6 @@ static NCAppDelegate *g_Me = nil;
     NSMutableArray      *m_FilesToOpen;
 }
 
-@synthesize isRunningTests = m_IsRunningTests;
 @synthesize mainWindowControllers = m_MainWindows;
 @synthesize configDirectory = m_ConfigDirectory;
 @synthesize stateDirectory = m_StateDirectory;
@@ -146,7 +144,6 @@ static NCAppDelegate *g_Me = nil;
     self = [super init];
     if(self) {
         g_Me = self;
-        m_IsRunningTests = NSClassFromString(@"XCTestCase") != nullptr;
         m_FilesToOpen = [[NSMutableArray alloc] init];
         CheckDefaultsReset();
         m_SupportDirectory =
@@ -243,7 +240,7 @@ static NCAppDelegate *g_Me = nil;
 {
     m_FinishedLaunching.toggle();
     
-    if( !m_IsRunningTests && self.mainWindowControllers.empty() )
+    if( self.mainWindowControllers.empty() )
         [self applicationOpenUntitledFile:NSApp]; // if there's no restored windows - we'll create a freshly new one
     
     NSApp.servicesProvider = self;
@@ -313,11 +310,6 @@ static NCAppDelegate *g_Me = nil;
                               state:(NSCoder *)state
                   completionHandler:(void (^)(NSWindow *, NSError *))completionHandler
 {
-    if( NCAppDelegate.me.isRunningTests ) {
-        completionHandler(nil, nil);
-        return;
-    }
-
     NSWindow *window = nil;
     if( [identifier isEqualToString:NCMainWindow.defaultIdentifier] )
         window = [g_Me allocateMainWindowRestoredBySystem].window;
@@ -390,7 +382,7 @@ static NCAppDelegate *g_Me = nil;
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender
 {
-    if( !m_FinishedLaunching || m_IsRunningTests )
+    if( !m_FinishedLaunching )
         return false;
     
     if( !self.mainWindowControllers.empty() )

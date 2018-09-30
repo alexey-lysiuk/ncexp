@@ -54,12 +54,6 @@ namespace nc {
 + (NCAppDelegate*) me;
 
 /**
- * Signals that applications runs in unit testing environment.
- * Thus it should strip it's windows etc.
- */
-@property (nonatomic, readonly) bool isRunningTests;
-
-/**
  * Support dir, ~/Library/Application Support/Nimble Commander/.
  * Is in Containers for Sandboxes versions
  */
