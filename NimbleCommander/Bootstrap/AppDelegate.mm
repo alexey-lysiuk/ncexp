@@ -127,7 +127,6 @@ static NCAppDelegate *g_Me = nil;
     string              m_ConfigDirectory;
     string              m_StateDirectory;
     vector<GenericConfig::ObservationTicket> m_ConfigObservationTickets;
-    AppStoreHelper *m_AppStoreHelper;
     upward_flag         m_FinishedLaunching;
     shared_ptr<nc::panel::FavoriteLocationsStorageImpl> m_Favorites;
     NSMutableArray      *m_FilesToOpen;
@@ -137,7 +136,6 @@ static NCAppDelegate *g_Me = nil;
 @synthesize configDirectory = m_ConfigDirectory;
 @synthesize stateDirectory = m_StateDirectory;
 @synthesize supportDirectory = m_SupportDirectory;
-@synthesize appStoreHelper = m_AppStoreHelper;
 
 - (id) init
 {

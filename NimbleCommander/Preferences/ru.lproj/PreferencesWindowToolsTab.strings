@@ -16,9 +16,6 @@
 /* Class = "NSButtonCell"; title = "..."; ObjectID = "7vb-zY-kcK"; */
 "7vb-zY-kcK.title" = "...";
 
-/* Class = "NSTextFieldCell"; title = "Please note that command-line external tools are not supported in MacAppStore versions"; ObjectID = "78m-ca-qgo"; */
-"78m-ca-qgo.title" = "Обратите внимание, что инструменты командной строки не поддерживаются в версиях для MacAppStore";
-
 /* Class = "NSMenu"; title = "Insert Current Item"; ObjectID = "81Y-Cg-sSQ"; */
 "81Y-Cg-sSQ.title" = "Вставить текущий объект";
 

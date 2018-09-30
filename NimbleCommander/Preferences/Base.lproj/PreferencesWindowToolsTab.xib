@@ -211,17 +211,6 @@
                         <outlet property="nextKeyView" destination="Bm0-Is-ddH" id="8OU-HT-kZf"/>
                     </connections>
                 </button>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GY2-2T-g6W">
-                    <rect key="frame" x="266" y="20" width="356" height="28"/>
-                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Please note that command-line external tools are not supported in MacAppStore versions" id="78m-ca-qgo">
-                        <font key="font" metaFont="smallSystem"/>
-                        <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                    <connections>
-                        <binding destination="-2" name="hidden" keyPath="self.haveCommandLineTools" id="mQQ-2k-w6P"/>
-                    </connections>
-                </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qe2-8x-UrM">
                     <rect key="frame" x="266" y="139" width="91" height="17"/>
                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Startup Mode:" id="iVQ-ca-93Q">
@@ -261,7 +250,6 @@
                 <constraint firstItem="Erl-hM-Whw" firstAttribute="top" secondItem="TtZ-FY-dXk" secondAttribute="bottom" constant="8" symbolic="YES" id="GcN-uT-3uZ"/>
                 <constraint firstItem="TtZ-FY-dXk" firstAttribute="top" secondItem="kwM-CZ-EP2" secondAttribute="top" id="Jvb-vN-YY4"/>
                 <constraint firstItem="ikD-oi-3mc" firstAttribute="top" secondItem="HGo-IY-2d3" secondAttribute="bottom" constant="8" symbolic="YES" id="Jyj-me-m3F"/>
-                <constraint firstAttribute="trailing" secondItem="GY2-2T-g6W" secondAttribute="trailing" constant="20" symbolic="YES" id="K6M-r8-bpb"/>
                 <constraint firstAttribute="trailing" secondItem="Erl-hM-Whw" secondAttribute="trailing" constant="20" symbolic="YES" id="MlJ-fA-E3G"/>
                 <constraint firstAttribute="bottom" secondItem="5jx-iv-chy" secondAttribute="bottom" constant="20" symbolic="YES" id="ODK-55-aRF"/>
                 <constraint firstAttribute="trailing" secondItem="FFZ-gZ-3G4" secondAttribute="trailing" constant="20" symbolic="YES" id="Qda-nj-4yf"/>
@@ -269,7 +257,6 @@
                 <constraint firstItem="kwM-CZ-EP2" firstAttribute="top" secondItem="t2v-vk-ifM" secondAttribute="top" constant="20" symbolic="YES" id="QiB-bL-vAc"/>
                 <constraint firstItem="Erl-hM-Whw" firstAttribute="leading" secondItem="TtZ-FY-dXk" secondAttribute="leading" id="Sjw-Ge-AzQ"/>
                 <constraint firstItem="0qz-u9-ass" firstAttribute="leading" secondItem="5jx-iv-chy" secondAttribute="trailing" constant="-1" id="TtQ-AW-Qhq"/>
-                <constraint firstItem="GY2-2T-g6W" firstAttribute="leading" secondItem="0qz-u9-ass" secondAttribute="trailing" constant="8" symbolic="YES" id="X4i-vE-ly8"/>
                 <constraint firstAttribute="bottom" secondItem="0qz-u9-ass" secondAttribute="bottom" constant="20" symbolic="YES" id="aGH-Rg-Sac"/>
                 <constraint firstItem="Bm0-Is-ddH" firstAttribute="leading" secondItem="qe2-8x-UrM" secondAttribute="trailing" constant="8" symbolic="YES" id="e3N-5z-LfW"/>
                 <constraint firstItem="FFZ-gZ-3G4" firstAttribute="top" secondItem="tJK-iz-Vmx" secondAttribute="top" id="ejR-Og-oNH"/>
@@ -282,7 +269,6 @@
                 <constraint firstItem="5jx-iv-chy" firstAttribute="top" secondItem="kwM-CZ-EP2" secondAttribute="bottom" constant="-1" id="vpQ-ud-dq6"/>
                 <constraint firstAttribute="trailing" secondItem="Mtl-Sr-Edq" secondAttribute="trailing" constant="20" symbolic="YES" id="x0J-x0-ZvJ"/>
                 <constraint firstItem="Bm0-Is-ddH" firstAttribute="baseline" secondItem="qe2-8x-UrM" secondAttribute="baseline" id="zCn-KV-aE0"/>
-                <constraint firstAttribute="bottom" secondItem="GY2-2T-g6W" secondAttribute="bottom" constant="20" symbolic="YES" id="zFd-R6-kRA"/>
                 <constraint firstItem="j8B-4J-nM4" firstAttribute="leading" secondItem="Erl-hM-Whw" secondAttribute="leading" id="zzM-tr-mx2"/>
             </constraints>
             <point key="canvasLocation" x="435" y="590.5"/>

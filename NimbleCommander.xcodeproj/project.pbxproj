@@ -2028,8 +2028,6 @@
 		8A453C4F2156818C009284A2 /* Alert.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Alert.mm; sourceTree = "<group>"; };
 		8A453C502156818C009284A2 /* AnyHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnyHolder.h; sourceTree = "<group>"; };
 		8A453C512156818C009284A2 /* AnyHolder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AnyHolder.mm; sourceTree = "<group>"; };
-		8A453C522156818C009284A2 /* AppStoreHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppStoreHelper.h; sourceTree = "<group>"; };
-		8A453C532156818C009284A2 /* AppStoreHelper.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppStoreHelper.mm; sourceTree = "<group>"; };
 		8A453C552156818C009284A2 /* QLThumbnailsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QLThumbnailsCache.h; sourceTree = "<group>"; };
 		8A453C562156818C009284A2 /* QLThumbnailsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QLThumbnailsCache.mm; sourceTree = "<group>"; };
 		8A453C572156818C009284A2 /* QLVFSThumbnailsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QLVFSThumbnailsCache.h; sourceTree = "<group>"; };
@@ -4949,8 +4947,6 @@
 				8A453C4F2156818C009284A2 /* Alert.mm */,
 				8A453C502156818C009284A2 /* AnyHolder.h */,
 				8A453C512156818C009284A2 /* AnyHolder.mm */,
-				8A453C522156818C009284A2 /* AppStoreHelper.h */,
-				8A453C532156818C009284A2 /* AppStoreHelper.mm */,
 				8A453C5D2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.h */,
 				8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */,
 				8A453C5F2156818C009284A2 /* ConnectionsMenuDelegate.h */,

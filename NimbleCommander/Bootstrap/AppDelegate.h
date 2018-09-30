@@ -7,7 +7,6 @@
 @class NCMainWindowController;
 @class InternalViewerWindowController;
 @class GenericConfigObjC;
-@class AppStoreHelper;
 class ExternalToolsStorage;
 class ThemesManager;
 class ExternalEditorsStorage;
@@ -86,8 +85,6 @@ namespace nc {
 
 @property (nonatomic, readonly)
     const shared_ptr<NetworkConnectionsManager> &networkConnectionsManager;
-
-@property (nonatomic, readonly) AppStoreHelper *appStoreHelper;
 
 @property (nonatomic, readonly) nc::ops::AggregateProgressTracker &operationsProgressTracker;
 
