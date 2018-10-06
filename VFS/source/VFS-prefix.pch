@@ -53,6 +53,7 @@
     #include <functional>
     #include <future>
     #include <random>
+    #include <optional>
 
     #include <Habanero/dispatch_cpp.h>
     #include <Habanero/mach_time.h>
@@ -60,9 +61,6 @@
 
     using namespace std;
     using namespace std::chrono;
-
-    #include <experimental/optional>
-    using namespace std::experimental;
 
     #include <boost/filesystem.hpp>
     using boost::filesystem::path;
