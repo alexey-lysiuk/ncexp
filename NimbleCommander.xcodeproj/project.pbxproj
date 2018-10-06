@@ -5597,6 +5597,7 @@
 				8A548D772154EE410047A5B2 /* Products */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		8A548D772154EE410047A5B2 /* Products */ = {
 			isa = PBXGroup;
