@@ -759,6 +759,8 @@ public:
         return *this;
     }
 
+	GenericValue& operator=(const GenericValue& rhs) = default;
+
 #if RAPIDJSON_HAS_CXX11_RVALUE_REFS
     //! Move assignment in C++11
     GenericValue& operator=(GenericValue&& rhs) RAPIDJSON_NOEXCEPT {
