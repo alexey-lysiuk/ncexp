@@ -170,7 +170,7 @@
 		8A2527C8215781D3006AD68F /* OIDURLSessionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B6B21568144009284A2 /* OIDURLSessionProvider.m */; };
 		8A2527C9215781F0006AD68F /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B1C21568144009284A2 /* NSFileManager+DirectoryLocations.m */; };
 		8A2527CB21578225006AD68F /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2527CA21578225006AD68F /* Quartz.framework */; };
-		8A2527CC21578265006AD68F /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B2621568144009284A2 /* RHPreferencesWindowController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8A2527CC21578265006AD68F /* RHPreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B2621568144009284A2 /* RHPreferencesWindowController.m */; };
 		8A2527E5215783CD006AD68F /* MMAddButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A16C195215776F500A4FDCE /* MMAddButton.m */; };
 		8A2527E6215783CD006AD68F /* MMAttachedTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453B9F21568144009284A2 /* MMAttachedTabBarButton.m */; };
 		8A2527E7215783CD006AD68F /* MMAttachedTabBarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A453BA121568144009284A2 /* MMAttachedTabBarButtonCell.m */; };
