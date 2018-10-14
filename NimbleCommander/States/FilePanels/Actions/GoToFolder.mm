@@ -33,7 +33,7 @@ void GoToFolder::Perform( PanelController *_target, id _sender ) const
             });
         };
 
-        bool access_allowed = !c->VFS->IsNativeFS();
+        bool access_allowed = c->VFS->IsNativeFS();
         if( access_allowed )
             [_target GoToDirWithContext:c];
     }];
