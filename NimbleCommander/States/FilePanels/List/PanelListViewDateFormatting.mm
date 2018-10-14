@@ -13,6 +13,8 @@
 // intepolation scale:
 //                 ~=/1.35 ~=/1.15
 
+#if 0
+
 static PanelListViewDateFormatting::Style StyleForWidthHardcodedLikeFinder( int _width, int _font_size )
 {
     if( _font_size <= 10 ) {
@@ -256,3 +258,20 @@ PanelListViewDateFormatting::Style PanelListViewDateFormatting::SuitableStyleFor
 {
     return StyleForWidthHardcodedLikeFinder( _width, (int)_font.pointSize );
 }
+
+#else
+
+NSString *PanelListViewDateFormatting::Format( Style _style, time_t _time )
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"dd.LL.yy HH:mm:ss";
+
+    return [formatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:_time]];
+}
+
+PanelListViewDateFormatting::Style PanelListViewDateFormatting::SuitableStyleForWidth( int _width, NSFont *_font )
+{
+    return Style::Orthodox;
+}
+
+#endif
