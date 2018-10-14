@@ -242,7 +242,6 @@ Gw
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="onAddNetworkShare:" target="-2" id="ez2-HQ-7aI"/>
-                        <binding destination="-2" name="enabled" keyPath="self.LANSharesEnabled" id="fpo-Ug-EYE"/>
                     </connections>
                 </menuItem>
             </items>
