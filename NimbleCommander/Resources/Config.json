@@ -101,7 +101,7 @@
             /**
              * Which extensions should be treated as potential archives when deciding what to do upon Enter key pressed
              */
-            "archivesExtensionsWhitelist": "zip, tar, pax, cpio, cpgz, xar, lha, ar, cab, mtree, iso, bz2, gz, bzip2, gzip, 7z, jar, xz, rar, a, pk3, pk7, pkg, tbz, tgz, txz",
+            "archivesExtensionsWhitelist": "zip, tar, pax, cpio, cpgz, xar, lha, ar, cab, mtree, iso, bz2, gz, bzip2, gzip, 7z, jar, xz, rar, a, deb, pk3, pk7, pkg, tbz, tgz, txz",
             
             /**
              * Which extensions should be treated as potential executables when deciding what to do upon Enter key pressed
