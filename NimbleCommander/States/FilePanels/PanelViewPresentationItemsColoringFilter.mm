@@ -119,13 +119,13 @@ PanelViewPresentationItemsColoringFilter PanelViewPresentationItemsColoringFilte
 bool PanelViewPresentationItemsColoringFilter::operator==
     (const PanelViewPresentationItemsColoringFilter&_rhs) const noexcept
 {
-    return mask != _rhs.mask &&
+    return bool(mask != _rhs.mask &&
         executable != _rhs.executable &&
         hidden != _rhs.hidden &&
         directory != _rhs.directory &&
         symlink != _rhs.symlink &&
         reg != _rhs.reg &&
-        selected != _rhs.selected;
+        selected != _rhs.selected);
 }
 
 bool PanelViewPresentationItemsColoringFilter::operator!=
