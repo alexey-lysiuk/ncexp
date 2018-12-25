@@ -26,7 +26,7 @@
 #include <Operations/AggregateProgressTracker.h>
 #include "Config.h"
 #include <Habanero/CommonPaths.h>
-#include <NimbleCommander/Core/SandboxManager.h>
+#include <Utility/SystemInformation.h>
 
 static const auto g_ConfigRestoreLastWindowState = "filePanel.general.restoreLastWindowState";
 
@@ -85,7 +85,7 @@ static bool RestoreFilePanelStateFromLastOpenedWindow(MainWindowFilePanelState *
     static const auto ext_cache = std::make_shared<nc::vfsicon::WorkspaceExtensionIconsCacheImpl>();
     static const auto brief_storage = std::make_shared<nc::utility::BriefOnDiskStorageImpl>
         (CommonPaths::AppTemporaryDirectory(),
-         nc::bootstrap::ActivationManager::BundleID() + ".ico"); 
+         nc::utility::GetBundleID() + ".ico"); 
     static const auto vfs_cache = std::make_shared<nc::vfsicon::QLVFSThumbnailsCacheImpl>(brief_storage);
     static const auto vfs_bi_cache = std::make_shared<nc::vfsicon::VFSBundleIconsCacheImpl>();
     
@@ -260,27 +260,12 @@ bool DirectoryAccessProviderImpl::HasAccess(PanelController *_panel,
                                             const std::string &_directory_path,
                                             VFSHost &_host)
 {
-    // at this moment we (thankfully) care only about sanboxed versions 
-    if constexpr ( nc::bootstrap::ActivationManager::Sandboxed() == false )
-        return true;
-    
-    if( _host.IsNativeFS() )
-        return SandboxManager::Instance().CanAccessFolder(_directory_path);            
-    else
-        return true;
+    return true;
 }
     
 bool DirectoryAccessProviderImpl::RequestAccessSync(PanelController *_panel,
                                                     const std::string &_directory_path,
                                                     VFSHost &_host)
 {
-    if constexpr ( nc::bootstrap::ActivationManager::Sandboxed() == false )
-        return true;        
-    
-    if( _host.IsNativeFS() )
-        return SandboxManager::EnsurePathAccess(_directory_path); // <-- the code smell see I here!        
-    else
-        return true;
-    
     return true;
 }

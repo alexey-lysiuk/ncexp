@@ -7,9 +7,6 @@ using namespace std::literals;
 
 @interface PreferencesWindowGeneralTab()
 
-@property (nonatomic) IBOutlet NSButton *FSAccessResetButton;
-@property (nonatomic) IBOutlet NSTextField *FSAccessLabel;
-
 @end
 
 @implementation PreferencesWindowGeneralTab

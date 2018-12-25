@@ -8,16 +8,12 @@
 #include <Config/RapidJSON.h>
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
-#include <NimbleCommander/Core/SandboxManager.h>
-#include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/Theme.h>
-#include <NimbleCommander/Core/FeedbackManager.h>
 #include <NimbleCommander/States/MainWindowController.h>
 #include "MainWindowFilePanelState.h"
 #include "PanelController.h"
 #include "PanelController+DataAccess.h"
 #include "MainWindowFilePanelsStateToolbarDelegate.h"
-#include "AskingForRatingOverlayView.h"
 #include "Favorites.h"
 #include "Views/QuickLookOverlay.h"
 #include "Views/FilePanelMainSplitView.h"
@@ -36,8 +32,12 @@
 #include "MainWindowFilePanelState+OverlappedTerminalSupport.h"
 #include "MainWindowFilePanelState+TabsSupport.h"
 #include "ToolsMenuDelegate.h"
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
+#include <Habanero/dispatch_cpp.h>
 
 using namespace nc::panel;
+using namespace std::literals;
 
 static const auto g_ConfigGoToActivation    = "filePanel.general.goToButtonForcesPanelActivation";
 static const auto g_ConfigInitialLeftPath   = "filePanel.general.initialLeftPanelPath";
@@ -53,7 +53,7 @@ static const auto g_InitialStatePath = "filePanel.initialState";
 static const auto g_InitialStateLeftDefaults = "left";
 static const auto g_InitialStateRightDefaults = "right";
 
-static string ExpandPath(const string &_ref )
+static std::string ExpandPath(const std::string &_ref )
 {
     if( _ref.empty() )
         return {};
@@ -63,7 +63,7 @@ static string ExpandPath(const string &_ref )
     
     if( _ref.front() == '~' ) { // relative to home
         auto ref = _ref.substr(1);
-        path p = path(CommonPaths::Home());
+        auto p = boost::filesystem::path(CommonPaths::Home());
         if( !ref.empty() )
             p.remove_filename();
         p /= ref;
@@ -103,42 +103,6 @@ static void SetupUnregisteredLabel(NSView *_background_view)
     [_background_view layoutSubtreeIfNeeded];
 }
 
-static void SetupRatingOverlay(NSView *_background_view)
-{
-    AskingForRatingOverlayView *v = [[AskingForRatingOverlayView alloc] initWithFrame:_background_view.bounds];
-    v.translatesAutoresizingMaskIntoConstraints = false;
-    [_background_view addSubview:v];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view addConstraint:[NSLayoutConstraint constraintWithItem:v
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_background_view
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                multiplier:1.0
-                                                                  constant:0]];
-    [_background_view layoutSubtreeIfNeeded];
-}
-
 static bool GoToForcesPanelActivation()
 {
     static const auto fetch = []{
@@ -164,14 +128,16 @@ static NSString *TitleForData( const data::Model* _data );
 
 - (instancetype) initBaseWithFrame:(NSRect)frameRect
                            andPool:(nc::ops::Pool&)_pool
-                      panelFactory:(function<PanelController*()>)_panel_factory
+                      panelFactory:(std::function<PanelController*()>)_panel_factory
+        controllerStateJSONDecoder:(ControllerStateJSONDecoder&)_controller_json_decoder
 {
     assert( _panel_factory );
     if( self = [super initWithFrame:frameRect] ) {
         m_PanelFactory = move(_panel_factory);
+        m_ControllerStateJSONDecoder = &_controller_json_decoder;
         m_ClosedPanelsHistory = nullptr;
         m_OperationsPool = _pool.shared_from_this();
-        m_OverlappedTerminal = make_unique<MainWindowFilePanelState_OverlappedTerminalSupport>();
+        m_OverlappedTerminal = std::make_unique<MainWindowFilePanelState_OverlappedTerminalSupport>();
         m_ShowTabs = GlobalConfig().GetBool(g_ConfigGeneralShowTabs);
         
         m_LeftPanelControllers.emplace_back(m_PanelFactory());
@@ -193,11 +159,13 @@ static NSString *TitleForData( const data::Model* _data );
 - (instancetype) initWithFrame:(NSRect)frameRect
                        andPool:(nc::ops::Pool&)_pool
             loadDefaultContent:(bool)_load_content
-                  panelFactory:(function<PanelController*()>)_panel_factory
+                  panelFactory:(std::function<PanelController*()>)_panel_factory
+    controllerStateJSONDecoder:(ControllerStateJSONDecoder&)_controller_json_decoder
 {
     self = [self initBaseWithFrame:frameRect
                            andPool:_pool
-                      panelFactory:move(_panel_factory)];
+                      panelFactory:move(_panel_factory)
+        controllerStateJSONDecoder:_controller_json_decoder];
     if( self ) {
         if( _load_content ) {
             [self restoreDefaultPanelOptions];
@@ -215,11 +183,11 @@ static NSString *TitleForData( const data::Model* _data );
     
     const auto left_it = defaults.FindMember(g_InitialStateLeftDefaults);
     if( left_it != defaults.MemberEnd() )
-        ControllerStateJSONDecoder{m_LeftPanelControllers.front()}.Decode(left_it->value);
+        m_ControllerStateJSONDecoder->Decode(left_it->value, m_LeftPanelControllers.front());
     
     const auto right_it = defaults.FindMember(g_InitialStateRightDefaults);
     if( right_it != defaults.MemberEnd() )
-        ControllerStateJSONDecoder{m_RightPanelControllers.front()}.Decode(right_it->value);
+        m_ControllerStateJSONDecoder->Decode(right_it->value, m_RightPanelControllers.front());
 }
 
 - (void) setupNotificationsCallbacks
@@ -292,29 +260,20 @@ static NSString *TitleForData( const data::Model* _data );
 
 - (void) loadDefaultPanelContent
 {
-    auto &am = nc::bootstrap::ActivationManager::Instance();
     auto left_controller = m_LeftPanelControllers.front();
     auto right_controller = m_RightPanelControllers.front();
     
-    vector<string> left_panel_desired_paths, right_panel_desired_paths;
+    std::vector<std::string> left_panel_desired_paths, right_panel_desired_paths;
     
     // 1st attempt - load editable default path from config
-    if( auto v = GlobalConfig().GetString(g_ConfigInitialLeftPath) )
-        left_panel_desired_paths.emplace_back( ExpandPath(*v) );
-    if( auto v = GlobalConfig().GetString(g_ConfigInitialRightPath) )
-        right_panel_desired_paths.emplace_back( ExpandPath(*v) );
+    left_panel_desired_paths.emplace_back( ExpandPath(GlobalConfig().GetString(g_ConfigInitialLeftPath)) );
+    right_panel_desired_paths.emplace_back( ExpandPath(GlobalConfig().GetString(g_ConfigInitialRightPath)) );
     
     // 2nd attempt - load home path
     left_panel_desired_paths.emplace_back( CommonPaths::Home() );
     right_panel_desired_paths.emplace_back( CommonPaths::Home() );
     
-    // 3rd attempt - load first reachable folder in case of sandboxed environment
-    if( am.Sandboxed() ) {
-        left_panel_desired_paths.emplace_back( SandboxManager::Instance().FirstFolderWithAccess() );
-        right_panel_desired_paths.emplace_back( SandboxManager::Instance().FirstFolderWithAccess() );
-    }
-    
-    // 4rth attempt - load dir at startup cwd
+    // 3rd attempt - load dir at startup cwd
     left_panel_desired_paths.emplace_back( CommonPaths::StartupCWD() );
     right_panel_desired_paths.emplace_back( CommonPaths::StartupCWD() );
     
@@ -347,7 +306,6 @@ static NSString *TitleForData( const data::Model* _data );
     
     m_SeparatorLine = [[ColoredSeparatorLine alloc] initWithFrame:NSRect()];
     m_SeparatorLine.translatesAutoresizingMaskIntoConstraints = NO;
-    m_SeparatorLine.boxType = NSBoxSeparator;
     m_SeparatorLine.borderColor = CurrentTheme().FilePanelsGeneralTopSeparatorColor();
     [self addSubview:m_SeparatorLine];
     
@@ -355,7 +313,7 @@ static NSString *TitleForData( const data::Model* _data );
     
     auto views = NSDictionaryOfVariableBindings(m_SeparatorLine, m_SplitView);
     auto contraints = {
-        @"V:|-(==0@250)-[m_SeparatorLine(<=1)]-(==0)-[m_SplitView]",
+        @"V:|-(==0@250)-[m_SeparatorLine(==1)]-(==0)-[m_SplitView(>=150@500)]",
         @"|-(0)-[m_SplitView]-(0)-|",
         @"|-(==0)-[m_SeparatorLine]-(==0)-|"
     };
@@ -373,32 +331,15 @@ static NSString *TitleForData( const data::Model* _data );
                                                                     constant:0];
     m_MainSplitViewBottomConstraint.priority = NSLayoutPriorityDragThatCannotResizeWindow;
     [self addConstraint:m_MainSplitViewBottomConstraint];
-    
-    if( nc::bootstrap::ActivationManager::Instance().HasTerminal() ) {
-        m_OverlappedTerminal->terminal = [[FilePanelOverlappedTerminal alloc] initWithFrame:self.bounds];
-        m_OverlappedTerminal->terminal.translatesAutoresizingMaskIntoConstraints = false;
-        [self addSubview:m_OverlappedTerminal->terminal positioned:NSWindowBelow relativeTo:nil];
-        
-        auto terminal = m_OverlappedTerminal->terminal;
-        views = NSDictionaryOfVariableBindings(terminal, m_SeparatorLine);
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[m_SeparatorLine]-(0)-[terminal]-(==0)-|" options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[terminal]-(0)-|" options:0 metrics:nil views:views]];        
-    }
-    else {
-        /* Fixing bugs in NSISEngine, kinda */
-        NSView *dummy = [[NSView alloc] initWithFrame:self.bounds];
-        dummy.translatesAutoresizingMaskIntoConstraints = false;
-        [self addSubview:dummy positioned:NSWindowBelow relativeTo:nil];
-        views = NSDictionaryOfVariableBindings(dummy);
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(==1)-[dummy(>=100)]-(==0)-|" options:0 metrics:nil views:views]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[dummy(>=100)]-(0)-|" options:0 metrics:nil views:views]];
-    }
-    
-    if( FeedbackManager::Instance().ShouldShowRatingOverlayView() )
-        SetupRatingOverlay( m_ToolbarDelegate.operationsPoolViewController.idleView );
-    else if( nc::bootstrap::ActivationManager::Type() == nc::bootstrap::ActivationManager::Distribution::Trial &&
-            !nc::bootstrap::ActivationManager::Instance().UserHadRegistered() )
-        SetupUnregisteredLabel( m_ToolbarDelegate.operationsPoolViewController.idleView );
+
+    m_OverlappedTerminal->terminal = [[FilePanelOverlappedTerminal alloc] initWithFrame:self.bounds];
+    m_OverlappedTerminal->terminal.translatesAutoresizingMaskIntoConstraints = false;
+    [self addSubview:m_OverlappedTerminal->terminal positioned:NSWindowBelow relativeTo:nil];
+
+    auto terminal = m_OverlappedTerminal->terminal;
+    views = NSDictionaryOfVariableBindings(terminal, m_SeparatorLine);
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[m_SeparatorLine]-(0)-[terminal]-(==0)-|" options:0 metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[terminal]-(0)-|" options:0 metrics:nil views:views]];
 }
 
 - (void) windowStateDidBecomeAssigned
@@ -411,7 +352,6 @@ static NSString *TitleForData( const data::Model* _data );
                                                         multiplier:1
                                                           constant:0];
     c.active = true;
-//    [self layoutSubtreeIfNeeded];
 
     if( m_LastResponder ) {
         // if we already were active and have some focused view - restore it
@@ -426,9 +366,16 @@ static NSString *TitleForData( const data::Model* _data );
     [self updateTitle];
     
     [m_ToolbarDelegate notifyStateWasAssigned];
-    
-    // think it's a bad idea to post messages on every new window created
-    GA().PostScreenView("File Panels State");
+}
+
+- (void) layout
+{ 
+    [super layout];    
+    if( m_OverlappedTerminal->terminal ) {
+        [m_OverlappedTerminal->terminal layout];
+        [self updateBottomConstraint];
+        [super layout];
+    }  
 }
 
 - (void)viewWillMoveToWindow:(NSWindow *)_wnd
@@ -499,17 +446,17 @@ static NSString *TitleForData( const data::Model* _data );
     return objc_cast<PanelController>(m_SplitView.rightTabbedHolder.current.delegate);
 }
 
-- (const vector<PanelController*>&)leftControllers
+- (const std::vector<PanelController*>&)leftControllers
 {
     return m_LeftPanelControllers;
 }
 
-- (const vector<PanelController*>&)rightControllers
+- (const std::vector<PanelController*>&)rightControllers
 {
     return m_RightPanelControllers;
 }
 
-static bool Has(const vector<PanelController*> &_c, PanelController* _p) noexcept
+static bool Has(const std::vector<PanelController*> &_c, PanelController* _p) noexcept
 {
     // this is called very often, so in order to help optimizer I manually removed all
     // Objective-C / ARC related semantics by casting everything to raw void*.
@@ -517,7 +464,7 @@ static bool Has(const vector<PanelController*> &_c, PanelController* _p) noexcep
     const void** first  = (const void**)(const void*)_c.data();
     const void** last   = first + _c.size();
     const void*  value  = (__bridge const void*)_p;
-    return find( first, last, value ) != last;
+    return std::find( first, last, value ) != last;
 }
 
 - (bool) isLeftController:(PanelController*)_controller
@@ -584,42 +531,45 @@ static bool Has(const vector<PanelController*> &_c, PanelController* _p) noexcep
     self.window.title = TrimmedTitleForWindow(TitleForData(self.activePanelData), self.window);
 }
 
-static rapidjson::StandaloneValue EncodePanelsStates(
-    const vector<PanelController*> &_left,
-    const vector<PanelController*> &_right)
+static nc::config::Value EncodePanelsStates(
+    const std::vector<PanelController*> &_left,
+    const std::vector<PanelController*> &_right)
 {
     using namespace rapidjson;
-    StandaloneValue json{kArrayType};
-    StandaloneValue left{kArrayType};
-    StandaloneValue right{kArrayType};
+    nc::config::Value json{kArrayType};
+    nc::config::Value left{kArrayType};
+    nc::config::Value right{kArrayType};
     
     const auto encoding_opts = ControllerStateEncoding::EncodeEverything;
     
     for( auto pc: _left )
-        if( auto v = ControllerStateJSONEncoder{pc}.Encode(encoding_opts) )
-            left.PushBack( move(*v), g_CrtAllocator );
+        if( auto v = ControllerStateJSONEncoder{pc}.Encode(encoding_opts);
+            v.GetType() != kNullType )
+            left.PushBack( std::move(v), nc::config::g_CrtAllocator );
     
     for( auto pc: _right )
-        if( auto v = ControllerStateJSONEncoder{pc}.Encode(encoding_opts) )
-            right.PushBack( move(*v), g_CrtAllocator );
+        if( auto v = ControllerStateJSONEncoder{pc}.Encode(encoding_opts);
+            v.GetType() != kNullType )
+            right.PushBack( std::move(v), nc::config::g_CrtAllocator );
     
-    json.PushBack( move(left), g_CrtAllocator );
-    json.PushBack( move(right), g_CrtAllocator );
+    json.PushBack( std::move(left), nc::config::g_CrtAllocator );
+    json.PushBack( std::move(right), nc::config::g_CrtAllocator );
     
     return json;
 }
 
-static rapidjson::StandaloneValue EncodeUIState(MainWindowFilePanelState *_state)
+static nc::config::Value EncodeUIState(MainWindowFilePanelState *_state)
 {
     using namespace rapidjson;
-    StandaloneValue ui{kObjectType};
+    using namespace nc::config;
+    nc::config::Value ui{kObjectType};
     
     ui.AddMember(MakeStandaloneString( g_ResorationUISelectedLeftTab ),
-                 StandaloneValue( _state.leftTabbedHolder.selectedIndex ),
+                 nc::config::Value( _state.leftTabbedHolder.selectedIndex ),
                  g_CrtAllocator);
     
     ui.AddMember(MakeStandaloneString( g_ResorationUISelectedRightTab ),
-                 StandaloneValue( _state.rightTabbedHolder.selectedIndex ),
+                 nc::config::Value( _state.rightTabbedHolder.selectedIndex ),
                  g_CrtAllocator);
 
     const auto right_side_selected = [_state isRightController:_state.activePanelController];
@@ -630,23 +580,25 @@ static rapidjson::StandaloneValue EncodeUIState(MainWindowFilePanelState *_state
     return ui;
 }
 
-- (optional<rapidjson::StandaloneValue>) encodeRestorableState
+- (nc::config::Value) encodeRestorableState
 {
     using namespace rapidjson;
-    StandaloneValue json{kObjectType};
+    nc::config::Value json{kObjectType};
     
-    json.AddMember(MakeStandaloneString(g_ResorationPanelsKey),
+    json.AddMember(nc::config::MakeStandaloneString(g_ResorationPanelsKey),
                    EncodePanelsStates( m_LeftPanelControllers, m_RightPanelControllers ),
-                   g_CrtAllocator);
-    json.AddMember(MakeStandaloneString(g_ResorationUIKey),
+                   nc::config::g_CrtAllocator);
+    json.AddMember(nc::config::MakeStandaloneString(g_ResorationUIKey),
                    EncodeUIState(self),
-                   g_CrtAllocator);
+                   nc::config::g_CrtAllocator);
     
-    return move(json);
+    return json;
 }
 
-- (bool) decodeRestorableState:(const rapidjson::StandaloneValue&)_state
+- (bool) decodeRestorableState:(const nc::config::Value&)_state
 {
+    using namespace nc::config;
+    
     if( !_state.IsObject() )
         return false;
     
@@ -660,10 +612,10 @@ static rapidjson::StandaloneValue EncodeUIState(MainWindowFilePanelState *_state
                         auto pc = m_PanelFactory();
                         [self attachPanel:pc];
                         [self addNewControllerOnLeftPane:pc];
-                        ControllerStateJSONDecoder{pc}.Decode(*i);
+                        m_ControllerStateJSONDecoder->Decode(*i, pc);
                     }
                     else
-                        ControllerStateJSONDecoder{m_LeftPanelControllers.front()}.Decode(*i);
+                        m_ControllerStateJSONDecoder->Decode(*i, m_LeftPanelControllers.front());
                 }
             
             const auto &right = json_panels[1];
@@ -673,10 +625,10 @@ static rapidjson::StandaloneValue EncodeUIState(MainWindowFilePanelState *_state
                         auto pc = m_PanelFactory();
                         [self attachPanel:pc];
                         [self addNewControllerOnRightPane:pc];
-                        ControllerStateJSONDecoder{pc}.Decode(*i);
+                        m_ControllerStateJSONDecoder->Decode(*i, pc);
                     }
                     else
-                        ControllerStateJSONDecoder{m_RightPanelControllers.front()}.Decode(*i);
+                        m_ControllerStateJSONDecoder->Decode(*i, m_RightPanelControllers.front());
                 }
         }
     }
@@ -708,8 +660,10 @@ static rapidjson::StandaloneValue EncodeUIState(MainWindowFilePanelState *_state
         }
     }
     
-    return m_LeftPanelControllers.front().data.IsLoaded() &&
-           m_RightPanelControllers.front().data.IsLoaded();
+    return (m_LeftPanelControllers.front().data.IsLoaded() ||
+            m_LeftPanelControllers.front().isDoingBackgroundLoading) &&
+           (m_RightPanelControllers.front().data.IsLoaded() ||
+            m_RightPanelControllers.front().isDoingBackgroundLoading);
 }
 
 - (void) markRestorableStateAsInvalid
@@ -733,20 +687,21 @@ static rapidjson::StandaloneValue EncodeUIState(MainWindowFilePanelState *_state
                            ControllerStateEncoding::EncodeViewOptions);
     
     auto left_panel_options = ControllerStateJSONEncoder{left_panel}.Encode(to_encode);
-    if( !left_panel_options )
+    if( left_panel_options.GetType() == rapidjson::kNullType )
         return;
     
     auto right_panel_options = ControllerStateJSONEncoder{right_panel}.Encode(to_encode);
-    if( !right_panel_options )
+    if( right_panel_options.GetType() == rapidjson::kNullType )
         return;
     
     using namespace rapidjson;
-    StandaloneValue json{kObjectType};
+    using namespace nc::config;
+    nc::config::Value json{kObjectType};
     json.AddMember(MakeStandaloneString(g_InitialStateLeftDefaults),
-                   move(*left_panel_options),
+                   std::move(left_panel_options),
                    g_CrtAllocator);
     json.AddMember(MakeStandaloneString(g_InitialStateRightDefaults),
-                   move(*right_panel_options),
+                   std::move(right_panel_options),
                    g_CrtAllocator);
 
     StateConfig().Set(g_InitialStatePath, json);
@@ -803,7 +758,7 @@ static rapidjson::StandaloneValue EncodeUIState(MainWindowFilePanelState *_state
 }
 
 static void AskAboutStoppingRunningOperations(NSWindow *_window,
-                                              function<void(NSModalResponse)> _handler )
+                                              std::function<void(NSModalResponse)> _handler )
 {
     assert(_window && _handler);
     Alert *dialog = [[Alert alloc] init];
@@ -839,9 +794,9 @@ static void AskAboutStoppingRunningOperations(NSWindow *_window,
     return true;
 }
 
-- (vector<tuple<string, VFSHostPtr> >)filePanelsCurrentPaths
+- (std::vector<std::tuple<std::string, VFSHostPtr> >)filePanelsCurrentPaths
 {
-    vector<tuple<string, VFSHostPtr> > r;
+    std::vector<std::tuple<std::string, VFSHostPtr> > r;
     for( auto c: {&m_LeftPanelControllers, &m_RightPanelControllers} )
         for( auto p: *c )
             if( p.isUniform )
@@ -949,13 +904,16 @@ static void AskAboutStoppingRunningOperations(NSWindow *_window,
 
 - (void)updateBottomConstraint
 {
+    if( m_OverlappedTerminal->terminal == nullptr )
+        return;
+    
     auto gap = [m_OverlappedTerminal->terminal bottomGapForLines:m_OverlappedTerminal->bottom_gap];
     m_MainSplitViewBottomConstraint.constant = -gap;
-}
-
-- (void)overlappedTerminalFrameDidChange
-{
-    [self updateBottomConstraint];
+    
+    if( m_OverlappedTerminal->bottom_gap == 0 )
+        m_OverlappedTerminal->terminal.hidden = true;
+    else
+        m_OverlappedTerminal->terminal.hidden = false;
 }
 
 - (bool)isPanelsSplitViewHidden
@@ -973,7 +931,8 @@ static void AskAboutStoppingRunningOperations(NSWindow *_window,
     return !m_SplitView.hidden && !m_SplitView.anyCollapsedOrOverlayed;
 }
 
-- (void)requestTerminalExecution:(const string&)_filename at:(const string&)_cwd
+- (void)requestTerminalExecution:(const std::string&)_filename
+                              at:(const std::string&)_cwd
 {
     if( ![self executeInOverlappedTerminalIfPossible:_filename at:_cwd] ) {
         const auto ctrl = (NCMainWindowController*)self.window.delegate;

@@ -35,9 +35,6 @@
 #include "Actions/ShowQuickLook.h"
 #include "Actions/ShowSystemOverview.h"
 
-// Temp dependency:
-#include <NimbleCommander/Bootstrap/ActivationManager.h>
-
 namespace nc::panel {
 
 using namespace actions;
@@ -50,9 +47,7 @@ PanelActionsMap BuildPanelActionsMap(NetworkConnectionsManager& _net_mgr,
         m[_sel].reset( _action );
     };
 
-    const auto has_archive_support = bootstrap::ActivationManager::Instance().HasArchivesBrowsing();
-    
-    add( @selector(OnOpen:), new Enter{has_archive_support} );
+    add( @selector(OnOpen:), new Enter );
     add( @selector(OnOpenNatively:),                 new OpenFilesWithDefaultHandler);
     add( @selector(onOpenFileWith:),                 new OpenFileWithSubmenu);
     add( @selector(onAlwaysOpenFileWith:),           new AlwaysOpenFileWithSubmenu);
@@ -95,7 +90,7 @@ PanelActionsMap BuildPanelActionsMap(NetworkConnectionsManager& _net_mgr,
     add( @selector(onToggleViewLayout10:), new ToggleLayout{9});
     add( @selector(OnRefreshPanel:),     new RefreshPanel);
     add( @selector(OnGoToUpperDirectory:),new GoToEnclosingFolder);
-    add( @selector(OnGoIntoDirectory:),  new GoIntoFolder{has_archive_support, true});
+    add( @selector(OnGoIntoDirectory:),  new GoIntoFolder{true});
     add( @selector(OnGoBack:),           new GoBack);
     add( @selector(OnGoForward:),        new GoForward);
     add( @selector(OnGoToHome:),         new GoToHomeFolder);

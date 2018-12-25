@@ -20,7 +20,7 @@ using namespace std::literals;
 // this func does readdir but without mutex locking
 struct dirent	*_readdir_unlocked(DIR *, int) __DARWIN_INODE64(_readdir_unlocked);
 
-static const std::string g_Pref = nc::bootstrap::ActivationManager::BundleID() + ".tmp.";
+static const std::string g_Pref = nc::utility::GetBundleID() + ".tmp.";
 
 static void DoTempPurge();
 

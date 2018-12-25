@@ -72,12 +72,10 @@ struct GoToEnclosingFolder final : PanelAction
 
 struct GoIntoFolder final : PanelAction
 {
-    GoIntoFolder(bool _support_archives = false, 
-                 bool _force_checking_for_archive = false );
+    GoIntoFolder(bool _force_checking_for_archive = false );
     bool Predicate( PanelController *_target ) const override;
     void Perform( PanelController *_target, id _sender ) const override;
-private:
-    const bool m_SupportArchives;    
+private:    
     const bool m_ForceArchivesChecking;
 };
 

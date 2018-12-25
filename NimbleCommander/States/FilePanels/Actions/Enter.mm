@@ -9,11 +9,6 @@
 
 namespace nc::panel::actions {
 
-Enter::Enter(bool _support_archives):
-    m_SupportArchives(_support_archives)
-{
-}
-    
 bool Enter::Predicate( PanelController *_target ) const
 {
     return _target.view.item;
@@ -30,8 +25,8 @@ bool Enter::ValidateMenuItem( PanelController *_target, NSMenuItem *_item ) cons
 
 void Enter::Perform( PanelController *_target, id _sender ) const
 {
-    if( actions::GoIntoFolder{m_SupportArchives, false}.Predicate(_target) ) {
-        actions::GoIntoFolder{m_SupportArchives, false}.Perform(_target, _sender);
+    if( actions::GoIntoFolder{false}.Predicate(_target) ) {
+        actions::GoIntoFolder{false}.Perform(_target, _sender);
         return;
     }
     

@@ -186,8 +186,7 @@ void GoToEnclosingFolder::Perform( PanelController *_target, id _sender ) const
     }
 }
 
-GoIntoFolder::GoIntoFolder(bool _support_archives, bool _force_checking_for_archive ) :
-    m_SupportArchives(_support_archives),
+GoIntoFolder::GoIntoFolder(bool _force_checking_for_archive ) :
     m_ForceArchivesChecking(_force_checking_for_archive)
 {
 }
@@ -211,9 +210,6 @@ bool GoIntoFolder::Predicate( PanelController *_target ) const
     
     if( item.IsDir() )
         return true;
-    
-    if( m_SupportArchives == false )
-        return false;
     
     if( m_ForceArchivesChecking )
         return true;
@@ -239,37 +235,35 @@ void GoIntoFolder::Perform( PanelController *_target, id _sender ) const
         [_target GoToDirWithContext:request];        
         return;
     }
-    
-    if( m_SupportArchives ) {
-        const auto eligible_to_check = m_ForceArchivesChecking || IsItemInArchivesWhitelist(item);
-        if( eligible_to_check ) {
-            
-            auto task = [item, _target]( const std::function<bool()> &_cancelled ) {
-                auto pwd_ask = [=]{
-                    std::string p;
-                    return RunAskForPasswordModalWindow(item.Filename(), p) ? p : "";
-                };
-                
-                auto arhost = VFSArchiveProxy::OpenFileAsArchive(item.Path(),
-                                                                 item.Host(),
-                                                                 pwd_ask,
-                                                                 _cancelled
-                                                                 );
-                
-                if( arhost ) {
-                    auto request = std::make_shared<DirectoryChangeRequest>();
-                    request->RequestedDirectory = "/";
-                    request->VFS = arhost;
-                    request->PerformAsynchronous = true;
-                    request->InitiatedByUser = true;
-                    dispatch_to_main_queue([request, _target]{
-                        [_target GoToDirWithContext:request];
-                    });
-                }
+
+    const auto eligible_to_check = m_ForceArchivesChecking || IsItemInArchivesWhitelist(item);
+    if( eligible_to_check ) {
+
+        auto task = [item, _target]( const std::function<bool()> &_cancelled ) {
+            auto pwd_ask = [=]{
+                std::string p;
+                return RunAskForPasswordModalWindow(item.Filename(), p) ? p : "";
             };
-            
-            [_target commitCancelableLoadingTask:std::move(task)];
-        }
+
+            auto arhost = VFSArchiveProxy::OpenFileAsArchive(item.Path(),
+                                                             item.Host(),
+                                                             pwd_ask,
+                                                             _cancelled
+                                                             );
+
+            if( arhost ) {
+                auto request = std::make_shared<DirectoryChangeRequest>();
+                request->RequestedDirectory = "/";
+                request->VFS = arhost;
+                request->PerformAsynchronous = true;
+                request->InitiatedByUser = true;
+                dispatch_to_main_queue([request, _target]{
+                    [_target GoToDirWithContext:request];
+                });
+            }
+        };
+
+        [_target commitCancelableLoadingTask:std::move(task)];
     }
 }
 

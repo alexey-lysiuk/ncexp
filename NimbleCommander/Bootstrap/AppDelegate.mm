@@ -48,7 +48,6 @@
 
 using namespace std::literals;
 using namespace nc::bootstrap;
-using nc::bootstrap::ActivationManager;
 
 static std::optional<std::string> Load(const std::string &_filepath);
 
@@ -699,40 +698,6 @@ static NCAppDelegate *g_Me = nil;
 {
     // temporary solution:
     return nc::utility::NativeFSManager::Instance();
-}
-
-- (void) showTrialWindow
-{
-    const auto expired =
-        (ActivationManager::Instance().UserHadRegistered() == false) &&
-        (ActivationManager::Instance().IsTrialPeriod() == false);
-    
-    auto window = [[TrialWindowController alloc] init];
-    window.isExpired = expired;
-    __weak NCAppDelegate *weak_self = self;
-    window.onBuyLicense = [weak_self]{
-        if( auto self = weak_self ) {
-            [self OnPurchaseExternalLicense:self];
-        }  
-    };
-    window.onActivate = [weak_self]{
-        if( auto self = weak_self ) {
-            [self OnActivateExternalLicense:self];
-            if( ActivationManager::Instance().UserHadRegistered() == true )
-                return true;
-        }
-        return false;
-    };
-    window.onQuit = [weak_self]{
-        if( auto self = weak_self ) {
-            const auto expired =
-                (ActivationManager::Instance().UserHadRegistered() == false) &&
-                (ActivationManager::Instance().IsTrialPeriod() == false);            
-            if( expired == true )
-                dispatch_to_main_queue([]{ [NSApp terminate:nil]; });
-        }
-    };
-    [window show];
 }
 
 @end
