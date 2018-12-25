@@ -1,6 +1,7 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "AsyncDialogResponse.h"
 #include "ModalDialogResponses.h"
+#include <Habanero/spinlock.h>
 
 namespace nc::ops {
 
@@ -25,7 +26,7 @@ void AsyncDialogResponse::Wait() noexcept
     };
     if( pred() )
         return;
-    unique_lock<mutex> lck{lock};
+    std::unique_lock<std::mutex> lck{lock};
     blocker.wait(lck, pred);
 }
 
@@ -40,7 +41,7 @@ bool AsyncDialogResponse::IsApplyToAllSet() noexcept
     if( it == end(messages) )
         return false;
 
-    if( const auto v = any_cast<bool>(&it->second) )
+    if( const auto v = std::any_cast<bool>(&it->second) )
         return *v;
     
     return false;

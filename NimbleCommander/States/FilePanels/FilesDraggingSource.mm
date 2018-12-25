@@ -1,6 +1,7 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <VFS/Native.h>
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "FilesDraggingSource.h"
+#include <VFS/Native.h>
+#include <Utility/StringExtras.h>
 
 static const auto g_PrivateDragUTI = @"com.magnumbytes.nimblecommander.filespanelsdraganddrop";
 
@@ -44,7 +45,7 @@ static const auto g_PasteboardFilenamesUTI = (NSString*)CFBridgingRelease(
 
 @implementation FilesDraggingSource
 {
-    vector<PanelDraggingItem*>  m_Items;
+    std::vector<PanelDraggingItem*>m_Items;
     __weak PanelController*     m_SourceController;
     VFSHostPtr                  m_CommonHost;
     bool                        m_AreAllHostsWriteable;
@@ -157,7 +158,8 @@ static NSURL *ExtractPromiseDropLocation(NSPasteboard *_pasteboard)
 - (void)provideURLPromisePasteboard:(NSPasteboard *)sender item:(PanelDraggingItem *)item
 {
     if( auto drop_url = ExtractPromiseDropLocation(sender) ) {
-        const auto dest = path(drop_url.path.fileSystemRepresentation) / item.item.Filename();
+        const auto dest = boost::filesystem::path(drop_url.path.fileSystemRepresentation)
+            / item.item.Filename();
 
         // retrieve item itself
         const auto  ret = VFSEasyCopyNode(item.item.Path().c_str(), item.item.Host(),

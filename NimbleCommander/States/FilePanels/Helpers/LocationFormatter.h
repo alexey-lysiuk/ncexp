@@ -1,13 +1,12 @@
 // Copyright (C) 2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
+#include <Utility/NativeFSManager.h>
 #include <NimbleCommander/Core/NetworkConnectionsManager.h>
 #include <NimbleCommander/Core/VFSInstancePromise.h>
 
 // TODO: extract favorite and location
 #include "../Favorites.h"
-
-struct NativeFileSystemInfo;
 
 namespace nc::panel {
     class ListingPromise;
@@ -80,7 +79,7 @@ class VolumeFormatter : public Formatter {
 public:
   
     Representation Render(RenderOptions _options,
-                          const NativeFileSystemInfo &_volume );
+                          const utility::NativeFileSystemInfo &_volume );
     
 };
 
@@ -90,7 +89,7 @@ public:
     
     Representation Render(RenderOptions _options,
                           const core::VFSInstancePromise &_promise,
-                          const string &_path);
+                          const std::string &_path);
     
 };
 
@@ -100,7 +99,7 @@ public:
         
     Representation Render(RenderOptions _options,
                           const VFSHost &_vfs,
-                          const string &_path);
+                          const std::string &_path);
         
 };
     

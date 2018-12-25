@@ -1,9 +1,14 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "../Bootstrap/AppDelegate.h"
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "BigFileView.h"
 #include "InternalViewerController.h"
 #include "InternalViewerWindowController.h"
+#include <Habanero/dispatch_cpp.h>
+#include <chrono>
+#include <Utility/ObjCpp.h>
+
+using namespace std::literals;
 
 @interface InternalViewerWindow : NSWindow
 @end
@@ -36,7 +41,7 @@
 
 @synthesize internalViewerController = m_Controller;
 
-- (id) initWithFilepath:(string)path
+- (id) initWithFilepath:(std::string)path
                      at:(VFSHostPtr)vfs
 {
     self = [super initWithWindowNibName:NSStringFromClass(self.class)];
@@ -96,7 +101,7 @@
     });
 }
 
-- (void)markInitialSelection:(CFRange)_selection searchTerm:(string)_request
+- (void)markInitialSelection:(CFRange)_selection searchTerm:(std::string)_request
 {
     [m_Controller markSelection:_selection forSearchTerm:_request];
 }

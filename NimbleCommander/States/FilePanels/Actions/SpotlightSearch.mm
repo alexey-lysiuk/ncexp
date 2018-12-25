@@ -1,4 +1,5 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "SpotlightSearch.h"
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <Habanero/algo.h>
@@ -6,39 +7,41 @@
 #include <VFS/VFSListingInput.h>
 #include "../PanelController.h"
 #include "../Views/SpotlightSearchPopupViewController.h"
-#include "SpotlightSearch.h"
 #include <NimbleCommander/Bootstrap/Config.h>
 #include "../PanelView.h"
+#include <Utility/StringExtras.h>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
 
 static const auto g_ConfigSpotlightFormat = "filePanel.spotlight.format";
 static const auto g_ConfigSpotlightMaxCount = "filePanel.spotlight.maxCount";
 
-static string CookSpotlightSearchQuery( const string& _format, const string &_input )
+static std::string CookSpotlightSearchQuery( const std::string& _format, const std::string &_input )
 {
+    const auto npos = std::string::npos;
     bool should_split =
-        _format.find("#{query1}") != string::npos ||
-        _format.find("#{query2}") != string::npos ||
-        _format.find("#{query3}") != string::npos ||
-        _format.find("#{query4}") != string::npos ||
-        _format.find("#{query5}") != string::npos ||
-        _format.find("#{query6}") != string::npos ||
-        _format.find("#{query7}") != string::npos ||
-        _format.find("#{query8}") != string::npos ||
-        _format.find("#{query9}") != string::npos;
+        _format.find("#{query1}") != npos ||
+        _format.find("#{query2}") != npos ||
+        _format.find("#{query3}") != npos ||
+        _format.find("#{query4}") != npos ||
+        _format.find("#{query5}") != npos ||
+        _format.find("#{query6}") != npos ||
+        _format.find("#{query7}") != npos ||
+        _format.find("#{query8}") != npos ||
+        _format.find("#{query9}") != npos;
     
     if( !should_split )
         return boost::replace_all_copy( _format, "#{query}", _input );
 
-    vector<string> words;
+    std::vector<std::string> words;
     boost::split(words,
                  _input,
                  [](char _c){ return _c == ' ';},
                  boost::token_compress_on
                  );
     
-    string result = _format;
+    std::string result = _format;
     boost::replace_all(result, "#{query}" , _input );
     boost::replace_all(result, "#{query1}", words.size() > 0 ? words[0] : "" );
     boost::replace_all(result, "#{query2}", words.size() > 1 ? words[1] : "" );
@@ -53,10 +56,13 @@ static string CookSpotlightSearchQuery( const string& _format, const string &_in
     return result;
 }
 
-static vector<string> FetchSpotlightResults(const string& _query)
+static std::vector<std::string> FetchSpotlightResults(const std::string& _query)
 {
-    string format = CookSpotlightSearchQuery( GlobalConfig().GetString(g_ConfigSpotlightFormat).value_or("kMDItemFSName == '*#{query}*'cd"),
-                                              _query );
+    auto fmt = GlobalConfig().Has(g_ConfigSpotlightFormat) ? 
+        GlobalConfig().GetString(g_ConfigSpotlightFormat) : 
+        "kMDItemFSName == '*#{query}*'cd";
+    
+    std::string format = CookSpotlightSearchQuery( fmt, _query );
     
     MDQueryRef query = MDQueryCreate( nullptr, (CFStringRef)[NSString stringWithUTF8StdString:format], nullptr, nullptr );
     if( !query )
@@ -69,7 +75,7 @@ static vector<string> FetchSpotlightResults(const string& _query)
     if( !query_result)
         return {};
     
-    vector<string> result;
+    std::vector<std::string> result;
     for( long i = 0, e = MDQueryGetResultCount( query ); i < e; ++i ) {
 
         MDItemRef item = (MDItemRef)MDQueryGetResultAtIndex( query, i );
@@ -87,12 +93,13 @@ static vector<string> FetchSpotlightResults(const string& _query)
     return result;
 }
 
-static shared_ptr<VFSListing> FetchSearchResultsAsListing(const vector<string> &_file_paths,
-                                                          VFSHost &_vfs,
-                                                          unsigned long _fetch_flags,
-                                                          const VFSCancelChecker &_cancel_checker)
+static std::shared_ptr<VFSListing> FetchSearchResultsAsListing
+    (const std::vector<std::string> &_file_paths,
+     VFSHost &_vfs,
+     unsigned long _fetch_flags,
+     const VFSCancelChecker &_cancel_checker)
 {
-    vector<VFSListingPtr> listings;
+    std::vector<VFSListingPtr> listings;
     
     for( auto &p: _file_paths ) {
         VFSListingPtr listing;
@@ -108,9 +115,9 @@ void SpotlightSearch::Perform( PanelController *_target, id _sender ) const
 {
     const auto view = [[SpotlightSearchPopupViewController alloc] init];
     __weak PanelController *wp = _target;
-    view.handler = [wp](const string& _query){
+    view.handler = [wp](const std::string& _query){
         if( PanelController *panel = wp ) {
-            auto task = [=]( const function<bool()> &_cancelled ) {
+            auto task = [=]( const std::function<bool()> &_cancelled ) {
                 if( auto l = FetchSearchResultsAsListing(FetchSpotlightResults(_query),
                                                          *VFSNativeHost::SharedHost(),
                                                          panel.vfsFetchingFlags,
@@ -120,7 +127,7 @@ void SpotlightSearch::Perform( PanelController *_target, id _sender ) const
                         [panel loadListing:l];
                     });
             };
-            [panel commitCancelableLoadingTask:move(task)];
+            [panel commitCancelableLoadingTask:std::move(task)];
         }
     };
     

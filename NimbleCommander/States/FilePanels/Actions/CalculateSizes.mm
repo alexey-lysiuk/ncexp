@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "CalculateSizes.h"
 #include "../PanelController.h"
 #include "../PanelData.h"
@@ -25,12 +25,12 @@ void CalculateSizes::Perform( PanelController *_target, id _sender ) const
 
 void CalculateAllSizes::Perform( PanelController *_target, id _sender ) const
 {
-    vector<VFSListingItem> items;
+    std::vector<VFSListingItem> items;
     auto &data = _target.data;
     for( auto ind: data.SortedDirectoryEntries() )
         if( auto e = data.EntryAtRawPosition(ind) )
             if( e.IsDir()  )
-                items.emplace_back( move(e) );
+                items.emplace_back( std::move(e) );
 
     [_target calculateSizesOfItems:items];
 }

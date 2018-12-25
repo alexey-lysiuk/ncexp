@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/CommonPaths.h>
 #include "PanelController+DataAccess.h"
 #include "PanelDataItemVolatileData.h"
@@ -8,7 +8,7 @@
 
 @implementation PanelController (DataAccess)
 
-- (string) currentFocusedEntryFilename
+- (std::string) currentFocusedEntryFilename
 {
     if(!self.view)
         return "";
@@ -19,7 +19,7 @@
     return "";
 }
 
-- (string) currentFocusedEntryPath
+- (std::string) currentFocusedEntryPath
 {
     if(!self.view)
         return "";
@@ -27,7 +27,7 @@
     return self.data.FullPathForEntry(self.data.RawIndexForSortIndex(self.view.curpos));
 }
 
-- (vector<string>) selectedEntriesOrFocusedEntryFilenames
+- (std::vector<std::string>) selectedEntriesOrFocusedEntryFilenames
 {
     if(!self.view)
         return {};
@@ -37,14 +37,14 @@
     
     auto item = self.view.item;
     if(item && !item.IsDotDot())
-        return vector<string>{ item.Filename() };
+        return std::vector<std::string>{ item.Filename() };
     
     return {};
 }
 
-- (vector<unsigned>) selectedEntriesOrFocusedEntryIndeces
+- (std::vector<unsigned>) selectedEntriesOrFocusedEntryIndeces
 {
-    vector<unsigned> inds;
+    std::vector<unsigned> inds;
     auto &d = self.data;
     for( auto ind: d.SortedDirectoryEntries() ) {
         auto e = d.EntryAtRawPosition(ind);
@@ -68,38 +68,38 @@
     return inds;
 }
 
-- (vector<VFSListingItem>)selectedEntriesOrFocusedEntry
+- (std::vector<VFSListingItem>)selectedEntriesOrFocusedEntry
 {
-    vector<VFSListingItem> items;
+    std::vector<VFSListingItem> items;
     auto &d = self.data;
     for( auto ind: d.SortedDirectoryEntries() )
         if( d.VolatileDataAtRawPosition(ind).is_selected() )
             if( auto e = d.EntryAtRawPosition(ind) )
-                    items.emplace_back( move(e) );
+                    items.emplace_back( std::move(e) );
     
     if( items.empty() )
         if( auto e = d.EntryAtSortPosition(self.view.curpos) )
             if( !e.IsDotDot() )
-                items.emplace_back( move(e) );
+                items.emplace_back( std::move(e) );
     return items;
 }
 
-- (vector<VFSListingItem>) selectedEntriesOrFocusedEntryWithDotDot
+- (std::vector<VFSListingItem>) selectedEntriesOrFocusedEntryWithDotDot
 {
-    vector<VFSListingItem> items;
+    std::vector<VFSListingItem> items;
     auto &d = self.data;
     for( auto ind: d.SortedDirectoryEntries() )
         if( d.VolatileDataAtRawPosition(ind).is_selected() )
             if( auto e = d.EntryAtRawPosition(ind) )
-                    items.emplace_back( move(e) );
+                    items.emplace_back( std::move(e) );
     
     if( items.empty() )
         if( auto e = d.EntryAtSortPosition(self.view.curpos) )
-                items.emplace_back( move(e) );
+                items.emplace_back( std:: move(e) );
     return items;
 }
 
-- (vector<string>) selectedEntriesOrFocusedEntryFilenamesWithDotDot
+- (std::vector<std::string>) selectedEntriesOrFocusedEntryFilenamesWithDotDot
 {
     if(!self.view)
         return {};
@@ -108,12 +108,12 @@
         return self.data.SelectedEntriesFilenames();
     
     if(auto item = self.view.item)
-        return vector<string>{ item.Filename() };
+        return std::vector<std::string>{ item.Filename() };
     
     return {};
 }
 
-- (string) currentDirectoryPath
+- (std::string) currentDirectoryPath
 {
     return self.data.DirectoryPathWithTrailingSlash();
 }
@@ -123,7 +123,7 @@
     return self.data.Host();
 }
 
-- (string) expandPath:(const string&)_ref
+- (std::string) expandPath:(const std::string&)_ref
 {
     if( _ref.empty() )
         return {};
@@ -134,7 +134,7 @@
     if( self.vfs->IsNativeFS() &&
        _ref.front() == '~' ) { // relative to home
         auto ref = _ref.substr(1);
-        path p = path(CommonPaths::Home());
+        auto p = boost::filesystem::path(CommonPaths::Home());
         if(!ref.empty())
             p.remove_filename();
         p /= ref;
@@ -142,7 +142,7 @@
     }
 
     // sub-dir
-    path p = self.currentDirectoryPath;
+    boost::filesystem::path p = self.currentDirectoryPath;
     if( p.empty() )
         return {};
 

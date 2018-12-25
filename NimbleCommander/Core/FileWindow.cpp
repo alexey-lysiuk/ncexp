@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "FileWindow.h"
 
 bool FileWindow::FileOpened() const
@@ -6,7 +6,7 @@ bool FileWindow::FileOpened() const
     return m_Window.get() != nullptr;
 }
 
-int FileWindow::OpenFile(const shared_ptr<VFSFile> &_file, int _window_size)
+int FileWindow::OpenFile(const std::shared_ptr<VFSFile> &_file, int _window_size)
 {
     if(!_file->IsOpened())
         return VFSError::InvalidCall;
@@ -15,7 +15,7 @@ int FileWindow::OpenFile(const shared_ptr<VFSFile> &_file, int _window_size)
         return VFSError::InvalidCall;
 
     m_File = _file;
-    m_WindowSize = min(m_File->Size(), (ssize_t)_window_size);
+    m_WindowSize = std::min(m_File->Size(), (ssize_t)_window_size);
     m_Window.reset(new uint8_t[m_WindowSize]);
     m_WindowPos = 0;
     

@@ -1,32 +1,37 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "PreferencesWindowHotkeysTab.h"
 #include <Utility/NSMenu+Hierarchical.h>
 #include <Utility/FunctionKeysPass.h>
 #import <ThirdParty/GTMHotKeyTextField/GTMHotKeyTextField.h>
 #include "../Core/ActionsShortcutsManager.h"
 #include "../States/FilePanels/ExternalToolsSupport.h"
-#include "PreferencesWindowHotkeysTab.h"
+#include <any>
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
 
 static NSString *ComposeVerboseMenuItemTitle(NSMenuItem *_item);
-static NSString *ComposeVerboseNonMenuActionTitle(const string &_action);
+static NSString *ComposeVerboseNonMenuActionTitle(const std::string &_action);
 static NSString *ComposeExternalToolTitle( const ExternalTool& _et, unsigned _index);
-static NSString *LabelTitleForAction( const string &_action, NSMenuItem *_item_for_tag );
+static NSString *LabelTitleForAction( const std::string &_action, NSMenuItem *_item_for_tag );
 
 namespace {
 
 struct ActionShortcutNode
 {
-    pair<string,int> tag;
+    std::pair<std::string,int> tag;
     ActionShortcut  current_shortcut;
     ActionShortcut  default_shortcut;
-    NSString *label;
-    bool is_menu_action;
-    bool is_customized;
-    bool is_conflicted;
+    NSString *label = @"";
+    bool is_menu_action = false;
+    bool has_submenu = false;
+    bool is_customized = false;
+    bool is_conflicted = false;
 };
 
 struct ToolShortcutNode
 {
-    shared_ptr<const ExternalTool> tool;
+    std::shared_ptr<const ExternalTool> tool;
     NSString *label;
     int tool_index;
     bool is_customized;
@@ -58,19 +63,19 @@ enum class SourceType
 
 @implementation PreferencesWindowHotkeysTab
 {
-    vector<pair<string,int>>                m_Shortcuts;
-    function<ExternalToolsStorage&()>       m_ToolsStorage;
+    std::vector<std::pair<std::string,int>>                  m_Shortcuts;
+    std::function<ExternalToolsStorage&()>              m_ToolsStorage;
     ExternalToolsStorage::ObservationTicket m_ToolsObserver;
-    vector<shared_ptr<const ExternalTool>>  m_Tools;
-    vector<any>                             m_AllNodes;
-    vector<any>                             m_SourceNodes;
-    vector<any>                             m_FilteredNodes;
+    std::vector<std::shared_ptr<const ExternalTool>>    m_Tools;
+    std::vector<std::any>                               m_AllNodes;
+    std::vector<std::any>                               m_SourceNodes;
+    std::vector<std::any>                               m_FilteredNodes;
     SourceType                              m_SourceType;
 }
 
 @synthesize sourceType = m_SourceType;
 
-- (id) initWithToolsStorage:(function<ExternalToolsStorage&()>)_tool_storage
+- (id) initWithToolsStorage:(std::function<ExternalToolsStorage&()>)_tool_storage
 {
     self = [super init];
     if (self) {
@@ -104,7 +109,7 @@ enum class SourceType
 {
     const auto &sm = ActionsShortcutsManager::Instance();
     m_AllNodes.clear();
-    unordered_map<ActionShortcut, int> counts;
+    std::unordered_map<ActionShortcut, int> counts;
     for( auto &v: m_Shortcuts ) {
         const auto menu_item = [NSApp.mainMenu itemWithTagHierarchical:v.second];
         ActionShortcutNode shortcut;
@@ -114,7 +119,8 @@ enum class SourceType
         shortcut.default_shortcut = sm.DefaultShortCutFromTag(v.second);
         shortcut.is_menu_action = v.first.find_first_of("menu.") == 0;
         shortcut.is_customized = shortcut.current_shortcut != shortcut.default_shortcut;
-        m_AllNodes.emplace_back( move(shortcut) );
+        shortcut.has_submenu = menu_item != nil && menu_item.hasSubmenu;
+        m_AllNodes.emplace_back( std::move(shortcut) );
         counts[shortcut.current_shortcut]++;
     }
     for( int i = 0, e = (int)m_Tools.size(); i != e; ++i ) {
@@ -124,19 +130,19 @@ enum class SourceType
         shortcut.tool_index = i;
         shortcut.label = ComposeExternalToolTitle(*v, i);
         shortcut.is_customized = bool(v->m_Shorcut);
-        m_AllNodes.emplace_back( move(shortcut) );
+        m_AllNodes.emplace_back( std::move(shortcut) );
         counts[v->m_Shorcut]++;
     }
     
     int conflicts_amount = 0;
     for( auto &v: m_AllNodes ) {
-        if( auto node = any_cast<ActionShortcutNode>(&v) ) {
+        if( auto node = std::any_cast<ActionShortcutNode>(&v) ) {
             node->is_conflicted = node->current_shortcut &&
                                     counts[node->current_shortcut] > 1;
             if( node->is_conflicted )
                 conflicts_amount++;
         }
-        if( auto node = any_cast<ToolShortcutNode>(&v) ) {
+        if( auto node = std::any_cast<ToolShortcutNode>(&v) ) {
             node->is_conflicted = node->tool->m_Shorcut &&
                                     counts[node->tool->m_Shorcut] > 1;
             if( node->is_conflicted )
@@ -162,10 +168,10 @@ enum class SourceType
     if( m_SourceType == SourceType::Customized ) {
         m_SourceNodes.clear();
         for( auto &v: m_AllNodes ) {
-            if( auto node = any_cast<ActionShortcutNode>(&v) )
+            if( auto node = std::any_cast<ActionShortcutNode>(&v) )
                 if( node->is_customized )
                     m_SourceNodes.emplace_back(v);
-            if( auto node = any_cast<ToolShortcutNode>(&v) )
+            if( auto node = std::any_cast<ToolShortcutNode>(&v) )
                 if( node->is_customized )
                     m_SourceNodes.emplace_back(v);
         }
@@ -173,10 +179,10 @@ enum class SourceType
     if( m_SourceType == SourceType::Conflicts ) {
         m_SourceNodes.clear();
         for( auto &v: m_AllNodes ) {
-            if( auto node = any_cast<ActionShortcutNode>(&v) )
+            if( auto node = std::any_cast<ActionShortcutNode>(&v) )
                 if( node->is_conflicted )
                     m_SourceNodes.emplace_back(v);
-            if( auto node = any_cast<ToolShortcutNode>(&v) )
+            if( auto node = std::any_cast<ToolShortcutNode>(&v) )
                 if( node->is_conflicted )
                     m_SourceNodes.emplace_back(v);
         }
@@ -261,7 +267,7 @@ static NSImageView *SpawnCautionSign()
                   row:(NSInteger)row
 {
     if( row >= 0 && row < (int)m_FilteredNodes.size() ) {
-        if( auto node = any_cast<ActionShortcutNode>(&m_FilteredNodes[row]) ) {
+        if( auto node = std::any_cast<ActionShortcutNode>(&m_FilteredNodes[row]) ) {
             if( [tableColumn.identifier isEqualToString:@"action"] ) {
                 return SpawnLabelForAction(*node);
             }
@@ -280,6 +286,8 @@ static NSImageView *SpawnCautionSign()
             
                 if( node->is_customized )
                     field_cell.font = [NSFont boldSystemFontOfSize:field_cell.font.pointSize];
+                if( node->has_submenu )
+                    key_text_field.enabled = false;
                 
                 return key_text_field;
             }
@@ -287,7 +295,7 @@ static NSImageView *SpawnCautionSign()
                 return node->is_conflicted ? SpawnCautionSign() : nil;
             }
         }
-        if( auto node = any_cast<ToolShortcutNode>(&m_FilteredNodes[row]) ) {
+        if( auto node = std::any_cast<ToolShortcutNode>(&m_FilteredNodes[row]) ) {
             if( [tableColumn.identifier isEqualToString:@"action"] ) {
                 return SpawnLabelForTool(*node);
             }
@@ -378,9 +386,9 @@ static NSImageView *SpawnCautionSign()
 - (IBAction)onForceFnChanged:(id)sender
 {
     if( self.forceFnButton.state == NSOnState )
-        FunctionalKeysPass::Instance().Enable();
+        nc::utility::FunctionalKeysPass::Instance().Enable();
     else
-        FunctionalKeysPass::Instance().Disable();
+        nc::utility::FunctionalKeysPass::Instance().Disable();
 }
 
 - (void)controlTextDidChange:(NSNotification *)obj
@@ -389,9 +397,9 @@ static NSImageView *SpawnCautionSign()
     [self.Table reloadData];    
 }
 
-static bool ValidateNodeForFilter( const any& _node, NSString *_filter )
+static bool ValidateNodeForFilter( const std::any& _node, NSString *_filter )
 {
-    if( auto node = any_cast<ActionShortcutNode>(&_node) ) {
+    if( auto node = std::any_cast<ActionShortcutNode>(&_node) ) {
         const auto label = node->label;
         if( [label rangeOfString:_filter options:NSCaseInsensitiveSearch].length != 0 )
             return true;
@@ -406,7 +414,7 @@ static bool ValidateNodeForFilter( const any& _node, NSString *_filter )
 
         return false;
     }
-    if( auto node = any_cast<ToolShortcutNode>(&_node) ) {
+    if( auto node = std::any_cast<ToolShortcutNode>(&_node) ) {
         const auto label = node->label;
         if( [label rangeOfString:_filter options:NSCaseInsensitiveSearch].length != 0 )
             return true;
@@ -473,7 +481,7 @@ static bool ValidateNodeForFilter( const any& _node, NSString *_filter )
 
 @end
 
-static NSString *LabelTitleForAction( const string &_action, NSMenuItem *_item_for_tag )
+static NSString *LabelTitleForAction( const std::string &_action, NSMenuItem *_item_for_tag )
 {
     if( auto menu_item_title = ComposeVerboseMenuItemTitle(_item_for_tag) )
         return menu_item_title;
@@ -499,9 +507,9 @@ static NSString *ComposeVerboseMenuItemTitle(NSMenuItem *_item)
     return title;
 }
 
-static NSString *ComposeVerboseNonMenuActionTitle(const string &_action)
+static NSString *ComposeVerboseNonMenuActionTitle(const std::string &_action)
 {
-    static const vector< pair<const char *, NSString *> > titles = {
+    static const std::vector< std::pair<const char *, NSString *> > titles = {
         {"panel.move_up",                       NSLocalizedString(@"File Panels ▶ Move Up", "")},
         {"panel.move_down",                     NSLocalizedString(@"File Panels ▶ Move Down", "")},
         {"panel.move_left",                     NSLocalizedString(@"File Panels ▶ Move Left", "")},

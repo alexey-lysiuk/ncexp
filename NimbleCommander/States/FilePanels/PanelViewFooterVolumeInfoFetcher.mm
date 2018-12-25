@@ -1,9 +1,13 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/SerialQueue.h>
 #include <Habanero/CommonPaths.h>
 #include <VFS/Native.h>
 #include "PanelViewFooterVolumeInfoFetcher.h"
 
+namespace nc::panel {
+
+using namespace std::literals;
+    
 template <typename T, typename U>
 inline bool equals(const std::weak_ptr<T>& t, const std::weak_ptr<U>& u)
 {
@@ -21,21 +25,23 @@ namespace {
 struct LookPath
 {
     VFSHostWeakPtr                              host;
-    string                                      path;
-    vector<PanelViewFooterVolumeInfoFetcher*>   watchers;
-    optional<VFSStatFS>                         current;
+    std::string                                 path;
+    std::vector<FooterVolumeInfoFetcher*>       watchers;
+    std::optional<VFSStatFS>                    current;
     bool                                        scheduled = false;
 };
 }
 
-static vector<LookPath> g_Context;
+static std::vector<LookPath> g_Context;
 static dispatch_queue g_Queue{ "com.magnumbytes.nimblecommander.footer_fs_stat" };
 static const auto g_Delay = 5s;
 
 struct PanelViewFooterVolumeInfoFetcherInternals
 {
 
-static void AcceptResult( VFSHostWeakPtr _host, string _path, optional<VFSStatFS> _stat )
+static void AcceptResult(VFSHostWeakPtr _host,
+                         std::string _path,
+                         std::optional<VFSStatFS> _stat )
 {
     dispatch_assert_main_queue();
     
@@ -63,7 +69,7 @@ static void ScheduleIfNeed( LookPath &_lp, bool _hurry = false)
         return;
     
     VFSHostWeakPtr host = _lp.host;
-    string path = _lp.path;
+    std::string path = _lp.path;
     
     g_Queue.after( _hurry ? 0s : g_Delay, [=]{
         VFSStatFS stat;
@@ -71,14 +77,16 @@ static void ScheduleIfNeed( LookPath &_lp, bool _hurry = false)
         if( auto h = host.lock() )
             result = h->StatFS(path.c_str(), stat, 0);
         dispatch_to_main_queue([=]{
-            AcceptResult( host, path, result == 0 ? optional<VFSStatFS>{stat} : nullopt );
+            AcceptResult( host, path, result == 0 ? std::optional<VFSStatFS>{stat} : std::nullopt );
         });
     });
     
     _lp.scheduled = true;
 }
 
-static const VFSStatFS* RegisterWatcher( PanelViewFooterVolumeInfoFetcher* _w, const VFSHostWeakPtr &_host, const string& _path )
+static const VFSStatFS* RegisterWatcher(FooterVolumeInfoFetcher* _w,
+                                        const VFSHostWeakPtr &_host,
+                                        const std::string& _path )
 {
     dispatch_assert_main_queue();
     
@@ -97,12 +105,14 @@ static const VFSStatFS* RegisterWatcher( PanelViewFooterVolumeInfoFetcher* _w, c
     lp.host = _host;
     lp.path = _path;
     lp.watchers.emplace_back(_w);
-    g_Context.emplace_back( move(lp) );
+    g_Context.emplace_back( std::move(lp) );
     ScheduleIfNeed( g_Context.back(), true );
     return nullptr;
 }
     
-static const VFSStatFS* Probe( PanelViewFooterVolumeInfoFetcher* _w, const VFSHostWeakPtr &_host, const string& _path )
+static const VFSStatFS* Probe(FooterVolumeInfoFetcher* _w,
+                              const VFSHostWeakPtr &_host,
+                              const std::string& _path )
 {
     dispatch_assert_main_queue();
     
@@ -117,7 +127,9 @@ static const VFSStatFS* Probe( PanelViewFooterVolumeInfoFetcher* _w, const VFSHo
     return nullptr;
 }
 
-static void RemoveWatcher( PanelViewFooterVolumeInfoFetcher* _w, const VFSHostWeakPtr &_host, const string& _path )
+static void RemoveWatcher(FooterVolumeInfoFetcher* _w,
+                          const VFSHostWeakPtr &_host,
+                          const std::string& _path )
 {
     dispatch_assert_main_queue();
     
@@ -136,27 +148,27 @@ static void RemoveWatcher( PanelViewFooterVolumeInfoFetcher* _w, const VFSHostWe
     
 };
 
-PanelViewFooterVolumeInfoFetcher::PanelViewFooterVolumeInfoFetcher()
+FooterVolumeInfoFetcher::FooterVolumeInfoFetcher()
 {
     dispatch_assert_main_queue();
     
 }
 
-PanelViewFooterVolumeInfoFetcher::~PanelViewFooterVolumeInfoFetcher()
+FooterVolumeInfoFetcher::~FooterVolumeInfoFetcher()
 {
     dispatch_assert_main_queue();
     PauseUpdates();
 }
 
-void PanelViewFooterVolumeInfoFetcher::SetCallback( function<void(const VFSStatFS&)> _callback )
+void FooterVolumeInfoFetcher::SetCallback( std::function<void(const VFSStatFS&)> _callback )
 {
-    m_Callback = _callback;
+    m_Callback = std::move(_callback);
 }
 
-void PanelViewFooterVolumeInfoFetcher::SetTarget( const VFSListingPtr &_listing )
+void FooterVolumeInfoFetcher::SetTarget( const VFSListingPtr &_listing )
 {
     VFSHostPtr current_host;
-    string current_path;
+    std::string current_path;
     if( _listing->IsUniform()  ) {
         // we're in regular directory somewhere
         current_host = _listing->Host();
@@ -195,17 +207,17 @@ void PanelViewFooterVolumeInfoFetcher::SetTarget( const VFSListingPtr &_listing 
     }
 }
 
-const VFSStatFS& PanelViewFooterVolumeInfoFetcher::Current() const
+const VFSStatFS& FooterVolumeInfoFetcher::Current() const
 {
     return m_Current;
 }
 
-bool PanelViewFooterVolumeInfoFetcher::IsActive() const
+bool FooterVolumeInfoFetcher::IsActive() const
 {
     return m_Active;
 }
 
-void PanelViewFooterVolumeInfoFetcher::PauseUpdates()
+void FooterVolumeInfoFetcher::PauseUpdates()
 {
     if( m_Active ) {
         PanelViewFooterVolumeInfoFetcherInternals::RemoveWatcher( this, m_Host, m_Path );
@@ -213,7 +225,7 @@ void PanelViewFooterVolumeInfoFetcher::PauseUpdates()
     }
 }
 
-void PanelViewFooterVolumeInfoFetcher::ResumeUpdates()
+void FooterVolumeInfoFetcher::ResumeUpdates()
 {
     if( !m_Active ) {
         auto st = PanelViewFooterVolumeInfoFetcherInternals::RegisterWatcher( this, m_Host, m_Path );
@@ -223,9 +235,11 @@ void PanelViewFooterVolumeInfoFetcher::ResumeUpdates()
     }
 }
 
-void PanelViewFooterVolumeInfoFetcher::Accept( const VFSStatFS &_stat )
+void FooterVolumeInfoFetcher::Accept( const VFSStatFS &_stat )
 {
     m_Current = _stat;
     if( m_Callback )
         m_Callback(m_Current);
+}
+
 }

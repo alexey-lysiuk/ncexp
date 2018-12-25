@@ -1,5 +1,10 @@
-// Copyright (C) 2013-2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
+
+#include <CoreFoundation/CoreFoundation.h>
+#include <stdint.h>
+#include <memory>
+#include <functional>
 
 class FileWindow;
 
@@ -39,7 +44,7 @@ public:
         OptionFindWholePhrase   = 1 << 1
     };
     
-    using CancelChecker = function<bool()>;
+    using CancelChecker = std::function<bool()>;
     Result Search(uint64_t *_offset/*out*/,
                   uint64_t *_bytes_len/*out*/,
                   CancelChecker _checker); // checker can be nil
@@ -68,8 +73,8 @@ private:
     CFStringRef m_RequestedTextSearch;
     int         m_TextSearchEncoding;
     
-    unique_ptr<uint16_t[]> m_DecodedBuffer;
-    unique_ptr<uint32_t[]> m_DecodedBufferIndx;
+    std::unique_ptr<uint16_t[]> m_DecodedBuffer;
+    std::unique_ptr<uint32_t[]> m_DecodedBufferIndx;
     
     size_t      m_DecodedBufferSize;
     CFStringRef m_DecodedBufferString;

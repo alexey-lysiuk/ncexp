@@ -1,3 +1,4 @@
+// Copyright (C) 2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ClosedPanelsHistoryImpl.h"
 
 namespace nc::panel {
@@ -17,7 +18,7 @@ void ClosedPanelsHistoryImpl::AddListing( ListingPromise _listing )
     else {
         if( m_Entries.size() == m_MaxCapacity )
             m_Entries.pop_back();
-        m_Entries.emplace(begin(m_Entries), move(_listing) );
+        m_Entries.emplace(begin(m_Entries), std::move(_listing) );
     }
 }
     
@@ -33,11 +34,11 @@ int ClosedPanelsHistoryImpl::Size() const
     return (int)m_Entries.size();
 }
     
-vector<ListingPromise> ClosedPanelsHistoryImpl::FrontElements( int _count ) const
+std::vector<ListingPromise> ClosedPanelsHistoryImpl::FrontElements( int _count ) const
 {
     if( _count <= 0 )
         return {};
-    _count = min( _count, Size() );
+    _count = std::min( _count, Size() );
     return { begin(m_Entries), next(begin(m_Entries), _count) };
 }
     

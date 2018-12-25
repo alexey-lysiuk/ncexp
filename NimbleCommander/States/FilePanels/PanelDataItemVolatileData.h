@@ -1,12 +1,15 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
+
+#include <stdint.h>
+#include <limits>
 
 namespace nc::panel::data {
 
 struct ItemVolatileData
 {
     enum Size : uint64_t {
-        invalid_size = numeric_limits<uint64_t>::max()
+        invalid_size = std::numeric_limits<uint64_t>::max()
     };
 
     enum {

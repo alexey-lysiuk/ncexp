@@ -34,5 +34,5 @@ NSString *StringByTruncatingToWidth(NSString *str, float inWidth, ETruncationTyp
 
 #endif
 
-bool LowercaseEqual(const std::string_view &_s1,
-                    const std::string_view &_s2 ) noexcept;
+bool LowercaseEqual(std::string_view _s1,
+                    std::string_view _s2 ) noexcept;

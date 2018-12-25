@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/FontCache.h>
 #include "OrthodoxMonospace.h"
 
@@ -389,7 +389,7 @@ void Context::DrawBackground(const DoubleColor &_color, int _x, int _y, int _w, 
 #pragma clang diagnostic ignored "-Wunused-function"
 static void BuildPossibleCompositionEvidenceTable()
 {
-    vector<bool> canbecomposed(65536, false);
+    std::vector<bool> canbecomposed(65536, false);
     
     for(int i = 0; i < 65536; ++i) {
         if(canbecomposed[i])

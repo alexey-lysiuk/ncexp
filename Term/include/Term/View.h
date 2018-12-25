@@ -1,12 +1,12 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <Utility/FPSLimitedDrawer.h>
+#include <Utility/FontCache.h>
+
 #include "Screen.h"
 #include "Parser.h"
 #include "CursorMode.h"
-
-class FontCache;
 
 namespace nc::term {
     class Settings;
@@ -15,7 +15,7 @@ namespace nc::term {
 @interface NCTermView : NSView<ViewWithFPSLimitedDrawer>
 
 @property (nonatomic, readonly) FPSLimitedDrawer *fpsDrawer;
-@property (nonatomic, readonly) const FontCache &fontCache;
+@property (nonatomic, readonly) const nc::utility::FontCache &fontCache;
 @property (nonatomic, readonly) nc::term::Parser *parser; // may be nullptr
 @property (nonatomic) bool reportsSizeByOccupiedContent;
 @property (nonatomic) bool allowCursorBlinking;
@@ -43,7 +43,7 @@ namespace nc::term {
 @property (nonatomic) NSColor *ansiColorF;
 @property (nonatomic) nc::term::CursorMode cursorMode;
 
-@property (nonatomic) shared_ptr<nc::term::Settings> settings;
+@property (nonatomic) std::shared_ptr<nc::term::Settings> settings;
 
 - (void) AttachToScreen:(nc::term::Screen*)_scr;
 - (void) AttachToParser:(nc::term::Parser*)_par;
@@ -51,11 +51,6 @@ namespace nc::term {
 - (void) adjustSizes:(bool)_mandatory; // implicitly calls scrollToBottom when full height changes
 - (void) scrollToBottom;
 
-/**
- * Decrease _sz in dimensions of View insets.
- */
-+ (NSSize) insetSize:(NSSize)_sz;
-
-+ (NSEdgeInsets)insets;
+- (NSPoint)beginningOfScreenLine:(int)_line_number;
 
 @end

@@ -1,12 +1,13 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "QuickLookVFSBridge.h"
 #include <NimbleCommander/Core/TemporaryNativeFileStorage.h>
+#include <Utility/StringExtras.h>
 
 namespace nc::panel {
 
 static const uint64_t g_MaxSize = 64*1024*1024; // 64mb
     
-NSURL *QuickLookVFSBridge::FetchItem( const string& _path, VFSHost &_host )
+NSURL *QuickLookVFSBridge::FetchItem( const std::string& _path, VFSHost &_host )
 {
     auto &storage = TemporaryNativeFileStorage::Instance();
     const auto is_dir = _host.IsDirectory(_path.c_str(), 0);
@@ -30,10 +31,11 @@ NSURL *QuickLookVFSBridge::FetchItem( const string& _path, VFSHost &_host )
     }
     else {
         // basic check that directory looks like a bundle
-        if( !path(_path).has_extension() || path(_path).filename() == path(_path).extension() )
+        if( !boost::filesystem::path(_path).has_extension() ||
+            boost::filesystem::path(_path).filename() == boost::filesystem::path(_path).extension() )
             return nil;
         
-        string copied_path;
+        std::string copied_path;
         if( !storage.CopyDirectory(_path, _host.shared_from_this(), g_MaxSize, nullptr, copied_path) )
             return nil;
         

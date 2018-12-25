@@ -1,14 +1,11 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <string>
 
-using namespace std;
-
 typedef struct kinfo_proc kinfo_proc;
 
-namespace sysinfo
-{
+namespace nc::utility {
     
 struct MemoryInfo
 {
@@ -32,10 +29,10 @@ struct CPULoad
     
 struct SystemOverview
 {
-    string computer_name;
-    string user_full_name;
-    string human_model; // like MacBook Pro (mid 2012), or MacBook Air (early 2013), localizable
-    string coded_model; // like "Macmini6,2"
+    std::string computer_name;
+    std::string user_full_name;
+    std::string human_model; // like MacBook Pro (mid 2012), or MacBook Air (early 2013),localizable
+    std::string coded_model; // like "Macmini6,2"
 };
 
 enum class OSXVersion
@@ -45,6 +42,7 @@ enum class OSXVersion
     OSX_11      = 1110,
     OSX_12      = 1120,
     OSX_13      = 1130,
+    OSX_14      = 1140,
     OSX_Unknown = 100500
 };
     
@@ -83,6 +81,6 @@ int GetBSDProcessList(kinfo_proc **procList, size_t *procCount);
 
 bool IsThisProcessSandboxed() noexcept;
 
-const string& GetBundleID() noexcept;
+const std::string& GetBundleID() noexcept;
     
 }

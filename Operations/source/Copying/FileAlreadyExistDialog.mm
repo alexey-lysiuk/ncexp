@@ -1,8 +1,9 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/stat.h>
 #include <Carbon/Carbon.h>
 #include "FileAlreadyExistDialog.h"
 #include "../ModalDialogResponses.h"
+#include <Utility/StringExtras.h>
 
 using namespace nc::ops;
 
@@ -51,16 +52,16 @@ static bool IsShiftPressed()
 
 @implementation NCOpsFileAlreadyExistDialog
 {
-    string m_DestPath;
+    std::string m_DestPath;
     struct stat m_SourceStat;
     struct stat m_DestinationStat;
-    shared_ptr<AsyncDialogResponse> m_Ctx;
+    std::shared_ptr<AsyncDialogResponse> m_Ctx;
 }
 
-- (id)initWithDestPath:(const string&)_path
+- (id)initWithDestPath:(const std::string&)_path
         withSourceStat:(const struct stat &)_src_stat
    withDestinationStat:(const struct stat &)_dst_stat
-            andContext:(shared_ptr<AsyncDialogResponse>)_ctx
+            andContext:(std::shared_ptr<AsyncDialogResponse>)_ctx
 {
     self = [super initWithWindowNibName:@"FileAlreadyExistDialog"];
     if(self) {
@@ -69,6 +70,7 @@ static bool IsShiftPressed()
         m_DestinationStat = _dst_stat;
         m_Ctx = _ctx;
         self.allowAppending = true;
+        self.allowKeepingBoth = false;
         self.singleItem = false;
     }
     return self;
@@ -116,7 +118,12 @@ static bool IsShiftPressed()
 
 - (IBAction)OnCancel:(id)sender
 {
-    [self endDialogWithReturnCode: ::NSModalResponseStop];
+    [self endDialogWithReturnCode:nc::ops::NSModalResponseStop];
+}
+
+- (IBAction)OnKeepBoth:(id)sender
+{
+    [self endDialogWithReturnCode:NSModalResponseKeepBoth];
 }
 
 - (void)endDialogWithReturnCode:(NSInteger)_returnCode

@@ -1,5 +1,7 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
+
+#include <string>
 
 // RTFM:
 // http://ascii-table.com/ansi-escape-sequences.php
@@ -19,10 +21,10 @@ public:
         Result_ChangedTitle = 0x0001
     };
     
-    Parser(Screen &_scr, function<void(const void* _d, int _sz)> _task_input);
+    Parser(Screen &_scr, std::function<void(const void* _d, int _sz)> _task_input);
     ~Parser();
     
-    void SetTaskScreenResize( function<void(int,int)> _callback );
+    void SetTaskScreenResize( std::function<void(int,int)> _callback );
     int EatBytes(const unsigned char *_bytes, unsigned _sz);
     void EatByte(unsigned char _byte, int &_result_flags);
     void Flush();
@@ -52,8 +54,8 @@ private:
     
     // data and linked objects
     Screen                  &m_Scr;
-    function<void(const void* _d, int _sz)> m_TaskInput;
-    function<void(int,int)> m_TaskScreenResizeCallback;
+    std::function<void(const void* _d, int _sz)> m_TaskInput;
+    std::function<void(int,int)> m_TaskScreenResizeCallback;
     EState                  m_EscState;
     int                     m_Params[m_ParamsSize];
     int                     m_ParamsCnt;
@@ -89,7 +91,7 @@ private:
     // 'big' data comes at last
     unsigned int            m_TabStop[16];
     uint16_t                m_UTF16CharsStock[m_UTF16CharsStockSize];
-    string                  m_Title;
+    std::string             m_Title;
     
     // methods
     void SetTranslate(unsigned char _charset);

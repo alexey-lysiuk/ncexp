@@ -1,13 +1,13 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/SheetController.h>
 #include "../States/FilePanels/PanelViewPresentationItemsColoringFilter.h"
 
 @interface PreferencesWindowPanelsTabColoringFilterSheet : SheetController
 
-- (id) initWithFilter:(PanelViewPresentationItemsColoringFilter)_filter;
+- (id) initWithFilter:(nc::panel::PresentationItemsColoringFilter)_filter;
 - (IBAction)OnOK:(id)sender;
 
-@property (nonatomic, readonly) PanelViewPresentationItemsColoringFilter filter;
+@property (nonatomic, readonly) nc::panel::PresentationItemsColoringFilter filter;
 @property (nonatomic) IBOutlet NSButton *executable;
 @property (nonatomic) IBOutlet NSButton *hidden;
 @property (nonatomic) IBOutlet NSButton *directory;

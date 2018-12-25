@@ -1,12 +1,16 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "ExternalEditorInfo.h"
 #include "ThirdParty/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
 #include <VFS/VFS.h>
 #include <Term/SingleTask.h>
-#include <NimbleCommander/Core/FileMask.h>
-#include <NimbleCommander/Core/rapidjson.h>
+#include <Utility/FileMask.h>
+#include <Utility/StringExtras.h>
+#include <Config/RapidJSON.h>
 #include <NimbleCommander/Bootstrap/Config.h>
-#include "ExternalEditorInfo.h"
 #include "ExternalEditorInfoPrivate.h"
+
+using namespace nc::config;
+using namespace std::literals;
 
 struct ExternalEditorsPersistence
 {
@@ -18,32 +22,32 @@ struct ExternalEditorsPersistence
     constexpr static const auto onlyfiles = "onlyFiles";
     constexpr static const auto terminal = "openInTerminal";
 
-    static optional<ExternalEditorStartupInfo> LoadFromJSON( const GenericConfig::ConfigValue &_v )
+    static std::optional<ExternalEditorStartupInfo> LoadFromJSON( const Value &_v )
     {
         if( !_v.IsObject() )
-            return nullopt;
+            return std::nullopt;
     
         ExternalEditorStartupInfo ed;
         
         if( _v.HasMember(name) && _v[name].IsString() )
             ed.m_Name = _v[name].GetString();
         else
-            return nullopt;
+            return std::nullopt;
         
         if( _v.HasMember(path) && _v[path].IsString() )
             ed.m_Path = _v[path].GetString();
         else
-            return nullopt;
+            return std::nullopt;
 
         if( _v.HasMember(args) && _v[args].IsString() )
             ed.m_Arguments = _v[args].GetString();
         else
-            return nullopt;
+            return std::nullopt;
 
         if( _v.HasMember(mask) && _v[mask].IsString() )
             ed.m_Mask = _v[mask].GetString();
         else
-            return nullopt;
+            return std::nullopt;
 
         if( _v.HasMember(maxfilesize) && _v[maxfilesize].IsInt() )
             ed.m_MaxFileSize = _v[maxfilesize].GetInt();
@@ -70,10 +74,10 @@ struct ExternalEditorsPersistence
         return ed;
     }
     
-    static GenericConfig::ConfigValue SaveToJSON( const ExternalEditorStartupInfo& _ed )
+    static Value SaveToJSON( const ExternalEditorStartupInfo& _ed )
     {
         using namespace rapidjson;
-        GenericConfig::ConfigValue v {kObjectType};
+        nc::config::Value v {kObjectType};
         v.AddMember(MakeStandaloneString(name),
                     MakeStandaloneString(_ed.Name()),
                     g_CrtAllocator);
@@ -87,13 +91,13 @@ struct ExternalEditorsPersistence
                     MakeStandaloneString(_ed.Mask()),
                     g_CrtAllocator);
         v.AddMember(MakeStandaloneString(maxfilesize),
-                    GenericConfig::ConfigValue {_ed.MaxFileSize()},
+                    nc::config::Value {_ed.MaxFileSize()},
                     g_CrtAllocator);
         v.AddMember(MakeStandaloneString(onlyfiles),
-                    GenericConfig::ConfigValue {_ed.OnlyFiles()},
+                    nc::config::Value {_ed.OnlyFiles()},
                     g_CrtAllocator);
         v.AddMember(MakeStandaloneString(terminal),
-                    GenericConfig::ConfigValue {_ed.OpenInTerminal()},
+                    nc::config::Value {_ed.OpenInTerminal()},
                     g_CrtAllocator);
         return v;
     }
@@ -188,9 +192,9 @@ struct ExternalEditorsPersistence
     [encoder encodeBool:self.terminal forKey:@"terminal"];
 }
 
-- (shared_ptr<ExternalEditorStartupInfo>) toStartupInfo
+- (std::shared_ptr<ExternalEditorStartupInfo>) toStartupInfo
 {
-    return make_shared<ExternalEditorStartupInfo>(
+    return std::make_shared<ExternalEditorStartupInfo>(
         ExternalEditorsPersistence::LoadFromLegacyObjC( self )
     );
 }
@@ -204,22 +208,22 @@ ExternalEditorStartupInfo::ExternalEditorStartupInfo() noexcept :
 {
 }
 
-const string &ExternalEditorStartupInfo::Name() const noexcept
+const std::string &ExternalEditorStartupInfo::Name() const noexcept
 {
     return m_Name;
 }
 
-const string &ExternalEditorStartupInfo::Path() const noexcept
+const std::string &ExternalEditorStartupInfo::Path() const noexcept
 {
     return m_Path;
 }
 
-const string &ExternalEditorStartupInfo::Arguments() const noexcept
+const std::string &ExternalEditorStartupInfo::Arguments() const noexcept
 {
     return m_Arguments;
 }
 
-const string &ExternalEditorStartupInfo::Mask() const noexcept
+const std::string &ExternalEditorStartupInfo::Mask() const noexcept
 {
     return m_Mask;
 }
@@ -248,7 +252,7 @@ bool ExternalEditorStartupInfo::IsValidForItem(const VFSListingItem&_item) const
         return false;
     
     if( m_Mask != "*" ) {
-        FileMask mask{ m_Mask };
+        nc::utility::FileMask mask{ m_Mask };
         if( !mask.MatchName(_item.Filename()) )
             return false;
     }
@@ -261,7 +265,7 @@ bool ExternalEditorStartupInfo::IsValidForItem(const VFSListingItem&_item) const
     return true;
 }
 
-string ExternalEditorStartupInfo::SubstituteFileName(const string &_path) const
+std::string ExternalEditorStartupInfo::SubstituteFileName(const std::string &_path) const
 {
     char esc_buf[MAXPATHLEN];
     strcpy(esc_buf, _path.c_str());
@@ -270,8 +274,8 @@ string ExternalEditorStartupInfo::SubstituteFileName(const string &_path) const
     if( m_Arguments.empty() )
         return esc_buf; // just return escaped file path
     
-    string args = m_Arguments;
-    string path = " "s + esc_buf + " ";
+    std::string args = m_Arguments;
+    std::string path = " "s + esc_buf + " ";
     
     size_t start_pos;
     if((start_pos = args.find("%%")) != std::string::npos)
@@ -293,21 +297,23 @@ void ExternalEditorsStorage::LoadFromConfig()
     auto v = GlobalConfig().Get(m_ConfigPath);
     if( v.IsArray() )
         for( auto i = v.Begin(), e = v.End(); i != e; ++i )
-            if( auto ed = ExternalEditorsPersistence::LoadFromJSON(*i) )
-                m_ExternalEditors.emplace_back( make_shared<ExternalEditorStartupInfo>(move(*ed)) );
+            if( auto ed = ExternalEditorsPersistence::LoadFromJSON(*i) ) {
+                auto shared_ed = std::make_shared<ExternalEditorStartupInfo>(std::move(*ed));
+                m_ExternalEditors.emplace_back( std::move(shared_ed) );
+            }
 }
 
 void ExternalEditorsStorage::SaveToConfig()
 {
     using namespace rapidjson;
-    GenericConfig::ConfigValue v{kArrayType};
+    nc::config::Value v{kArrayType};
     for( auto &ed: m_ExternalEditors)
         v.PushBack( ExternalEditorsPersistence::SaveToJSON(*ed),
                    g_CrtAllocator);
     GlobalConfig().Set(m_ConfigPath, v);
 }
 
-shared_ptr<ExternalEditorStartupInfo> ExternalEditorsStorage::
+std::shared_ptr<ExternalEditorStartupInfo> ExternalEditorsStorage::
     ViableEditorForItem(const VFSListingItem&_item) const
 {
     for( auto &ed: m_ExternalEditors )
@@ -316,13 +322,14 @@ shared_ptr<ExternalEditorStartupInfo> ExternalEditorsStorage::
     return nullptr;
 }
 
-vector<shared_ptr<ExternalEditorStartupInfo>> ExternalEditorsStorage::AllExternalEditors() const
+std::vector<std::shared_ptr<ExternalEditorStartupInfo>>
+ExternalEditorsStorage::AllExternalEditors() const
 {
     return m_ExternalEditors;
 }
 
 void ExternalEditorsStorage::
-    SetExternalEditors( const vector<shared_ptr<ExternalEditorStartupInfo>>& _editors )
+    SetExternalEditors( const std::vector<std::shared_ptr<ExternalEditorStartupInfo>>& _editors )
 {
     m_ExternalEditors = _editors;
     SaveToConfig();

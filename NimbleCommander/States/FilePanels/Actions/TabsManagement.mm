@@ -1,10 +1,11 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 
 #include "TabsManagement.h"
 #include "../MainWindowFilePanelState.h"
 #include "../MainWindowFilePanelState+TabsSupport.h"
 #include "../Views/FilePanelMainSplitView.h"
 #include <NimbleCommander/Core/Alert.h>
+#include <Utility/ObjCpp.h>
 
 namespace nc::panel::actions {
 
@@ -48,11 +49,15 @@ bool CloseTab::ValidateMenuItem( MainWindowFilePanelState *_target, NSMenuItem *
     const auto tabs = _target.currentSideTabsCount;
     if( tabs == 0 ) {
         // in this case (no other adequate responders) - pass validation  up
-        NSResponder *resp = _target;
-        while( (resp = resp.nextResponder) )
+        NSResponder *resp = _target.nextResponder;
+        while( objc_cast<AttachedResponder>(resp) != nil )
+            resp = resp.nextResponder;
+        while( resp != nil ) {
             if( [resp respondsToSelector:_item.action] &&
                 [resp respondsToSelector:@selector(validateMenuItem:)] )
                 return [resp validateMenuItem:_item];
+            resp = resp.nextResponder;            
+        }
         return true;
     }
     _item.title = tabs > 1 ? g_CloseTab : g_CloseWindow;
@@ -61,7 +66,7 @@ bool CloseTab::ValidateMenuItem( MainWindowFilePanelState *_target, NSMenuItem *
     
 static void AskAboutClosingWindowWithExtraTabs(int _amount,
                                                NSWindow *_window,
-                                               function<void(NSModalResponse)> _handler )
+                                               std::function<void(NSModalResponse)> _handler )
 {
     assert(_window && _handler);
     Alert *dialog = [[Alert alloc] init];
@@ -107,6 +112,30 @@ void CloseTab::Perform( MainWindowFilePanelState *_target, id _sender ) const
     }
 }
     
+bool CloseOtherTabs::Predicate( MainWindowFilePanelState *_target ) const
+{        
+    const auto active_controller = _target.activePanelController;
+    if( active_controller == nil )
+        return false;
+
+    const auto amount_of_tab_on_this_side = [&]{
+        if( [_target isLeftController:active_controller] )
+            return (int)_target.leftControllers.size();
+        if( [_target isRightController:active_controller] )
+            return (int)_target.rightControllers.size();        
+        return 0;
+    }();
+    
+    return amount_of_tab_on_this_side > 1;
+}
+    
+void CloseOtherTabs::Perform( MainWindowFilePanelState *_target, id _sender ) const
+{
+    if( !Predicate(_target) )
+        return;
+    [_target closeOtherTabsForController:_target.activePanelController]; 
+}
+
 bool CloseWindow::ValidateMenuItem( MainWindowFilePanelState *_target, NSMenuItem *_item ) const
 {
     _item.hidden = _target.currentSideTabsCount < 2;

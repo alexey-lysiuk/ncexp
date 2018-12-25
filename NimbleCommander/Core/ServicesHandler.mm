@@ -4,10 +4,11 @@
 #include <NimbleCommander/States/MainWindowController.h>
 #include <NimbleCommander/States/FilePanels/MainWindowFilePanelState.h>
 #include <NimbleCommander/States/FilePanels/PanelController.h>
+#include <Utility/StringExtras.h>
 
 namespace nc::core {
 
-ServicesHandler::ServicesHandler( function<NCMainWindowController*()> _window_provider ):
+ServicesHandler::ServicesHandler( std::function<NCMainWindowController*()> _window_provider ):
     m_WindowProvider( move(_window_provider) )
 {
     assert( m_WindowProvider );
@@ -38,40 +39,41 @@ void ServicesHandler::OpenFolder(NSPasteboard *_pboard,
         GoToFolder(fs_representation);
 }
     
-void ServicesHandler::GoToFolder(const string &_path)
+void ServicesHandler::GoToFolder(const std::string &_path)
 {
     auto host = VFSNativeHost::SharedHost();
     if( auto wnd = m_WindowProvider() ) {
-        auto ctx = make_shared<panel::DirectoryChangeRequest>();
+        auto ctx = std::make_shared<panel::DirectoryChangeRequest>();
         ctx->RequestedDirectory = _path;
         ctx->VFS = host;
+        ctx->InitiatedByUser = true;
         [wnd.filePanelsState.activePanelController GoToDirWithContext:ctx];
     }
 }
 
-static pair<string, vector<string>>
-    ExtractFirstDirectoryAndFilenamesInside(const vector<string>&_paths)
+static std::pair<std::string, std::vector<std::string>>
+    ExtractFirstDirectoryAndFilenamesInside(const std::vector<std::string>&_paths)
 {
-    string directory;
-    vector<string> filenames;
+    std::string directory;
+    std::vector<std::string> filenames;
     for( auto &i:_paths ) {
         if( i.empty() )
             continue;
         
-        path p = i;
+        boost::filesystem::path p = i;
         if( directory.empty() ) {
             directory = p.filename() == "." ?
                 p.parent_path().parent_path().native() : // .../abra/cadabra/ -> .../abra/cadabra
                 p.parent_path().native();                // .../abra/cadabra  -> .../abra
         }
         if( i.front() == '/' && i.back() != '/' && i != "/" )
-            filenames.emplace_back( path(i).filename().native() );
+            filenames.emplace_back( boost::filesystem::path(i).filename().native() );
     }
 
     return make_pair(move(directory), move(filenames));
 }
 
-static bool IsASingleDirectoryPath(const vector<string>&_paths)
+static bool IsASingleDirectoryPath(const std::vector<std::string>&_paths)
 {
     return _paths.size() == 1 && VFSNativeHost::SharedHost()->IsDirectory(_paths[0].c_str(), 0);
 }
@@ -80,7 +82,7 @@ void ServicesHandler::RevealItem(NSPasteboard *_pboard,
                                  NSString *_user_data,
                                  __strong NSString **_error)
 {
-    vector<string> paths;
+    std::vector<std::string> paths;
     for( NSPasteboardItem *item in _pboard.pasteboardItems ) {
         if( auto url_string = [item stringForType:@"public.file-url"] ) {
             if( auto url = [NSURL URLWithString:url_string] )
@@ -97,7 +99,7 @@ void ServicesHandler::RevealItem(NSPasteboard *_pboard,
     
 void ServicesHandler::OpenFiles(NSArray<NSString *> *_paths)
 {
-    vector<string> paths;
+    std::vector<std::string> paths;
     for( NSString *path_string in _paths ) {
         // WTF Cocoa??
         if( [path_string isEqualToString:@"YES"] )
@@ -112,19 +114,20 @@ void ServicesHandler::OpenFiles(NSArray<NSString *> *_paths)
         RevealItems(paths);
 }
     
-void ServicesHandler::RevealItems(const vector<string> &_paths)
+void ServicesHandler::RevealItems(const std::vector<std::string> &_paths)
 {
     auto [directory, filenames] = ExtractFirstDirectoryAndFilenamesInside(_paths);
     if( directory.empty() || filenames.empty() )
         return;
     
     if( auto wnd = m_WindowProvider() ) {
-        auto ctx = make_shared<panel::DirectoryChangeRequest>();
+        auto ctx = std::make_shared<panel::DirectoryChangeRequest>();
         ctx->RequestedDirectory = directory;
         ctx->VFS = VFSNativeHost::SharedHost();
         ctx->RequestFocusedEntry = filenames.front();
         if( filenames.size() > 1 )
             ctx->RequestSelectedEntries = filenames;
+        ctx->InitiatedByUser = true;
         [wnd.filePanelsState.activePanelController GoToDirWithContext:ctx];
     }
 }

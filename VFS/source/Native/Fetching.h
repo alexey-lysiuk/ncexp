@@ -1,5 +1,8 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
+
+#include <functional>
+#include <sys/types.h>
 
 class PosixIOInterface;
 
@@ -26,7 +29,7 @@ public:
         int64_t             size = 0; // will be -1 if absent
     };
     
-    using Callback = function<void(const CallbackParams &_params)>;
+    using Callback = std::function<void(const CallbackParams &_params)>;
 
     /**
      * will not set .filename field.
@@ -44,7 +47,7 @@ public:
     static int ReadDirAttributesStat(
                                      const int _dir_fd,
                                      const char *_dir_path,
-                                     const function<void(int _fetched_now)> &_cb_fetch,
+                                     const std::function<void(int _fetched_now)> &_cb_fetch,
                                      const Callback &_cb_param);
     
     /** 
@@ -53,7 +56,7 @@ public:
      */
     static int ReadDirAttributesBulk(
                                      const int _dir_fd,
-                                     const function<void(int _fetched_now)> &_cb_fetch,
+                                     const std::function<void(int _fetched_now)> &_cb_fetch,
                                      const Callback &_cb_param);
     
     /**

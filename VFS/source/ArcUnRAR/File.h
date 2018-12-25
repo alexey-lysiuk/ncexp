@@ -1,7 +1,8 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFSFile.h>
+#include <dispatch/dispatch.h>
 
 namespace nc::vfs {
 class UnRARHost;
@@ -17,7 +18,7 @@ struct Entry;
 class File final : public VFSFile
 {
 public:
-    File(const char* _relative_path, shared_ptr<UnRARHost> _host);
+    File(const char* _relative_path, std::shared_ptr<UnRARHost> _host);
     ~File();
     
     virtual int Open(unsigned long _open_flags, const VFSCancelChecker &_cancel_checker) override;
@@ -34,8 +35,8 @@ private:
     static int ProcessRAR(unsigned int _msg, long _user_data, long _p1, long _p2);
     static int ProcessRARDummy(unsigned int _msg, long _user_data, long _p1, long _p2);
     
-    unique_ptr<SeekCache>    m_Archive;
-    unique_ptr<uint8_t[]>                   m_UnpackBuffer;
+    std::unique_ptr<SeekCache>              m_Archive;
+    std::unique_ptr<uint8_t[]>              m_UnpackBuffer;
     unsigned                                m_UnpackBufferSize = 0;
     static const unsigned                   m_UnpackBufferDefaultCapacity = 256*1024;
     unsigned                                m_UnpackBufferCapacity = 0;

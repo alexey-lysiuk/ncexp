@@ -19,6 +19,10 @@
 #include "../PanelData.h"
 #include "../PanelView.h"
 #include "../Helpers/LocationFormatter.h"
+#include "Helpers.h"
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
+#include <Habanero/dispatch_cpp.h>
 
 using namespace nc::panel;
 
@@ -75,20 +79,72 @@ static const auto g_MaxTextWidth = 600;
     }
 }
 
-- (void) performGoTo:(const any&)_context sender:(id)sender
+- (void) performGoTo:(const std::any&)_context sender:(id)sender
 {
-    if( auto favorite = any_cast<shared_ptr<const FavoriteLocationsStorage::Location>>(&_context) )
-        [m_Panel goToPersistentLocation:(*favorite)->hosts_stack];
-    else if( auto plain_path = any_cast<string>(&_context) )
-        [m_Panel GoToDir:*plain_path vfs:VFSNativeHost::SharedHost() select_entry:"" async:true];
-    else if( auto connection = any_cast<NetworkConnectionsManager::Connection>(&_context) )
+    if( auto favorite_ptr =
+       std::any_cast<std::shared_ptr<const FavoriteLocationsStorage::Location>>(&_context) )
+        [self handlePersistentLocation:(*favorite_ptr)->hosts_stack];
+    else if( auto favorite = std::any_cast<FavoriteLocationsStorage::Location>(&_context) )
+        [self handlePersistentLocation:favorite->hosts_stack];     
+    else if( auto plain_path = std::any_cast<std::string>(&_context) ) {
+        auto request = std::make_shared<DirectoryChangeRequest>();
+        request->RequestedDirectory = *plain_path;
+        request->VFS = VFSNativeHost::SharedHost();
+        request->PerformAsynchronous = true;
+        request->InitiatedByUser = true;
+        [m_Panel GoToDirWithContext:request];
+    }
+    else if( auto connection = std::any_cast<NetworkConnectionsManager::Connection>(&_context) )
         nc::panel::actions::OpenExistingNetworkConnection(*m_NetMgr).Perform(m_Panel, sender);
-    else if( auto vfs_path = any_cast<VFSPath>(&_context) )
-        [m_Panel GoToDir:vfs_path->Path() vfs:vfs_path->Host() select_entry:"" async:true];
-    else if( auto promise = any_cast<pair<nc::core::VFSInstancePromise, string>>(&_context) )
-        [m_Panel GoToVFSPromise:promise->first onPath:promise->second];
-    else if( auto listing_promise = any_cast<nc::panel::ListingPromise>(&_context) )
+    else if( auto vfs_path = std::any_cast<VFSPath>(&_context) ) {
+        auto request = std::make_shared<DirectoryChangeRequest>();
+        request->RequestedDirectory = vfs_path->Path();
+        request->VFS = vfs_path->Host();
+        request->PerformAsynchronous = true;
+        request->InitiatedByUser = true;
+        [m_Panel GoToDirWithContext:request];
+    }
+    else if( auto promise = std::any_cast<std::pair<nc::core::VFSInstancePromise, std::string>>(&_context) )
+        [self handleVFSPromiseInstance:promise->first path:promise->second];
+    else if( auto listing_promise = std::any_cast<nc::panel::ListingPromise>(&_context) )
         nc::panel::ListingPromiseLoader{}.Load(*listing_promise, m_Panel);
+    else
+        std::cerr << "GoToPopupListActionMediator performGoTo: unknown context type." << std::endl;
+}
+
+- (void) handlePersistentLocation:(const PersistentLocation&)_location
+{
+    using nc::panel::actions::AsyncPersistentLocationRestorer;
+    auto restorer = AsyncPersistentLocationRestorer(m_Panel, m_Panel.vfsInstanceManager);
+    auto handler = [path = _location.path, panel = m_Panel](VFSHostPtr _host) {
+        dispatch_to_main_queue([=]{            
+            auto request = std::make_shared<DirectoryChangeRequest>();
+            request->RequestedDirectory = path;
+            request->VFS = _host;
+            request->PerformAsynchronous = true;
+            request->InitiatedByUser = true;
+            [panel GoToDirWithContext:request];
+        });          
+    };
+    restorer.Restore(_location, std::move(handler), nullptr);
+}
+
+- (void) handleVFSPromiseInstance:(const nc::core::VFSInstancePromise&)_promise
+                             path:(const std::string&)_path
+{
+    using nc::panel::actions::AsyncVFSPromiseRestorer;
+    auto restorer = AsyncVFSPromiseRestorer(m_Panel, m_Panel.vfsInstanceManager);
+    auto handler = [path = _path, panel = m_Panel](VFSHostPtr _host) {
+        dispatch_to_main_queue([=]{            
+            auto request = std::make_shared<DirectoryChangeRequest>();
+            request->RequestedDirectory = path;
+            request->VFS = _host;
+            request->PerformAsynchronous = true;
+            request->InitiatedByUser = true;
+            [panel GoToDirWithContext:request];
+        });          
+    };
+    restorer.Restore(_promise, std::move(handler), nullptr);
 }
 
 @end
@@ -98,38 +154,38 @@ namespace nc::panel::actions {
 static NSString *ShrinkMenuItemTitle(NSString *_title);
 
     
-static vector<shared_ptr<const NativeFileSystemInfo>> VolumesToShow()
+static std::vector<std::shared_ptr<const utility::NativeFileSystemInfo>> VolumesToShow()
 {
-    vector<shared_ptr<const NativeFileSystemInfo>> volumes;
-    for( auto &i: NativeFSManager::Instance().Volumes() )
+    std::vector<std::shared_ptr<const utility::NativeFileSystemInfo>> volumes;
+    for( auto &i: utility::NativeFSManager::Instance().Volumes() )
         if( i->mount_flags.dont_browse == false )
             volumes.emplace_back(i);
     return volumes;
 }
 
-static vector<NetworkConnectionsManager::Connection> LimitedRecentConnections(
+static std::vector<NetworkConnectionsManager::Connection> LimitedRecentConnections(
     const NetworkConnectionsManager& _manager)
 {
     auto connections = _manager.AllConnectionsByMRU();
     
-    auto limit = max( GlobalConfig().GetInt(g_ConfigMaxNetworkConnections), 0);
+    auto limit = std::max( GlobalConfig().GetInt(g_ConfigMaxNetworkConnections), 0);
     if( (int)connections.size() > limit )
         connections.resize(limit);
     
     return connections;
 }
 
-static vector<VFSPath> OtherWindowsPaths( MainWindowFilePanelState *_current )
+static std::vector<VFSPath> OtherWindowsPaths( MainWindowFilePanelState *_current )
 {
-    vector<VFSPath> current_paths;
+    std::vector<VFSPath> current_paths;
     for( auto &p: _current.filePanelsCurrentPaths )
-        current_paths.emplace_back( get<1>(p), get<0>(p) );
+        current_paths.emplace_back( std::get<1>(p), std::get<0>(p) );
     
-    vector<VFSPath> other_paths;
+    std::vector<VFSPath> other_paths;
     for( auto ctr: NCAppDelegate.me.mainWindowControllers )
         if( auto state = ctr.filePanelsState; state != _current)
             for( auto &p: state.filePanelsCurrentPaths )
-                other_paths.emplace_back( get<1>(p), get<0>(p) );
+                other_paths.emplace_back( std::get<1>(p), std::get<0>(p) );
     
     other_paths.erase(remove_if(begin(other_paths),
                                 end(other_paths),
@@ -149,17 +205,19 @@ static vector<VFSPath> OtherWindowsPaths( MainWindowFilePanelState *_current )
     return other_paths;
 }
 
-static vector<pair<core::VFSInstancePromise, string>>
+static std::vector<std::pair<core::VFSInstancePromise, std::string>>
     ProduceLocationsForParentDirectories(const VFSListing &_listing,
                                          core::VFSInstanceManager &_vfs_mgr )
 {
-    if( !_listing.IsUniform() )
-        throw invalid_argument("ProduceLocationsForParentDirectories: _listing should be uniform");
+    if( !_listing.IsUniform() ) {
+        auto msg = "ProduceLocationsForParentDirectories: _listing should be uniform";
+        throw std::invalid_argument(msg);
+    }
     
-    vector<pair<core::VFSInstancePromise, string>> result;
+    std::vector<std::pair<core::VFSInstancePromise, std::string>> result;
     
     auto host = _listing.Host();
-    path dir = _listing.Directory();
+    boost::filesystem::path dir = _listing.Directory();
     if(dir.filename() == ".")
         dir.remove_filename();
     while( host ) {
@@ -197,11 +255,11 @@ public:
     MenuItemBuilder( const NetworkConnectionsManager &_conn_manager, id _action_target );
     NSMenuItem *MenuItemForFavorite( const FavoriteLocationsStorage::Favorite &_f );
     NSMenuItem *MenuItemForLocation(const FavoriteLocationsStorage::Location &_f);
-    NSMenuItem *MenuItemForVolume( const NativeFileSystemInfo &_i );
+    NSMenuItem *MenuItemForVolume( const utility::NativeFileSystemInfo &_i );
     NSMenuItem *MenuItemForConnection( const NetworkConnectionsManager::Connection &_c );
     NSMenuItem *MenuItemForPath( const VFSPath &_p );
     NSMenuItem *MenuItemForPromiseAndPath(const core::VFSInstanceManager::Promise &_promise,
-                                          const string &_path);
+                                          const std::string &_path);
     NSMenuItem *MenuItemForListingPromise(const ListingPromise &_promise);
 
 private:
@@ -247,7 +305,7 @@ static void SetupHotkeys( NSMenu *_menu )
         }
 }
 
-tuple<NSMenu*, GoToPopupListActionMediator*> GoToPopupsBase::BuidInitialMenu(
+std::tuple<NSMenu*, GoToPopupListActionMediator*> GoToPopupsBase::BuidInitialMenu(
     MainWindowFilePanelState *_state,
     PanelController *_panel,
     NSString *_title) const
@@ -559,7 +617,7 @@ NSMenuItem *MenuItemBuilder::MenuItemForFavorite( const FavoriteLocationsStorage
     auto menu_item = [[NSMenuItem alloc] init];
     menu_item.target = m_ActionTarget;
     menu_item.action = @selector(callout:);
-    menu_item.representedObject = [[AnyHolder alloc] initWithAny:any{_f.location}];
+    menu_item.representedObject = [[AnyHolder alloc] initWithAny:std::any{_f.location}];
     auto rep = loc_fmt::FavoriteFormatter{m_ConnectionManager}.Render(m_FmtOpts, _f);
     menu_item.title = ShrinkMenuItemTitle(rep.menu_title);
     menu_item.toolTip = rep.menu_tooltip;
@@ -573,7 +631,7 @@ NSMenuItem *MenuItemBuilder::MenuItemForLocation(
     auto menu_item = [[NSMenuItem alloc] init];
     menu_item.target = m_ActionTarget;
     menu_item.action = @selector(callout:);
-    menu_item.representedObject = [[AnyHolder alloc] initWithAny:any{_f}];
+    menu_item.representedObject = [[AnyHolder alloc] initWithAny:std::any{_f}];
     auto rep = loc_fmt::FavoriteLocationFormatter{m_ConnectionManager}.Render(m_FmtOpts, _f);
     menu_item.title = ShrinkMenuItemTitle(rep.menu_title);
     menu_item.toolTip = rep.menu_tooltip;
@@ -581,10 +639,10 @@ NSMenuItem *MenuItemBuilder::MenuItemForLocation(
     return menu_item;
 }
 
-NSMenuItem *MenuItemBuilder::MenuItemForVolume( const NativeFileSystemInfo &_volume )
+NSMenuItem *MenuItemBuilder::MenuItemForVolume( const utility::NativeFileSystemInfo &_volume )
 {
     auto menu_item = [[NSMenuItem alloc] init];
-    menu_item.representedObject = [[AnyHolder alloc] initWithAny:any{_volume.mounted_at_path}];
+    menu_item.representedObject = [[AnyHolder alloc] initWithAny:std::any{_volume.mounted_at_path}];
     menu_item.target = m_ActionTarget;
     menu_item.action = @selector(callout:);
     auto rep = loc_fmt::VolumeFormatter{}.Render(m_FmtOpts, _volume);
@@ -597,7 +655,7 @@ NSMenuItem *MenuItemBuilder::MenuItemForVolume( const NativeFileSystemInfo &_vol
 NSMenuItem *MenuItemBuilder::MenuItemForConnection(const NetworkConnectionsManager::Connection &_c )
 {
     auto menu_item = [[NSMenuItem alloc] init];
-    menu_item.representedObject = [[AnyHolder alloc] initWithAny:any{_c}];
+    menu_item.representedObject = [[AnyHolder alloc] initWithAny:std::any{_c}];
     menu_item.target = m_ActionTarget;
     menu_item.action = @selector(callout:);
     auto rep = loc_fmt::NetworkConnectionFormatter{}.Render(m_FmtOpts, _c);
@@ -610,7 +668,7 @@ NSMenuItem *MenuItemBuilder::MenuItemForConnection(const NetworkConnectionsManag
 NSMenuItem *MenuItemBuilder::MenuItemForPath( const VFSPath &_p )
 {
     auto menu_item = [[NSMenuItem alloc] init];
-    menu_item.representedObject = [[AnyHolder alloc] initWithAny:any{_p}];
+    menu_item.representedObject = [[AnyHolder alloc] initWithAny:std::any{_p}];
     menu_item.target = m_ActionTarget;
     menu_item.action = @selector(callout:);
     auto rep = loc_fmt::VFSPathFormatter{}.Render(m_FmtOpts, *_p.Host(), _p.Path());
@@ -621,11 +679,11 @@ NSMenuItem *MenuItemBuilder::MenuItemForPath( const VFSPath &_p )
 }
 
 NSMenuItem *MenuItemBuilder::MenuItemForPromiseAndPath(const core::VFSInstanceManager::Promise &_promise,
-                                      const string &_path)
+                                      const std::string &_path)
 {
     auto menu_item = [[NSMenuItem alloc] init];
-    auto data = pair<core::VFSInstanceManager::Promise, string>{_promise, _path};
-    menu_item.representedObject = [[AnyHolder alloc] initWithAny:any{move(data)}];
+    auto data = std::pair<core::VFSInstanceManager::Promise, std::string>{_promise, _path};
+    menu_item.representedObject = [[AnyHolder alloc] initWithAny:std::any{move(data)}];
     menu_item.target = m_ActionTarget;
     menu_item.action = @selector(callout:);
     auto rep = loc_fmt::VFSPromiseFormatter{}.Render(m_FmtOpts, _promise, _path);
@@ -638,7 +696,7 @@ NSMenuItem *MenuItemBuilder::MenuItemForPromiseAndPath(const core::VFSInstanceMa
 NSMenuItem *MenuItemBuilder::MenuItemForListingPromise(const ListingPromise &_promise)
 {
     const auto menu_item = [[NSMenuItem alloc] init];
-    menu_item.representedObject = [[AnyHolder alloc] initWithAny:any{_promise}];
+    menu_item.representedObject = [[AnyHolder alloc] initWithAny:std::any{_promise}];
     menu_item.target = m_ActionTarget;
     menu_item.action = @selector(callout:);
     auto rep = loc_fmt::ListingPromiseFormatter{}.Render(m_FmtOpts, _promise);

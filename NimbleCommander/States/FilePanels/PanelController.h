@@ -5,6 +5,7 @@
 
 #include "PanelViewDelegate.h"
 #include "PanelViewKeystrokeSink.h"
+#include "QuickSearch.h"
 #include <VFS/VFS.h>
 
 @class PanelController;
@@ -15,24 +16,45 @@
 
 namespace nc {
 
-    namespace core {
-        class VFSInstancePromise;
-        class VFSInstanceManager;
-    }
-    namespace panel {
-        class History;
-        struct PersistentLocation;
-        class PanelViewLayoutsStorage;
-        namespace data {
-            struct SortMode;
-            struct HardFilter;
-            struct Model;
-        }
-    }
+namespace core {
+    class VFSInstancePromise;
+    class VFSInstanceManager;
+}
+
+namespace panel {
+
+namespace data {
+    struct SortMode;
+    struct HardFilter;
+    class Model;
 }
     
-namespace nc::panel {
+class History;
+struct PersistentLocation;
+class PanelViewLayoutsStorage;
 
+class DirectoryAccessProvider
+{
+public:
+    virtual ~DirectoryAccessProvider() = default;
+    
+    /**
+     * Checks whether an additional permission is required to access the specified directory.
+     */ 
+    virtual bool HasAccess(PanelController *_panel,
+                           const std::string &_directory_path,
+                           VFSHost &_host) = 0;
+    
+    /**
+     * Requests a permission to access the specified directory.
+     * May block the calling thread to show some modal UI. 
+     * Should be called only as a reaction to an action started by the user.
+     */
+    virtual bool RequestAccessSync(PanelController *_panel,
+                                   const std::string &_directory_path,
+                                   VFSHost &_host) = 0;
+};
+  
 class ActivityTicket
 {
 public:
@@ -52,28 +74,28 @@ private:
 
 struct DelayedFocusing
 {
-    string          filename;
-    milliseconds    timeout = 500ms;
-    bool            check_now = true;
+    std::string filename;
+    std::chrono::milliseconds timeout = std::chrono::milliseconds{500};
+    bool check_now = true;
 
     /**
      * called by PanelController when succesfully changed the cursor position regarding this request.
      */
-    function<void()> done;
+    std::function<void()> done;
 };
 
-class DirectoryChangeRequest
+struct DirectoryChangeRequest
 {
-public:
     /* required */
-    string              RequestedDirectory      = "";
-    shared_ptr<VFSHost> VFS                     = nullptr;
+    std::string RequestedDirectory = "";
+    std::shared_ptr<VFSHost> VFS = nullptr;
     
     /* optional */
-    string              RequestFocusedEntry     = "";
-    vector<string>      RequestSelectedEntries  = {};
-    bool                PerformAsynchronous     = true;
-    bool                LoadPreviousViewState   = false;
+    std::string RequestFocusedEntry = "";
+    std::vector<std::string> RequestSelectedEntries = {};
+    bool PerformAsynchronous = true;
+    bool LoadPreviousViewState = false;
+    bool InitiatedByUser = false;
     
     /**
      * This will be called from a thread which is loading a vfs listing with
@@ -81,7 +103,7 @@ public:
      * This thread may be main or background depending on PerformAsynchronous.
      * Will be called on any error canceling process or with 0 on successful loading.
      */
-    function<void(int)> LoadingResultCallback    = nullptr;
+    std::function<void(int)> LoadingResultCallback= nullptr;
     
     /**
      * Return code of a VFS->FetchDirectoryListing will be placed here.
@@ -89,12 +111,15 @@ public:
     int                 LoadingResultCode        = 0;
 };
 
-}
+} // namespace panel
+} // namespace nc
 
 /**
  * PanelController is reponder to enable menu events processing
  */
-@interface PanelController : AttachedResponder<PanelViewDelegate, NCPanelViewKeystrokeSink>
+@interface PanelController : AttachedResponder<PanelViewDelegate,
+                                               NCPanelViewKeystrokeSink,
+                                               NCPanelQuickSearchDelegate>
 
 @property (nonatomic) MainWindowFilePanelState* state;
 @property (nonatomic, readonly) NCMainWindowController* mainWindowController;
@@ -110,15 +135,19 @@ public:
 @property (nonatomic) int layoutIndex;
 @property (nonatomic, readonly) nc::panel::PanelViewLayoutsStorage& layoutStorage;
 @property (nonatomic, readonly) nc::core::VFSInstanceManager& vfsInstanceManager;
+@property (nonatomic, readonly) bool isDoingBackgroundLoading;
 
-- (instancetype)initWithLayouts:(shared_ptr<nc::panel::PanelViewLayoutsStorage>)_layout
-             vfsInstanceManager:(nc::core::VFSInstanceManager&)_vfs_mgr;
+- (instancetype)initWithView:(PanelView*)_panel_view
+                     layouts:(std::shared_ptr<nc::panel::PanelViewLayoutsStorage>)_layouts
+          vfsInstanceManager:(nc::core::VFSInstanceManager&)_vfs_mgr
+     directoryAccessProvider:(nc::panel::DirectoryAccessProvider&)_directory_access_provider;
 
 - (void) refreshPanel; // reload panel contents
 - (void) forceRefreshPanel; // user pressed cmd+r by default
 - (void) markRestorableStateAsInvalid; // will actually call window controller's invalidateRestorableState
 
-- (void) commitCancelableLoadingTask:(function<void(const function<bool()> &_is_cancelled)>) _task;
+- (void) commitCancelableLoadingTask:
+    (std::function<void(const std::function<bool()> &_is_cancelled)>) _task;
 
 
 /**
@@ -142,41 +171,25 @@ public:
 - (void) panelViewDidChangePresentationLayout;
 
 // managing entries selection
-- (void) selectEntriesWithFilenames:(const vector<string>&)_filenames;
-- (void) setEntriesSelection:(const vector<bool>&)_selection;
+- (void) selectEntriesWithFilenames:(const std::vector<std::string>&)_filenames;
+- (void) setEntriesSelection:(const std::vector<bool>&)_selection;
 
 
-- (void) calculateSizesOfItems:(const vector<VFSListingItem>&)_items;
+- (void) calculateSizesOfItems:(const std::vector<VFSListingItem>&)_items;
 
-
-- (int) GoToDirWithContext:(shared_ptr<nc::panel::DirectoryChangeRequest>)_context;
-
-
-// will not load previous view state if any
-// don't use the following methds. use GoToDirWithContext instead.
-- (int) GoToDir:(const string&)_dir
-            vfs:(shared_ptr<VFSHost>)_vfs
-   select_entry:(const string&)_filename
-          async:(bool)_asynchronous;
-
-- (int) GoToDir:(const string&)_dir
-            vfs:(shared_ptr<VFSHost>)_vfs
-   select_entry:(const string&)_filename
-loadPreviousState:(bool)_load_state
-          async:(bool)_asynchronous;
+/**
+ * This is the main directory loading facility for an external code, 
+ * which also works as a sync for other loading methods. 
+ * It can work either synchronously or asynchronously depending on the request.
+ * A calling code can also set intended outcomes like focus, selection, view state restoration
+ * and a completion callback.
+ */
+- (int) GoToDirWithContext:(std::shared_ptr<nc::panel::DirectoryChangeRequest>)_context;
 
 /**
  * Loads existing listing into the panel. Save to call from any thread.
  */
-- (void) loadListing:(const shared_ptr<VFSListing>&)_listing;
-
-// will load previous view state if any
-- (void) GoToVFSPromise:(const nc::core::VFSInstancePromise&)_promise onPath:(const string&)_directory;
-// some params later
-
-- (void) goToPersistentLocation:(const nc::panel::PersistentLocation &)_location;
-
-- (void) RecoverFromInvalidDirectory;
+- (void) loadListing:(const std::shared_ptr<VFSListing>&)_listing;
 
 /** 
  * Delayed entry selection change - panel controller will memorize such request.
@@ -190,7 +203,8 @@ loadPreviousState:(bool)_load_state
  */
 - (void) scheduleDelayedFocusing:(nc::panel::DelayedFocusing)request;
 
-- (void) requestQuickRenamingOfItem:(VFSListingItem)_item to:(const string&)_new_filename;
+- (void) requestQuickRenamingOfItem:(VFSListingItem)_item
+                                 to:(const std::string&)_new_filename;
 
 - (void)updateAttachedQuickLook;
 - (void)updateAttachedBriefSystemOverview;
@@ -198,7 +212,7 @@ loadPreviousState:(bool)_load_state
 /**
  * Allows changing Data options and ensures consitency with View afterwards.
  */
-- (void)changeDataOptions:(const function<void(nc::panel::data::Model& _data)>&)_workload;
+- (void)changeDataOptions:(const std::function<void(nc::panel::data::Model& _data)>&)_workload;
 
 @end
 

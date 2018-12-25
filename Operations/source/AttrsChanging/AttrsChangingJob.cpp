@@ -1,6 +1,7 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "AttrsChangingJob.h"
 #include <Utility/PathManip.h>
+#include <sys/stat.h>
 
 namespace nc::ops {
 
@@ -10,11 +11,13 @@ struct AttrsChangingJob::Meta
     int origin_item;
 };
 
-static pair<uint16_t,uint16_t> PermissionsValueAndMask(const AttrsChangingCommand::Permissions &_p);
-static pair<uint32_t,uint32_t> FlagsValueAndMask(const AttrsChangingCommand::Flags &_f);
+static std::pair<uint16_t,uint16_t>
+    PermissionsValueAndMask(const AttrsChangingCommand::Permissions &_p);
+static std::pair<uint32_t,uint32_t>
+    FlagsValueAndMask(const AttrsChangingCommand::Flags &_f);
 
 AttrsChangingJob::AttrsChangingJob( AttrsChangingCommand _command ):
-    m_Command( move(_command) )
+    m_Command( std::move(_command) )
 {
     if( m_Command.permissions )
         m_ChmodCommand = PermissionsValueAndMask( *m_Command.permissions );
@@ -79,7 +82,7 @@ void AttrsChangingJob::ScanItem(unsigned _origin_item)
     Statistics().CommitEstimated(Statistics::SourceType::Items, 1);
     
     if( m_Command.apply_to_subdirs && item.IsDir() ) {
-        vector<VFSDirEnt> dir_entries;
+        std::vector<VFSDirEnt> dir_entries;
         while( true ) {
             const auto callback = [&](const VFSDirEnt &_entry){
                 dir_entries.emplace_back(_entry);
@@ -101,8 +104,8 @@ void AttrsChangingJob::ScanItem(unsigned _origin_item)
     }
 }
 
-void AttrsChangingJob::ScanItem(const string &_full_path,
-                                const string &_filename,
+void AttrsChangingJob::ScanItem(const std::string &_full_path,
+                                const std::string &_filename,
                                 unsigned _origin_item,
                                 const chained_strings::node *_prefix)
 {
@@ -130,7 +133,7 @@ void AttrsChangingJob::ScanItem(const string &_full_path,
     Statistics().CommitEstimated(Statistics::SourceType::Items, 1);
 
     if( m_Command.apply_to_subdirs && S_ISDIR(st.mode) ) {
-        vector<VFSDirEnt> dir_entries;
+        std::vector<VFSDirEnt> dir_entries;
         while( true ) {
             const auto callback = [&](const VFSDirEnt &_entry){
                 dir_entries.emplace_back(_entry);
@@ -154,7 +157,7 @@ void AttrsChangingJob::ScanItem(const string &_full_path,
 void AttrsChangingJob::DoChange()
 {
     int n = 0;
-    for( auto i = begin(m_Filenames), e = end(m_Filenames); i != e; ++i, ++n ) {
+    for( auto i = std::begin(m_Filenames), e = std::end(m_Filenames); i != e; ++i, ++n ) {
         const auto &meta = m_Metas[n];
         const auto &origin_item = m_Command.items[meta.origin_item ];
         const auto path = origin_item.Directory() + (*i).to_str_with_pref();
@@ -169,7 +172,9 @@ void AttrsChangingJob::DoChange()
     }
 }
 
-bool AttrsChangingJob::AlterSingleItem( const string &_path, VFSHost &_vfs, const VFSStat &_stat )
+bool AttrsChangingJob::AlterSingleItem( const std::string &_path,
+                                       VFSHost &_vfs,
+                                       const VFSStat &_stat )
 {
     if( m_ChmodCommand )
         if( !ChmodSingleItem(_path, _vfs, _stat) )
@@ -190,7 +195,7 @@ bool AttrsChangingJob::AlterSingleItem( const string &_path, VFSHost &_vfs, cons
     return true;
 }
 
-bool AttrsChangingJob::ChmodSingleItem( const string &_path, VFSHost &_vfs, const VFSStat &_stat )
+bool AttrsChangingJob::ChmodSingleItem( const std::string &_path, VFSHost &_vfs, const VFSStat &_stat )
 {
     const auto [new_mode, mask] = *m_ChmodCommand;
     const uint16_t mode = (_stat.mode & ~mask) | (new_mode & mask);
@@ -213,7 +218,7 @@ bool AttrsChangingJob::ChmodSingleItem( const string &_path, VFSHost &_vfs, cons
     return true;
 }
 
-bool AttrsChangingJob::ChownSingleItem( const string &_path, VFSHost &_vfs, const VFSStat &_stat )
+bool AttrsChangingJob::ChownSingleItem( const std::string &_path, VFSHost &_vfs, const VFSStat &_stat )
 {
     const auto new_uid = m_Command.ownage->uid ? *m_Command.ownage->uid : _stat.uid;
     const auto new_gid = m_Command.ownage->gid ? *m_Command.ownage->gid : _stat.gid;
@@ -236,7 +241,7 @@ bool AttrsChangingJob::ChownSingleItem( const string &_path, VFSHost &_vfs, cons
     return true;
 }
 
-bool AttrsChangingJob::ChflagSingleItem( const string &_path, VFSHost &_vfs, const VFSStat &_stat )
+bool AttrsChangingJob::ChflagSingleItem( const std::string &_path, VFSHost &_vfs, const VFSStat &_stat )
 {
     const auto [new_flags, mask] = *m_ChflagCommand;
     const uint32_t flags = (_stat.flags & ~mask) | (new_flags & mask);
@@ -259,7 +264,7 @@ bool AttrsChangingJob::ChflagSingleItem( const string &_path, VFSHost &_vfs, con
     return true;
 }
 
-bool AttrsChangingJob::ChtimesSingleItem( const string &_path, VFSHost &_vfs, const VFSStat &_stat )
+bool AttrsChangingJob::ChtimesSingleItem( const std::string &_path, VFSHost &_vfs, const VFSStat &_stat )
 {
     while( true ) {
         const auto set_times_rc = _vfs.SetTimes(_path.c_str(),
@@ -281,11 +286,11 @@ bool AttrsChangingJob::ChtimesSingleItem( const string &_path, VFSHost &_vfs, co
     return true;
 }
 
-static pair<uint16_t,uint16_t> PermissionsValueAndMask(const AttrsChangingCommand::Permissions &_p)
+static std::pair<uint16_t,uint16_t> PermissionsValueAndMask(const AttrsChangingCommand::Permissions &_p)
 {
     uint16_t value = 0;
     uint16_t mask  = 0;
-    const auto m = [&](const optional<bool> &_v, uint16_t _b) {
+    const auto m = [&](const std::optional<bool> &_v, uint16_t _b) {
         if( _v ) {
             mask |= _b;
             if( *_v )
@@ -309,11 +314,11 @@ static pair<uint16_t,uint16_t> PermissionsValueAndMask(const AttrsChangingComman
     return {value, mask};
 }
 
-static pair<uint32_t,uint32_t> FlagsValueAndMask(const AttrsChangingCommand::Flags &_f)
+static std::pair<uint32_t,uint32_t> FlagsValueAndMask(const AttrsChangingCommand::Flags &_f)
 {
     uint32_t value = 0;
     uint32_t mask  = 0;
-    const auto m = [&](const optional<bool> &_v, uint32_t _b) {
+    const auto m = [&](const std::optional<bool> &_v, uint32_t _b) {
         if( _v ) {
             mask |= _b;
             if( *_v )
@@ -328,6 +333,7 @@ static pair<uint32_t,uint32_t> FlagsValueAndMask(const AttrsChangingCommand::Fla
     m( _f.u_tracked, UF_TRACKED );
     m( _f.u_hidden, UF_HIDDEN );
     m( _f.u_compressed, UF_COMPRESSED );
+    m( _f.u_datavault, UF_DATAVAULT );
     m( _f.s_archived, SF_ARCHIVED );
     m( _f.s_immutable, SF_IMMUTABLE );
     m( _f.s_append,  SF_APPEND );

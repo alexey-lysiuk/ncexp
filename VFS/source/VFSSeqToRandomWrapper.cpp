@@ -1,9 +1,16 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/algo.h>
 #include <Habanero/CommonPaths.h>
 #include <Utility/SystemInformation.h>
 #include "../include/VFS/VFSSeqToRandomWrapper.h"
 #include "../include/VFS/VFSError.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <limits.h>
+#include <stddef.h>
+#include <sys/param.h>
+#include <sys/fcntl.h>
+#include <errno.h>
 
 VFSSeqToRandomROWrapperFile::Backend::~Backend()
 {
@@ -17,7 +24,9 @@ VFSSeqToRandomROWrapperFile::VFSSeqToRandomROWrapperFile(const VFSFilePtr &_file
 {
 }
 
-VFSSeqToRandomROWrapperFile::VFSSeqToRandomROWrapperFile(const char* _relative_path, const VFSHostPtr &_host, shared_ptr<Backend> _backend):
+VFSSeqToRandomROWrapperFile::VFSSeqToRandomROWrapperFile(const char* _relative_path,
+                                                         const VFSHostPtr &_host,
+                                                         std::shared_ptr<Backend> _backend):
     VFSFile(_relative_path, _host),
     m_Backend(_backend)
 {
@@ -30,7 +39,7 @@ VFSSeqToRandomROWrapperFile::~VFSSeqToRandomROWrapperFile()
 
 int VFSSeqToRandomROWrapperFile::Open(unsigned long _flags,
                                       const VFSCancelChecker &_cancel_checker,
-                                      function<void(uint64_t _bytes_proc, uint64_t _bytes_total)> _progress)
+                                      std::function<void(uint64_t _bytes_proc, uint64_t _bytes_total)> _progress)
 {
     int ret = OpenBackend(_flags, _cancel_checker, _progress);
     return ret;
@@ -38,7 +47,7 @@ int VFSSeqToRandomROWrapperFile::Open(unsigned long _flags,
 
 int VFSSeqToRandomROWrapperFile::OpenBackend(unsigned long _flags,
                                              VFSCancelChecker _cancel_checker,
-                                             function<void(uint64_t _bytes_proc, uint64_t _bytes_total)> _progress)
+                                             std::function<void(uint64_t _bytes_proc, uint64_t _bytes_total)> _progress)
 {
     auto ggg = at_scope_end( [=]{ m_SeqFile.reset(); } ); // ony any result wrapper won't hold any reference to VFSFile after this function ends
     if( !m_SeqFile )
@@ -55,20 +64,20 @@ int VFSSeqToRandomROWrapperFile::OpenBackend(unsigned long _flags,
         return VFSError::InvalidCall;
     
     
-    auto backend = make_shared<Backend>();
+    auto backend = std::make_shared<Backend>();
     m_Pos = 0;
     
     if( m_SeqFile->Size() <= MaxCachedInMem ) {
         // we just read a whole file into a memory buffer
         
         backend->m_Size = m_SeqFile->Size();
-        backend->m_DataBuf = make_unique<uint8_t[]>(backend->m_Size);
+        backend->m_DataBuf = std::make_unique<uint8_t[]>(backend->m_Size);
         
         const size_t max_io = 256*1024;
         uint8_t *d = &backend->m_DataBuf[0];
         uint8_t *e = d + backend->m_Size;
         ssize_t res;
-        while( ( res = m_SeqFile->Read(d, min(e-d, (long)max_io)) ) > 0) {
+        while( ( res = m_SeqFile->Read(d, std::min(e-d, (long)max_io)) ) > 0) {
             d += res;
 
             if(_cancel_checker && _cancel_checker())
@@ -90,7 +99,8 @@ int VFSSeqToRandomROWrapperFile::OpenBackend(unsigned long _flags,
     else {
         // we need to write it into a temp dir and delete it upon finish
         char pattern_buf[MAXPATHLEN];
-        sprintf(pattern_buf, ("%s" + sysinfo::GetBundleID() + ".vfs.XXXXXX").c_str(), CommonPaths::AppTemporaryDirectory().c_str());
+        sprintf(pattern_buf, ("%s" + nc::utility::GetBundleID() + ".vfs.XXXXXX").c_str(),
+                CommonPaths::AppTemporaryDirectory().c_str());
         
         int fd = mkstemp(pattern_buf);
         
@@ -208,12 +218,12 @@ ssize_t VFSSeqToRandomROWrapperFile::ReadAt(off_t _pos, void *_buf, size_t _size
         return VFSError::InvalidCall;
     
     if( m_Backend->m_DataBuf ) {
-        ssize_t toread = min(m_Backend->m_Size - _pos, (off_t)_size);
+        ssize_t toread = std::min(m_Backend->m_Size - _pos, (off_t)_size);
         memcpy(_buf, &m_Backend->m_DataBuf[_pos], toread);
         return toread;
     }
     else if( m_Backend->m_FD >= 0 ) {
-        ssize_t toread = min(m_Backend->m_Size - _pos, (off_t)_size);
+        ssize_t toread = std::min(m_Backend->m_Size - _pos, (off_t)_size);
         ssize_t res = pread(m_Backend->m_FD, _buf, toread, _pos);
         if(res >= 0)
             return res;
@@ -248,9 +258,9 @@ off_t VFSSeqToRandomROWrapperFile::Seek(off_t _off, int _basis)
     return m_Pos;
 }
 
-shared_ptr<VFSSeqToRandomROWrapperFile> VFSSeqToRandomROWrapperFile::Share()
+std::shared_ptr<VFSSeqToRandomROWrapperFile> VFSSeqToRandomROWrapperFile::Share()
 {
     if( !IsOpened() )
         return nullptr;
-    return shared_ptr<VFSSeqToRandomROWrapperFile>(new VFSSeqToRandomROWrapperFile(Path(), Host(), m_Backend));
+    return std::shared_ptr<VFSSeqToRandomROWrapperFile>(new VFSSeqToRandomROWrapperFile(Path(), Host(), m_Backend));
 }

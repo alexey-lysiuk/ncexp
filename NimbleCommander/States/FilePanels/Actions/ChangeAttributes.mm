@@ -1,6 +1,7 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ChangeAttributes.h"
 #include <Habanero/algo.h>
+#include <Habanero/dispatch_cpp.h>
 #include <VFS/VFS.h>
 #include "../PanelController.h"
 #include "../PanelData.h"
@@ -31,7 +32,7 @@ void ChangeAttributes::Perform( PanelController *_target, id _sender ) const
         if( returnCode != NSModalResponseOK )
             return;
 
-        const auto op = make_shared<nc::ops::AttrsChanging>(sheet.command);
+        const auto op = std::make_shared<nc::ops::AttrsChanging>(sheet.command);
         if( !_target.receivesUpdateNotifications ) {
             __weak PanelController *weak_panel = _target;
             op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [=]{

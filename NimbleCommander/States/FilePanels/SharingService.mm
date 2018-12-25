@@ -1,30 +1,31 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "SharingService.h"
 #include <NimbleCommander/Core/TemporaryNativeFileStorage.h>
+#include <Habanero/dispatch_cpp.h>
 
 static const uint64_t g_MaxFileSizeForVFSShare = 64*1024*1024; // 64mb
-static atomic<int> g_IsCurrentlySharing(0);
+static std::atomic<int> g_IsCurrentlySharing(0);
 
 @implementation SharingService
 {
-    bool                        m_DidShared;
-    vector<string>    m_TmpFilepaths;
+    bool                   m_DidShare;
+    std::vector<std::string>    m_TmpFilepaths;
 }
 
 - (id) init
 {
     self = [super init];
     if(self) {
-        m_DidShared = false;
+        m_DidShare = false;
     }
     return self;
 }
 
 - (void)dealloc
 {
-    if(!m_DidShared && !m_TmpFilepaths.empty())
+    if(!m_DidShare && !m_TmpFilepaths.empty())
     {
         // we have some temp file copied from VFS which was not shared by user (didn't choose any sharing)
         // it's better to remove them now, to reduce hard drive wasting
@@ -57,9 +58,9 @@ static atomic<int> g_IsCurrentlySharing(0);
     return g_IsCurrentlySharing > 0;
 }
 
-- (void) ShowItems:(const vector<string>&)_entries
-             InDir:(string)_dir
-             InVFS:(shared_ptr<VFSHost>)_host
+- (void) ShowItems:(const std::vector<std::string>&)_entries
+             InDir:(std::string)_dir
+             InVFS:(std::shared_ptr<VFSHost>)_host
     RelativeToRect:(NSRect)_rect
             OfView:(NSView*)_view
      PreferredEdge:(NSRectEdge)_preferredEdge
@@ -70,7 +71,7 @@ static atomic<int> g_IsCurrentlySharing(0);
         NSMutableArray *items = [NSMutableArray new];
         for(auto &i:_entries)
         {
-            string path = _dir + i;
+            std::string path = _dir + i;
             NSString *s = [NSString stringWithUTF8String:path.c_str()];
             if(s)
             {
@@ -94,7 +95,7 @@ static atomic<int> g_IsCurrentlySharing(0);
         dispatch_to_default([=]{
             for(auto &i:_entries)
             {
-                string path = _dir + i;
+                std::string path = _dir + i;
                 VFSStat st;
                 if(_host->IsDirectory(path.c_str(), 0, 0)) continue; // will skip any directories here
                 if(_host->Stat(path.c_str(), st, 0, 0) < 0) continue;
@@ -129,7 +130,7 @@ static atomic<int> g_IsCurrentlySharing(0);
 - (void)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker didChooseSharingService:(NSSharingService *)service
 {
     if(service != nil)
-        m_DidShared = true;
+        m_DidShare = true;
 }
 
 @end

@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <VFS/Native.h>
 #include <Utility/PathManip.h>
 #include "../PanelController.h"
@@ -7,6 +7,7 @@
 #include "InsertFromPasteboard.h"
 #include <Operations/Copying.h>
 #include "../../MainWindowController.h"
+#include <Utility/ObjCpp.h>
 
 namespace nc::panel::actions {
 
@@ -14,9 +15,9 @@ namespace nc::panel::actions {
 // perhaps it would be good to add support of URLS at least.
 // or even with custom NC's structures used in drag&drop system
 
-static vector<VFSListingItem> FetchVFSListingsItemsFromPaths( NSArray *_input )
+static std::vector<VFSListingItem> FetchVFSListingsItemsFromPaths( NSArray *_input )
 {
-    vector<VFSListingItem> result;
+    std::vector<VFSListingItem> result;
     auto &host = VFSNativeHost::SharedHost();
     for( NSString *ns_filepath in _input ) {
         if( !objc_cast<NSString>(ns_filepath) )
@@ -32,7 +33,7 @@ static vector<VFSListingItem> FetchVFSListingsItemsFromPaths( NSArray *_input )
     return result;
 }
 
-static vector<VFSListingItem> FetchVFSListingsItemsFromPasteboard()
+static std::vector<VFSListingItem> FetchVFSListingsItemsFromPasteboard()
 {
     // check what's inside pasteboard
     NSPasteboard *pasteboard = NSPasteboard.generalPasteboard;
@@ -62,7 +63,7 @@ static void PasteOrMove( PanelController *_target, bool _paste)
     auto opts = MakeDefaultFileCopyOptions();
     opts.docopy = _paste;
     __weak PanelController *wpc = _target;
-    const auto op = make_shared<nc::ops::Copying>(move(source_items),
+    const auto op = std::make_shared<nc::ops::Copying>(move(source_items),
                                                   _target.currentDirectoryPath,
                                                   _target.vfs,
                                                   opts

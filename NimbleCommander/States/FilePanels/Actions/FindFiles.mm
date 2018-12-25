@@ -1,9 +1,10 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <VFS/VFSListingInput.h>
 #include <NimbleCommander/States/FilePanels/FindFilesSheetController.h>
 #include "../PanelController.h"
 #include "FindFiles.h"
 #include "../PanelView.h"
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
 
@@ -12,11 +13,12 @@ bool FindFiles::Predicate( PanelController *_target ) const
     return _target.isUniform || _target.view.item;
 }
 
-static shared_ptr<VFSListing> FetchSearchResultsAsListing(const vector<VFSPath> &_filepaths,
-                                                          unsigned long _fetch_flags,
-                                                          const VFSCancelChecker &_cancel_checker)
+static std::shared_ptr<VFSListing>
+    FetchSearchResultsAsListing(const std::vector<VFSPath> &_filepaths,
+                                unsigned long _fetch_flags,
+                                const VFSCancelChecker &_cancel_checker)
 {
-    vector<VFSListingPtr> listings;
+    std::vector<VFSListingPtr> listings;
     
     for( auto &p: _filepaths ) {
         VFSListingPtr listing;
@@ -45,9 +47,9 @@ void FindFiles::Perform( PanelController *_target, id _sender ) const
         _target.currentDirectoryPath :
         _target.view.item.Directory();
     __weak PanelController *wp = _target;
-    sheet.onPanelize = [wp](const vector<VFSPath> &_paths) {
+    sheet.onPanelize = [wp](const std::vector<VFSPath> &_paths) {
         if( PanelController *panel = wp ) {
-            auto task = [=]( const function<bool()> &_cancelled ) {
+            auto task = [=]( const std::function<bool()> &_cancelled ) {
                 auto l = FetchSearchResultsAsListing(_paths,
                                                      panel.vfsFetchingFlags,
                                                      _cancelled
@@ -57,18 +59,22 @@ void FindFiles::Perform( PanelController *_target, id _sender ) const
                         [panel loadListing:l];
                     });
             };
-            [panel commitCancelableLoadingTask:move(task)];
+            [panel commitCancelableLoadingTask:std::move(task)];
         }
     };
     
-    [sheet beginSheetForWindow:_target.window
-             completionHandler:^(NSModalResponse returnCode) {
-                 if(auto item = sheet.selectedItem)
-                     [_target GoToDir:item->dir_path
-                                  vfs:item->host
-                         select_entry:item->filename
-                                async:true];
-    }];
+    auto handler = ^(NSModalResponse returnCode) {
+        if( auto item = sheet.selectedItem ) {
+            auto request = std::make_shared<DirectoryChangeRequest>();
+            request->RequestedDirectory = item->dir_path;
+            request->VFS = item->host;
+            request->RequestFocusedEntry = item->filename; 
+            request->PerformAsynchronous = true;
+            request->InitiatedByUser = true;
+            [_target GoToDirWithContext:request];
+        }
+    };
+    [sheet beginSheetForWindow:_target.window completionHandler:handler];
 }
 
 };

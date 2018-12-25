@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <VFS/Native.h>
 #include <Habanero/CommonPaths.h>
 #include <Habanero/algo.h>
@@ -7,30 +7,30 @@
 
 namespace nc::panel {
 
-static vector<pair<string, string>> GetFindersFavorites();
-static vector<pair<string, string>> GetDefaultFavorites();
+static std::vector<std::pair<std::string, std::string>> GetFindersFavorites();
+static std::vector<std::pair<std::string, std::string>> GetDefaultFavorites();
 
 FavoriteComposing::FavoriteComposing(const FavoriteLocationsStorage& _storage):
     m_Storage(_storage)
 {
 }
     
-optional< FavoriteLocationsStorage::Favorite > FavoriteComposing::
+std::optional< FavoriteLocationsStorage::Favorite > FavoriteComposing::
     FromURL( NSURL *_url )
 {
     if( !_url || !_url.fileURL )
-        return nullopt;
+        return std::nullopt;
     
     if( !_url.hasDirectoryPath )
         return FromURL( _url.URLByDeletingLastPathComponent );
 
     auto path = _url.fileSystemRepresentation;
     if( !path )
-        return nullopt;
+        return std::nullopt;
 
     auto f = m_Storage.ComposeFavoriteLocation(*VFSNativeHost::SharedHost(), path);
     if( !f )
-        return nullopt;
+        return std::nullopt;
     
 
     NSString *title;
@@ -47,7 +47,7 @@ optional< FavoriteLocationsStorage::Favorite > FavoriteComposing::
     return f;
 }
 
-static string TitleForItem( const VFSListingItem &_i )
+static std::string TitleForItem( const VFSListingItem &_i )
 {
     if( _i.IsDir() )
         if( !_i.IsDotDot() )
@@ -55,27 +55,27 @@ static string TitleForItem( const VFSListingItem &_i )
     return boost::filesystem::path(_i.Directory()).parent_path().filename().native();
 }
 
-optional<FavoriteLocationsStorage::Favorite> FavoriteComposing::
+std::optional<FavoriteLocationsStorage::Favorite> FavoriteComposing::
     FromListingItem( const VFSListingItem &_i )
 {
     if( !_i )
-        return nullopt;
+        return std::nullopt;
 
     auto path = _i.IsDir() ? _i.Path() : _i.Directory();
     auto f = m_Storage.ComposeFavoriteLocation( *_i.Host(), path );
     if( !f )
-        return nullopt;
+        return std::nullopt;
 
     f->title = TitleForItem(_i);
 
     return f;
 }
 
-vector<FavoriteLocationsStorage::Favorite> FavoriteComposing::FinderFavorites()
+std::vector<FavoriteLocationsStorage::Favorite> FavoriteComposing::FinderFavorites()
 {
     auto ff = GetFindersFavorites();
 
-    vector<FavoriteLocationsStorage::Favorite> favorites;
+    std::vector<FavoriteLocationsStorage::Favorite> favorites;
     auto &host = *VFSNativeHost::SharedHost();
     for( auto &f: ff) {
         auto fl = m_Storage.ComposeFavoriteLocation(
@@ -84,16 +84,16 @@ vector<FavoriteLocationsStorage::Favorite> FavoriteComposing::FinderFavorites()
             f.first);
 
         if( fl )
-            favorites.emplace_back( move(*fl) );
+            favorites.emplace_back( std::move(*fl) );
     }
     return favorites;
 }
 
-vector<FavoriteLocationsStorage::Favorite> FavoriteComposing::DefaultFavorites()
+std::vector<FavoriteLocationsStorage::Favorite> FavoriteComposing::DefaultFavorites()
 {
     auto df = GetDefaultFavorites();
 
-    vector<FavoriteLocationsStorage::Favorite> favorites;
+    std::vector<FavoriteLocationsStorage::Favorite> favorites;
     auto &host = *VFSNativeHost::SharedHost();
     for( auto &f: df) {
         auto fl = m_Storage.ComposeFavoriteLocation(
@@ -102,12 +102,12 @@ vector<FavoriteLocationsStorage::Favorite> FavoriteComposing::DefaultFavorites()
             f.first);
 
         if( fl )
-            favorites.emplace_back( move(*fl) );
+            favorites.emplace_back( std::move(*fl) );
     }
     return favorites;
 }
 
-static string StringFromURL( CFURLRef _url )
+static std::string StringFromURL( CFURLRef _url )
 {
     char path_buf[MAXPATHLEN];
     if( CFURLGetFileSystemRepresentation(_url, true, (UInt8*)path_buf, MAXPATHLEN) )
@@ -115,7 +115,7 @@ static string StringFromURL( CFURLRef _url )
     return {};
 }
 
-static string TitleForURL( CFURLRef _url )
+static std::string TitleForURL( CFURLRef _url )
 {
     if( auto url = (__bridge NSURL*)_url ) {
         NSString *title;
@@ -132,7 +132,7 @@ static string TitleForURL( CFURLRef _url )
     return {};
 }
 
-static string TitleForPath( const string &_path )
+static std::string TitleForPath( const std::string &_path )
 {
     auto url = [[NSURL alloc] initFileURLWithFileSystemRepresentation:_path.c_str()
                                                           isDirectory:true
@@ -152,19 +152,19 @@ static string TitleForPath( const string &_path )
     return {};
 }
 
-static string ensure_tr_slash( string _str )
+static std::string ensure_tr_slash( std::string _str )
 {
     if( _str.empty() || _str.back() != '/' )
         _str += '/';
     return _str;
 }
 
-static vector<pair<string, string>> GetFindersFavorites() // title, path
+static std::vector<std::pair<std::string, std::string>> GetFindersFavorites() // title, path
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
     const auto flags = kLSSharedFileListNoUserInteraction|kLSSharedFileListDoNotMountVolumes;
-    vector<pair<string, string>> paths;
+    std::vector<std::pair<std::string, std::string>> paths;
     
     UInt32 seed;
     LSSharedFileListRef list = LSSharedFileListCreate(NULL, kLSSharedFileListFavoriteItems, NULL);
@@ -208,7 +208,7 @@ static vector<pair<string, string>> GetFindersFavorites() // title, path
 #pragma clang diagnostic pop
 }
 
-static vector<pair<string, string>> GetDefaultFavorites()
+static std::vector<std::pair<std::string, std::string>> GetDefaultFavorites()
 {
     return {{
         {TitleForPath(CommonPaths::Home()),         CommonPaths::Home()},

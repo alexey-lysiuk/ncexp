@@ -1,8 +1,9 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/algo.h>
 #include <Utility/NSView+Sugar.h>
 #include "BigFileViewText.h"
 #include "BigFileView.h"
+#include <cmath>
 
 static unsigned ShouldBreakLineBySpaces(CFStringRef _string, unsigned _start, double _font_width, double _line_width)
 {
@@ -73,7 +74,7 @@ static unsigned ShouldCutTrailingSpaces(CFStringRef _string,
     
     // 3rd - calc residual space and amount of space characters to fill it
     double d = _line_width-line_width;
-    unsigned n = unsigned(ceil(d / _font_width));
+    unsigned n = unsigned(std::ceil(d / _font_width));
 /*    assert(n <= spaces_count);
     unsigned extras = spaces_count - n;*/
     unsigned extras = spaces_count > n ? spaces_count - n : 0;
@@ -187,7 +188,7 @@ struct BigFileViewText::TextLine
 };
 
 BigFileViewText::BigFileViewText(BigFileViewDataBackend* _data, BigFileView* _view):
-    m_FixupWindow(make_unique<UniChar[]>(m_Data->RawSize())), // unichar for every byte in raw window - should be ok in all cases
+    m_FixupWindow(std::make_unique<UniChar[]>(m_Data->RawSize())), // unichar for every byte in raw window - should be ok in all cases
     m_View(_view),
     m_Data(_data),
     m_FrameSize(CGSizeMake(0, 0)),
@@ -208,7 +209,7 @@ BigFileViewText::~BigFileViewText()
 
 void BigFileViewText::GrabFontGeometry()
 {
-    m_FontInfo = FontGeometryInfo( [m_View TextFont] );
+    m_FontInfo = nc::utility::FontGeometryInfo( [m_View TextFont] );
 }
 
 void BigFileViewText::OnBufferDecoded()
@@ -306,14 +307,14 @@ void BigFileViewText::ClearLayout()
 
 CGPoint BigFileViewText::TextAnchor()
 {
-    return NSMakePoint(ceil((m_LeftInset - m_HorizontalOffset * m_FontInfo.MonospaceWidth())) - m_SmoothOffset.x,
-                       floor(m_View.contentBounds.height - m_FontInfo.LineHeight() + m_FontInfo.Descent()) + m_SmoothOffset.y);
+    return NSMakePoint(std::ceil((m_LeftInset - m_HorizontalOffset * m_FontInfo.MonospaceWidth())) - m_SmoothOffset.x,
+                       std::floor(m_View.contentBounds.height - m_FontInfo.LineHeight() + m_FontInfo.Descent()) + m_SmoothOffset.y);
 }
 
 int BigFileViewText::LineIndexFromYPos(double _y)
 {
     CGPoint left_upper = TextAnchor();
-    int y_off = (int)ceil((left_upper.y - _y) / m_FontInfo.LineHeight());
+    int y_off = (int)std::ceil((left_upper.y - _y) / m_FontInfo.LineHeight());
     int line_no = y_off + m_VerticalOffset;
     return line_no;
 }
@@ -553,7 +554,7 @@ void BigFileViewText::MoveFileWindowTo(uint64_t _pos, uint64_t _anchor_byte_no, 
         
     int closest_ind = FindClosestNotGreaterLineInd(_anchor_byte_no);
     
-    m_VerticalOffset = max(closest_ind - _anchor_line_no, 0);
+    m_VerticalOffset = std::max(closest_ind - _anchor_line_no, 0);
     
     assert(m_VerticalOffset < m_Lines.size());
     [m_View setNeedsDisplay];
@@ -634,7 +635,7 @@ uint32_t BigFileViewText::GetOffsetWithinWindow()
 
 void BigFileViewText::MoveOffsetWithinWindow(uint32_t _offset)
 {
-    m_VerticalOffset = max(FindClosestLineInd(_offset + m_Data->FilePos()), 0);
+    m_VerticalOffset = std::max(FindClosestLineInd(_offset + m_Data->FilePos()), 0);
     assert(m_Lines.empty() || m_VerticalOffset < m_Lines.size());
 }
 
@@ -693,7 +694,7 @@ void BigFileViewText::HandleVerticalScroll(double _pos)
     { // we have all file decomposed into strings, so we can do smooth scrolling now
         double full_document_size = double(m_Lines.size()) * m_FontInfo.LineHeight();
         double scroll_y_offset = _pos * (full_document_size - m_FrameSize.height);
-        m_VerticalOffset = (unsigned)floor(scroll_y_offset / m_FontInfo.LineHeight());
+        m_VerticalOffset = (unsigned)std::floor(scroll_y_offset / m_FontInfo.LineHeight());
         m_SmoothOffset.y = scroll_y_offset - m_VerticalOffset * m_FontInfo.LineHeight();
         [m_View setNeedsDisplay];
     }

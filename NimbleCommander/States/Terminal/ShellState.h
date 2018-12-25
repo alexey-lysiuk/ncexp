@@ -1,7 +1,9 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <NimbleCommander/States/MainWindowStateProtocol.h>
+
+#include <string>
 
 namespace nc::term {
     class ShellTask;
@@ -11,10 +13,10 @@ namespace nc::term {
 
 @property (nonatomic, readonly) bool isAnythingRunning;
 
-- (string)initialWD;
-- (void) setInitialWD:(const string&)_wd;
+- (std::string)initialWD;
+- (void) setInitialWD:(const std::string&)_wd;
 
-- (void) chDir:(const string&)_new_dir;
+- (void) chDir:(const std::string&)_new_dir;
 - (void) execute:(const char *)_binary_name
               at:(const char*)_binary_dir;
 - (void) execute:(const char *)_binary_name
@@ -25,7 +27,7 @@ namespace nc::term {
 
 - (void) terminate;
 
-- (string) cwd;
+- (std::string) cwd;
 
 - (nc::term::ShellTask&) task;
 

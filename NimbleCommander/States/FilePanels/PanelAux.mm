@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
@@ -12,6 +12,8 @@
 #include "PanelAux.h"
 #include "ExternalEditorInfo.h"
 #include <Operations/Copying.h>
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
 
 namespace nc::panel {
 
@@ -23,12 +25,14 @@ static const auto g_DropDelay = "filePanel.operations.vfsShadowUploadObservation
 static const auto g_QLPanel = "filePanel.presentation.showQuickLookAsFloatingPanel";
 static const uint64_t g_MaxFileSizeForVFSOpen = 64*1024*1024; // 64mb
 
-static milliseconds UploadingCheckDelay()
+static std::chrono::milliseconds UploadingCheckDelay()
 {
     static const auto fetch = []{
-        return milliseconds(GlobalConfig().GetIntOr(g_CheckDelay, 5000));
+        const auto value = GlobalConfig().Has(g_CheckDelay) ?
+            GlobalConfig().GetInt(g_CheckDelay) : 5000;
+        return std::chrono::milliseconds(value);
     };
-    static milliseconds delay = []{
+    static std::chrono::milliseconds delay = []{
         static auto ticket = GlobalConfig().Observe(g_CheckDelay, []{
             delay = fetch();
         });
@@ -37,12 +41,14 @@ static milliseconds UploadingCheckDelay()
     return delay;
 }
 
-static milliseconds UploadingDropDelay()
+static std::chrono::milliseconds UploadingDropDelay()
 {
     static const auto fetch = []{
-        return milliseconds(GlobalConfig().GetIntOr(g_DropDelay, 3600000));
+        const auto value = GlobalConfig().Has(g_DropDelay) ?
+            GlobalConfig().GetInt(g_DropDelay) : 3600000;         
+        return std::chrono::milliseconds(value);
     };
-    static milliseconds delay = []{
+    static std::chrono::milliseconds delay = []{
         static auto ticket = GlobalConfig().Observe(g_DropDelay, []{
             delay = fetch();
         });
@@ -51,9 +57,9 @@ static milliseconds UploadingDropDelay()
     return delay;
 }
 
-static void RegisterRemoteFileUploading(const string& _original_path,
+static void RegisterRemoteFileUploading(const std::string& _original_path,
                                         const VFSHostPtr& _original_vfs,
-                                        const string &_native_path,
+                                        const std::string &_native_path,
                                         PanelController *_origin )
 {
     if( _original_vfs->IsNativeFS() )
@@ -75,10 +81,10 @@ static void RegisterRemoteFileUploading(const string& _original_path,
         if( !vfs )
             return;
         
-        vector<VFSListingItem> listing_items;
+        std::vector<VFSListingItem> listing_items;
         auto &storage_host = *VFSNativeHost::SharedHost();
-        const auto changed_item_directory = path(_native_path).parent_path().native();
-        const auto changed_item_filename = path(_native_path).filename().native();
+        const auto changed_item_directory = boost::filesystem::path(_native_path).parent_path().native();
+        const auto changed_item_filename = boost::filesystem::path(_native_path).filename().native();
         const auto ret = storage_host.FetchFlexibleListingItems(changed_item_directory,
                                                                 {1, changed_item_filename},
                                                                 0,
@@ -87,10 +93,10 @@ static void RegisterRemoteFileUploading(const string& _original_path,
         if( ret == 0 ) {
             auto opts = panel::MakeDefaultFileCopyOptions();
             opts.exist_behavior = nc::ops::CopyingOptions::ExistBehavior::OverwriteAll;
-            const auto op = make_shared<nc::ops::Copying>(listing_items,
-                                                          _original_path,
-                                                          vfs,
-                                                          opts);
+            const auto op = std::make_shared<nc::ops::Copying>(listing_items,
+                                                               _original_path,
+                                                               vfs,
+                                                               opts);
             if( auto pc = (PanelController*)origin_controller )
                 if( !pc.receivesUpdateNotifications )
                     op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [=]{
@@ -110,17 +116,17 @@ static void RegisterRemoteFileUploading(const string& _original_path,
                        UploadingDropDelay());
 }
 
-void PanelVFSFileWorkspaceOpener::Open(string _filename,
-                                       shared_ptr<VFSHost> _host,
+void PanelVFSFileWorkspaceOpener::Open(std::string _filename,
+                                       std::shared_ptr<VFSHost> _host,
                                        PanelController *_panel
                                        )
 {
     Open(_filename, _host, "", _panel);
 }
 
-void PanelVFSFileWorkspaceOpener::Open(string _filename,
-                                       shared_ptr<VFSHost> _host,
-                                       string _with_app_path,
+void PanelVFSFileWorkspaceOpener::Open(std::string _filename,
+                                       std::shared_ptr<VFSHost> _host,
+                                       std::string _with_app_path,
                                        PanelController *_panel
                                        )
 {
@@ -184,8 +190,8 @@ void PanelVFSFileWorkspaceOpener::Open(string _filename,
 }
 
 // TODO: write version with FlexListingItem as an input - it would be much simplier
-void PanelVFSFileWorkspaceOpener::Open(vector<string> _filenames,
-                                       shared_ptr<VFSHost> _host,
+void PanelVFSFileWorkspaceOpener::Open(std::vector<std::string> _filenames,
+                                       std::shared_ptr<VFSHost> _host,
                                        NSString *_with_app_bundle, // can be nil, use default app in such case
                                        PanelController *_panel
                                        )
@@ -238,10 +244,10 @@ void PanelVFSFileWorkspaceOpener::Open(vector<string> _filenames,
     });
 }
 
-void PanelVFSFileWorkspaceOpener::OpenInExternalEditorTerminal(string _filepath,
+void PanelVFSFileWorkspaceOpener::OpenInExternalEditorTerminal(std::string _filepath,
                                                                VFSHostPtr _host,
-                                                               shared_ptr<ExternalEditorStartupInfo> _ext_ed,
-                                                               string _file_title,
+                                                               std::shared_ptr<ExternalEditorStartupInfo> _ext_ed,
+                                                               std::string _file_title,
                                                                PanelController *_panel)
 {
     assert( !_filepath.empty() && _host && _ext_ed && _panel );
@@ -286,19 +292,15 @@ void PanelVFSFileWorkspaceOpener::OpenInExternalEditorTerminal(string _filepath,
 
 bool IsEligbleToTryToExecuteInConsole(const VFSListingItem& _item)
 {
-    static const vector<string> extensions = []{
-        vector<string> v;
-        if( auto exts_string = GlobalConfig().GetString(g_ConfigExecutableExtensionsWhitelist) ) {
-            // load from config
-            if( auto extensions_array = [[NSString stringWithUTF8StdString:*exts_string] componentsSeparatedByString:@","] )
-                for( NSString *s: extensions_array )
-                    if( s != nil && s.length > 0 )
-                        if( auto trimmed = [s stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] )
-                            if( auto utf8 = trimmed.UTF8String )
-                                v.emplace_back( ExtensionLowercaseComparison::Instance().ExtensionToLowercase(utf8) );
-        }
-        else // hardcoded fallback case if something went wrong
-            v = {"sh", "pl", "rb", "py"};
+    static const std::vector<std::string> extensions = []{
+        std::vector<std::string> v;
+        auto exts_string = GlobalConfig().GetString(g_ConfigExecutableExtensionsWhitelist);
+        if( auto extensions_array = [[NSString stringWithUTF8StdString:exts_string] componentsSeparatedByString:@","] )
+            for( NSString *s: extensions_array )
+                if( s != nil && s.length > 0 )
+                    if( auto trimmed = [s stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] )
+                        if( auto utf8 = trimmed.UTF8String )
+                            v.emplace_back( ExtensionLowercaseComparison::Instance().ExtensionToLowercase(utf8) );
         return v;
     }();
     
@@ -358,19 +360,15 @@ bool IsExtensionInArchivesWhitelist( const char *_ext ) noexcept
 {
     if( !_ext )
         return false;
-    static const vector<string> archive_extensions = []{
-        vector<string> v;
-        if( auto exts_string = GlobalConfig().GetString(g_ConfigArchivesExtensionsWhieList) ) {
-            // load extensions list from defaults
-            if( auto extensions_array = [[NSString stringWithUTF8StdString:*exts_string] componentsSeparatedByString:@","] )
-                for( NSString *s: extensions_array )
-                    if( s != nil && s.length > 0 )
-                        if( auto trimmed = [s stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] )
-                            if( auto utf8 = trimmed.UTF8String)
-                                v.emplace_back( ExtensionLowercaseComparison::Instance().ExtensionToLowercase(utf8) );
-        }
-        else // hardcoded fallback data
-            v = { "zip", "tar", "pax", "cpio", "xar", "lha", "ar", "cab", "mtree", "iso", "bz2", "gz", "bzip2", "gzip", "7z", "xz", "rar" };
+    static const std::vector<std::string> archive_extensions = []{
+        std::vector<std::string> v;
+        auto exts_string = GlobalConfig().GetString(g_ConfigArchivesExtensionsWhieList);
+        if( auto extensions_array = [[NSString stringWithUTF8StdString:exts_string] componentsSeparatedByString:@","] )
+            for( NSString *s: extensions_array )
+                if( s != nil && s.length > 0 )
+                    if( auto trimmed = [s stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet] )
+                        if( auto utf8 = trimmed.UTF8String)
+                            v.emplace_back( ExtensionLowercaseComparison::Instance().ExtensionToLowercase(utf8) );
         return v;
     }();
     
@@ -385,7 +383,7 @@ bool ShowQuickLookAsFloatingPanel() noexcept
         return GlobalConfig().GetBool(g_QLPanel);
     };
     static bool value = []{
-        GlobalConfig().ObserveUnticketed(g_QLPanel, []{
+        GlobalConfig().ObserveForever(g_QLPanel, []{
             value = fetch();
         });
         return fetch();

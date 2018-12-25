@@ -8,9 +8,9 @@ ListingPromise::ListingPromise( const VFSListing &_listing, const VFSPromiseAdap
 {
     assert( _adapter );
     if( _listing.IsUniform() )
-        m_Storage = make_shared<StorageT>( FromUniformListing(_listing, _adapter) );
+        m_Storage = std::make_shared<StorageT>( FromUniformListing(_listing, _adapter) );
     else
-        m_Storage = make_shared<StorageT>( FromNonUniformListing(_listing, _adapter) );
+        m_Storage = std::make_shared<StorageT>( FromNonUniformListing(_listing, _adapter) );
 }
     
 ListingPromise::UniformListing ListingPromise::FromUniformListing(const VFSListing &_listing,
@@ -31,8 +31,8 @@ ListingPromise::NonUniformListing ListingPromise::FromNonUniformListing
     assert( !_listing.IsUniform() );
     
     // memory massacre 2017 AD
-    using DirectoriesT = unordered_map<string_view, hbn::StringsBulk::NonOwningBuilder>;
-    unordered_map<VFSHost*, DirectoriesT> entries;
+    using DirectoriesT = std::unordered_map<std::string_view, hbn::StringsBulk::NonOwningBuilder>;
+    std::unordered_map<VFSHost*, DirectoriesT> entries;
     
     // this will blow up the memory subsystem on listings with 1m+ entries.
     // might need to come with a more clever solution.
@@ -41,7 +41,7 @@ ListingPromise::NonUniformListing ListingPromise::FromNonUniformListing
         
         auto &per_host = entries[ host_ptr ];
         
-        const auto directory = string_view{ _listing.Directory(index) };
+        const auto directory = std::string_view{ _listing.Directory(index) };
         
         auto &per_directory = per_host[directory];
         
@@ -60,7 +60,7 @@ ListingPromise::NonUniformListing ListingPromise::FromNonUniformListing
             per_vfs.entries.emplace_back( directory.second.Build() );
         sort( begin(per_vfs.entries), end(per_vfs.entries) );
         
-        info.per_vfs.emplace_back( move(per_vfs) );
+        info.per_vfs.emplace_back( std::move(per_vfs) );
     }
     
     return info;
@@ -68,13 +68,13 @@ ListingPromise::NonUniformListing ListingPromise::FromNonUniformListing
 
 VFSListingPtr ListingPromise::Restore(unsigned long _fetch_flags,
                                       const PromiseVFSAdapter &_adapter,
-                                      const function<bool()> &_cancel_checker ) const
+                                      const std::function<bool()> &_cancel_checker ) const
 {
     assert(_adapter);
  
-    if( boost::get<UniformListing>(&Storage()) )
+    if( std::get_if<UniformListing>(&Storage()) )
         return RestoreUniform(_fetch_flags, _adapter, _cancel_checker);
-    else if( boost::get<NonUniformListing>(&Storage()) )
+    else if( std::get_if<NonUniformListing>(&Storage()) )
         return RestoreNonUniform(_fetch_flags, _adapter, _cancel_checker);
     else
         return nullptr;
@@ -82,15 +82,16 @@ VFSListingPtr ListingPromise::Restore(unsigned long _fetch_flags,
 
 VFSListingPtr ListingPromise::RestoreUniform(unsigned long _fetch_flags,
                                              const PromiseVFSAdapter &_adapter,
-                                             const function<bool()> &_cancel_checker) const
+                                             const std::function<bool()> &_cancel_checker) const
 {
-    const auto &info = boost::get<UniformListing>(Storage());
-    const auto host = _adapter(info.promise);
+    const auto info = std::get_if<UniformListing>(&Storage());
+    assert(info);
+    const auto host = _adapter(info->promise);
     if( !host )
         return nullptr;
     
     VFSListingPtr listing;
-    const auto rc = host->FetchDirectoryListing(info.directory.c_str(),
+    const auto rc = host->FetchDirectoryListing(info->directory.c_str(),
                                                 listing,
                                                 _fetch_flags,
                                                 _cancel_checker);
@@ -102,12 +103,13 @@ VFSListingPtr ListingPromise::RestoreUniform(unsigned long _fetch_flags,
     
 VFSListingPtr ListingPromise::RestoreNonUniform(unsigned long _fetch_flags,
                                                 const PromiseVFSAdapter &_adapter,
-                                                const function<bool()> &_cancel_checker) const
+                                                const std::function<bool()> &_cancel_checker) const
 {
-    const auto &info = boost::get<NonUniformListing>(Storage());
+    const auto info = std::get_if<NonUniformListing>(&Storage());
+    assert(info);
 
-    vector<VFSListingPtr> listings;
-    for( const auto &per_vfs: info.per_vfs ) {
+    std::vector<VFSListingPtr> listings;
+    for( const auto &per_vfs: info->per_vfs ) {
         if( _cancel_checker && _cancel_checker() )
             return nullptr;
         
@@ -118,7 +120,7 @@ VFSListingPtr ListingPromise::RestoreNonUniform(unsigned long _fetch_flags,
         for( const auto &entries: per_vfs.entries ) {
             assert( entries.size() > 1 );
             
-            const auto directory = string(entries.front());
+            const auto directory = std::string(entries.front());
             for( size_t i = 1; i < entries.size(); ++i ) {
                 if( _cancel_checker && _cancel_checker() )
                     return nullptr;

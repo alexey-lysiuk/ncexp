@@ -1,31 +1,36 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "DragReceiver.h"
 #include "FilesDraggingSource.h"
 #include "PanelController.h"
 #include "PanelData.h"
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <Utility/NativeFSManager.h>
+#include <Utility/ObjCpp.h>
 #include "PanelAux.h"
 #include <Operations/Linkage.h>
 #include <Operations/Copying.h>
 #include "../MainWindowController.h"
 #include <VFS/Native.h>
+#include <map>
 
 namespace nc::panel {
+
+using namespace std::literals;
 
 static void UpdateValidDropNumber(id <NSDraggingInfo> _dragging,
                                   int _valid_number,
                                   NSDragOperation _operation );
 static bool DraggingIntoFoldersAllowed();
 static void PrintDragOperations(NSDragOperation _op);
-static vector<VFSListingItem> ExtractListingItems(FilesDraggingSource *_source);
+static std::vector<VFSListingItem> ExtractListingItems(FilesDraggingSource *_source);
 static NSArray<NSURL*> *ExtractURLs(NSPasteboard *_source);
 static int CountItemsWithType( id<NSDraggingInfo> _sender, NSString *_type );
 static NSString *URLs_Promise_UTI();
 static NSString *URLs_UTI();
-static map<string, vector<string>> LayoutURLsByDirectories(NSArray<NSURL*> *_file_urls);
-static vector<VFSListingItem> FetchDirectoriesItems(const map<string, vector<string>>& _input,
-                                                    VFSHost& _host);
+static std::map<std::string, std::vector<std::string>>
+    LayoutURLsByDirectories(NSArray<NSURL*> *_file_urls);
+static std::vector<VFSListingItem>
+    FetchDirectoriesItems(const std::map<std::string, std::vector<std::string>>& _input, VFSHost& _host);
 static void AddPanelRefreshIfNecessary(PanelController *_target,
                                        ops::Operation &_operation);
 static void AddPanelRefreshIfNecessary(PanelController *_target,
@@ -40,7 +45,7 @@ DragReceiver::DragReceiver(PanelController *_target,
     m_DraggingOverIndex(_dragging_over_index)
 {
     if( !m_Target || !m_Dragging )
-        throw invalid_argument("DragReceiver can't accept nil arguments");
+        throw std::invalid_argument("DragReceiver can't accept nil arguments");
 
     m_DraggingOperationsMask = m_Dragging.draggingSourceOperationMask;
     m_ItemUnderDrag = m_Target.data.EntryAtSortPosition(m_DraggingOverIndex);
@@ -65,12 +70,12 @@ NSDragOperation DragReceiver::Validate()
     const auto destination = ComposeDestination();
     if( destination && destination.Host()->IsWritable() ) {
         if( const auto source = objc_cast<FilesDraggingSource>(m_Dragging.draggingSource) )
-            tie(operation, valid_items) = ScanLocalSource(source, destination);
+            std::tie(operation, valid_items) = ScanLocalSource(source, destination);
         else if( [m_Dragging.draggingPasteboard.types containsObject:URLs_UTI()] )
-            tie(operation, valid_items) = ScanURLsSource(ExtractURLs(m_Dragging.draggingPasteboard),
+            std::tie(operation, valid_items) = ScanURLsSource(ExtractURLs(m_Dragging.draggingPasteboard),
                                                          destination);
         else if( [m_Dragging.draggingPasteboard.types containsObject:URLs_Promise_UTI()] )
-            tie(operation, valid_items) = ScanURLsPromiseSource(destination);
+            std::tie(operation, valid_items) = ScanURLsPromiseSource(destination);
     }
 
    if( valid_items == 0 ) {
@@ -104,7 +109,7 @@ bool DragReceiver::Receive()
     return false;
 }
 
-pair<NSDragOperation, int> DragReceiver::ScanLocalSource(FilesDraggingSource *_source,
+std::pair<NSDragOperation, int> DragReceiver::ScanLocalSource(FilesDraggingSource *_source,
                                                          const VFSPath& _dest) const
 {
     const auto valid_items = (int)_source.items.size();
@@ -126,7 +131,7 @@ pair<NSDragOperation, int> DragReceiver::ScanLocalSource(FilesDraggingSource *_s
     // check that we dont drag a folder into itself
     if( operation != NSDragOperationNone && m_DraggingOverDirectory ) {
         // filenames are stored without trailing slashes, so have to add it
-        for( const auto item: _source.items )
+        for( const auto &item: _source.items )
             if( item.item.Host() == _dest.Host() &&
                item.item.IsDir() &&
                _dest.Path() == item.item.Path()+"/" ) {
@@ -138,7 +143,7 @@ pair<NSDragOperation, int> DragReceiver::ScanLocalSource(FilesDraggingSource *_s
     return {operation, valid_items};
 }
 
-pair<NSDragOperation, int> DragReceiver::ScanURLsSource(NSArray<NSURL*> *_urls,
+std::pair<NSDragOperation, int> DragReceiver::ScanURLsSource(NSArray<NSURL*> *_urls,
                                                         const VFSPath& _destination) const
 {
     if( !_urls )
@@ -159,7 +164,7 @@ pair<NSDragOperation, int> DragReceiver::ScanURLsSource(NSArray<NSURL*> *_urls,
     return {operation, valid_items};
 }
 
-pair<NSDragOperation, int> DragReceiver::ScanURLsPromiseSource(const VFSPath& _dest) const
+std::pair<NSDragOperation, int> DragReceiver::ScanURLsPromiseSource(const VFSPath& _dest) const
 {
     if( !_dest.Host()->IsNativeFS() )
         return {NSDragOperationNone, 0};
@@ -176,7 +181,7 @@ VFSPath DragReceiver::ComposeDestination() const
         if( m_ItemUnderDrag.IsDotDot() ) {
             if( !m_Target.isUniform )
                 return {};
-            path p = m_Target.currentDirectoryPath;
+            boost::filesystem::path p = m_Target.currentDirectoryPath;
             p.remove_filename();
             if( p.empty() )
                 p = "/";
@@ -209,7 +214,7 @@ NSDragOperation DragReceiver::BuildOperationForLocal(FilesDraggingSource *_sourc
             return NSDragOperationMove;
         
         if( m_DraggingOperationsMask & NSDragOperationGeneric ) {
-            const auto &fs_man = NativeFSManager::Instance();
+            const auto &fs_man = utility::NativeFSManager::Instance();
             const auto v1 = fs_man.VolumeFromPathFast( _destination.Path() );
             const auto v2 = fs_man.VolumeFromPathFast( _source.items.front().item.Directory() );
             const auto same_native_fs = (v1 != nullptr && v1 == v2);
@@ -249,7 +254,7 @@ NSDragOperation DragReceiver::BuildOperationForURLs(NSArray<NSURL*> *_source,
             return NSDragOperationLink;
         
         if( m_DraggingOperationsMask & NSDragOperationGeneric ) {
-            const auto &fs_man = NativeFSManager::Instance();
+            const auto &fs_man = utility::NativeFSManager::Instance();
             const auto v1 = fs_man.VolumeFromPathFast( _destination.Path() );
             const auto v2 = fs_man.VolumeFromPathFast(_source.firstObject.fileSystemRepresentation);
             const auto same_native_fs = (v1 != nullptr && v1 == v2);
@@ -274,20 +279,20 @@ bool DragReceiver::PerformWithLocalSource(FilesDraggingSource *_source,
     const auto operation = BuildOperationForLocal(_source, _destination);
     if( operation == NSDragOperationCopy ) {
         const auto opts = MakeDefaultFileCopyOptions();
-        const auto op = make_shared<ops::Copying>(move(files),
-                                                  _destination.Path(),
-                                                  _destination.Host(),
-                                                  opts);
+        const auto op = std::make_shared<ops::Copying>(std::move(files),
+                                                       _destination.Path(),
+                                                       _destination.Host(),
+                                                       opts);
         AddPanelRefreshIfNecessary(m_Target, *op);
         [m_Target.mainWindowController enqueueOperation:op];
         return true;
     }
     else if( operation == NSDragOperationMove ) {
         const auto opts = MakeDefaultFileMoveOptions();
-        const auto op = make_shared<ops::Copying>(move(files),
-                                                  _destination.Path(),
-                                                  _destination.Host(),
-                                                  opts);
+        const auto op = std::make_shared<ops::Copying>(std::move(files),
+                                                       _destination.Path(),
+                                                       _destination.Host(),
+                                                       opts);
         AddPanelRefreshIfNecessary(m_Target, _source.sourceController, *op);
         [m_Target.mainWindowController enqueueOperation:op];
         return true;
@@ -297,11 +302,12 @@ bool DragReceiver::PerformWithLocalSource(FilesDraggingSource *_source,
             _destination.Host()->IsNativeFS() ) {
         for( const auto &file: files ) {
             const auto source_path = file.Path();
-            const auto dest_path = (path(_destination.Path()) / file.Filename()).native();
-            const auto op = make_shared<nc::ops::Linkage>(dest_path,
-                                                          source_path,
-                                                          _destination.Host(),
-                                                          nc::ops::LinkageType::CreateSymlink);
+            const auto dest_path = (boost::filesystem::path(_destination.Path()) /
+                                    file.Filename()).native();
+            const auto op = std::make_shared<nc::ops::Linkage>(dest_path,
+                                                               source_path,
+                                                               _destination.Host(),
+                                                               nc::ops::LinkageType::CreateSymlink);
             AddPanelRefreshIfNecessary(m_Target, *op);
             [m_Target.mainWindowController enqueueOperation:op];
         }
@@ -327,20 +333,20 @@ bool DragReceiver::PerformWithURLsSource(NSArray<NSURL*> *_source,
     
     if( operation == NSDragOperationCopy ) {
         const auto opts = MakeDefaultFileCopyOptions();
-        const auto op = make_shared<nc::ops::Copying>(move(source_items),
-                                                      _destination.Path(),
-                                                      _destination.Host(),
-                                                      opts);        
+        const auto op = std::make_shared<nc::ops::Copying>(std::move(source_items),
+                                                           _destination.Path(),
+                                                           _destination.Host(),
+                                                           opts);
         AddPanelRefreshIfNecessary(m_Target, *op);
         [m_Target.mainWindowController enqueueOperation:op];
         return true;
     }
     if( operation == NSDragOperationMove ) {
         const auto opts = MakeDefaultFileMoveOptions();
-        const auto op = make_shared<nc::ops::Copying>(move(source_items),
-                                                      _destination.Path(),
-                                                      _destination.Host(),
-                                                      opts);
+        const auto op = std::make_shared<nc::ops::Copying>(std::move(source_items),
+                                                           _destination.Path(),
+                                                           _destination.Host(),
+                                                           opts);
         AddPanelRefreshIfNecessary(m_Target, *op);
         [m_Target.mainWindowController enqueueOperation:op];
         return true;
@@ -348,11 +354,12 @@ bool DragReceiver::PerformWithURLsSource(NSArray<NSURL*> *_source,
     if( operation == NSDragOperationLink ) {
         for( const auto &file: source_items ) {
             const auto source_path = file.Path();
-            const auto dest_path = (path(_destination.Path()) / file.Filename()).native();
-            const auto op = make_shared<nc::ops::Linkage>(dest_path,
-                                                          source_path,
-                                                          _destination.Host(),
-                                                          nc::ops::LinkageType::CreateSymlink);
+            const auto dest_path = (boost::filesystem::path(_destination.Path()) /
+                                    file.Filename()).native();
+            const auto op = std::make_shared<nc::ops::Linkage>(dest_path,
+                                                               source_path,
+                                                               _destination.Host(),
+                                                               nc::ops::LinkageType::CreateSymlink);
             AddPanelRefreshIfNecessary(m_Target, *op);
             [m_Target.mainWindowController enqueueOperation:op];
         }
@@ -409,7 +416,7 @@ static bool DraggingIntoFoldersAllowed()
         return GlobalConfig().GetBool( path );
     };
     static bool value = []{
-        GlobalConfig().ObserveUnticketed(path, []{ value = fetch(); });
+        GlobalConfig().ObserveForever(path, []{ value = fetch(); });
         return fetch();
     }();
     return value;
@@ -418,25 +425,25 @@ static bool DraggingIntoFoldersAllowed()
 [[maybe_unused]] static void PrintDragOperations(NSDragOperation _op)
 {
     if( _op == NSDragOperationNone ) {
-        cout << "NSDragOperationNone" << endl;
+        std::cout << "NSDragOperationNone" << std::endl;
     }
     else if( _op == NSDragOperationEvery ) {
-        cout << "NSDragOperationEvery" << endl;
+        std::cout << "NSDragOperationEvery" << std::endl;
     }
     else {
-        if( _op & NSDragOperationCopy )     cout << "NSDragOperationCopy ";
-        if( _op & NSDragOperationLink )     cout << "NSDragOperationLink ";
-        if( _op & NSDragOperationGeneric )  cout << "NSDragOperationGeneric ";
-        if( _op & NSDragOperationPrivate )  cout << "NSDragOperationPrivate ";
-        if( _op & NSDragOperationMove )     cout << "NSDragOperationMove ";
-        if( _op & NSDragOperationDelete )   cout << "NSDragOperationDelete ";
-        cout << endl;
+        if( _op & NSDragOperationCopy )     std::cout << "NSDragOperationCopy ";
+        if( _op & NSDragOperationLink )     std::cout << "NSDragOperationLink ";
+        if( _op & NSDragOperationGeneric )  std::cout << "NSDragOperationGeneric ";
+        if( _op & NSDragOperationPrivate )  std::cout << "NSDragOperationPrivate ";
+        if( _op & NSDragOperationMove )     std::cout << "NSDragOperationMove ";
+        if( _op & NSDragOperationDelete )   std::cout << "NSDragOperationDelete ";
+        std::cout << std::endl;
     }
 }
 
-static vector<VFSListingItem> ExtractListingItems(FilesDraggingSource *_source)
+static std::vector<VFSListingItem> ExtractListingItems(FilesDraggingSource *_source)
 {
-    vector<VFSListingItem> files;
+    std::vector<VFSListingItem> files;
     for( PanelDraggingItem *item: _source.items )
         files.emplace_back( item.item );
     return files;
@@ -462,26 +469,27 @@ static NSString *URLs_UTI()
     return uti;
 }
 
-static map<string, vector<string>> LayoutURLsByDirectories(NSArray<NSURL*> *_file_urls)
+static std::map<std::string, std::vector<std::string>>
+    LayoutURLsByDirectories(NSArray<NSURL*> *_file_urls)
 {
     if(!_file_urls)
         return {};
-    map<string, vector<string>> files; // directory/ -> [filename1, filename2, ...]
+    std::map<std::string, std::vector<std::string>> files; // directory/ -> [filename1, filename2, ...]
     for(NSURL *url in _file_urls) {
         if( !objc_cast<NSURL>(url) ) continue; // guard agains malformed input data
-        path source_path = url.path.fileSystemRepresentation;
-        string root = source_path.parent_path().native() + "/";
+        boost::filesystem::path source_path = url.path.fileSystemRepresentation;
+        std::string root = source_path.parent_path().native() + "/";
         files[root].emplace_back(source_path.filename().native());
     }
     return files;
 }
 
-static vector<VFSListingItem> FetchDirectoriesItems(const map<string, vector<string>>& _input,
-                                                    VFSHost& _host)
+static std::vector<VFSListingItem> FetchDirectoriesItems
+    (const std::map<std::string, std::vector<std::string>>& _input, VFSHost& _host)
 {
-    vector<VFSListingItem> source_items;
+    std::vector<VFSListingItem> source_items;
     for( const auto &dir: _input ) {
-        vector<VFSListingItem> items_for_dir;
+        std::vector<VFSListingItem> items_for_dir;
         const auto rc = _host.FetchFlexibleListingItems(dir.first,
                                                         dir.second,
                                                         0,

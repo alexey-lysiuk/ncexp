@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/dispatch_cpp.h>
 #include <Habanero/DispatchGroup.h>
 #include <Utility/NSTimer+Tolerance.h>
@@ -9,14 +9,15 @@
 #include <NimbleCommander/Viewer/InternalViewerWindowController.h>
 #include <NimbleCommander/Core/SearchForFiles.h>
 #include <Utility/ByteCountFormatter.h>
-#include <NimbleCommander/Core/rapidjson.h>
 #include <NimbleCommander/States/FilePanels/PanelAux.h>
 #include <NimbleCommander/Bootstrap/Config.h>
+#include <Config/RapidJSON.h>
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
 #include <NimbleCommander/Core/VFSInstanceManager.h>
 #include <NimbleCommander/Core/VFSInstancePromise.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "FindFilesSheetController.h"
+#include <Utility/StringExtras.h>
 
 static const auto g_StateMaskHistory = "filePanel.findFilesSheet.maskHistory";
 static const auto g_StateTextHistory = "filePanel.findFilesSheet.textHistory";
@@ -24,14 +25,14 @@ static const int g_MaximumSearchResults = 262144;
 
 static const auto g_ConfigModalInternalViewer = "viewer.modalMode";
 
-static string ensure_tr_slash( string _str )
+static std::string ensure_tr_slash( std::string _str )
 {
     if(_str.empty() || _str.back() != '/')
         _str += '/';
     return _str;
 }
 
-static string ensure_no_tr_slash( string _str )
+static std::string ensure_no_tr_slash( std::string _str )
 {
     if( _str.empty() || _str == "/" )
         return _str;
@@ -42,7 +43,9 @@ static string ensure_no_tr_slash( string _str )
     return _str;
 }
 
-static string to_relative_path( const VFSHostPtr &_in_host, string _path, const string& _base_path )
+static std::string to_relative_path(const VFSHostPtr &_in_host,
+                                    std::string _path,
+                                    const std::string& _base_path )
 {
     VFSHostPtr a = _in_host;
     while( a ) {
@@ -55,7 +58,7 @@ static string to_relative_path( const VFSHostPtr &_in_host, string _path, const 
     return _path;
 }
 
-class FindFilesSheetComboHistory : public vector<string>
+class FindFilesSheetComboHistory : public std::vector<std::string>
 {
 public:
     FindFilesSheetComboHistory(int _max, const char *_config_path):
@@ -71,16 +74,19 @@ public:
     
     ~FindFilesSheetComboHistory()
     {
-        GenericConfig::ConfigValue arr(rapidjson::kArrayType);
+        nc::config::Value arr(rapidjson::kArrayType);
         for( auto &s: *this )
-            arr.PushBack(GenericConfig::ConfigValue(s.c_str(), GenericConfig::g_CrtAllocator),
-                         GenericConfig::g_CrtAllocator );
+            arr.PushBack(nc::config::Value(s.c_str(), nc::config::g_CrtAllocator),
+                         nc::config::g_CrtAllocator );
         StateConfig().Set(m_Path, arr);
     }
     
-    void insert_unique( const string &_value )
+    void insert_unique( const std::string &_value )
     {
-        erase( remove_if(begin(), end(), [&](auto &_s) { return _s == _value; }), end() );
+        erase(std::remove_if(begin(),
+                             end(),
+                             [&](auto &_s) { return _s == _value; }),
+              end() );
         insert( begin(), _value );
         while( size() > (size_t)m_Max ) pop_back();
     }
@@ -112,7 +118,7 @@ private:
 {
     self = [super init];
     if(self) {
-        m_Data = move(_item);
+        m_Data = std::move(_item);
         m_Location = [NSString stringWithUTF8StdString:m_Data.rel_path];
         m_Filename = [NSString stringWithUTF8StdString:m_Data.filename];
     }
@@ -156,8 +162,8 @@ private:
 - (id)transformedValue:(id)value
 {
     static NSDateFormatter *formatter;
-    static once_flag once;
-    call_once(once, []{
+    static std::once_flag once;
+    std::call_once(once, []{
         formatter = [NSDateFormatter new];
         formatter.locale = NSLocale.currentLocale;
         formatter.dateStyle = NSDateFormatterShortStyle;
@@ -205,15 +211,15 @@ private:
 
 @implementation FindFilesSheetController
 {
-    shared_ptr<VFSHost>         m_Host;
-    string                      m_Path;
-    unique_ptr<SearchForFiles>  m_FileSearch;
+    std::shared_ptr<VFSHost>    m_Host;
+    std::string                 m_Path;
+    std::unique_ptr<SearchForFiles> m_FileSearch;
     NSDateFormatter            *m_DateFormatter;
     
     bool                        m_UIChanged;
     NSMutableArray             *m_FoundItems; // is controlled by ArrayController
-    unique_ptr<FindFilesSheetComboHistory>  m_MaskHistory;
-    unique_ptr<FindFilesSheetComboHistory>  m_TextHistory;
+    std::unique_ptr<FindFilesSheetComboHistory> m_MaskHistory;
+    std::unique_ptr<FindFilesSheetComboHistory> m_TextHistory;
     
     NSMutableArray             *m_FoundItemsBatch;
     NSTimer                    *m_BatchDrainTimer;
@@ -221,12 +227,12 @@ private:
     DispatchGroup               m_StatGroup; // for native VFS
     SerialQueue                 m_StatQueue; // for custom VFS
 
-    string                      m_LookingInPath;
+    std::string                 m_LookingInPath;
     spinlock                    m_LookingInPathGuard;
     NSTimer                    *m_LookingInPathUpdateTimer;
     
     FindFilesSheetFoundItem    *m_DoubleClickedItem;
-    function<void(const vector<VFSPath> &_filepaths)> m_OnPanelize;
+    std::function<void(const std::vector<VFSPath> &_filepaths)> m_OnPanelize;
 }
 
 @synthesize FoundItems = m_FoundItems;
@@ -238,12 +244,12 @@ private:
 {
     self = [super init];
     if(self){
-        m_FileSearch = make_unique<SearchForFiles>();
+        m_FileSearch = std::make_unique<SearchForFiles>();
         m_FoundItems = [[NSMutableArray alloc] initWithCapacity:4096];
         m_FoundItemsBatch = [[NSMutableArray alloc] initWithCapacity:4096];
 
-        m_MaskHistory = make_unique<FindFilesSheetComboHistory>(16, g_StateMaskHistory);
-        m_TextHistory = make_unique<FindFilesSheetComboHistory>(16, g_StateTextHistory);
+        m_MaskHistory = std::make_unique<FindFilesSheetComboHistory>(16, g_StateMaskHistory);
+        m_TextHistory = std::make_unique<FindFilesSheetComboHistory>(16, g_StateTextHistory);
         
         self.focusedItem = nil;
         self.didAnySearchStarted = false;
@@ -300,11 +306,11 @@ private:
         if( item.action == @selector(OnFileInternalBigViewCommand:) )
             return [self Predicate_OnFileInternalBigViewCommand];
     }
-    catch(exception &e) {
-        cout << "Exception caught: " << e.what() << endl;
+    catch(std::exception &e) {
+        std::cout << "Exception caught: " << e.what() << std::endl;
     }
     catch(...) {
-        cout << "Caught an unhandled exception!" << endl;
+        std::cout << "Caught an unhandled exception!" << std::endl;
     }
     return true;
 }
@@ -454,15 +460,16 @@ private:
         it.content_pos = _cont_pos;
         it.rel_path = to_relative_path(it.host,
                                        ensure_tr_slash(_in_path),
-                                       string(m_Host->JunctionPath()) + m_Path);
+                                       std::string(m_Host->JunctionPath()) + m_Path);
         
         
         // TODO: need some decent cancelling mechanics here
-        auto stat_block = [=, it=move(it)]()mutable{
+        auto stat_block = [=, it=std::move(it)]()mutable{
             // doing stat()'ing item in async background thread
             it.host->Stat(it.full_filename.c_str(), it.st, 0, 0);
             
-            FindFilesSheetFoundItem *item = [[FindFilesSheetFoundItem alloc] initWithFoundItem:move(it)];
+            FindFilesSheetFoundItem *item = [[FindFilesSheetFoundItem alloc]
+                                             initWithFoundItem:std::move(it)];
             m_BatchQueue.Run([self, item]{
                 // dumping result entry into batch array in BatchQueue
                 [m_FoundItemsBatch addObject:item];
@@ -470,9 +477,9 @@ private:
         };
         
         if( _in_host.IsNativeFS() )
-            m_StatGroup.Run( move(stat_block) );
+            m_StatGroup.Run( std::move(stat_block) );
         else
-            m_StatQueue.Run( move(stat_block) );
+            m_StatQueue.Run( std::move(stat_block) );
         
         if(m_FoundItems.count + m_FoundItemsBatch.count >= g_MaximumSearchResults)
             m_FileSearch->Stop(); // gorshochek, ne vari!!!
@@ -491,10 +498,10 @@ private:
     const bool started = m_FileSearch->Go(m_Path,
                                           m_Host,
                                           self.searchOptionsFromUI,
-                                          move(found_callback),
-                                          move(finish_callback),
-                                          move(lookin_in_callback),
-                                          move(spawn_archive_callback)
+                                          std::move(found_callback),
+                                          std::move(finish_callback),
+                                          std::move(lookin_in_callback),
+                                          std::move(spawn_archive_callback)
                                           );
     self.searchingNow = started;
     if(started) {
@@ -612,7 +619,7 @@ private:
     FindFilesSheetFoundItem *item = [self.ArrayController.arrangedObjects objectAtIndex:row];
     FindFilesSheetControllerFoundItem *data = item.data;
     
-    string p = data->full_filename;
+    std::string p = data->full_filename;
     VFSHostPtr vfs = data->host;
     CFRange cont = data->content_pos;
     NSString *search_req = self.TextComboBox.stringValue;
@@ -663,6 +670,7 @@ private:
 
 - (void)comboBoxWillDismiss:(NSNotification *)notification
 {
+    using namespace std::literals;
     dispatch_to_main_queue_after(10ms, [=]{
         [self setupReturnKey];
     });
@@ -682,7 +690,7 @@ private:
 - (IBAction)OnPanelize:(id)sender
 {
     if( m_OnPanelize ) {
-        vector<VFSPath> results;
+        std::vector<VFSPath> results;
         for( FindFilesSheetFoundItem *item in self.ArrayController.arrangedObjects ) {
             auto d = item.data;
             results.emplace_back( d->host, d->full_filename );

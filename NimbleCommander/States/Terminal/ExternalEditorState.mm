@@ -1,4 +1,5 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "ExternalEditorState.h"
 #include <Utility/FontCache.h>
 #include "../../../NimbleCommander/States/MainWindowController.h"
 #include <Term/SingleTask.h>
@@ -7,26 +8,27 @@
 #include <Term/View.h>
 #include <Term/ScrollView.h>
 #include "SettingsAdaptor.h"
-#include "ExternalEditorState.h"
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
 
 using namespace nc;
 using namespace nc::term;
 
 @implementation NCTermExternalEditorState
 {
-    unique_ptr<SingleTask>  m_Task;
-    unique_ptr<Parser>          m_Parser;
+    std::unique_ptr<SingleTask> m_Task;
+    std::unique_ptr<Parser>     m_Parser;
     NCTermScrollView           *m_TermScrollView;
-    path                        m_BinaryPath;
-    string                      m_Params;
-    string                      m_FileTitle;
+    boost::filesystem::path     m_BinaryPath;
+    std::string                 m_Params;
+    std::string                 m_FileTitle;
     NSLayoutConstraint         *m_TopLayoutConstraint;
 }
 
 - (id)initWithFrameAndParams:(NSRect)frameRect
-                      binary:(const path&)_binary_path
-                      params:(const string&)_params
-                   fileTitle:(const string&)_file_title
+                      binary:(const boost::filesystem::path&)_binary_path
+                      params:(const std::string&)_params
+                   fileTitle:(const std::string&)_file_title
 {
     self = [super initWithFrame:frameRect];
     if (self) {
@@ -53,9 +55,9 @@ using namespace nc::term;
         
         __weak NCTermExternalEditorState *weakself = self;
         
-        m_Task = make_unique<SingleTask>();
+        m_Task = std::make_unique<SingleTask>();
         auto task_raw_ptr = m_Task.get();
-        m_Parser = make_unique<Parser>(m_TermScrollView.screen,
+        m_Parser = std::make_unique<Parser>(m_TermScrollView.screen,
                                        [=](const void* _d, int _sz){
                                            task_raw_ptr->WriteChildInput(_d, _sz);
                                        });
@@ -84,7 +86,7 @@ using namespace nc::term;
                 });
             }
         });
-        m_Task->SetOnChildDied(^{
+        m_Task->SetOnChildDied([weakself]{
             dispatch_to_main_queue( [=]{
                 if( auto strongself = weakself )
                     [(NCMainWindowController*)strongself.window.delegate ResignAsWindowState:strongself];

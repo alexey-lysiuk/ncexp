@@ -131,7 +131,7 @@ public:
     
     size_t Size() const noexcept;
     bool Empty() const noexcept;
-    void Add(const std::string_view &_s);
+    void Add(std::string_view _s);
     StringsBulk Build() const;
     
 private:

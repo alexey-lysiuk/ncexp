@@ -1,12 +1,12 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/FontExtras.h>
 #include <NimbleCommander/Core/Theming/Theme.h>
-#include <NimbleCommander/Bootstrap/Config.h>
 #include "../PanelView.h"
 #include "../PanelViewPresentationSettings.h"
 #include "PanelBriefView.h"
 #include "PanelBriefViewCollectionViewItem.h"
 #include "PanelBriefViewItemCarrier.h"
+#include <Habanero/dispatch_cpp.h>
 
 using namespace nc::panel;
 
@@ -15,8 +15,8 @@ static const auto g_SymlinkArrowImage = [NSImage imageNamed:@"AliasBadgeIcon"];
 static NSParagraphStyle *ParagraphStyle( PanelViewFilenameTrimming _mode )
 {
     static NSParagraphStyle *styles[3];
-    static once_flag once;
-    call_once(once, []{
+    static std::once_flag once;
+    std::call_once(once, []{
         NSMutableParagraphStyle *p0 = [NSMutableParagraphStyle new];
         p0.alignment = NSLeftTextAlignment;
         p0.lineBreakMode = NSLineBreakByTruncatingHead;
@@ -53,7 +53,7 @@ static NSParagraphStyle *ParagraphStyle( PanelViewFilenameTrimming _mode )
     NSMutableAttributedString          *m_AttrString;
     PanelBriefViewItemLayoutConstants   m_LayoutConstants;
     __weak PanelBriefViewItem          *m_Controller;
-    pair<int16_t, int16_t>              m_QSHighlight;
+    std::pair<int16_t, int16_t>         m_QSHighlight;
     bool                                m_Highlighted;
     bool                                m_PermitFieldRenaming;
     bool                                m_IsDropTarget;
@@ -73,7 +73,8 @@ static NSParagraphStyle *ParagraphStyle( PanelViewFilenameTrimming _mode )
     if( self ) {
         self.autoresizingMask = NSViewNotSizable;
         self.autoresizesSubviews = false;
-        self.translatesAutoresizingMaskIntoConstraints = false;
+        self.postsFrameChangedNotifications = false;
+        self.postsBoundsChangedNotifications = false;
         m_TextColor = NSColor.blackColor;
         m_Filename = @"";
         m_QSHighlight = {0, 0};
@@ -82,7 +83,8 @@ static NSParagraphStyle *ParagraphStyle( PanelViewFilenameTrimming _mode )
         m_IsDropTarget = false;
         m_IsSymlink = false;
         m_AttrString = [[NSMutableAttributedString alloc] initWithString:@"" attributes:nil];
-        [self registerForDraggedTypes:PanelView.acceptedDragAndDropTypes];        
+        
+        [self registerForDraggedTypes:PanelView.acceptedDragAndDropTypes];
     }
     return self;
 }
@@ -97,15 +99,27 @@ static NSParagraphStyle *ParagraphStyle( PanelViewFilenameTrimming _mode )
     return false;
 }
 
-- (void)setFrameSize:(NSSize)newSize
+- (void)setFrameOrigin:(NSPoint)_new_origin
 {
-    [super setFrameSize:newSize];
+    if( NSEqualPoints(_new_origin, self.frame.origin) )
+        return;
+    [super setFrameOrigin:_new_origin];
     [self setNeedsDisplay:true];
 }
 
-- (void) setFrame:(NSRect)frame
+- (void)setFrameSize:(NSSize)_new_size
 {
-    [super setFrame:frame];
+    if( NSEqualSizes(_new_size, self.frame.size) )
+        return;
+    [super setFrameSize:_new_size];
+    [self setNeedsDisplay:true];
+}
+
+- (void) setFrame:(NSRect)_new_frame
+{
+    if( NSEqualRects(_new_frame, self.frame) )
+        return;
+    [super setFrame:_new_frame];
     [self setNeedsDisplay:true];
 }
 
@@ -240,8 +254,9 @@ static bool HasNoModifiers( NSEvent *_event )
 - (void)mouseUp:(NSEvent *)event
 {
     // used for delayed action to ensure that click was single, not double or more
-    static atomic_ullong current_ticket = {0};
-    static const nanoseconds delay = milliseconds( int(NSEvent.doubleClickInterval*1000) );
+    static std::atomic_ullong current_ticket = {0};
+    static const std::chrono::nanoseconds delay =
+        std::chrono::milliseconds( int(NSEvent.doubleClickInterval*1000) );
     
     const auto my_index = m_Controller.itemIndex;
     if( my_index < 0 )
@@ -269,7 +284,7 @@ static bool HasNoModifiers( NSEvent *_event )
 
 - (void) mouseDragged:(NSEvent *)event
 {
-    const auto max_drag_dist = 5.;
+    const auto max_drag_dist = 10.;
     if( g_RowReadyToDrag &&  g_MouseDownCarrier == (__bridge void*)self ) {
         const auto lp = [self convertPoint:event.locationInWindow fromView:nil];
         const auto dist = hypot(lp.x - g_LastMouseDownPos.x, lp.y - g_LastMouseDownPos.y);
@@ -351,7 +366,7 @@ static bool HasNoModifiers( NSEvent *_event )
     [self setNeedsDisplay:true];
 }
 
-- (void) setQsHighlight:(pair<int16_t, int16_t>)qsHighlight
+- (void) setQsHighlight:(std::pair<int16_t, int16_t>)qsHighlight
 {
     if( m_QSHighlight != qsHighlight ) {
         m_QSHighlight = qsHighlight;
@@ -375,7 +390,7 @@ static bool HasNoModifiers( NSEvent *_event )
     const auto bounds = self.bounds;
     auto text_segment_rect = [self calculateTextSegmentFromBounds:bounds];
     
-    auto fi = FontGeometryInfo(CurrentTheme().FilePanelsBriefFont());
+    auto fi = nc::utility::FontGeometryInfo(CurrentTheme().FilePanelsBriefFont());
     
     text_segment_rect.size.height = fi.LineHeight();
     text_segment_rect.origin.y = m_LayoutConstants.font_baseline - fi.Descent();
@@ -409,7 +424,7 @@ static bool HasNoModifiers( NSEvent *_event )
                                       0);
     const auto rc = [m_AttrString boundingRectWithSize:text_rect.size options:0 context:nil];
     const auto position = [self convertPoint:sender.draggingLocation fromView:nil];
-    return position.x < text_rect.origin.x + max( rc.size.width, 32. );
+    return position.x < text_rect.origin.x + std::max( rc.size.width, 32. );
 }
 
 - (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender

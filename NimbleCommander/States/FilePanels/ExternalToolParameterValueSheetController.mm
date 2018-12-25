@@ -1,6 +1,8 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "ExternalToolParameterValueSheetController.h"
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 @interface ExternalToolParameterValueSheetController ()
 
@@ -12,13 +14,13 @@
 
 @implementation ExternalToolParameterValueSheetController
 {
-    vector<string> m_ValueNames;
-    vector<string> m_Values;
+    std::vector<std::string> m_ValueNames;
+    std::vector<std::string> m_Values;
 }
 
 @synthesize values = m_Values;
 
-- (id) initWithValueNames:(vector<string>)_names
+- (id) initWithValueNames:(std::vector<std::string>)_names
 {
     self = [super init];
     if( self ) {

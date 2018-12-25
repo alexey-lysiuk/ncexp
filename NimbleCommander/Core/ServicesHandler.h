@@ -2,6 +2,11 @@
 
 #pragma once
 
+#include <functional>
+#include <string>
+#include <vector>
+#include <Cocoa/Cocoa.h>
+
 @class NCMainWindowController;
 
 namespace nc::core {
@@ -9,7 +14,7 @@ namespace nc::core {
 class ServicesHandler
 {
 public:
-    ServicesHandler( function<NCMainWindowController*()> _window_provider );
+    ServicesHandler( std::function<NCMainWindowController*()> _window_provider );
 
     // NSService
     void OpenFolder(NSPasteboard *_pboard, NSString *_user_data, __strong NSString **_error);
@@ -19,10 +24,10 @@ public:
     void OpenFiles(NSArray<NSString *> *_paths);
     
 private:
-    void GoToFolder(const string &_path);
-    void RevealItems(const vector<string> &_paths);
+    void GoToFolder(const std::string &_path);
+    void RevealItems(const std::vector<std::string> &_paths);
     
-    function<NCMainWindowController*()> m_WindowProvider;
+    std::function<NCMainWindowController*()> m_WindowProvider;
 };
     
 }

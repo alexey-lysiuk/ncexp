@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "OpenNetworkConnection.h"
 #include "../PanelController.h"
 #include "../Views/FTPConnectionSheetController.h"
@@ -14,6 +14,9 @@
 #include <VFS/NetWebDAV.h>
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/AnyHolder.h>
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 namespace nc::panel::actions {
 
@@ -24,22 +27,25 @@ OpenConnectionBase::OpenConnectionBase( NetworkConnectionsManager &_net_mgr ):
 
 static bool GoToFTP(PanelController *_target,
                     const NetworkConnectionsManager::Connection &_connection,
-                    const string& _passwd,
+                    const std::string& _passwd,
                     NetworkConnectionsManager &_net_mgr)
 {
     dispatch_assert_background_queue();    
     auto &info = _connection.Get<NetworkConnectionsManager::FTP>();
     try {
-        auto host = make_shared<vfs::FTPHost>(info.host,
-                                              info.user,
-                                              _passwd,
-                                              info.path,
-                                              info.port
-                                              );
+        auto host = std::make_shared<vfs::FTPHost>(info.host,
+                                                   info.user,
+                                                   _passwd,
+                                                   info.path,
+                                                   info.port
+                                                   );
         dispatch_to_main_queue([=]{
-//            m_DirectoryLoadingQ.Wait(); // just to be sure that GoToDir will not exit immed due to non-empty loading que
-
-            [_target GoToDir:info.path vfs:host select_entry:"" async:true];
+            auto request = std::make_shared<DirectoryChangeRequest>();
+            request->RequestedDirectory = info.path;
+            request->VFS = host;
+            request->PerformAsynchronous = true;
+            request->InitiatedByUser = true;
+            [_target GoToDirWithContext:request];
         });
         
         // save successful connection usage to history
@@ -60,21 +66,25 @@ static bool GoToFTP(PanelController *_target,
 
 static bool GoToSFTP(PanelController *_target,
                      const NetworkConnectionsManager::Connection &_connection,
-                     const string& _passwd,
+                     const std::string& _passwd,
                      NetworkConnectionsManager &_net_mgr)
 {
     dispatch_assert_background_queue();
     auto &info = _connection.Get<NetworkConnectionsManager::SFTP>();
     try {
-        auto host = make_shared<vfs::SFTPHost>(info.host,
-                                                info.user,
-                                                _passwd,
-                                                info.keypath,
-                                                info.port
-                                                );
+        auto host = std::make_shared<vfs::SFTPHost>(info.host,
+                                                    info.user,
+                                                    _passwd,
+                                                    info.keypath,
+                                                    info.port
+                                                    );
         dispatch_to_main_queue([=]{
-//            m_DirectoryLoadingQ.Wait(); // just to be sure that GoToDir will not exit immed due to non-empty loading que
-            [_target GoToDir:host->HomeDir() vfs:host select_entry:"" async:true];
+            auto request = std::make_shared<DirectoryChangeRequest>();
+            request->RequestedDirectory = host->HomeDir();
+            request->VFS = host;
+            request->PerformAsynchronous = true;
+            request->InitiatedByUser = true;
+            [_target GoToDirWithContext:request];
         });
         
         // save successful connection to history
@@ -95,21 +105,26 @@ static bool GoToSFTP(PanelController *_target,
 
 static bool GoToWebDAV(PanelController *_target,
                        const NetworkConnectionsManager::Connection &_connection,
-                       const string& _passwd,
+                       const std::string& _passwd,
                        NetworkConnectionsManager &_net_mgr)
 {
     dispatch_assert_background_queue();
     auto &info = _connection.Get<NetworkConnectionsManager::WebDAV>();
     try {
-        auto host = make_shared<vfs::WebDAVHost>(info.host,
-                                                info.user,
-                                                _passwd,
-                                                info.path,
-                                                info.https,
-                                                info.port
-                                                );
+        auto host = std::make_shared<vfs::WebDAVHost>(info.host,
+                                                      info.user,
+                                                      _passwd,
+                                                      info.path,
+                                                      info.https,
+                                                      info.port
+                                                      );
         dispatch_to_main_queue([=]{
-            [_target GoToDir:"/" vfs:host select_entry:"" async:true];
+            auto request = std::make_shared<DirectoryChangeRequest>();
+            request->RequestedDirectory = "/";
+            request->VFS = host;
+            request->PerformAsynchronous = true;
+            request->InitiatedByUser = true;
+            [_target GoToDirWithContext:request];
         });
         
         // save successful connection to history
@@ -130,16 +145,20 @@ static bool GoToWebDAV(PanelController *_target,
 
 static void GoToDropboxStorage(PanelController *_target,
                                const NetworkConnectionsManager::Connection &_connection,
-                               const string&_passwd,
+                               const std::string&_passwd,
                                NetworkConnectionsManager &_net_mgr)
 {
     dispatch_assert_background_queue();
     auto &info = _connection.Get<NetworkConnectionsManager::Dropbox>();
     try {
-        auto host = make_shared<vfs::DropboxHost>(info.account, _passwd);
+        auto host = std::make_shared<vfs::DropboxHost>(info.account, _passwd);
         dispatch_to_main_queue([=]{
-//            m_DirectoryLoadingQ.Wait(); // just to be sure that GoToDir will not exit immed due to non-empty loading que
-            [_target GoToDir:"/" vfs:host select_entry:"" async:true];
+            auto request = std::make_shared<DirectoryChangeRequest>();
+            request->RequestedDirectory = "/";
+            request->VFS = host;
+            request->PerformAsynchronous = true;
+            request->InitiatedByUser = true;
+            [_target GoToDirWithContext:request];
         });
         
         // save successful connection to history
@@ -157,20 +176,22 @@ static void GoToDropboxStorage(PanelController *_target,
 
 static void GoToLANShare(PanelController *_target,
                          const NetworkConnectionsManager::Connection &_connection,
-                         const string& _passwd,
+                         const std::string& _passwd,
                          bool _save_password_on_success,
                          NetworkConnectionsManager &_net_mgr)
 {
-    auto activity = make_shared<nc::panel::ActivityTicket>();
+    auto activity = std::make_shared<nc::panel::ActivityTicket>();
     __weak PanelController *weak_panel = _target;
     auto cb = [weak_panel, activity, _connection, _passwd, _save_password_on_success, &_net_mgr]
-        (const string &_path, const string &_err) {
+        (const std::string &_path, const std::string &_err) {
         if( PanelController *panel = weak_panel ) {
             if( !_path.empty() ) {
-                [panel GoToDir:_path
-                           vfs:VFSNativeHost::SharedHost()
-                  select_entry:""
-                         async:true];
+                auto request = std::make_shared<DirectoryChangeRequest>();
+                request->RequestedDirectory = _path;
+                request->VFS = VFSNativeHost::SharedHost();
+                request->PerformAsynchronous = true;
+                request->InitiatedByUser = true;
+                [panel GoToDirWithContext:request];
                 
                 // save successful connection to history
                 _net_mgr.ReportUsage(_connection);
@@ -208,7 +229,7 @@ void OpenNewFTPConnection::Perform(PanelController *_target, id _sender) const
             return;
         
         auto connection = sheet.connection;
-        string password = sheet.password;
+        std::string password = sheet.password;
         
         m_NetMgr.InsertConnection(connection);
         m_NetMgr.SetPassword(connection, password);
@@ -234,7 +255,7 @@ void OpenNewSFTPConnection::Perform(PanelController *_target, id _sender) const
             return;
             
         auto connection = sheet.connection;
-        string password = sheet.password;
+        std::string password = sheet.password;
         
         m_NetMgr.InsertConnection(connection);
         m_NetMgr.SetPassword(connection, password);
@@ -259,7 +280,7 @@ void OpenNewDropboxStorage::Perform(PanelController *_target, id _sender) const
             return;
             
         auto connection = sheet.connection;
-        string password = sheet.password;
+        std::string password = sheet.password;
         
         m_NetMgr.InsertConnection(connection);
         m_NetMgr.SetPassword(connection, password);
@@ -306,7 +327,7 @@ void OpenNewWebDAVConnection::Perform( PanelController *_target, id _sender ) co
             return;
             
         auto connection = sheet.connection;
-        string password = sheet.password;
+        std::string password = sheet.password;
         
         m_NetMgr.InsertConnection(connection);
         m_NetMgr.SetPassword(connection, password);
@@ -321,7 +342,7 @@ static void GoToConnection(PanelController *_target,
                            const NetworkConnectionsManager::Connection &connection,
                            NetworkConnectionsManager &_net_mgr)
 {
-    string passwd;
+    std::string passwd;
     bool should_save_passwd = false;
     if( !_net_mgr.GetPassword(connection, passwd) ) {
         if( !_net_mgr.AskForPassword(connection, passwd) )
@@ -387,7 +408,7 @@ void OpenExistingNetworkConnection::Perform(PanelController *_target, id _sender
 {
     if( auto menuitem = objc_cast<NSMenuItem>(_sender) )
         if( auto holder = objc_cast<AnyHolder>(menuitem.representedObject) )
-            if( auto conn = any_cast<NetworkConnectionsManager::Connection>(&holder.any) )
+            if( auto conn = std::any_cast<NetworkConnectionsManager::Connection>(&holder.any) )
                 GoToConnection(_target, *conn, m_NetMgr);
 }
 

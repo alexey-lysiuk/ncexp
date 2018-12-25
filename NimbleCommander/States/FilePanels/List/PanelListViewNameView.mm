@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/FontExtras.h>
 #include "../PanelView.h"
 #include "../PanelViewPresentationSettings.h"
@@ -6,16 +6,18 @@
 #include "PanelListViewGeometry.h"
 #include "PanelListViewRowView.h"
 #include "PanelListViewNameView.h"
+#include <Utility/ObjCpp.h>
 
 using namespace nc::panel;
+using nc::utility::FontGeometryInfo;
 
 static const auto g_SymlinkArrowImage = [NSImage imageNamed:@"AliasBadgeIcon"];
 
 static NSParagraphStyle *ParagraphStyle( PanelViewFilenameTrimming _mode )
 {
     static NSParagraphStyle *styles[3];
-    static once_flag once;
-    call_once(once, []{
+    static std::once_flag once;
+    std::call_once(once, []{
         NSMutableParagraphStyle *p0 = [NSMutableParagraphStyle new];
         p0.alignment = NSLeftTextAlignment;
         p0.lineBreakMode = NSLineBreakByTruncatingHead;
@@ -251,8 +253,9 @@ static bool HasNoModifiers( NSEvent *_event )
 - (void)mouseUp:(NSEvent *)event
 {
 //    used for delayed action to ensure that click was single, not double or more
-    static atomic_ullong current_ticket = {0};
-    static const nanoseconds delay = milliseconds( int(NSEvent.doubleClickInterval*1000) );
+    static std::atomic_ullong current_ticket = {0};
+    static const std::chrono::nanoseconds delay =
+        std::chrono::milliseconds( int(NSEvent.doubleClickInterval*1000) );
     
     const auto my_index = self.row.itemIndex;
     if( my_index < 0 )
@@ -285,7 +288,7 @@ static bool HasNoModifiers( NSEvent *_event )
                                                 options:0
                                                 context:nil];
 
-    return _position.x <= max(rc.size.width, 32.) + text_rect.origin.x;
+    return _position.x <= std::max(rc.size.width, 32.) + text_rect.origin.x;
 }
 
 @end

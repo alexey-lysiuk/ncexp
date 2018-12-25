@@ -1,6 +1,7 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "PreferencesWindowThemesTab.h"
+#include <Config/RapidJSON.h>
 #include <fstream>
-#include <NimbleCommander/Core/rapidjson.h>
 #include <rapidjson/error/en.h>
 #include <rapidjson/memorystream.h>
 #include <rapidjson/stringbuffer.h>
@@ -10,10 +11,13 @@
 #include <NimbleCommander/Core/Theming/ThemesManager.h>
 #include <NimbleCommander/Core/Theming/ThemePersistence.h>
 #include <NimbleCommander/States/FilePanels/PanelViewPresentationItemsColoringFilter.h>
-#include "PreferencesWindowThemesTab.h"
 #include "PreferencesWindowThemesControls.h"
 #include "PreferencesWindowThemesTabModel.h"
 #include "PreferencesWindowThemesTabImportSheet.h"
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
+
+using namespace std::literals;
 
 static NSTextField *SpawnSectionTitle( NSString *_title )
 {
@@ -50,9 +54,9 @@ static NSTextField *SpawnEntryTitle( NSString *_title )
 @implementation PreferencesWindowThemesTab
 {
     NSArray *m_Nodes;
-    rapidjson::StandaloneDocument m_Doc;
+    nc::config::Document m_Doc;
     ThemesManager *m_Manager;
-    vector<string> m_ThemeNames;
+    std::vector<std::string> m_ThemeNames;
     int m_SelectedTheme;
     
 }
@@ -187,6 +191,13 @@ static NSTextField *SpawnEntryTitle( NSString *_title )
                                                                         i.entry.c_str());
                 v.action = @selector(onAppearanceChanged:);
                 v.target = self;
+                /* due to a issue with MAS review proccess the following compromise decision was
+                 made: let choosing UI appearance only for *non* standard themes.
+                 It (hopefuly) will reduce astonishment when user changes UI appearance of *current*
+                 theme instead of choosing a needed theme instead.
+                 */
+                v.enabled = self.selectedThemeCanBeReverted == false;
+                
                 return v;
             }
             if( i.type == PreferencesWindowThemesTabItemType::ThemeTitle ) {
@@ -251,13 +262,13 @@ static NSTextField *SpawnEntryTitle( NSString *_title )
     }
 }
 
-- (const rapidjson::StandaloneDocument &) selectedThemeFrontend
+- (const nc::config::Document &) selectedThemeFrontend
 {
     return m_Doc; // possibly some more logic here
 }
 /* also theme backend if any */
 
-- (void) commitChangedValue:(const rapidjson::StandaloneValue&)_value forKey:(const string&)_key
+- (void) commitChangedValue:(const nc::config::Value&)_value forKey:(const std::string&)_key
 {
     // CHECKS!!!
     const auto &theme_name = m_ThemeNames[m_SelectedTheme];
@@ -288,7 +299,7 @@ static NSTextField *SpawnEntryTitle( NSString *_title )
 {
     // CHECKS!!!
     const auto &theme_name = m_ThemeNames.at(m_SelectedTheme);
-    m_Doc.CopyFrom( *m_Manager->ThemeData(theme_name), rapidjson::g_CrtAllocator );
+    m_Doc.CopyFrom( *m_Manager->ThemeData(theme_name), nc::config::g_CrtAllocator );
     
     
     self.selectedThemeCanBeRemoved = m_Manager->CanBeRemoved(theme_name);
@@ -333,9 +344,9 @@ static NSTextField *SpawnEntryTitle( NSString *_title )
 - (void) importThemeWithURL:(NSURL*)url
 {
     if( auto d = [NSData dataWithContentsOfURL:url] ) {
-        string str { (const char*)d.bytes, d.length };
+        std::string str { (const char*)d.bytes, d.length };
         
-        auto doc = make_shared<rapidjson::Document>();
+        auto doc = std::make_shared<rapidjson::Document>();
         rapidjson::ParseResult ok = doc->Parse<rapidjson::kParseCommentsFlag>( str.c_str() );
         if( !ok )
             return;
@@ -353,8 +364,8 @@ static NSTextField *SpawnEntryTitle( NSString *_title )
                         m_ThemeNames[m_SelectedTheme] :
                         sheet.importAsName.UTF8String ;
                      
-                     rapidjson::StandaloneDocument sdoc;
-                     sdoc.CopyFrom(*doc, rapidjson::g_CrtAllocator);
+                     nc::config::Document sdoc;
+                     sdoc.CopyFrom(*doc, nc::config::g_CrtAllocator);
                      bool result = sheet.overwriteCurrentTheme ?
                         m_Manager->ImportThemeData( name, sdoc ) :
                         m_Manager->AddTheme(name, sdoc);

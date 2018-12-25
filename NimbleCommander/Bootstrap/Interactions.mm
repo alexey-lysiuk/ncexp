@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Interactions.h"
 #include <Habanero/CommonPaths.h>
 #include <NimbleCommander/Core/Alert.h>

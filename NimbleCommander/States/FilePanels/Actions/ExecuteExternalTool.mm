@@ -12,29 +12,36 @@
 #include <NimbleCommander/Core/AnyHolder.h>
 #include <Term/Task.h>
 #include "../ExternalToolParameterValueSheetController.h"
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
     
-static string EscapeSpaces(string _str);
-static string UnescapeSpaces(string _str);
-static vector<string> SplitByEscapedSpaces( const string &_str );
-static string ExtractParamInfoFromListingItem(ExternalToolsParameters::FileInfo _what,
-                                              const VFSListingItem &_i );
-static string ExtractParamInfoFromContext(ExternalToolsParameters::FileInfo _what,
-                                          PanelController *_pc );
-static string CombineStringsIntoEscapedSpaceSeparatedString( const vector<string> &_l );
-static string CombineStringsIntoNewlineSeparatedString( const vector<string> &_l );
-static bool IsBundle( const string& _path );
-static string GetExecutablePathForBundle( const string& _path );
-static vector<string> FindEnterValueParameters(const ExternalToolsParameters &_p);
+using namespace std::literals;
+    
+static std::string EscapeSpaces(std::string _str);
+static std::string UnescapeSpaces(std::string _str);
+static std::vector<std::string> SplitByEscapedSpaces( const std::string &_str );
+static std::string ExtractParamInfoFromListingItem(ExternalToolsParameters::FileInfo _what,
+                                                   const VFSListingItem &_i );
+static std::string ExtractParamInfoFromContext(ExternalToolsParameters::FileInfo _what,
+                                               PanelController *_pc );
+static std::string CombineStringsIntoEscapedSpaceSeparatedString
+    ( const std::vector<std::string> &_l );
+static std::string CombineStringsIntoNewlineSeparatedString( const std::vector<std::string> &_l );
+static bool IsBundle( const std::string& _path );
+static std::string GetExecutablePathForBundle( const std::string& _path );
+static std::vector<std::string> FindEnterValueParameters(const ExternalToolsParameters &_p);
 static PanelController *ExternalToolParametersContextFromLocation
     (ExternalToolsParameters::Location _loc,
      MainWindowFilePanelState *_target);
-static string BuildParametersStringForExternalTool(const ExternalToolsParameters&_par,
-                                                   const vector<string>& _entered_values,
-                                                   MainWindowFilePanelState *_target);
+static std::string BuildParametersStringForExternalTool
+    (const ExternalToolsParameters&_par,
+     const std::vector<std::string>& _entered_values,
+     MainWindowFilePanelState *_target);
 static void RunExtTool(const ExternalTool &_tool,
-                       const string& _cooked_params,
+                       const std::string& _cooked_params,
                        MainWindowFilePanelState *_target);
     
 void ExecuteExternalTool::Perform( MainWindowFilePanelState *_target, id _sender ) const
@@ -45,7 +52,7 @@ void ExecuteExternalTool::Perform( MainWindowFilePanelState *_target, id _sender
         id rep_obj = [_sender representedObject];
 #pragma clang diagnostic pop
         if( auto any_holder = objc_cast<AnyHolder>(rep_obj) )
-            if( auto tool = any_cast<shared_ptr<const ExternalTool>>(&any_holder.any) )
+            if( auto tool = std::any_cast<std::shared_ptr<const ExternalTool>>(&any_holder.any) )
                 if( tool->get() )
                     Execute(*tool->get(), _target);
     }
@@ -61,17 +68,22 @@ void ExecuteExternalTool::Execute(const ExternalTool &_tool,
         return;
     
     auto parameters = ExternalToolsParametersParser().Parse(_tool.m_Parameters);
-    vector<string> enter_values_names = FindEnterValueParameters(parameters);
+    std::vector<std::string> enter_values_names = FindEnterValueParameters(parameters);
     
     if( enter_values_names.empty() ) {
-        string cooked_parameters = BuildParametersStringForExternalTool(parameters, {}, _target);
+        std::string cooked_parameters = BuildParametersStringForExternalTool(parameters,
+                                                                             {},
+                                                                             _target);
         RunExtTool(_tool, cooked_parameters, _target);
     }
     else {
-        auto sheet = [[ExternalToolParameterValueSheetController alloc] initWithValueNames:enter_values_names];
+        auto sheet = [[ExternalToolParameterValueSheetController alloc]
+                      initWithValueNames:enter_values_names];
         [sheet beginSheetForWindow:_target.window completionHandler:^(NSModalResponse returnCode) {
             if( returnCode == NSModalResponseOK ) {
-                string cooked_parameters = BuildParametersStringForExternalTool(parameters, sheet.values, _target);
+                auto cooked_parameters = BuildParametersStringForExternalTool(parameters,
+                                                                              sheet.values,
+                                                                              _target);
                 RunExtTool(_tool, cooked_parameters, _target);
             }
         }];
@@ -82,21 +94,21 @@ void ExecuteExternalTool::Execute(const ExternalTool &_tool,
 
     
 
-static string EscapeSpaces(string _str)
+static std::string EscapeSpaces(std::string _str)
 {
     boost::replace_all(_str, " ", "\\ ");
     return _str;
 }
 
-static string UnescapeSpaces(string _str)
+static std::string UnescapeSpaces(std::string _str)
 {
     boost::replace_all(_str, "\\ ",  " ");
     return _str;
 }
 
-static vector<string> SplitByEscapedSpaces( const string &_str )
+static std::vector<std::string> SplitByEscapedSpaces( const std::string &_str )
 {
-    vector<string> results;
+    std::vector<std::string> results;
     if( !_str.empty() )
         results.emplace_back();
     
@@ -122,7 +134,7 @@ static vector<string> SplitByEscapedSpaces( const string &_str )
     return results;
 }
 
-static string ExtractParamInfoFromListingItem(ExternalToolsParameters::FileInfo _what,
+static std::string ExtractParamInfoFromListingItem(ExternalToolsParameters::FileInfo _what,
                                               const VFSListingItem &_i )
 {
     if( !_i )
@@ -142,8 +154,8 @@ static string ExtractParamInfoFromListingItem(ExternalToolsParameters::FileInfo 
     return {};
 }
 
-static string ExtractParamInfoFromContext(ExternalToolsParameters::FileInfo _what,
-                                          PanelController *_pc )
+static std::string ExtractParamInfoFromContext(ExternalToolsParameters::FileInfo _what,
+                                               PanelController *_pc )
 {
     if( !_pc )
         return {};
@@ -155,9 +167,10 @@ static string ExtractParamInfoFromContext(ExternalToolsParameters::FileInfo _wha
     return {};
 }
 
-static string CombineStringsIntoEscapedSpaceSeparatedString( const vector<string> &_l )
+static std::string CombineStringsIntoEscapedSpaceSeparatedString
+    ( const std::vector<std::string> &_l )
 {
-    string result;
+    std::string result;
     if( !_l.empty() )
         result += EscapeSpaces(_l.front());
     for( size_t i = 1, e = _l.size(); i < e; ++i )
@@ -165,9 +178,9 @@ static string CombineStringsIntoEscapedSpaceSeparatedString( const vector<string
     return result;
 }
 
-static string CombineStringsIntoNewlineSeparatedString( const vector<string> &_l )
+static std::string CombineStringsIntoNewlineSeparatedString( const std::vector<std::string> &_l )
 {
-    string result;
+    std::string result;
     if( !_l.empty() )
         result += _l.front();
     for( size_t i = 1, e = _l.size(); i < e; ++i )
@@ -175,13 +188,13 @@ static string CombineStringsIntoNewlineSeparatedString( const vector<string> &_l
     return result;
 }
 
-static bool IsBundle( const string& _path )
+static bool IsBundle( const std::string& _path )
 {
     NSBundle *b = [NSBundle bundleWithPath:[NSString stringWithUTF8StdString:_path]];
     return b != nil;
 }
 
-static string GetExecutablePathForBundle( const string& _path )
+static std::string GetExecutablePathForBundle( const std::string& _path )
 {
     NSBundle *b = [NSBundle bundleWithPath:[NSString stringWithUTF8StdString:_path]];
     if( !b )
@@ -195,16 +208,16 @@ static string GetExecutablePathForBundle( const string& _path )
     return fsr;
 }
 
-static vector<string> FindEnterValueParameters(const ExternalToolsParameters &_p)
+static std::vector<std::string> FindEnterValueParameters(const ExternalToolsParameters &_p)
 {
-    vector<string> ev;
+    std::vector<std::string> ev;
     for( int i = 0, e = (int)_p.StepsAmount(); i != e; ++i )
         if( _p.StepNo(i).type == ExternalToolsParameters::ActionType::EnterValue )
             ev.emplace_back( _p.GetEnterValue(_p.StepNo(i).index).name  );
     return ev;
 }
 
-static bool IsRunnableExecutable( const string &_path )
+static bool IsRunnableExecutable( const std::string &_path )
 {
     VFSStat st;
     return VFSNativeHost::SharedHost()->Stat(_path.c_str(), st, 0, nullptr) == VFSError::Ok &&
@@ -214,7 +227,7 @@ static bool IsRunnableExecutable( const string &_path )
 }
 
 static void RunExtTool(const ExternalTool &_tool,
-                       const string& _cooked_params,
+                       const std::string& _cooked_params,
                        MainWindowFilePanelState *_target)
 {
     dispatch_assert_main_queue();
@@ -231,7 +244,7 @@ static void RunExtTool(const ExternalTool &_tool,
     if( startup_mode == ExternalTool::StartupMode::RunInTerminal ) {
         if( tool_is_bundle ) {
             // bundled UI tool starting in terminal
-            string exec_path = _tool.m_ExecutablePath;
+            std::string exec_path = _tool.m_ExecutablePath;
             if( !IsRunnableExecutable(exec_path) )
                 exec_path = GetExecutablePathForBundle(_tool.m_ExecutablePath);
 
@@ -293,16 +306,19 @@ static PanelController *ExternalToolParametersContextFromLocation(ExternalToolsP
     return nil;
 }
 
-static string BuildParametersStringForExternalTool(const ExternalToolsParameters&_par,
-                                                   const vector<string>& _entered_values,
-                                                   MainWindowFilePanelState *_target)
+static std::string BuildParametersStringForExternalTool
+    (const ExternalToolsParameters&_par,
+     const std::vector<std::string>& _entered_values,
+     MainWindowFilePanelState *_target)
 {
     dispatch_assert_main_queue();
     
     // TODO: there's no VFS files fetching currently.
     // this should be async!
-    string params;
-    int max_files_left = _par.GetMaximumTotalFiles() ? _par.GetMaximumTotalFiles() : numeric_limits<int>::max();
+    std::string params;
+    int max_files_left = _par.GetMaximumTotalFiles() ?
+        _par.GetMaximumTotalFiles() :
+        std::numeric_limits<int>::max();
     
     for( unsigned n = 0; n < _par.StepsAmount(); ++n ) {
         auto step = _par.StepNo(n);
@@ -335,7 +351,7 @@ static string BuildParametersStringForExternalTool(const ExternalToolsParameters
                     selected_items.resize( max_files_left );
             
                 if( !selected_items.empty() ) {
-                    vector<string> selected_info;
+                    std::vector<std::string> selected_info;
                     for( auto &i: selected_items )
                         selected_info.emplace_back( ExtractParamInfoFromListingItem(v.what, i) );
                     
@@ -344,7 +360,7 @@ static string BuildParametersStringForExternalTool(const ExternalToolsParameters
                         
                     }
                     else {
-                        string file = CombineStringsIntoNewlineSeparatedString(selected_info);
+                        std::string file = CombineStringsIntoNewlineSeparatedString(selected_info);
                         if( auto list_name = TemporaryNativeFileStorage::Instance().WriteStringIntoTempFile(file) )
                             params += *list_name;
                     }

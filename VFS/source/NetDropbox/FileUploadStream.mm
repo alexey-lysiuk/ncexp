@@ -1,21 +1,24 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "FileUploadStream.h"
+#include <mutex>
+#include <deque>
+#include <Habanero/spinlock.h>
 
 @implementation NCVFSDropboxFileUploadStream
 {
     NSStreamStatus m_Status;
     bool           m_EOF;    
     
-    mutex m_CallbacksLock;
-    function<ssize_t(uint8_t *_buffer, size_t _sz)> m_FeedData;
-    function<bool()> m_HasDataToFeed;
+    std::mutex m_CallbacksLock;
+    std::function<ssize_t(uint8_t *_buffer, size_t _sz)> m_FeedData;
+    std::function<bool()> m_HasDataToFeed;
     
     __weak id<NSStreamDelegate> m_Delegate;
     NSRunLoop              *m_RunLoop;
     NSRunLoopMode           m_RunLoopMode;
     
     // +mutex
-    deque<NSStreamEvent>   m_PendingEvents;
+    std::deque<NSStreamEvent>   m_PendingEvents;
 }
 
 - (NSStreamStatus) streamStatus
@@ -144,14 +147,14 @@
                              modes:@[m_RunLoopMode]];
 }
 
-- (void) setFeedData:(function<ssize_t (uint8_t *, size_t)>)feedData
+- (void) setFeedData:(std::function<ssize_t (uint8_t *, size_t)>)feedData
 {
     LOCK_GUARD(m_CallbacksLock) {
         m_FeedData = move(feedData);
     }
 }
 
-- (function<ssize_t(uint8_t *_buffer, size_t _sz)>) feedData
+- (std::function<ssize_t(uint8_t *_buffer, size_t _sz)>) feedData
 {
     LOCK_GUARD(m_CallbacksLock) {
         return m_FeedData;
@@ -159,14 +162,14 @@
     return nullptr;
 }
 
-- (void) setHasDataToFeed:(function<bool()>)hasDataToFeed
+- (void) setHasDataToFeed:(std::function<bool()>)hasDataToFeed
 {
     LOCK_GUARD(m_CallbacksLock) {
         m_HasDataToFeed = move(hasDataToFeed);
     }
 }
 
-- (function<bool()>) hasDataToFeed
+- (std::function<bool()>) hasDataToFeed
 {
     LOCK_GUARD(m_CallbacksLock) {
         return m_HasDataToFeed;

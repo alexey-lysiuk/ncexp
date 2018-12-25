@@ -1,6 +1,8 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "CreateHardlinkDialog.h"
 #include "../Internal.h"
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 using namespace nc::ops;
 
@@ -15,13 +17,13 @@ using namespace nc::ops;
 
 @implementation NCOpsCreateHardlinkDialog
 {
-    string m_SourceName;
-    string m_Result;
+    std::string m_SourceName;
+    std::string m_Result;
 }
 
 @synthesize result = m_Result;
 
-- (instancetype)initWithSourceName:(const string&)_src
+- (instancetype)initWithSourceName:(const std::string&)_src
 {
     if( self = [super initWithWindowNibName:@"CreateHardlinkDialog"] ) {
         m_SourceName = _src;

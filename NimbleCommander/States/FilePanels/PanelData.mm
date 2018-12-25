@@ -1,14 +1,15 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PanelData.h"
 #include "PanelDataItemVolatileData.h"
 #include "PanelDataEntriesComparator.h"
 #include <Habanero/DispatchGroup.h>
 #include <VFS/VFS.h>
 #include "PanelDataExternalEntryKey.h"
+#include <numeric>
 
 namespace nc::panel::data {
 
-static void DoRawSort(const VFSListing &_from, vector<unsigned> &_to);
+static void DoRawSort(const VFSListing &_from, std::vector<unsigned> &_to);
 
 static inline SortMode DefaultSortMode()
 {
@@ -20,7 +21,7 @@ static inline SortMode DefaultSortMode()
 
 // returned string IS NOT NULL TERMINATED and MAY CONTAIN ZEROES INSIDE
 // a bit overkill, need to consider some simplier kind of keys
-static string LongEntryKey(const VFSListing& _l, unsigned _i)
+static std::string LongEntryKey(const VFSListing& _l, unsigned _i)
 {
     // host + dir + filename
     union {
@@ -32,28 +33,29 @@ static string LongEntryKey(const VFSListing& _l, unsigned _i)
     auto &directory = _l.Directory(_i);
     auto &filename = _l.Filename(_i);
     
-    string key;
+    std::string key;
     key.reserve( sizeof(host_addr) + directory.size() + filename.size() + 1 );
-    key.append( begin(host_addr.b), end(host_addr.b) );
+    key.append( std::begin(host_addr.b), std::end(host_addr.b) );
     key.append( directory );
     key.append( filename );
     return key;
 }
 
-static vector<string> ProduceLongKeysForListing( const VFSListing& _l )
+static std::vector<std::string> ProduceLongKeysForListing( const VFSListing& _l )
 {
-    vector<string> keys;
+    std::vector<std::string> keys;
     keys.reserve( _l.Count() );
     for( unsigned i = 0, e = _l.Count(); i != e; ++i )
         keys.emplace_back( LongEntryKey(_l, i) );
     return keys;
 }
 
-static vector<unsigned> ProduceSortedIndirectIndecesForLongKeys(const vector<string>& _keys)
+static std::vector<unsigned>
+    ProduceSortedIndirectIndecesForLongKeys(const std::vector<std::string>& _keys)
 {
-    vector<unsigned> src_keys_ind( _keys.size() );
-    iota( begin(src_keys_ind), end(src_keys_ind), 0 );
-    sort( begin(src_keys_ind),
+    std::vector<unsigned> src_keys_ind( _keys.size() );
+    std::iota( begin(src_keys_ind), end(src_keys_ind), 0 );
+    std::sort( begin(src_keys_ind),
           end(src_keys_ind),
           [&_keys](auto _1, auto _2) { return _keys[_1] < _keys[_2]; } );
     return src_keys_ind;
@@ -74,7 +76,8 @@ bool Model::IsLoaded() const noexcept
     return m_Listing != VFSListing::EmptyListing();
 }
 
-static void InitVolatileDataWithListing( vector<ItemVolatileData> &_vd, const VFSListing &_listing)
+static void InitVolatileDataWithListing(std::vector<ItemVolatileData> &_vd,
+                                        const VFSListing &_listing)
 {
     _vd.clear();
     _vd.resize(_listing.Count());
@@ -82,7 +85,7 @@ static void InitVolatileDataWithListing( vector<ItemVolatileData> &_vd, const VF
         if( _listing.IsDir(i) ) {
             if( _listing.HasSize(i) ) {
                 const auto sz = _listing.Size(i);
-                if( sz != numeric_limits<uint64_t>::max() )
+                if( sz != std::numeric_limits<uint64_t>::max() )
                     _vd[i].size = sz;
             }
         }
@@ -92,12 +95,12 @@ static void InitVolatileDataWithListing( vector<ItemVolatileData> &_vd, const VF
     }
 }
 
-void Model::Load(const shared_ptr<VFSListing> &_listing, PanelType _type)
+void Model::Load(const std::shared_ptr<VFSListing> &_listing, PanelType _type)
 {
     assert(dispatch_is_main_queue()); // STA api design
     
     if( !_listing )
-        throw logic_error("PanelData::Load: listing can't be nullptr");
+        throw std::logic_error("PanelData::Load: listing can't be nullptr");
     
     m_Listing = _listing;
     m_Type = _type;
@@ -128,15 +131,15 @@ static void UpdateWithExisingVD( ItemVolatileData &_new_vd, const ItemVolatileDa
     }
 }
 
-void Model::ReLoad(const shared_ptr<VFSListing> &_listing)
+void Model::ReLoad(const std::shared_ptr<VFSListing> &_listing)
 {
     assert(dispatch_is_main_queue()); // STA api design
     
     // sort new entries by raw c name for sync-swapping needs
-    vector<unsigned> dirbyrawcname;
+    std::vector<unsigned> dirbyrawcname;
     DoRawSort(*_listing, dirbyrawcname);
     
-    vector<ItemVolatileData> new_vd;
+    std::vector<ItemVolatileData> new_vd;
     InitVolatileDataWithListing(new_vd, *_listing);
     
     if( _listing->IsUniform() && m_Listing->IsUniform() ) {
@@ -190,7 +193,7 @@ void Model::ReLoad(const shared_ptr<VFSListing> &_listing)
         }
     }
     else
-        throw invalid_argument("PanelData::ReLoad: incompatible listing type!");
+        throw std::invalid_argument("PanelData::ReLoad: incompatible listing type!");
     
     // put a new data in a place
     m_Listing = move(_listing);
@@ -203,10 +206,10 @@ void Model::ReLoad(const shared_ptr<VFSListing> &_listing)
     UpdateStatictics();
 }
 
-const shared_ptr<VFSHost> &Model::Host() const
+const std::shared_ptr<VFSHost> &Model::Host() const
 {
     if( !m_Listing->HasCommonHost() )
-        throw logic_error("PanelData::Host was called with no common host in listing");
+        throw std::logic_error("PanelData::Host was called with no common host in listing");
     return m_Listing->Host(0);
 }
 
@@ -225,7 +228,7 @@ Model::PanelType Model::Type() const noexcept
     return m_Type;
 }
 
-const vector<unsigned>& Model::SortedDirectoryEntries() const noexcept
+const std::vector<unsigned>& Model::SortedDirectoryEntries() const noexcept
 {
     return m_EntriesByCustomSort;
 }
@@ -233,7 +236,7 @@ const vector<unsigned>& Model::SortedDirectoryEntries() const noexcept
 ItemVolatileData& Model::VolatileDataAtRawPosition( int _pos )
 {
     if( _pos < 0 || _pos >= (int)m_VolatileData.size() )
-        throw out_of_range("PanelData::VolatileDataAtRawPosition: index can't be out of range");
+        throw std::out_of_range("PanelData::VolatileDataAtRawPosition: index can't be out of range");
     
     return m_VolatileData[_pos];
 }
@@ -241,7 +244,7 @@ ItemVolatileData& Model::VolatileDataAtRawPosition( int _pos )
 const ItemVolatileData& Model::VolatileDataAtRawPosition( int _pos ) const
 {
     if( _pos < 0 || _pos >= (int)m_VolatileData.size() )
-        throw out_of_range("PanelData::VolatileDataAtRawPosition: index can't be out of range");
+        throw std::out_of_range("PanelData::VolatileDataAtRawPosition: index can't be out of range");
     
     return m_VolatileData[_pos];
 }
@@ -256,7 +259,7 @@ const ItemVolatileData& Model::VolatileDataAtSortPosition( int _pos ) const
     return VolatileDataAtRawPosition( RawIndexForSortIndex(_pos) );
 }
 
-string Model::FullPathForEntry(int _raw_index) const
+std::string Model::FullPathForEntry(int _raw_index) const
 {
     if(_raw_index < 0 || _raw_index >= (int)m_Listing->Count())
         return "";
@@ -269,7 +272,7 @@ string Model::FullPathForEntry(int _raw_index) const
         auto i = t.rfind('/');
         if(i == 0)
             t.resize(i+1);
-        else if(i != string::npos)
+        else if(i != std::string::npos)
             t.resize(i);
         return t;
     }
@@ -316,39 +319,39 @@ int Model::SortedIndexForRawIndex(int _desired_raw_index) const
     return -1;
 }
 
-string Model::DirectoryPathWithoutTrailingSlash() const
+std::string Model::DirectoryPathWithoutTrailingSlash() const
 {
     if( !m_Listing->HasCommonDirectory() )
         return "";
 
-    string path = m_Listing->Directory(0);
+    std::string path = m_Listing->Directory(0);
     if( path.size() > 1 )
         path.pop_back();
     
     return path;
 }
 
-string Model::DirectoryPathWithTrailingSlash() const
+std::string Model::DirectoryPathWithTrailingSlash() const
 {
     if(!m_Listing->HasCommonDirectory())
         return "";
     return m_Listing->Directory();
 }
 
-string Model::DirectoryPathShort() const
+std::string Model::DirectoryPathShort() const
 {    
-    string tmp = DirectoryPathWithoutTrailingSlash();
+    std::string tmp = DirectoryPathWithoutTrailingSlash();
     auto i = tmp.rfind('/');
-    if(i != string::npos)
+    if(i != std::string::npos)
         return tmp.c_str() + i + 1;
     return "";
 }
 
-string Model::VerboseDirectoryFullPath() const
+std::string Model::VerboseDirectoryFullPath() const
 {
     if( !m_Listing || !m_Listing->IsUniform())
         return "";
-    array<VFSHost*, 32> hosts;
+    std::array<VFSHost*, 32> hosts;
     int hosts_n = 0;
 
     VFSHost *cur = m_Listing->Host().get();
@@ -358,7 +361,7 @@ string Model::VerboseDirectoryFullPath() const
         cur = cur->Parent().get();
     }
     
-    string s;
+    std::string s;
     while(hosts_n > 0)
         s += hosts[--hosts_n]->Configuration().VerboseJunction();
     s += m_Listing->Directory();
@@ -366,7 +369,7 @@ string Model::VerboseDirectoryFullPath() const
     return s;
 }
 
-static void DoRawSort(const VFSListing &_from, vector<unsigned> &_to)
+static void DoRawSort(const VFSListing &_from, std::vector<unsigned> &_to)
 {
     _to.resize(_from.Count());
     iota(begin(_to), end(_to), 0);
@@ -519,10 +522,10 @@ void Model::CustomFlagsSelectSorted(int _at_pos, bool _is_selected)
     CustomFlagsSelectRaw(m_EntriesByCustomSort[_at_pos], _is_selected);
 }
 
-bool Model::CustomFlagsSelectSorted(const vector<bool>& _is_selected)
+bool Model::CustomFlagsSelectSorted(const std::vector<bool>& _is_selected)
 {
     bool changed = false;
-    for( int i = 0, e = (int)min(_is_selected.size(), m_EntriesByCustomSort.size()); i != e; ++i ) {
+    for( int i = 0, e = (int)std::min(_is_selected.size(), m_EntriesByCustomSort.size()); i != e; ++i ) {
         const auto raw_pos = m_EntriesByCustomSort[i];
         if( !m_Listing->IsDotDot(raw_pos) ) {
             if( !changed ) {
@@ -541,18 +544,18 @@ bool Model::CustomFlagsSelectSorted(const vector<bool>& _is_selected)
     return changed;
 }
 
-vector<string> Model::SelectedEntriesFilenames() const
+std::vector<std::string> Model::SelectedEntriesFilenames() const
 {
-    vector<string> list;
+    std::vector<std::string> list;
     for(int i = 0, e = (int)m_VolatileData.size(); i != e; ++i)
         if( m_VolatileData[i].is_selected() )
             list.emplace_back( m_Listing->Filename(i) );
     return list;
 }
 
-vector<VFSListingItem> Model::SelectedEntries() const
+std::vector<VFSListingItem> Model::SelectedEntries() const
 {
-    vector<VFSListingItem> list;
+    std::vector<VFSListingItem> list;
     for(int i = 0, e = (int)m_VolatileData.size(); i != e; ++i)
         if( m_VolatileData[i].is_selected() )
             list.emplace_back( m_Listing->Item(i) );
@@ -731,7 +734,7 @@ TextualFilter Model::SoftFiltering() const
     return m_SoftFiltering;
 }
 
-const vector<unsigned>& Model::EntriesBySoftFiltering() const noexcept
+const std::vector<unsigned>& Model::EntriesBySoftFiltering() const noexcept
 {
     return m_EntriesBySoftFiltering;
 }
@@ -765,7 +768,7 @@ ExternalEntryKey Model::EntrySortKeysAtSortPosition(int _pos) const
 {
     auto item = EntryAtSortPosition(_pos);
     if( !item )
-        throw invalid_argument("PanelData::EntrySortKeysAtSortPosition: invalid item position");
+        throw std::invalid_argument("PanelData::EntrySortKeysAtSortPosition: invalid item position");
     return ExternalEntryKey{item, VolatileDataAtSortPosition(_pos)};
 }
 

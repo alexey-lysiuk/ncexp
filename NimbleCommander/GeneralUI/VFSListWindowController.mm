@@ -1,8 +1,12 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "../Core/VFSInstanceManager.h"
 #include "../Core/VFSInstancePromise.h"
 #include "VFSListWindowController.h"
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
+
+using namespace std::literals;
 
 @interface VFSListWindowController ()
 @property (nonatomic) IBOutlet NSTableView *vfsTable;
@@ -13,7 +17,7 @@
 @implementation VFSListWindowController
 {
     VFSListWindowController *m_Self;
-    vector<nc::core::VFSInstanceManager::ObservationTicket> m_Observations;
+    std::vector<nc::core::VFSInstanceManager::ObservationTicket> m_Observations;
     nc::core::VFSInstanceManager *m_Manager;
 }
 
@@ -63,7 +67,9 @@
         return m_Manager->KnownVFSCount();
 }
 
-- (nullable NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(nullable NSTableColumn *)tableColumn row:(NSInteger)row
+- (nullable NSView *)tableView:(NSTableView *)tableView
+            viewForTableColumn:(nullable NSTableColumn *)tableColumn
+                           row:(NSInteger)row
 {
     nc::core::VFSInstanceManager::Promise info;
     

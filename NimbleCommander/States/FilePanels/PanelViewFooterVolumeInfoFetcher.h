@@ -1,16 +1,18 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFS.h>
 
+namespace nc::panel {
+
 // STA - main thread usage only
-class PanelViewFooterVolumeInfoFetcher
+class FooterVolumeInfoFetcher
 {
 public:
-    PanelViewFooterVolumeInfoFetcher();
-    ~PanelViewFooterVolumeInfoFetcher();
+    FooterVolumeInfoFetcher();
+    ~FooterVolumeInfoFetcher();
     
-    void SetCallback( function<void(const VFSStatFS&)> _callback );
+    void SetCallback( std::function<void(const VFSStatFS&)> _callback );
     void SetTarget( const VFSListingPtr &_listing );
     const VFSStatFS& Current() const;
     
@@ -20,13 +22,15 @@ public:
 
 private:
     VFSHostWeakPtr m_Host;
-    string         m_Path;
+    std::string    m_Path;
     VFSStatFS m_Current;
-    function<void(const VFSStatFS&)> m_Callback;
+    std::function<void(const VFSStatFS&)> m_Callback;
     bool      m_Active = false;
 
     void Accept( const VFSStatFS &_stat );
-    PanelViewFooterVolumeInfoFetcher( const PanelViewFooterVolumeInfoFetcher &_r ) = delete;
-    void operator=( const PanelViewFooterVolumeInfoFetcher &_r ) = delete;
+    FooterVolumeInfoFetcher( const FooterVolumeInfoFetcher &_r ) = delete;
+    void operator=( const FooterVolumeInfoFetcher &_r ) = delete;
     friend struct PanelViewFooterVolumeInfoFetcherInternals;
 };
+
+}

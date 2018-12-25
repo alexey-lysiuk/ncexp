@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/CommonPaths.h>
 #include <Habanero/CFDefaultsCPP.h>
 #include <Habanero/algo.h>
@@ -6,6 +6,7 @@
 #include <Utility/NativeFSManager.h>
 #include <Utility/PathManip.h>
 #include <Utility/FunctionKeysPass.h>
+#include <Utility/StringExtras.h>
 #include <RoutedIO/RoutedIO.h>
 #include "ThirdParty/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
 #include <NimbleCommander/Core/TemporaryNativeFileStorage.h>
@@ -31,7 +32,9 @@
 #include <Operations/Pool.h>
 #include <Operations/AggregateProgressTracker.h>
 #include "AppDelegate.h"
-#include "Config.h"
+#include <Config/ConfigImpl.h>
+#include <Config/FileOverwritesStorage.h>
+#include <Config/Executor.h>
 #include "AppDelegate+Migration.h"
 #include "ConfigWiring.h"
 #include "VFSInit.h"
@@ -41,14 +44,20 @@
 #include <NimbleCommander/States/FilePanels/Helpers/ClosedPanelsHistoryImpl.h>
 #include <NimbleCommander/States/FilePanels/Helpers/RecentlyClosedMenuDelegate.h>
 #include <NimbleCommander/Core/VFSInstanceManagerImpl.h>
+#include <Utility/ObjCpp.h>
 
+using namespace std::literals;
 using namespace nc::bootstrap;
+using nc::bootstrap::ActivationManager;
+
+static std::optional<std::string> Load(const std::string &_filepath);
 
 static auto g_ConfigDirPostfix = @"/Config/";
 static auto g_StateDirPostfix = @"/State/";
 
-static GenericConfig *g_Config = nullptr;
-static GenericConfig *g_State = nullptr;
+static nc::config::ConfigImpl *g_Config = nullptr;
+static nc::config::ConfigImpl *g_State = nullptr;
+static nc::config::ConfigImpl *g_NetworkConnectionsConfig = nullptr;
 
 static const auto g_ConfigForceFn = "general.alwaysUseFnKeysAsFunctional";
 static const auto g_ConfigExternalToolsList = "externalTools.tools_v1";
@@ -57,13 +66,13 @@ static const auto g_ConfigSelectedThemes = "general.theme";
 static const auto g_ConfigThemesList = "themes.themes_v1";
 static const auto g_ConfigExtEditorsList = "externalEditors.editors_v1";
 
-GenericConfig &GlobalConfig() noexcept
+nc::config::Config &GlobalConfig() noexcept
 {
     assert(g_Config);
     return *g_Config;
 }
 
-GenericConfig &StateConfig() noexcept
+nc::config::Config &StateConfig() noexcept
 {
     assert(g_State);
     return *g_State;
@@ -74,10 +83,10 @@ static void ResetDefaults()
     const auto bundle_id = NSBundle.mainBundle.bundleIdentifier;
     [NSUserDefaults.standardUserDefaults removePersistentDomainForName:bundle_id];
     [NSUserDefaults.standardUserDefaults synchronize];
-    GlobalConfig().ResetToDefaults();
-    StateConfig().ResetToDefaults();
-    GlobalConfig().Commit();
-    StateConfig().Commit();
+    g_Config->ResetToDefaults();
+    g_State->ResetToDefaults();
+    g_Config->Commit();
+    g_State->Commit();
 }
 
 static void UpdateMenuItemsPlaceholders( int _tag )
@@ -120,15 +129,15 @@ static NCAppDelegate *g_Me = nil;
 
 @implementation NCAppDelegate
 {
-    vector<NCMainWindowController *>            m_MainWindows;
-    vector<InternalViewerWindowController*>     m_ViewerWindows;
+    std::vector<NCMainWindowController *>       m_MainWindows;
+    std::vector<InternalViewerWindowController*>m_ViewerWindows;
     spinlock                                    m_ViewerWindowsLock;
-    string              m_SupportDirectory;
-    string              m_ConfigDirectory;
-    string              m_StateDirectory;
-    vector<GenericConfig::ObservationTicket> m_ConfigObservationTickets;
+    std::string         m_SupportDirectory;
+    std::string         m_ConfigDirectory;
+    std::string         m_StateDirectory;
+    std::vector<nc::config::Token> m_ConfigObservationTickets;
     upward_flag         m_FinishedLaunching;
-    shared_ptr<nc::panel::FavoriteLocationsStorageImpl> m_Favorites;
+    std::shared_ptr<nc::panel::FavoriteLocationsStorageImpl> m_Favorites;
     NSMutableArray      *m_FilesToOpen;
 }
 
@@ -161,7 +170,7 @@ static NCAppDelegate *g_Me = nil;
 {
     RegisterAvailableVFS();
     
-    NativeFSManager::Instance();
+    nc::utility::NativeFSManager::Instance();
     [self themesManager];
     [self favoriteLocationsStorage];
     
@@ -171,7 +180,7 @@ static NCAppDelegate *g_Me = nil;
     ActionsShortcutsManager::Instance().SetMenuShortCuts([NSApp mainMenu]);
     
     [self wireMenuDelegates];
- }
+        }
 
 - (void) wireMenuDelegates
 {
@@ -214,6 +223,13 @@ static NCAppDelegate *g_Me = nil;
                                                   storage:self.closedPanelsHistory
                                                   panelsLocator:panels_locator];
     (void)recently_closed_delegate;
+
+    // These menus will have a submenu generated on the fly by according actions.
+    // However, it's required for these menu items to always have submenus so that 
+    // Preferences can detect it and mark its hotkeys as readonly.
+    // This solution is horrible but I can find a better one right now.
+    item_for_action("menu.file.open_with_submenu").submenu = [NSMenu new];
+    item_for_action("menu.file.always_open_with_submenu").submenu = [NSMenu new];
 }
 
 - (void)updateMainMenuFeaturesByVersionAndState
@@ -256,11 +272,6 @@ static NCAppDelegate *g_Me = nil;
     // calling modules running in background
     TemporaryNativeFileStorage::Instance(); // starting background purging implicitly
     
-    // accessibility stuff for NonMAS version
-    if( GlobalConfig().GetBool(g_ConfigForceFn) ) {
-        FunctionalKeysPass::Instance().Enable();
-    }
-
     ConfigWiring{GlobalConfig()}.Wire();
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -287,15 +298,47 @@ static NCAppDelegate *g_Me = nil;
     const auto bundle = NSBundle.mainBundle;
     const auto config_defaults_path = [bundle pathForResource:@"Config"
                                                        ofType:@"json"].fileSystemRepresentationSafe;
+    const auto config_defaults = Load(config_defaults_path);
+    if( config_defaults == std::nullopt ) {
+        std::cerr << "Failed to read the main config file: " << config_defaults_path << std::endl;
+        exit(0);
+    }
+        
     const auto state_defaults_path = [bundle pathForResource:@"State"
                                                       ofType:@"json"].fileSystemRepresentationSafe;
-    g_Config = new GenericConfig(config_defaults_path, self.configDirectory + "Config.json");
-    g_State  = new GenericConfig(state_defaults_path, self.stateDirectory + "State.json");
+    const auto state_defaults = Load(state_defaults_path);
+    if( state_defaults == std::nullopt ) {
+        std::cerr << "Failed to read the state config file: " << state_defaults_path << std::endl;
+        exit(0);
+    }
+    
+    const auto write_delay = std::chrono::seconds{30};
+    const auto reload_delay = std::chrono::seconds{1};
+    
+    g_Config = new nc::config::ConfigImpl
+    (*config_defaults,
+     std::make_shared<nc::config::FileOverwritesStorage>(self.configDirectory + "Config.json"),
+     std::make_shared<nc::config::DelayedAsyncExecutor>(write_delay),
+     std::make_shared<nc::config::DelayedAsyncExecutor>(reload_delay));
+    
+    g_State = new nc::config::ConfigImpl
+    (*state_defaults,
+     std::make_shared<nc::config::FileOverwritesStorage>(self.stateDirectory + "State.json"),
+     std::make_shared<nc::config::DelayedAsyncExecutor>(write_delay),
+     std::make_shared<nc::config::DelayedAsyncExecutor>(reload_delay));    
+
+    g_NetworkConnectionsConfig = new nc::config::ConfigImpl
+    ("",
+     std::make_shared<nc::config::FileOverwritesStorage>(self.configDirectory + 
+                                                         "NetworkConnections.json"),
+     std::make_shared<nc::config::DelayedAsyncExecutor>(write_delay),
+     std::make_shared<nc::config::DelayedAsyncExecutor>(reload_delay));    
     
     atexit([]{
         // this callback is quite brutal, but works well. may need to find some more gentle approach
-        GlobalConfig().Commit();
-        StateConfig().Commit();
+        g_Config->Commit();
+        g_State->Commit();
+        g_NetworkConnectionsConfig->Commit();
     });
 }
 
@@ -346,7 +389,7 @@ static NCAppDelegate *g_Me = nil;
 {
     bool has_running_ops = false;
     auto controllers = self.mainWindowControllers;
-    for( const auto wincont: controllers )
+    for( const auto &wincont: controllers )
         if( !wincont.operationsPool.Empty() ) {
             has_running_ops = true;
             break;
@@ -360,7 +403,7 @@ static NCAppDelegate *g_Me = nil;
         if( !AskToExitWithRunningOperations() )
             return NSTerminateCancel;
 
-        for( const auto wincont : controllers ) {
+        for( const auto &wincont : controllers ) {
             wincont.operationsPool.StopAndWaitForShutdown();
             [wincont.terminalState terminate];
         }
@@ -397,7 +440,7 @@ static NCAppDelegate *g_Me = nil;
     if( m_FilesToOpen.count == 0 )
         return;
 
-	self.servicesHandler.OpenFiles(m_FilesToOpen);
+        self.servicesHandler.OpenFiles(m_FilesToOpen);
 
     [m_FilesToOpen removeAllObjects];
 }
@@ -465,9 +508,9 @@ static NCAppDelegate *g_Me = nil;
     return true;
 }
 
-- (GenericConfigObjC*) config
+- (NCConfigObjCBridge*) config
 {
-    static auto global_config_bridge = [[GenericConfigObjC alloc] initWithConfig:g_Config];
+    static auto global_config_bridge = [[NCConfigObjCBridge alloc] initWithConfig:*g_Config];
     return global_config_bridge;
 }
 
@@ -477,9 +520,9 @@ static NCAppDelegate *g_Me = nil;
     return *i;
 }
 
-- (const shared_ptr<nc::panel::PanelViewLayoutsStorage>&) panelLayouts
+- (const std::shared_ptr<nc::panel::PanelViewLayoutsStorage>&) panelLayouts
 {
-    static auto i = make_shared<nc::panel::PanelViewLayoutsStorage>(g_ConfigLayoutsList);
+    static auto i = std::make_shared<nc::panel::PanelViewLayoutsStorage>(g_ConfigLayoutsList);
     return i;
 }
 
@@ -495,15 +538,15 @@ static NCAppDelegate *g_Me = nil;
     return *i;
 }
 
-- (const shared_ptr<nc::panel::FavoriteLocationsStorage>&) favoriteLocationsStorage
+- (const std::shared_ptr<nc::panel::FavoriteLocationsStorage>&) favoriteLocationsStorage
 {
-    static once_flag once;
-    call_once(once, [&]{
+    static std::once_flag once;
+    std::call_once(once, [&]{
         using t = nc::panel::FavoriteLocationsStorageImpl;
-        m_Favorites = make_shared<t>(StateConfig(), "filePanel.favorites");
+        m_Favorites = std::make_shared<t>(StateConfig(), "filePanel.favorites");
     });
     
-    static const shared_ptr<nc::panel::FavoriteLocationsStorage> inst = m_Favorites;
+    static const std::shared_ptr<nc::panel::FavoriteLocationsStorage> inst = m_Favorites;
     return inst;
 }
 
@@ -532,7 +575,8 @@ static NCAppDelegate *g_Me = nil;
     }
 }
 
-- (InternalViewerWindowController*) findInternalViewerWindowForPath:(const string&)_path onVFS:(const VFSHostPtr&)_vfs
+- (InternalViewerWindowController*) findInternalViewerWindowForPath:(const std::string&)_path
+                                                              onVFS:(const VFSHostPtr&)_vfs
 {
     LOCK_GUARD(m_ViewerWindowsLock) {
         auto i = find_if(begin(m_ViewerWindows), end(m_ViewerWindows), [&](auto v){
@@ -568,13 +612,13 @@ static NCAppDelegate *g_Me = nil;
     };
     FavoritesWindowController *window = [[FavoritesWindowController alloc]
                                          initWithFavoritesStorage:storage];
-    auto provide_panel = []() -> vector<pair<VFSHostPtr, string>> {
-        vector< pair<VFSHostPtr, string> > panel_paths;
+    auto provide_panel = []() -> std::vector<std::pair<VFSHostPtr, std::string>> {
+        std::vector< std::pair<VFSHostPtr, std::string> > panel_paths;
         for( const auto &ctr: NCAppDelegate.me.mainWindowControllers ) {
             auto state = ctr.filePanelsState;
             auto paths = state.filePanelsCurrentPaths;
             for( const auto &p:paths )
-                panel_paths.emplace_back( get<1>(p), get<0>(p) );
+                panel_paths.emplace_back( std::get<1>(p), std::get<0>(p) );
         }
         return panel_paths;
     };
@@ -584,18 +628,18 @@ static NCAppDelegate *g_Me = nil;
     existing_window = window;
 }
 
-- (const shared_ptr<NetworkConnectionsManager> &)networkConnectionsManager
+- (const std::shared_ptr<NetworkConnectionsManager> &)networkConnectionsManager
 {
-    static const auto mgr = make_shared<ConfigBackedNetworkConnectionsManager>
-        (self.configDirectory);
-    static const shared_ptr<NetworkConnectionsManager> int_ptr = mgr;
+    static const auto mgr = std::make_shared<ConfigBackedNetworkConnectionsManager>
+        (*g_NetworkConnectionsConfig);
+    static const std::shared_ptr<NetworkConnectionsManager> int_ptr = mgr;
     return int_ptr;
 }
 
 - (nc::ops::AggregateProgressTracker&) operationsProgressTracker
 {
     static const auto apt = [self]{
-        const auto apt = make_shared<nc::ops::AggregateProgressTracker>();
+        const auto apt = std::make_shared<nc::ops::AggregateProgressTracker>();
         apt->SetProgressCallback([](double _progress){
             g_Me.dock.SetProgress( _progress );
         });
@@ -616,10 +660,10 @@ static NCAppDelegate *g_Me = nil;
     return *instance;
 }
 
-- (const shared_ptr<nc::panel::ClosedPanelsHistory>&)closedPanelsHistory
+- (const std::shared_ptr<nc::panel::ClosedPanelsHistory>&)closedPanelsHistory
 {
-    static const auto impl = make_shared<nc::panel::ClosedPanelsHistoryImpl>();
-    static const shared_ptr<nc::panel::ClosedPanelsHistory> history = impl;
+    static const auto impl = std::make_shared<nc::panel::ClosedPanelsHistoryImpl>();
+    static const std::shared_ptr<nc::panel::ClosedPanelsHistory> history = impl;
     return history;
 }
 
@@ -651,4 +695,59 @@ static NCAppDelegate *g_Me = nil;
     return handler;
 }
 
+- (nc::utility::NativeFSManager &)nativeFSManager
+{
+    // temporary solution:
+    return nc::utility::NativeFSManager::Instance();
+}
+
+- (void) showTrialWindow
+{
+    const auto expired =
+        (ActivationManager::Instance().UserHadRegistered() == false) &&
+        (ActivationManager::Instance().IsTrialPeriod() == false);
+    
+    auto window = [[TrialWindowController alloc] init];
+    window.isExpired = expired;
+    __weak NCAppDelegate *weak_self = self;
+    window.onBuyLicense = [weak_self]{
+        if( auto self = weak_self ) {
+            [self OnPurchaseExternalLicense:self];
+        }  
+    };
+    window.onActivate = [weak_self]{
+        if( auto self = weak_self ) {
+            [self OnActivateExternalLicense:self];
+            if( ActivationManager::Instance().UserHadRegistered() == true )
+                return true;
+        }
+        return false;
+    };
+    window.onQuit = [weak_self]{
+        if( auto self = weak_self ) {
+            const auto expired =
+                (ActivationManager::Instance().UserHadRegistered() == false) &&
+                (ActivationManager::Instance().IsTrialPeriod() == false);            
+            if( expired == true )
+                dispatch_to_main_queue([]{ [NSApp terminate:nil]; });
+        }
+    };
+    [window show];
+}
+
 @end
+
+static std::optional<std::string> Load(const std::string &_filepath)
+{
+    std::ifstream in( _filepath, std::ios::in | std::ios::binary);
+    if( !in )
+        return std::nullopt;        
+    
+    std::string contents;
+    in.seekg( 0, std::ios::end );
+    contents.resize( in.tellg() );
+    in.seekg( 0, std::ios::beg );
+    in.read( &contents[0], contents.size() );
+    in.close();
+    return contents;
+}

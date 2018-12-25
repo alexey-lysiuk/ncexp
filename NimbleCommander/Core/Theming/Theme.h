@@ -1,9 +1,16 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
+
+#include <stdint.h>
+#include <memory>
+#include <vector>
+#include <Cocoa/Cocoa.h>
 
 class Theme;
 class ThemesManager;
-struct PanelViewPresentationItemsColoringRule;
+namespace nc::panel {
+    struct PresentationItemsColoringRule;
+}
 
 enum class ThemeAppearance : int8_t
 {
@@ -21,8 +28,8 @@ class Theme
 {
 public:
     // workaround to exclude rapidjson from header
-    Theme(const /*rapidjson::StandaloneValue*/ void *_1,
-          const /*rapidjson::StandaloneValue*/ void *_2);
+    Theme(const /*nc::config::Value*/ void *_1,
+          const /*nc::config::Value*/ void *_2);
     ~Theme();
 
     // General info querying ///////////////////////////////////////////////////////////////////////
@@ -37,8 +44,8 @@ public:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
     
     // File Panels --> General appearance //////////////////////////////////////////////////////////
-    using ColoringRules = PanelViewPresentationItemsColoringRule;
-    const vector<ColoringRules>& FilePanelsItemsColoringRules() const noexcept;
+    using ColoringRule = nc::panel::PresentationItemsColoringRule;
+    const std::vector<ColoringRule>& FilePanelsItemsColoringRules() const noexcept;
     NSColor *FilePanelsGeneralDropBorderColor() const noexcept;
     NSColor *FilePanelsGeneralOverlayColor() const noexcept;
     NSColor *FilePanelsGeneralSplitterColor() const noexcept;
@@ -137,5 +144,5 @@ public:
     
 private:
     struct Internals;
-    unique_ptr<Internals> I;
+    std::unique_ptr<Internals> I;
 };

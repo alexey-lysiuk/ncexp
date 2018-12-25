@@ -1,6 +1,9 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "../Bootstrap/AppDelegate.h"
 #include "PreferencesWindowGeneralTab.h"
+#include <Habanero/dispatch_cpp.h>
+
+using namespace std::literals;
 
 @interface PreferencesWindowGeneralTab()
 
@@ -24,7 +27,6 @@
 - (void)loadView
 {
     [super loadView];
-	self.FSAccessResetButton.enabled = false;
     [self.view layoutSubtreeIfNeeded];    
 }
 

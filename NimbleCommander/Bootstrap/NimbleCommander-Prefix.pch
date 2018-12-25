@@ -1,7 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-
-// need to fiddle with shared_mutex availability on 10.11, so using this hammer.
-#define _LIBCPP_DISABLE_AVAILABILITY 1
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 
 // basic C defines
 #include <stddef.h>
@@ -38,12 +35,7 @@
     #include <shared_mutex>
     #include <functional>
     #include <optional>
-    using namespace std;
-    using namespace std::chrono;
-
-    #include <any.hpp>
-    using linb::any;
-    using linb::any_cast;
+    #include <any>
 
     // low-level facilities from Habanero
     #include <Habanero/dispatch_cpp.h>
@@ -52,11 +44,6 @@
     #include <Habanero/fixed_eytzinger_map.h>
 
     #include <boost/filesystem.hpp>
-    using boost::filesystem::path;
-
-    #include <boost/logic/tribool.hpp>
-    using boost::logic::tribool;
-    using boost::logic::indeterminate;
 
     #include <Utility/StringExtras.h>
 
@@ -65,11 +52,4 @@
     #endif
 #endif
 
-#ifndef NCE
-    #if __has_include(<.nc_sensitive.h>)
-        #include <.nc_sensitive.h>
-        #define NCE( v ) (v)
-    #else
-        #define NCE( v ) ("")
-    #endif
-#endif
+#include "NCE.h"
