@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #import <MMTabBarView/MMAttachedTabBarButton.h>
 #include <Habanero/CommonPaths.h>
 #include "MainWindowFilePanelsStateToolbarDelegate.h"
@@ -17,6 +17,8 @@
 #include <NimbleCommander/Core/AnyHolder.h>
 #include "Actions/NavigateHistory.h"
 #include "Helpers/RecentlyClosedMenuDelegate.h"
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
 
 using namespace nc::panel;
 
@@ -129,13 +131,13 @@ didDropTabViewItem:(NSTabViewItem *)tabViewItem
     // empty or unselected tab view?
 }
 
-static string TabNameForController( PanelController* _controller )
+static std::string TabNameForController( PanelController* _controller )
 {
-    path p = _controller.currentDirectoryPath;
-    string name = p == "/" ? p.native() : p.parent_path().filename().native();
+    boost::filesystem::path p = _controller.currentDirectoryPath;
+    std::string name = p == "/" ? p.native() : p.parent_path().filename().native();
     if( name == "/" && _controller.isUniform && _controller.vfs->Parent() ) {
         // source file name for vfs like archives and xattr
-        name = path(_controller.vfs->JunctionPath()).filename().native();
+        name = boost::filesystem::path(_controller.vfs->JunctionPath()).filename().native();
     }
     return name;
 }
@@ -184,7 +186,8 @@ static NSString *ShrinkTitleForRecentlyClosedMenu(NSString *_title)
     if( !m_ClosedPanelsHistory )
         return;
     
-    FilterPopUpMenu *menu = [[FilterPopUpMenu alloc] initWithTitle:@"Recently Closed"];
+    auto title = NSLocalizedString(@"Recently Closed", "");
+    FilterPopUpMenu *menu = [[FilterPopUpMenu alloc] initWithTitle:title];
     
     FilePanelsTabbedHolder *holder = nil;
     if( aTabView == m_SplitView.leftTabbedHolder.tabView )
@@ -213,7 +216,7 @@ static NSString *ShrinkTitleForRecentlyClosedMenu(NSString *_title)
         item.image = rep.menu_icon;
         item.target = self;
         item.action = @selector(respawnRecentlyClosedCallout:);
-        item.representedObject = [[AnyHolder alloc] initWithAny:any{
+        item.representedObject = [[AnyHolder alloc] initWithAny:std::any{
             RestoreClosedTabRequest(side, v)
         }];
         [menu addItem:item];
@@ -235,7 +238,7 @@ static NSString *ShrinkTitleForRecentlyClosedMenu(NSString *_title)
         if( !any_holder )
             return;
         
-        if( auto request = any_cast<RestoreClosedTabRequest>(&any_holder.any) ) {
+        if( auto request = std::any_cast<RestoreClosedTabRequest>(&any_holder.any) ) {
             const auto tab_view = request->side == RestoreClosedTabRequest::Side::Left ?
                 m_SplitView.leftTabbedHolder.tabView :
                 m_SplitView.rightTabbedHolder.tabView;
@@ -374,7 +377,7 @@ shouldDragTabViewItem:(NSTabViewItem *)tabViewItem
     if( !bar )
         return;
     
-    vector<NSTabViewItem *> items;
+    std::vector<NSTabViewItem *> items;
     for( NSTabViewItem *it in bar.tabView.tabViewItems )
         if( it.view != _controller.view )
             items.emplace_back(it);
@@ -512,7 +515,7 @@ static NSImage *ResizeImage( NSImage* _img, NSSize _new_size)
     [image addRepresentation:bitmap];
     
     const auto max_dim = 320.;
-    const auto scale = max( bitmap.size.width, bitmap.size.height ) / max_dim;
+    const auto scale = std::max( bitmap.size.width, bitmap.size.height ) / max_dim;
     if( scale > 1 )
         image = ResizeImage(image, NSMakeSize(bitmap.size.width / scale,
                                               bitmap.size.height / scale));

@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Duplicate.h"
 #include "../PanelController.h"
 #include <VFS/VFS.h>
@@ -9,16 +9,20 @@
 #include "../MainWindowFilePanelState.h"
 #include "../../MainWindowController.h"
 #include <Operations/Copying.h>
+#include <unordered_set>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
+    
+using namespace std::literals;
 
 static const auto g_Suffix = "copy"s; // TODO: localize
 
-static unordered_set<string> ExtractFilenames( const VFSListing &_listing );
-static string ProduceFormCLowercase(string_view _string);
-static string FindFreeFilenameToDuplicateIn(const VFSListingItem& _item,
-                                            const unordered_set<string> &_filenames);
-static void CommonPerform(PanelController *_target, const vector<VFSListingItem> &_items);
+static std::unordered_set<std::string> ExtractFilenames( const VFSListing &_listing );
+static std::string ProduceFormCLowercase(std::string_view _string);
+static std::string FindFreeFilenameToDuplicateIn(const VFSListingItem& _item,
+                                                 const std::unordered_set<std::string> &_filenames);
+static void CommonPerform(PanelController *_target, const std::vector<VFSListingItem> &_items);
 
 bool Duplicate::Predicate( PanelController *_target ) const
 {
@@ -35,7 +39,7 @@ bool Duplicate::Predicate( PanelController *_target ) const
     return !i.IsDotDot() || _target.data.Stats().selected_entries_amount > 0;
 }
 
-static void CommonPerform(PanelController *_target, const vector<VFSListingItem> &_items)
+static void CommonPerform(PanelController *_target, const std::vector<VFSListingItem> &_items)
 {
     auto directory_filenames = ExtractFilenames(_target.data.Listing());
 
@@ -47,15 +51,15 @@ static void CommonPerform(PanelController *_target, const vector<VFSListingItem>
         
         const auto options = MakeDefaultFileCopyOptions();
         
-        const auto op = make_shared<ops::Copying>(vector<VFSListingItem>{item},
-                                                      item.Directory() + duplicate,
-                                                      item.Host(),
-                                                      options);
+        const auto op = std::make_shared<ops::Copying>(std::vector<VFSListingItem>{item},
+                                                       item.Directory() + duplicate,
+                                                       item.Host(),
+                                                       options);
 
         if( &item == &_items.front() ) {
             const bool force_refresh = !_target.receivesUpdateNotifications;
             __weak PanelController *weak_panel = _target;
-            auto finish_handler = ^{
+            auto finish_handler = [weak_panel, duplicate, force_refresh]{
                 dispatch_to_main_queue( [weak_panel, duplicate, force_refresh]{
                     if( PanelController *panel = weak_panel) {
                         nc::panel::DelayedFocusing req;
@@ -66,7 +70,8 @@ static void CommonPerform(PanelController *_target, const vector<VFSListingItem>
                     }
                 });
             };
-            op->ObserveUnticketed(ops::Operation::NotifyAboutCompletion, finish_handler);
+            op->ObserveUnticketed(ops::Operation::NotifyAboutCompletion, 
+                                  std::move(finish_handler));
          }
         [_target.mainWindowController enqueueOperation:op];
     }
@@ -77,7 +82,7 @@ void Duplicate::Perform( PanelController *_target, id _sender ) const
     CommonPerform(_target, _target.selectedEntriesOrFocusedEntry);
 }
 
-context::Duplicate::Duplicate(const vector<VFSListingItem> &_items):
+context::Duplicate::Duplicate(const std::vector<VFSListingItem> &_items):
     m_Items(_items)
 {
 }
@@ -95,10 +100,10 @@ void context::Duplicate::Perform( PanelController *_target, id _sender ) const
     CommonPerform(_target, m_Items);
 }
 
-static pair<int, string> ExtractExistingDuplicateInfo( const string &_filename )
+static std::pair<int, std::string> ExtractExistingDuplicateInfo( const std::string &_filename )
 {
     const auto suffix_pos = _filename.rfind(g_Suffix);
-    if( suffix_pos == string::npos )
+    if( suffix_pos == std::string::npos )
         return {-1, {}};
     
     if( suffix_pos + g_Suffix.length() >= _filename.length() - 1 )
@@ -113,8 +118,9 @@ static pair<int, string> ExtractExistingDuplicateInfo( const string &_filename )
     }
 }
 
-static string FindFreeFilenameToDuplicateIn(const VFSListingItem& _item,
-                                            const unordered_set<string> &_filenames)
+static std::string FindFreeFilenameToDuplicateIn
+    (const VFSListingItem& _item,
+     const std::unordered_set<std::string> &_filenames)
 {
     const auto max_duplicates = 100;
     const auto filename = _item.FilenameWithoutExt();
@@ -123,13 +129,16 @@ static string FindFreeFilenameToDuplicateIn(const VFSListingItem& _item,
     
     if( duplicate_index < 0 )
         for(int i = 1; i < max_duplicates; ++i) {
-            auto target = filename + " " + g_Suffix + (i == 1 ? "" : " "+to_string(i)) + extension;
+            const auto target = filename + " " +
+                                g_Suffix +
+                                ( i == 1 ? "" : " " + std::to_string(i) ) +
+                                extension;
             if( _filenames.count(ProduceFormCLowercase(target)) == 0 )
                 return target;
         }
     else
         for(int i = duplicate_index + 1; i < max_duplicates; ++i) {
-            auto target = filename_wo_index + " " + to_string(i) + extension;
+            auto target = filename_wo_index + " " + std::to_string(i) + extension;
             if( _filenames.count(ProduceFormCLowercase(target)) == 0 )
                 return target;
         }
@@ -137,15 +146,15 @@ static string FindFreeFilenameToDuplicateIn(const VFSListingItem& _item,
     return "";
 }
 
-static unordered_set<string> ExtractFilenames( const VFSListing &_listing )
+static std::unordered_set<std::string> ExtractFilenames( const VFSListing &_listing )
 {
-    unordered_set<string> filenames;
+    std::unordered_set<std::string> filenames;
     for( int i = 0, e = _listing.Count(); i != e; ++i )
         filenames.emplace( ProduceFormCLowercase(_listing.Filename(i)) );
     return filenames;
 }
 
-static string ProduceFormCLowercase(string_view _string)
+static std::string ProduceFormCLowercase(std::string_view _string)
 {
     CFStackAllocator allocator;
 

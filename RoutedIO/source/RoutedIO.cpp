@@ -6,13 +6,12 @@
 #include <Habanero/CFString.h>
 #include <Utility/SystemInformation.h>
 #include <RoutedIO/RoutedIO.h>
-#include <experimental/optional>
+#include <optional>
 #include <vector>
 #include <iostream>
 #include "RoutedIOInterfaces.h"
 
 using namespace std;
-using namespace std::experimental;
 
 static PosixIOInterface &IODirectCreateProxy();
 static PosixIOInterface &IOWrappedCreateProxy();
@@ -33,7 +32,7 @@ static PosixIOInterface &IODirectCreateProxy() {
 static PosixIOInterface &IOWrappedCreateProxy()
 {
     static PosixIOInterface *interface = []() -> PosixIOInterface* {
-        return !sysinfo::IsThisProcessSandboxed() ?
+        return !nc::utility::IsThisProcessSandboxed() ?
             new PosixIOInterfaceRouted(RoutedIO::Instance()) :
             new PosixIOInterfaceNative();
         } ();
@@ -110,7 +109,7 @@ bool RoutedIO::IsHelperCurrent()
 
 bool RoutedIO::TurnOn()
 {
-    if( sysinfo::IsThisProcessSandboxed() ) {
+    if( nc::utility::IsThisProcessSandboxed() ) {
         cerr << "RoutedIO::TurnOn() was called in the sandboxed process." << endl;
         return false;
     }
@@ -198,7 +197,7 @@ bool RoutedIO::SayImAuthenticated(xpc_connection_t _connection)
 
 bool RoutedIO::AskToInstallHelper()
 {
-    if( sysinfo::IsThisProcessSandboxed() )
+    if( nc::utility::IsThisProcessSandboxed() )
         return false;
     
     AuthorizationItem   authItem   = { kSMRightBlessPrivilegedHelper, 0, NULL, 0 };
@@ -240,7 +239,7 @@ bool RoutedIO::AskToInstallHelper()
 
 bool RoutedIO::AuthenticateAsAdmin()
 {
-    if( sysinfo::IsThisProcessSandboxed() )
+    if( nc::utility::IsThisProcessSandboxed() )
         return false;
     
     if( m_AuthenticatedAsAdmin )
@@ -328,7 +327,7 @@ bool RoutedIO::IsHelperAlive()
 
 PosixIOInterface &RoutedIO::InterfaceForAccess(const char *_path, int _mode) noexcept
 {
-    if( sysinfo::IsThisProcessSandboxed() )
+    if( nc::utility::IsThisProcessSandboxed() )
         return Direct;
     
     if( !Instance().Enabled() )

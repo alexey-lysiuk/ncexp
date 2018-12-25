@@ -2,12 +2,14 @@
 #pragma once
 
 #include "Actions/DefaultAction.h"
+#include <unordered_map>
+#include <memory>
 
 class NetworkConnectionsManager;
 
 namespace nc::panel {
     
-using StateActionsMap = unordered_map<SEL, unique_ptr<const actions::StateAction> >;
+using StateActionsMap = std::unordered_map<SEL, std::unique_ptr<const actions::StateAction> >;
 StateActionsMap BuildStateActionsMap(NetworkConnectionsManager &_net_mgr);
     
 }

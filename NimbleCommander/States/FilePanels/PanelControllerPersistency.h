@@ -1,10 +1,15 @@
 // Copyright (C) 2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
-#include <NimbleCommander/Core/rapidjson_fwd.h>
+#include <Config/RapidJSON_fwd.h>
+#include <Utility/NativeFSManager.h>
+#include <NimbleCommander/Core/VFSInstanceManager.h>
+
 @class PanelController;
 
 namespace nc::panel {
+    
+struct PersistentLocation;
     
 struct ControllerStateEncoding
 {
@@ -25,7 +30,7 @@ class ControllerStateJSONEncoder
 public:
     ControllerStateJSONEncoder(PanelController *_panel);
     
-    optional<rapidjson::StandaloneValue> Encode(ControllerStateEncoding::Options _options);
+    config::Value Encode(ControllerStateEncoding::Options _options);
     
 private:
     PanelController *m_Panel;
@@ -34,12 +39,22 @@ private:
 class ControllerStateJSONDecoder
 {
 public:
-    ControllerStateJSONDecoder(PanelController *_panel);
+    ControllerStateJSONDecoder(const utility::NativeFSManager &_fs_manager,
+                               nc::core::VFSInstanceManager &_vfs_instance_manager);
     
-    void Decode(const rapidjson::StandaloneValue &_state);
+    void Decode(const config::Value &_state, PanelController *_panel);
     
 private:
-    PanelController *m_Panel;
+    void RecoverSavedContentAsync(PersistentLocation _location,
+                                  PanelController *_panel );    
+    void RecoverSavedContentSync(const PersistentLocation &_location,
+                                 PanelController *_panel );    
+    void RecoverSavedContent(const config::Value &_saved_state,
+                                    PanelController *_panel );    
+    bool AllowSyncRecovery(const PersistentLocation &_location) const;    
+    
+    const utility::NativeFSManager &m_NativeFSManager;    
+    nc::core::VFSInstanceManager &m_VFSInstanceManager;
 };
     
 }

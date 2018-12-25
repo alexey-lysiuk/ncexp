@@ -1,25 +1,27 @@
 // Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Bootstrap/AppDelegate.h>
+#include "PanelView.h"
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
 #include <Utility/NSEventModifierFlagsHolder.h>
 #include <Utility/MIMResponder.h>
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
 #include "PanelViewLayoutSupport.h"
-#include "PanelView.h"
 #include "PanelData.h"
 #include "PanelController.h"
 #include "Brief/PanelBriefView.h"
 #include "List/PanelListView.h"
 #include "PanelViewHeader.h"
 #include "PanelViewFooter.h"
-#include "IconsGenerator2.h"
 #include "PanelViewDelegate.h"
-#include "Actions/Enter.h"
 #include "DragReceiver.h"
 #include "DragSender.h"
 #include "PanelViewFieldEditor.h"
 #include "PanelViewKeystrokeSink.h"
+#include "PanelViewDummyPresentation.h"
+#include "PanelControllerActionsDispatcher.h"
 
 using namespace nc::panel;
+using nc::vfsicon::IconRepository;
 
 namespace nc::panel {
 
@@ -32,7 +34,7 @@ enum class CursorSelectionType : int8_t
 
 struct StateStorage
 {
-    string focused_item;
+    std::string focused_item;
 };
 
 }
@@ -46,18 +48,18 @@ struct StateStorage
 @implementation PanelView
 {
     data::Model                *m_Data;
-    vector< pair<__weak id<NCPanelViewKeystrokeSink>, int > > m_KeystrokeSinks;
+    std::vector< std::pair<__weak id<NCPanelViewKeystrokeSink>, int > > m_KeystrokeSinks;
     
-    unordered_map<uint64_t, StateStorage> m_States;
+    std::unordered_map<uint64_t, StateStorage> m_States;
     NSString                   *m_HeaderTitle;
     NCPanelViewFieldEditor     *m_RenamingEditor;
 
     __weak id<PanelViewDelegate> m_Delegate;
-    NSView<PanelViewImplementationProtocol> *m_ItemsView;
+    NSView<NCPanelViewPresentationProtocol> *m_ItemsView;
     NCPanelViewHeader          *m_HeaderView;
-    PanelViewFooter            *m_FooterView;
+    NCPanelViewFooter          *m_FooterView;
     
-    IconsGenerator2             m_IconsGenerator;
+    std::unique_ptr<IconRepository> m_IconRepository;
     
     int                         m_CursorPos;
     NSEventModifierFlagsHolder  m_KeyboardModifierFlags;
@@ -66,19 +68,25 @@ struct StateStorage
 
 @synthesize headerView = m_HeaderView;
 
-- (id)initWithFrame:(NSRect)frame layout:(const PanelViewLayout&)_layout
+- (id)initWithFrame:(NSRect)frame
+     iconRepository:(std::unique_ptr<nc::vfsicon::IconRepository>)_icon_repository
+             header:(NCPanelViewHeader*)_header
+             footer:(NCPanelViewFooter*)_footer
 {
     self = [super initWithFrame:frame];
     if (self) {
         m_Data = nullptr;
         m_CursorPos = -1;
         m_HeaderTitle = @"";
+        m_IconRepository = std::move(_icon_repository);
 
-        m_ItemsView = [self spawnItemViewWithLayout:_layout];
+        m_ItemsView = [[NCPanelViewDummyPresentation alloc]
+                       initWithFrame:NSMakeRect(0, 0, 100, 100)];
         [self addSubview:m_ItemsView];
         
-        m_HeaderView = [[NCPanelViewHeader alloc] initWithFrame:frame];
+        m_HeaderView = _header;
         m_HeaderView.translatesAutoresizingMaskIntoConstraints = false;
+        m_HeaderView.defaultResponder = self;
         __weak PanelView *weak_self = self;
         m_HeaderView.sortModeChangeCallback = [weak_self](data::SortMode _sm){
             if( PanelView *strong_self = weak_self )
@@ -86,7 +94,7 @@ struct StateStorage
         };
         [self addSubview:m_HeaderView];
         
-        m_FooterView = [[PanelViewFooter alloc] initWithFrame:NSRect()];
+        m_FooterView = _footer;
         m_FooterView.translatesAutoresizingMaskIntoConstraints = false;
         [self addSubview:m_FooterView];
         
@@ -118,14 +126,14 @@ struct StateStorage
                                                                        views:views]];
 }
 
-- (NSView<PanelViewImplementationProtocol>*) spawnItemViewWithLayout:(const PanelViewLayout&)_layout
+- (NSView<NCPanelViewPresentationProtocol>*) spawnItemViewWithLayout:(const PanelViewLayout&)_layout
 {
-    if( auto ll = any_cast<PanelListViewColumnsLayout>(&_layout.layout) ) {
+    if( auto ll = std::any_cast<PanelListViewColumnsLayout>(&_layout.layout) ) {
         auto v = [self spawnListView];
         v.columnsLayout = *ll;
         return v;
     }
-    else if( auto bl = any_cast<PanelBriefViewColumnsLayout>(&_layout.layout) ) {
+    else if( auto bl = std::any_cast<PanelBriefViewColumnsLayout>(&_layout.layout) ) {
         auto v = [self spawnBriefView];
         v.columnsLayout = *bl;
         return v;
@@ -164,7 +172,7 @@ struct StateStorage
 
 - (PanelListView*) spawnListView
 {
-   PanelListView *v = [[PanelListView alloc] initWithFrame:self.bounds andIC:m_IconsGenerator];
+   PanelListView *v = [[PanelListView alloc] initWithFrame:self.bounds andIR:*m_IconRepository];
     v.translatesAutoresizingMaskIntoConstraints = false;
     __weak PanelView *weak_self = self;
     v.sortModeChangeCallback = [=](data::SortMode _sm){
@@ -176,7 +184,7 @@ struct StateStorage
 
 - (PanelBriefView*) spawnBriefView
 {
-    auto v = [[PanelBriefView alloc] initWithFrame:self.bounds andIC:m_IconsGenerator];
+    auto v = [[PanelBriefView alloc] initWithFrame:self.bounds andIR:*m_IconRepository];
     v.translatesAutoresizingMaskIntoConstraints = false;
     return v;
 }
@@ -194,8 +202,7 @@ struct StateStorage
 - (BOOL)becomeFirstResponder
 {
     [self.controller panelViewDidBecomeFirstResponder];
-    [self willChangeValueForKey:@"active"];
-    [self didChangeValueForKey:@"active"];
+    [self refreshActiveStatus];
     return true;
 }
 
@@ -203,12 +210,19 @@ struct StateStorage
 {
     __weak PanelView* weak_self = self;
     dispatch_to_main_queue([=]{
-        if( PanelView* strong_self = weak_self ) {
-            [strong_self willChangeValueForKey:@"active"];
-            [strong_self didChangeValueForKey:@"active"];
-        }
+        if( PanelView* strong_self = weak_self )
+            [strong_self refreshActiveStatus];
     });
     return YES;
+}
+
+- (void) refreshActiveStatus
+{
+    [self willChangeValueForKey:@"active"];
+    [self didChangeValueForKey:@"active"];
+    const auto active = self.active;
+    m_FooterView.active = active;
+    m_HeaderView.active = active;
 }
 
 - (void)viewWillMoveToWindow:(NSWindow *)_wnd
@@ -221,8 +235,6 @@ struct StateStorage
         [notify removeObserver:self name:NSWindowDidResignMainNotification object:nil];
     }
     if( _wnd ) {
-        const auto is_hidpi = _wnd.backingScaleFactor > 1.0;
-        m_IconsGenerator.SetHiDPI( is_hidpi );
         [notify addObserver:self
                    selector:@selector(windowStatusDidChange)
                        name:NSWindowDidBecomeKeyNotification
@@ -325,7 +337,7 @@ struct StateStorage
         return;
     
     const auto items_per_screen = m_ItemsView.maxNumberOfVisibleItems;
-    const auto new_pos = max( orig_pos - items_per_screen, 0 );
+    const auto new_pos = std::max( orig_pos - items_per_screen, 0 );
     
     if( new_pos == orig_pos )
         return;
@@ -346,7 +358,7 @@ struct StateStorage
         return;
     const auto orig_pos = m_CursorPos;
     const auto items_per_screen = m_ItemsView.maxNumberOfVisibleItems;
-    const auto new_pos = min( orig_pos + items_per_screen, total_items - 1 );
+    const auto new_pos = std::min( orig_pos + items_per_screen, total_items - 1 );
     
     if( new_pos == orig_pos )
         return;
@@ -365,7 +377,7 @@ struct StateStorage
     
     if( m_Data->SortedDirectoryEntries().empty() ) return;
     const auto items_per_column = m_ItemsView.itemsInColumn;
-    const auto new_pos = max( orig_pos - items_per_column, 0 );
+    const auto new_pos = std::max( orig_pos - items_per_column, 0 );
     
     if( new_pos == orig_pos )
         return;
@@ -385,7 +397,7 @@ struct StateStorage
     if( m_Data->SortedDirectoryEntries().empty() ) return;
     const auto total_items = (int)m_Data->SortedDirectoryEntries().size();
     const auto items_per_column = m_ItemsView.itemsInColumn;
-    const auto new_pos = min( orig_pos + items_per_column, total_items - 1 );
+    const auto new_pos = std::min( orig_pos + items_per_column, total_items - 1 );
     
     if( new_pos == orig_pos )
         return;
@@ -634,7 +646,7 @@ struct StateStorage
     }
     
     if(_start > _end)
-        swap(_start, _end);
+        std::swap(_start, _end);
     
     // we never want to select a first (dotdot) entry
     if( auto i = m_Data->EntryAtSortPosition(_start) )
@@ -718,21 +730,21 @@ struct StateStorage
     }
 }
 
-- (any) presentationLayout
+- (std::any) presentationLayout
 {
     if( auto v = objc_cast<PanelBriefView>(m_ItemsView) )
-        return any{[v columnsLayout]};
+        return std::any{[v columnsLayout]};
     if( auto v = objc_cast<PanelListView>(m_ItemsView) )
-        return any{[v columnsLayout]};
-    return any{PanelViewDisabledLayout{}};
+        return std::any{[v columnsLayout]};
+    return std::any{PanelViewDisabledLayout{}};
 }
 
 - (void) setPresentationLayout:(const PanelViewLayout&)_layout
 {
-    if( auto ll = any_cast<PanelListViewColumnsLayout>(&_layout.layout) ) {
+    if( auto ll = std::any_cast<PanelListViewColumnsLayout>(&_layout.layout) ) {
         [self setupListPresentationWithLayout:*ll];
     }
-    else if( auto bl = any_cast<PanelBriefViewColumnsLayout>(&_layout.layout) ) {
+    else if( auto bl = std::any_cast<PanelBriefViewColumnsLayout>(&_layout.layout) ) {
         [self setupBriefPresentationWithLayout:*bl];
         
     }
@@ -777,7 +789,8 @@ struct StateStorage
     [self OnCursorPositionChanged];
 }
 
-- (void)panelChangedWithFocusedFilename:(const string&)_focused_filename loadPreviousState:(bool)_load
+- (void)panelChangedWithFocusedFilename:(const std::string&)_focused_filename
+                      loadPreviousState:(bool)_load
 {
     assert( dispatch_is_main_queue() );
     m_CursorPos = -1;
@@ -818,7 +831,7 @@ struct StateStorage
   
     m_RenamingEditor = [[NCPanelViewFieldEditor alloc] initWithItem:item];
     __weak PanelView *weak_self = self;
-    m_RenamingEditor.onTextEntered = ^(const string &_new_filename){
+    m_RenamingEditor.onTextEntered = ^(const std::string &_new_filename){
         if( auto sself = weak_self ) {
             if( !sself->m_RenamingEditor )
                 return;
@@ -893,8 +906,7 @@ struct StateStorage
 
 - (void) windowStatusDidChange
 {
-    [self willChangeValueForKey:@"active"];
-    [self didChangeValueForKey:@"active"];
+    [self refreshActiveStatus];
 }
 
 - (void) setHeaderTitle:(NSString *)headerTitle
@@ -965,21 +977,24 @@ struct StateStorage
 
 - (void)panelItem:(int)_sorted_index dblClick:(NSEvent*)_event
 {
-    if( _sorted_index >= 0 && _sorted_index == m_CursorPos )
-        actions::Enter{}.Perform(self.controller, self);
+    if( _sorted_index >= 0 && _sorted_index == m_CursorPos ) {
+        if( auto action_dispatcher = self.actionsDispatcher )
+           [action_dispatcher OnOpen:self];      
+    }
 }
 
 - (void)panelItem:(int)_sorted_index mouseDragged:(NSEvent*)_event
 {
-    DragSender sender{self.controller};
-    sender.SetIconCallback([self](int _item_index) -> NSImage* {
-        if( const auto entry = m_Data->EntryAtSortPosition(_item_index) ) {
-            const auto vd = m_Data->VolatileDataAtSortPosition(_item_index);            
-            return m_IconsGenerator.AvailbleImageFor(entry, vd).copy;
-        }
-        return nil;
-    });
-    
+    auto icon_producer = DragSender::IconCallback{[self](const VFSListingItem &_item) -> NSImage* {
+        assert( m_Data->ListingPtr() == _item.Listing() );
+        const auto vd = m_Data->VolatileDataAtRawPosition(_item.Index());
+        if( m_IconRepository->IsValidSlot(vd.icon) )
+            return m_IconRepository->AvailableIconForSlot(vd.icon);
+        else
+            return m_IconRepository->AvailableIconForListingItem(_item);
+    }};
+
+    DragSender sender{self.controller, move(icon_producer)};
     sender.Start(self, _event, _sorted_index);
 }
 

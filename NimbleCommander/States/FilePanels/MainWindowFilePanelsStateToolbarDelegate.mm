@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "MainWindowFilePanelState.h"
 #include "StateActionsDispatcher.h"
 #include "../../Core/ActionsShortcutsManager.h"
@@ -8,6 +8,9 @@
 #include "Actions/ExecuteExternalTool.h"
 #include <NimbleCommander/Core/AnyHolder.h>
 #include "ExternalToolsSupport.h"
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 // do not change these strings, they are used for persistency in NSUserDefaults
 static auto g_ToolbarIdentifier = @"FilePanelsToolbar";
@@ -189,8 +192,8 @@ static NSImage *ImageForTool( const ExternalTool &_et)
     
     if( const auto wnd = m_PoolViewController.view.window ) {
         const auto sz = m_PoolViewController.view.window.frame.size;
-        const auto max_width = min(sz.width / 2.4, g_MaxPoolViewWith);
-        const auto clipped_max_wdith = max(m_PoolViewToolbarItem.minSize.width, max_width);
+        const auto max_width = std::min(sz.width / 2.4, g_MaxPoolViewWith);
+        const auto clipped_max_wdith = std::max(m_PoolViewToolbarItem.minSize.width, max_width);
         m_PoolViewToolbarItem.maxSize = NSMakeSize(clipped_max_wdith,
                                                    m_PoolViewToolbarItem.maxSize.height );
     }
@@ -205,7 +208,7 @@ static NSImage *ImageForTool( const ExternalTool &_et)
 {
     if( auto i = objc_cast<NSToolbarItem>(sender) )
         if( auto tool = self.state.externalToolsStorage.GetTool(i.tag) ) {
-            m_RepresentedObject = [[AnyHolder alloc] initWithAny:any{tool}];
+            m_RepresentedObject = [[AnyHolder alloc] initWithAny:std::any{tool}];
             [NSApp sendAction:@selector(onExecuteExternalTool:) to:nil from:self];
             m_RepresentedObject = nil;
         }
@@ -249,7 +252,7 @@ static NSImage *ImageForTool( const ExternalTool &_et)
 - (void) externalToolsChanged
 {
     dispatch_assert_main_queue();
-    deque<int> to_remove;
+    std::deque<int> to_remove;
     for( NSToolbarItem *i in m_Toolbar.items ) {
         if( [i.itemIdentifier hasPrefix:g_ExternalToolsIdentifiersPrefix] ) {
             const int n = atoi( i.itemIdentifier.UTF8String + g_ExternalToolsIdentifiersPrefix.length );

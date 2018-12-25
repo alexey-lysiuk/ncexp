@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "CopyFile.h"
 #include "../MainWindowFilePanelState.h"
 #include "../PanelController.h"
@@ -10,11 +10,14 @@
 #include <Operations/CopyingDialog.h>
 #include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include <NimbleCommander/States/MainWindowController.h>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
 
-static function<void()> RefreshCurrentActiveControllerLambda( MainWindowFilePanelState *_target );
-static function<void()> RefreshBothCurrentControllersLambda( MainWindowFilePanelState *_target );
+static std::function<void()>
+    RefreshCurrentActiveControllerLambda( MainWindowFilePanelState *_target );
+static std::function<void()>
+    RefreshBothCurrentControllersLambda( MainWindowFilePanelState *_target );
 
 bool CopyTo::Predicate( MainWindowFilePanelState *_target ) const
 {
@@ -58,7 +61,7 @@ void CopyTo::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      destinationVFS:opp_uniform ? opp_pc.vfs : nullptr
                      operationOptions:MakeDefaultFileCopyOptions()];
     
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
+    cd.allowVerification = bootstrap::ActivationManager::Instance().HasCopyVerification();
 
     const auto handler = ^(NSModalResponse returnCode){
         if( returnCode != NSModalResponseOK )
@@ -70,7 +73,7 @@ void CopyTo::Perform( MainWindowFilePanelState *_target, id _sender ) const
         if( !host || path.empty() )
             return; // ui invariant is broken
         
-        const auto op = make_shared<nc::ops::Copying>(move(entries), path, host, opts);
+        const auto op = std::make_shared<nc::ops::Copying>(move(entries), path, host, opts);
         
         const auto update_both_panels = RefreshBothCurrentControllersLambda(_target);
         op->ObserveUnticketed(nc::ops::Operation::NotifyAboutFinish, update_both_panels);
@@ -108,7 +111,7 @@ void CopyAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
     if( !item || item.IsDotDot() )
         return;
 
-    const auto entries = vector<VFSListingItem>({item});
+    const auto entries = std::vector<VFSListingItem>({item});
     
     const auto cd = [[NCOpsCopyingDialog alloc]
                      initWithItems:entries
@@ -117,7 +120,7 @@ void CopyAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      initialDestination:item.Filename()
                      destinationVFS:item.Host()
                      operationOptions:MakeDefaultFileCopyOptions()];
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
+    cd.allowVerification = bootstrap::ActivationManager::Instance().HasCopyVerification();
     
     const auto handler = ^(NSModalResponse returnCode) {
         if( returnCode != NSModalResponseOK )
@@ -129,7 +132,7 @@ void CopyAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
         if( !host || path.empty() )
             return; // ui invariant is broken
         
-        const auto op = make_shared<nc::ops::Copying>(entries, path, host, opts);
+        const auto op = std::make_shared<nc::ops::Copying>(entries, path, host, opts);
 
         const auto update = RefreshCurrentActiveControllerLambda(_target);
         op->ObserveUnticketed(nc::ops::Operation::NotifyAboutFinish, update);
@@ -139,9 +142,9 @@ void CopyAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
             dispatch_to_main_queue( [=]{
                 if( PanelController *panel = weak_panel ) {
                     if( panel.isUniform &&
-                        panel.currentDirectoryPath == ::path(path).parent_path().native()+"/" ) {
+                        panel.currentDirectoryPath == boost::filesystem::path(path).parent_path().native()+"/" ) {
                        nc::panel::DelayedFocusing req;
-                       req.filename = ::path(path).filename().native();
+                       req.filename = boost::filesystem::path(path).filename().native();
                        [(PanelController*)panel scheduleDelayedFocusing:req];
                     }
                 }
@@ -199,7 +202,7 @@ void MoveTo::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      initialDestination:opp_uniform ? opp_pc.currentDirectoryPath : ""
                      destinationVFS:opp_uniform ? opp_pc.vfs : nullptr
                      operationOptions:MakeDefaultFileMoveOptions()];
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
+    cd.allowVerification = bootstrap::ActivationManager::Instance().HasCopyVerification();
     
     const auto handler = ^(NSModalResponse returnCode) {
         if( returnCode != NSModalResponseOK )
@@ -211,7 +214,7 @@ void MoveTo::Perform( MainWindowFilePanelState *_target, id _sender ) const
         if( !host || path.empty() )
             return; // ui invariant is broken
         
-        const auto op = make_shared<nc::ops::Copying>(move(entries), path, host, opts);
+        const auto op = std::make_shared<nc::ops::Copying>(move(entries), path, host, opts);
         
         const auto update_both_panels = RefreshBothCurrentControllersLambda(_target);
         op->ObserveUnticketed(nc::ops::Operation::NotifyAboutFinish, update_both_panels);
@@ -249,7 +252,7 @@ void MoveAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
     if( !item || item.IsDotDot() || !item.Host()->IsWritable() )
         return;
     
-    const auto entries = vector<VFSListingItem>({item});
+    const auto entries = std::vector<VFSListingItem>({item});
 
     const auto cd = [[NCOpsCopyingDialog alloc]
                      initWithItems:entries
@@ -258,7 +261,7 @@ void MoveAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
                      initialDestination:item.Filename()
                      destinationVFS:item.Host()
                      operationOptions:MakeDefaultFileMoveOptions()];
-    cd.allowVerification = ActivationManager::Instance().HasCopyVerification();
+    cd.allowVerification = bootstrap::ActivationManager::Instance().HasCopyVerification();
     
     const auto handler = ^(NSModalResponse returnCode){
         if( returnCode != NSModalResponseOK )
@@ -270,7 +273,7 @@ void MoveAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
         if( !host || path.empty() )
             return; // ui invariant is broken
         
-        const auto op = make_shared<nc::ops::Copying>(entries, path, host, opts);
+        const auto op = std::make_shared<nc::ops::Copying>(entries, path, host, opts);
         
         const auto update = RefreshCurrentActiveControllerLambda(_target);
         op->ObserveUnticketed(nc::ops::Operation::NotifyAboutFinish, update);
@@ -279,7 +282,7 @@ void MoveAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
         op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [=]{
             dispatch_to_main_queue( [=]{
                 nc::panel::DelayedFocusing req;
-                req.filename = ::path(path).filename().native();
+                req.filename = boost::filesystem::path(path).filename().native();
                 [(PanelController*)cur scheduleDelayedFocusing:req];
             });
         });
@@ -290,7 +293,8 @@ void MoveAs::Perform( MainWindowFilePanelState *_target, id _sender ) const
     [_target.mainWindowController beginSheet:cd.window completionHandler:handler];
 }
 
-static function<void()> RefreshCurrentActiveControllerLambda( MainWindowFilePanelState *_target )
+static std::function<void()>
+    RefreshCurrentActiveControllerLambda( MainWindowFilePanelState *_target )
 {
     __weak PanelController *cur = _target.activePanelController;
     auto update_current = [=] {
@@ -301,7 +305,8 @@ static function<void()> RefreshCurrentActiveControllerLambda( MainWindowFilePane
     return update_current;
 }
 
-static function<void()> RefreshBothCurrentControllersLambda( MainWindowFilePanelState *_target )
+static std::function<void()>
+    RefreshBothCurrentControllersLambda( MainWindowFilePanelState *_target )
 {
     __weak PanelController *cur = _target.activePanelController;
     __weak PanelController * opp = _target.oppositePanelController;

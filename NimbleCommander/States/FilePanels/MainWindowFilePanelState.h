@@ -1,12 +1,13 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFS.h>
 #import <MMTabBarView/MMTabBarView.h>
 #include "../MainWindowStateProtocol.h"
-#include "../../Bootstrap/Config.h"
+#include <Config/Config.h>
 #include "PanelViewKeystrokeSink.h"
 #include "PanelPreview.h"
+#include "PanelControllerPersistency.h"
 #include <Utility/MIMResponder.h>
 
 namespace nc::ops {
@@ -38,9 +39,9 @@ struct MainWindowFilePanelState_OverlappedTerminalSupport;
                                              NCPanelViewKeystrokeSink,
                                              MMTabBarViewDelegate>
 {
-    function<PanelController*()> m_PanelFactory;
-    vector<PanelController*> m_LeftPanelControllers;
-    vector<PanelController*> m_RightPanelControllers;
+    std::function<PanelController*()> m_PanelFactory;
+    std::vector<PanelController*> m_LeftPanelControllers;
+    std::vector<PanelController*> m_RightPanelControllers;
     __weak PanelController*  m_LastFocusedPanelController;
     
     AttachedResponder *m_AttachedResponder;
@@ -48,7 +49,7 @@ struct MainWindowFilePanelState_OverlappedTerminalSupport;
     FilePanelMainSplitView *m_SplitView;
     NSLayoutConstraint     *m_MainSplitViewBottomConstraint;
 
-    unique_ptr<MainWindowFilePanelState_OverlappedTerminalSupport> m_OverlappedTerminal;
+    std::unique_ptr<MainWindowFilePanelState_OverlappedTerminalSupport> m_OverlappedTerminal;
     
     ColoredSeparatorLine *m_SeparatorLine;
     MainWindowFilePanelsStateToolbarDelegate *m_ToolbarDelegate;
@@ -56,10 +57,11 @@ struct MainWindowFilePanelState_OverlappedTerminalSupport;
     
     bool                m_ShowTabs;
     
-    vector<GenericConfig::ObservationTicket> m_ConfigTickets;
-    shared_ptr<nc::ops::Pool> m_OperationsPool;
-    shared_ptr<nc::panel::ClosedPanelsHistory> m_ClosedPanelsHistory;
-    shared_ptr<nc::panel::FavoriteLocationsStorage> m_FavoriteLocationsStorage;
+    std::vector<nc::config::Token> m_ConfigTickets;
+    std::shared_ptr<nc::ops::Pool> m_OperationsPool;
+    std::shared_ptr<nc::panel::ClosedPanelsHistory> m_ClosedPanelsHistory;
+    std::shared_ptr<nc::panel::FavoriteLocationsStorage> m_FavoriteLocationsStorage;
+    nc::panel::ControllerStateJSONDecoder *m_ControllerStateJSONDecoder;    
 }
 
 @property (nonatomic, readonly) NCMainWindowController* mainWindowController;
@@ -69,15 +71,16 @@ struct MainWindowFilePanelState_OverlappedTerminalSupport;
 @property (nonatomic, readonly) bool isPanelActive;
 @property (nonatomic, readonly) bool goToForcesPanelActivation;
 @property (nonatomic, readwrite)
-    shared_ptr<nc::panel::ClosedPanelsHistory> closedPanelsHistory;
+    std::shared_ptr<nc::panel::ClosedPanelsHistory> closedPanelsHistory;
 @property (nonatomic, readwrite)
-    shared_ptr<nc::panel::FavoriteLocationsStorage> favoriteLocationsStorage;
+    std::shared_ptr<nc::panel::FavoriteLocationsStorage> favoriteLocationsStorage;
 @property (nonatomic, readwrite) AttachedResponder *attachedResponder;
 
 - (instancetype) initWithFrame:(NSRect)frameRect
                        andPool:(nc::ops::Pool&)_pool
             loadDefaultContent:(bool)_load_content
-                  panelFactory:(function<PanelController*()>)_panel_factory;
+                  panelFactory:(std::function<PanelController*()>)_panel_factory
+    controllerStateJSONDecoder:(nc::panel::ControllerStateJSONDecoder&)_controller_json_decoder;
 
 - (void) loadDefaultPanelContent;
 
@@ -96,17 +99,22 @@ struct MainWindowFilePanelState_OverlappedTerminalSupport;
  */
 - (void)PanelPathChanged:(PanelController*)_panel;
 
-@property (nonatomic, readonly) vector< tuple<string,VFSHostPtr> > filePanelsCurrentPaths; // result may contain duplicates
+/**
+ * result may contain duplicates
+ */
+@property (nonatomic, readonly)
+    std::vector< std::tuple<std::string,VFSHostPtr> > filePanelsCurrentPaths;
 
 
 - (id<NCPanelPreview>)quickLookForPanel:(PanelController*)_panel make:(bool)_make_if_absent;
 - (BriefSystemOverview*)briefSystemOverviewForPanel:(PanelController*)_panel make:(bool)_make_if_absent;
 
-- (void)requestTerminalExecution:(const string&)_filename at:(const string&)_cwd;
+- (void)requestTerminalExecution:(const std::string&)_filename
+                              at:(const std::string&)_cwd;
 - (void)closeAttachedUI:(PanelController*)_panel;
 
-- (optional<rapidjson::StandaloneValue>) encodeRestorableState;
-- (bool) decodeRestorableState:(const rapidjson::StandaloneValue&)_state;
+- (nc::config::Value) encodeRestorableState;
+- (bool) decodeRestorableState:(const nc::config::Value&)_state;
 - (void) markRestorableStateAsInvalid;
 
 - (void) saveDefaultInitialState;
@@ -135,14 +143,14 @@ struct MainWindowFilePanelState_OverlappedTerminalSupport;
  * May return nil in init/shutdown period or in invalid state.
  */
 @property (nonatomic, readonly) PanelController *leftPanelController;
-@property (nonatomic, readonly) const vector<PanelController*> &leftControllers;
+@property (nonatomic, readonly) const std::vector<PanelController*> &leftControllers;
 
 /**
  * Pick one of a controllers in right side tabbed bar, which is currently selected (regardless if it is active or not).
  * May return nil in init/shutdown period or in invalid state.
  */
 @property (nonatomic, readonly) PanelController *rightPanelController;
-@property (nonatomic, readonly) const vector<PanelController*> &rightControllers;
+@property (nonatomic, readonly) const std::vector<PanelController*> &rightControllers;
 
 /**
  * Checks if this controller is one of a state's left-side controllers set.

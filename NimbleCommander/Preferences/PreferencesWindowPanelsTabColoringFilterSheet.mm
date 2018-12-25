@@ -1,5 +1,9 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #import "PreferencesWindowPanelsTabColoringFilterSheet.h"
+#include <Utility/StringExtras.h>
+
+using nc::hbn::tribool;
+using nc::hbn::indeterminate;
 
 static NSCellStateValue tribool_to_state(tribool _val)
 {
@@ -23,11 +27,11 @@ static tribool state_to_tribool(NSCellStateValue _val)
 
 @implementation PreferencesWindowPanelsTabColoringFilterSheet
 {
-    PanelViewPresentationItemsColoringFilter m_Filter;
+    nc::panel::PresentationItemsColoringFilter m_Filter;
     
 }
 
-- (id) initWithFilter:(PanelViewPresentationItemsColoringFilter)_filter
+- (id) initWithFilter:(nc::panel::PresentationItemsColoringFilter)_filter
 {
     self = [super init];
     if(self) {
@@ -62,16 +66,19 @@ static tribool state_to_tribool(NSCellStateValue _val)
     m_Filter.reg = state_to_tribool(self.regular.state);
     m_Filter.selected = state_to_tribool(self.selected.state);
     NSString *mask = self.mask.stringValue;
-    if(mask == nil)
+    if( mask == nil ) {
         mask = @"";
-    else if( !FileMask::IsWildCard(mask.UTF8String) )
-        if(NSString *replace = [NSString stringWithUTF8StdString:FileMask::ToExtensionWildCard(mask.UTF8String)])
+    }
+    else if( !nc::utility::FileMask::IsWildCard(mask.UTF8String) ) {
+        auto wc = nc::utility::FileMask::ToExtensionWildCard(mask.UTF8String);
+        if( auto replace = [NSString stringWithUTF8StdString:wc] )
             mask = replace;
+    }
     m_Filter.mask = mask.UTF8String;
     [self endSheet:NSModalResponseOK];
 }
 
-- (PanelViewPresentationItemsColoringFilter) filter
+- (nc::panel::PresentationItemsColoringFilter) filter
 {
     return m_Filter;
 }

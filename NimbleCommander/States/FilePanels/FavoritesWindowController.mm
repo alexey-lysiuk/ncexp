@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Carbon/Carbon.h>
 #include <Habanero/algo.h>
 #include <Utility/SheetWithHotkeys.h>
@@ -11,8 +11,12 @@
 #include "Favorites.h"
 #include "FavoriteComposing.h"
 #include "FilesDraggingSource.h"
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
+#include <Habanero/dispatch_cpp.h>
 
 using namespace nc::panel;
+using namespace std::literals;
 
 static const auto g_FavoritesWindowControllerDragDataType =
     @"FavoritesWindowControllerDragDataType";
@@ -27,17 +31,17 @@ static const auto g_FavoritesWindowControllerDragDataType =
 @implementation FavoritesWindowController
 {
     FavoritesWindowController *m_Self;
-    function<FavoriteLocationsStorage&()> m_Storage;
+    std::function<FavoriteLocationsStorage&()> m_Storage;
     
-    vector<FavoriteLocationsStorage::Favorite> m_Favorites;
-    vector<FavoriteLocationsStorage::Favorite> m_PopupMenuFavorites;
+    std::vector<FavoriteLocationsStorage::Favorite> m_Favorites;
+    std::vector<FavoriteLocationsStorage::Favorite> m_PopupMenuFavorites;
     
     FavoriteLocationsStorage::ObservationTicket m_ObservationTicket;
     bool m_IsCommitingFavorites;
-    function< vector<pair<VFSHostPtr, string>>() > m_ProvideCurrentUniformPaths;
+    std::function< std::vector<std::pair<VFSHostPtr, std::string>>() > m_ProvideCurrentUniformPaths;
 }
 
-- (id) initWithFavoritesStorage:(function<FavoriteLocationsStorage&()>)_favorites_storage
+- (id) initWithFavoritesStorage:(std::function<FavoriteLocationsStorage&()>)_favorites_storage
 {
     self = [super initWithWindowNibName:NSStringFromClass(self.class)];
     if( self ) {
@@ -223,14 +227,14 @@ writeRowsWithIndexes:(NSIndexSet *)rowIndexes
         [self commit];
     }
     else {
-        vector<FavoriteLocationsStorage::Favorite> addition;
+        std::vector<FavoriteLocationsStorage::Favorite> addition;
         auto &storage = m_Storage();
         if( auto source = objc_cast<FilesDraggingSource>(info.draggingSource) ) {
             // dragging from some NC panel
             for( PanelDraggingItem *item: source.items )
                 if( auto f = FavoriteComposing{storage}.FromListingItem(item.item) )
                     if( ![self hasFavorite:*f] )
-                        addition.emplace_back( move(*f) );
+                        addition.emplace_back( std::move(*f) );
         }
         else if( [pasteboard.types containsObject:FilesDraggingSource.fileURLsDragUTI] ) {
             // dragging from outside
@@ -240,7 +244,7 @@ writeRowsWithIndexes:(NSIndexSet *)rowIndexes
             for( NSURL *url in fileURLs )
                 if( auto f = FavoriteComposing{storage}.FromURL(url) )
                     if( ![self hasFavorite:*f] )
-                        addition.emplace_back( move(*f) );
+                        addition.emplace_back( std::move(*f) );
         }
         
         if( !addition.empty() ) {
@@ -314,7 +318,7 @@ writeRowsWithIndexes:(NSIndexSet *)rowIndexes
         return;
     const auto panel_paths = m_ProvideCurrentUniformPaths();
     
-    unordered_map<size_t, FavoriteLocationsStorage::Favorite> proposed_favorites;
+    std::unordered_map<size_t, FavoriteLocationsStorage::Favorite> proposed_favorites;
     auto &storage = m_Storage();
     for( auto &p: panel_paths )
         if( auto f = storage.ComposeFavoriteLocation(*p.first, p.second) )
@@ -379,12 +383,13 @@ writeRowsWithIndexes:(NSIndexSet *)rowIndexes
 }
 
 
-- (void)setProvideCurrentUniformPaths:(function<vector<pair<VFSHostPtr, string> > ()>)callback
+- (void)setProvideCurrentUniformPaths:
+    (std::function<std::vector<std::pair<VFSHostPtr, std::string> > ()>)callback
 {
     m_ProvideCurrentUniformPaths = move(callback);
 }
 
-- (function<vector<pair<VFSHostPtr, string> > ()>)provideCurrentUniformPaths
+- (std::function<std::vector<std::pair<VFSHostPtr, std::string> > ()>)provideCurrentUniformPaths
 {
     return m_ProvideCurrentUniformPaths;
 }

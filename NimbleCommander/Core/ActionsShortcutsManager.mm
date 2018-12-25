@@ -1,13 +1,13 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Bootstrap/Config.h>
-#include <NimbleCommander/Core/rapidjson.h>
+#include <Config/RapidJSON.h>
 #include "ActionsShortcutsManager.h"
 
 // this key should not exist in config defaults
 static const auto g_OverridesConfigPath = "hotkeyOverrides_v1";
 
  // the persistance holy grail is below, change ids only in emergency case:
-static const vector<pair<const char*,int>> g_ActionsTags = {
+static const std::vector<std::pair<const char*,int>> g_ActionsTags = {
     {"menu.nimble_commander.about",                     10'000},
     {"menu.nimble_commander.preferences",               10'010},
     {"menu.nimble_commander.hide",                      10'020},
@@ -41,6 +41,7 @@ static const vector<pair<const char*,int>> g_ActionsTags = {
     {"menu.file.add_to_favorites",                      11'140},
     {"menu.file.close_window",                          11'041},
     {"menu.file.close",                                 11'040},
+    {"menu.file.close_other_tabs",                      11'180},        
     {"menu.file.find",                                  11'050},
     {"menu.file.find_next",                             11'051},
     {"menu.file.find_with_spotlight",                   11'130},
@@ -198,7 +199,7 @@ static const vector<pair<const char*,int>> g_ActionsTags = {
 };
 
 
-static const vector<pair<const char*, const char*>> g_DefaultShortcuts = {
+static const std::vector<std::pair<const char*, const char*>> g_DefaultShortcuts = {
     {"menu.nimble_commander.about",                         u8""        },
     {"menu.nimble_commander.preferences",                   u8"⌘,"      }, // cmd+,
     {"menu.nimble_commander.toggle_admin_mode",             u8""        },
@@ -232,6 +233,7 @@ static const vector<pair<const char*, const char*>> g_DefaultShortcuts = {
     {"menu.file.add_to_favorites",                          u8"⌘b"      }, // cmd+b
     {"menu.file.close_window",                              u8"⇧⌘w"     }, // shift+cmd+w
     {"menu.file.close",                                     u8"⌘w"      }, // cmd+w
+    {"menu.file.close_other_tabs",                          u8"⌥⌘w"     }, // alt+cmd+w   
     {"menu.file.find",                                      u8"⌘f"      }, // cmd+f
     {"menu.file.find_next",                                 u8"⌘g"      }, // cmd+g
     {"menu.file.find_with_spotlight",                       u8"⌥⌘f"     }, // alt+cmd+f
@@ -338,7 +340,7 @@ static const vector<pair<const char*, const char*>> g_DefaultShortcuts = {
     {"menu.command.link_create_soft",                       u8""        },
     {"menu.command.link_create_hard",                       u8""        },
     {"menu.command.link_edit",                              u8""        },
-    {"menu.command.open_xattr",                             u8"⌥⌘x"     }, // // alt+cmd+x
+    {"menu.command.open_xattr",                             u8"⌥⌘x"     }, // alt+cmd+x
 
     {"menu.window.minimize",                                u8"⌘m"      }, // cmd+m
     {"menu.window.fullscreen",                              u8"^⌘f"     }, // ctrl+cmd+f
@@ -382,11 +384,12 @@ static const vector<pair<const char*, const char*>> g_DefaultShortcuts = {
     
 };
 
-ActionsShortcutsManager::ShortCutsUpdater::ShortCutsUpdater(initializer_list<ShortCut*> _hotkeys,
-                                                            initializer_list<const char*> _actions )
+ActionsShortcutsManager::ShortCutsUpdater::
+        ShortCutsUpdater(std::initializer_list<ShortCut*> _hotkeys,
+                         std::initializer_list<const char*> _actions )
 {
     if( _hotkeys.size() != _actions.size() )
-        throw logic_error("_hotkeys.size() != _actions.size()");
+        throw std::logic_error("_hotkeys.size() != _actions.size()");
     
     auto &am = ActionsShortcutsManager::Instance();
     for( int i = 0, e = (int)_hotkeys.size(); i != e; ++i )
@@ -425,7 +428,7 @@ ActionsShortcutsManager &ActionsShortcutsManager::Instance()
     return *manager;
 }
 
-int ActionsShortcutsManager::TagFromAction(const string &_action) const
+int ActionsShortcutsManager::TagFromAction(const std::string &_action) const
 {
     auto it = m_ActionToTag.find(_action);
     if( it != end(m_ActionToTag) )
@@ -441,7 +444,7 @@ int ActionsShortcutsManager::TagFromAction(const char *_action) const
     return -1;
 }
 
-string ActionsShortcutsManager::ActionFromTag(int _tag) const
+std::string ActionsShortcutsManager::ActionFromTag(int _tag) const
 {
     auto it = m_TagToAction.find(_tag);
     if( it != end(m_TagToAction) )
@@ -496,7 +499,8 @@ void ActionsShortcutsManager::ReadOverrideFromConfig()
         }
 }
 
-ActionsShortcutsManager::ShortCut ActionsShortcutsManager::ShortCutFromAction(const string &_action) const
+ActionsShortcutsManager::ShortCut ActionsShortcutsManager::ShortCutFromAction
+        (const std::string &_action) const
 {
     int tag = TagFromAction(_action);
     if(tag <= 0)
@@ -526,7 +530,7 @@ ActionsShortcutsManager::ShortCut ActionsShortcutsManager::DefaultShortCutFromTa
     return {};
 }
 
-bool ActionsShortcutsManager::SetShortCutOverride(const string &_action, const ShortCut& _sc)
+bool ActionsShortcutsManager::SetShortCutOverride(const std::string &_action, const ShortCut& _sc)
 {
     const auto tag = TagFromAction(_action);
     if( tag <= 0 )
@@ -569,27 +573,27 @@ void ActionsShortcutsManager::RevertToDefaults()
 void ActionsShortcutsManager::WriteOverridesToConfig() const
 {
     using namespace rapidjson;
-    GenericConfig::ConfigValue overrides{ kObjectType };
+    nc::config::Value overrides{ kObjectType };
     
     for( auto &i: g_ActionsTags ) {
         auto scover = m_ShortCutsOverrides.find(i.second);
         if( scover != end(m_ShortCutsOverrides) )
             overrides.AddMember(
-                                MakeStandaloneString(i.first),
-                                MakeStandaloneString(scover->second.ToPersString()),
-                                g_CrtAllocator);
+                                nc::config::MakeStandaloneString(i.first),
+                                nc::config::MakeStandaloneString(scover->second.ToPersString()),
+                                nc::config::g_CrtAllocator);
     }
     
     GlobalConfig().Set( g_OverridesConfigPath, overrides );
 }
 
-const vector<pair<const char*,int>>& ActionsShortcutsManager::AllShortcuts() const
+const std::vector<std::pair<const char*,int>>& ActionsShortcutsManager::AllShortcuts() const
 {
     return g_ActionsTags;
 }
 
 ActionsShortcutsManager::ObservationTicket ActionsShortcutsManager::
-    ObserveChanges(function<void()> _callback)
+    ObserveChanges(std::function<void()> _callback)
 {
     return ObservableBase::AddObserver(_callback);
 }

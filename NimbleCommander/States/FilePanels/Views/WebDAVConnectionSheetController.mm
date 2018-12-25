@@ -1,8 +1,9 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "WebDAVConnectionSheetController.h"
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include <boost/algorithm/string.hpp>
+#include <Utility/StringExtras.h>
 
 @interface WebDAVConnectionSheetController()
 @property (nonatomic) bool isValid;
@@ -19,8 +20,8 @@
 
 @implementation WebDAVConnectionSheetController
 {
-    optional<NetworkConnectionsManager::Connection> m_Original;
-    optional<string> m_Password;
+    std::optional<NetworkConnectionsManager::Connection> m_Original;
+    std::optional<std::string> m_Password;
     NetworkConnectionsManager::WebDAV m_Connection;
 }
 
@@ -70,7 +71,7 @@
     return NetworkConnectionsManager::Connection( m_Connection );
 }
 
-- (void)setPassword:(string)_password
+- (void)setPassword:(std::string)_password
 {
     m_Password = _password;
 }
@@ -80,12 +81,12 @@ static const char *SafeStr( const char *_s )
     return _s ? _s : "";
 }
 
-- (string)password
+- (std::string)password
 {
     return m_Password ? *m_Password : "";
 }
 
-static string TrimSlashes(string _str)
+static std::string TrimSlashes(std::string _str)
 {
     using namespace boost;
     trim_left_if(_str, is_any_of("/"));
@@ -110,7 +111,7 @@ static string TrimSlashes(string _str)
     if( self.remotePortTextField.intValue != 0 )
         m_Connection.port = self.remotePortTextField.intValue;
     
-    m_Password = string(SafeStr(self.passwordTextField.stringValue.UTF8String));
+    m_Password = std::string(SafeStr(self.passwordTextField.stringValue.UTF8String));
     
     [self endSheet:NSModalResponseOK];
 }

@@ -1,5 +1,7 @@
-// Copyright (C) 2015-2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2015-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Application.h"
+#include <exception>
+#include <iostream>
 
 @implementation Application
 
@@ -17,17 +19,13 @@
     {
         [super sendEvent:theEvent];
     }
-    catch(exception &e)
+    catch(std::exception &e)
     {
-        cerr << "Exception caught: " << e.what() << endl;
-    }
-    catch(exception *e)
-    {
-        cerr << "Exception caught: " << e->what() << endl;
+        std::cerr << "Exception caught: " << e.what() << std::endl;
     }
     catch(...)
     {
-        cerr << "Caught an unhandled exception!" << endl;
+        std::cerr << "Caught an unhandled exception!" << std::endl;
     }
 }
 
@@ -40,17 +38,13 @@
     {
         return [super nextEventMatchingMask:mask untilDate:expiration inMode:mode dequeue:deqFlag];
     }
-    catch(exception &e)
+    catch(std::exception &e)
     {
-        cerr << "Exception caught: " << e.what() << endl;
-    }
-    catch(exception *e)
-    {
-        cerr << "Exception caught: " << e->what() << endl;
+        std::cerr << "Exception caught: " << e.what() << std::endl;
     }
     catch(...)
     {
-        cerr << "Caught an unhandled exception!" << endl;
+        std::cerr << "Caught an unhandled exception!" << std::endl;
     }
 
     return nil;

@@ -1,22 +1,23 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFS.h>
-#include "../../Core/FileMask.h"
+#include <Habanero/tribool.h>
+#include <Utility/FileMask.h>
 #include "PanelDataItemVolatileData.h"
-#include "../../Bootstrap/Config.h"
+#include <Cocoa/Cocoa.h>
 
-struct PanelViewPresentationItemsColoringFilter
+namespace nc::panel {
+
+struct PresentationItemsColoringFilter
 {
-    // consider optimizing FileMask for trivial cases or write a different mech for extensions specifically,
-    // since NSRegularExpression is too heavy mech for real-time(on draw) usage
-    FileMask mask      = "";            // based on VFSListingItem.NSDisplayName
-    tribool executable = indeterminate; // based on unix exec flag
-    tribool hidden     = indeterminate; // based on VFSListingItem.IsHidden
-    tribool directory  = indeterminate; // based on VFSListingItem.IsDir
-    tribool symlink    = indeterminate; // based on VFSListingItem.IsSymlink
-    tribool reg        = indeterminate; // based on VFSListingItem.IsReg
-    tribool selected   = indeterminate; // based on VFSListingItem.CFIsSelected
+    utility::FileMask mask  = "";                 // based on VFSListingItem.NSDisplayName
+    hbn::tribool executable = hbn::indeterminate; // based on unix exec flag
+    hbn::tribool hidden     = hbn::indeterminate; // based on VFSListingItem.IsHidden
+    hbn::tribool directory  = hbn::indeterminate; // based on VFSListingItem.IsDir
+    hbn::tribool symlink    = hbn::indeterminate; // based on VFSListingItem.IsSymlink
+    hbn::tribool reg        = hbn::indeterminate; // based on VFSListingItem.IsReg
+    hbn::tribool selected   = hbn::indeterminate; // based on ItemVolatileData.flag_selected
     
     /**
      * Return true if all filtering options are in non-set state.
@@ -28,31 +29,27 @@ struct PanelViewPresentationItemsColoringFilter
      * If any defined filter disagree with _item - will return false immediately.
      * Any empty coloring filter will return true on any _item.
      */
-    bool Filter(const VFSListingItem& _item, const nc::panel::data::ItemVolatileData &_item_vd) const;
+    bool Filter(const VFSListingItem& _item,
+                const data::ItemVolatileData &_item_vd) const;
     
-    /**
-     * Persistance support - store values in a dictionary.
-     */
-    GenericConfig::ConfigValue ToJSON() const;
-    
-    /**
-     * Persistance support - build filter from a dictionary.
-     */
-    static PanelViewPresentationItemsColoringFilter FromJSON(const GenericConfig::ConfigValue& _v);
-    
-    bool operator==(const PanelViewPresentationItemsColoringFilter&_rhs) const noexcept;
-    bool operator!=(const PanelViewPresentationItemsColoringFilter&_rhs) const noexcept;
 };
+    
+bool operator==(const PresentationItemsColoringFilter&_lhs,
+                const PresentationItemsColoringFilter&_rhs) noexcept;
+bool operator!=(const PresentationItemsColoringFilter&_lhs,
+                const PresentationItemsColoringFilter&_rhs) noexcept;
 
-struct PanelViewPresentationItemsColoringRule
+struct PresentationItemsColoringRule
 {
-    string                                      name;
-    NSColor                                     *regular = NSColor.blackColor; // all others state text color
-    NSColor                                     *focused = NSColor.blackColor; // focused text color
-    PanelViewPresentationItemsColoringFilter    filter;
-    
-    GenericConfig::ConfigValue ToJSON() const;
-    static PanelViewPresentationItemsColoringRule FromJSON(const GenericConfig::ConfigValue& _v);
-    bool operator==(const PanelViewPresentationItemsColoringRule&_rhs) const noexcept;
-    bool operator!=(const PanelViewPresentationItemsColoringRule&_rhs) const noexcept;
+    std::string                     name;
+    NSColor                        *regular = NSColor.blackColor; // all others state text color
+    NSColor                        *focused = NSColor.blackColor; // focused text color
+    PresentationItemsColoringFilter filter;    
 };
+    
+bool operator==(const PresentationItemsColoringRule&_lhs,
+                const PresentationItemsColoringRule&_rhs) noexcept;
+bool operator!=(const PresentationItemsColoringRule&_lhs,
+                const PresentationItemsColoringRule&_rhs) noexcept;
+
+}

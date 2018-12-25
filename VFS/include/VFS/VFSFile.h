@@ -1,10 +1,17 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
+#include <optional>
+#include <vector>
+#include <stdint.h>
 #include "VFSError.h"
 #include "VFSDeclarations.h"
 
-class VFSFile : public enable_shared_from_this<VFSFile>
+#ifdef __OBJC__
+    #include <Foundation/Foundation.h>
+#endif
+
+class VFSFile : public std::enable_shared_from_this<VFSFile>
 {
 public:
     enum class ReadParadigm {
@@ -123,12 +130,16 @@ public:
     virtual unsigned XAttrCount() const;
     
     /**
+     * return true to allow further iteration, false to stop it.
+     */
+    using XAttrIterateNamesCallback = std::function<bool(const char* _xattr_name)>;
+    
+    /**
      * XAttrIterateNames() will call block with every xattr name for this file while handler returns true.
      * This function may cause blocking I/O.
+     *
      */
-    virtual void XAttrIterateNames(
-                                   function<bool(const char* _xattr_name)> _handler // return true for allowing iteration, false to stop it
-                                   ) const;
+    virtual void XAttrIterateNames(const XAttrIterateNamesCallback& _handler) const;
     
     /**
      * XAttrGet copies an extended attribute value named _xattr_name into buffer _buffer limited with _buf_size.
@@ -145,17 +156,17 @@ public:
      * Open status and file positions are not shared
      * Can return null pointer in some cases
      */
-    virtual shared_ptr<VFSFile> Clone() const;
+    virtual std::shared_ptr<VFSFile> Clone() const;
 
     /**
      * ComposeVerbosePath() relies solely on Host() and VerboseJunctionPath()
      */
-    string ComposeVerbosePath() const;
+    std::string ComposeVerbosePath() const;
     
     /**
      * ReadFile() return full file content in vector<uint8_t> or nullptr.
      */
-    optional<vector<uint8_t>> ReadFile();
+    std::optional<std::vector<uint8_t>> ReadFile();
     
     /**
      * Will call Write until data ends or an error occurs.
@@ -171,10 +182,10 @@ public:
     NSData *ReadFileToNSData();
 #endif
     
-    shared_ptr<VFSFile> SharedPtr();
-    shared_ptr<const VFSFile> SharedPtr() const;
+    std::shared_ptr<VFSFile> SharedPtr();
+    std::shared_ptr<const VFSFile> SharedPtr() const;
     const char* Path() const noexcept;
-    const shared_ptr<VFSHost> &Host() const;
+    const std::shared_ptr<VFSHost> &Host() const;
 protected:
     /**
      * Sets a new last error code and returns it for convenience.
@@ -182,14 +193,14 @@ protected:
     int SetLastError(int _error) const;
     
 private:
-    string m_RelativePath;
-    shared_ptr<VFSHost> m_Host;
+    std::string m_RelativePath;
+    std::shared_ptr<VFSHost> m_Host;
 
     /**
      * m_LastError should be set when any error occurs.
      * This storage is not per-thread - concurrent accesses may overwrite it.
      */
-    mutable atomic_int m_LastError;
+    mutable std::atomic_int m_LastError;
     
     // forbid copying
     VFSFile(const VFSFile&) = delete;

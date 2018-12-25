@@ -3,8 +3,8 @@
 
 #include <VFS/VFS_fwd.h>
 #include <Habanero/StringsBulk.h>
-#include <boost/variant.hpp>
 #include <NimbleCommander/Core/VFSInstancePromise.h>
+#include <variant>
 
 namespace nc::panel {
     
@@ -14,7 +14,7 @@ public:
     struct UniformListing
     {
         core::VFSInstancePromise promise;
-        string directory;
+        std::string directory;
     };
     
     struct NonUniformListing
@@ -22,16 +22,18 @@ public:
         struct PerVFS
         {
             core::VFSInstancePromise promise;
-            vector<hbn::StringsBulk> entries;
+            std::vector<::hbn::StringsBulk> entries;
         };
-        vector<PerVFS> per_vfs;
+        std::vector<PerVFS> per_vfs;
         
         size_t EntriesCount() const noexcept;
     };
     
-    using StorageT = boost::variant<UniformListing, NonUniformListing>;
-    using VFSPromiseAdapter = function<core::VFSInstancePromise(const shared_ptr<VFSHost>&)>;
-    using PromiseVFSAdapter = function<shared_ptr<VFSHost>(const core::VFSInstancePromise&)>;
+    using StorageT = std::variant<UniformListing, NonUniformListing>;
+    using VFSPromiseAdapter =
+        std::function<core::VFSInstancePromise(const std::shared_ptr<VFSHost>&)>;
+    using PromiseVFSAdapter =
+        std::function<std::shared_ptr<VFSHost>(const core::VFSInstancePromise&)>;
     
     ListingPromise( const VFSListing &_listing, const VFSPromiseAdapter &_adapter );
     ListingPromise( const ListingPromise&) = default;
@@ -43,7 +45,7 @@ public:
     // may throw VFSErrorException or return nullptr
     VFSListingPtr Restore(unsigned long _fetch_flags,
                           const PromiseVFSAdapter &_adapter,
-                          const function<bool()> &_cancel_checker) const;
+                          const std::function<bool()> &_cancel_checker) const;
 
     const StorageT &Description() const noexcept;
     
@@ -52,17 +54,17 @@ private:
     
     VFSListingPtr RestoreUniform(unsigned long _fetch_flags,
                                  const PromiseVFSAdapter &_adapter,
-                                 const function<bool()> &_cancel_checker) const;
+                                 const std::function<bool()> &_cancel_checker) const;
     VFSListingPtr RestoreNonUniform(unsigned long _fetch_flags,
                                     const PromiseVFSAdapter &_adapter,
-                                    const function<bool()> &_cancel_checker) const;
+                                    const std::function<bool()> &_cancel_checker) const;
     static NonUniformListing FromNonUniformListing(const VFSListing &_listing,
                                                    const VFSPromiseAdapter &_adapter);
     static UniformListing FromUniformListing(const VFSListing &_listing,
                                              const VFSPromiseAdapter &_adapter);
     const StorageT &Storage() const noexcept;
 
-    shared_ptr<const StorageT> m_Storage;
+    std::shared_ptr<const StorageT> m_Storage;
 };
 
 bool operator==(const ListingPromise::UniformListing &_lhs,

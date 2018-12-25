@@ -1,8 +1,10 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/SystemInformation.h>
 #include <Utility/NSTimer+Tolerance.h>
 #include <Utility/NSView+Sugar.h>
 #include <Utility/ByteCountFormatter.h>
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 #include "BriefSystemOverview.h"
 
 static NSTextField *CreateStockTF()
@@ -17,9 +19,9 @@ static NSTextField *CreateStockTF()
 
 @implementation BriefSystemOverview
 {
-    sysinfo::MemoryInfo m_MemoryInfo;
-    sysinfo::CPULoad    m_CPULoad;
-    sysinfo::SystemOverview m_Overview;
+    nc::utility::MemoryInfo m_MemoryInfo;
+    nc::utility::CPULoad    m_CPULoad;
+    nc::utility::SystemOverview m_Overview;
     VFSStatFS           m_StatFS;
     
     // controls
@@ -39,8 +41,8 @@ static NSTextField *CreateStockTF()
     NSTextField *m_TextVolumeTotalBytes;
     NSTextField *m_TextVolumeAvailBytes;
     
-    string m_TargetVFSPath;
-    shared_ptr<VFSHost> m_TargetVFSHost;
+    std::string m_TargetVFSPath;
+    std::shared_ptr<VFSHost> m_TargetVFSHost;
     bool m_IsRight;
     NSTimer                      *m_UpdateTimer;
     NSNumberFormatter            *m_BytesFormatter;
@@ -443,9 +445,9 @@ static NSTextField *CreateStockTF()
 
 - (void) UpdateData
 {
-    sysinfo::GetMemoryInfo(m_MemoryInfo);
-    sysinfo::GetCPULoad(m_CPULoad);
-    sysinfo::GetSystemOverview(m_Overview);
+    nc::utility::GetMemoryInfo(m_MemoryInfo);
+    nc::utility::GetCPULoad(m_CPULoad);
+    nc::utility::GetSystemOverview(m_Overview);
 
     m_StatFS = {};
     if(!m_TargetVFSPath.empty() && m_TargetVFSHost.get())
@@ -473,7 +475,7 @@ static NSTextField *CreateStockTF()
     m_TextVolumeAvailBytes.stringValue = [m_BytesFormatter stringFromNumber:[NSNumber numberWithLong:m_StatFS.avail_bytes]];
 }
 
-- (void) UpdateVFSTarget:(const string&)_path host:(shared_ptr<VFSHost>)_host
+- (void) UpdateVFSTarget:(const std::string&)_path host:(std::shared_ptr<VFSHost>)_host
 {
     if( m_TargetVFSHost == _host && m_TargetVFSPath == _path )
         return;

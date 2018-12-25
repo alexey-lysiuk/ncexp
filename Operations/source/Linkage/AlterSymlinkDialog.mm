@@ -1,6 +1,7 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "AlterSymlinkDialog.h"
 #include "../Internal.h"
+#include <Utility/StringExtras.h>
 
 using namespace nc::ops;
 
@@ -16,13 +17,14 @@ using namespace nc::ops;
 
 @implementation NCOpsAlterSymlinkDialog
 {
-    string m_SrcPath;
-    string m_LinkPath;
+    std::string m_SrcPath;
+    std::string m_LinkPath;
 }
 
 @synthesize sourcePath = m_SrcPath;
 
-- (instancetype)initWithSourcePath:(const string&)_src_path andLinkName:(const string&)_link_name
+- (instancetype)initWithSourcePath:(const std::string&)_src_path
+                       andLinkName:(const std::string&)_link_name
 {
     if( self = [super initWithWindowNibName:@"AlterSymlinkDialog"] ) {
         m_SrcPath = _src_path;

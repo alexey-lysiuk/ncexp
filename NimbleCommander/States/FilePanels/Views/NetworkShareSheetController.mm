@@ -1,7 +1,8 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "NetworkShareSheetController.h"
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/StringExtras.h>
 
 @interface NetworkShareSheetController ()
 
@@ -20,7 +21,7 @@
 
 @implementation NetworkShareSheetController
 {
-    optional<NetworkConnectionsManager::Connection> m_Original;
+    std::optional<NetworkConnectionsManager::Connection> m_Original;
     NetworkConnectionsManager::LANShare m_Connection;    
 }
 
@@ -104,12 +105,12 @@
     return self.passwordEntered ? self.passwordEntered : @"";
 }
 
-- (string)password
+- (std::string)password
 {
     return self.passwordEntered ? self.passwordEntered.UTF8String : "";
 }
 
-- (void)setPassword:(string)password
+- (void)setPassword:(std::string)password
 {
     self.passwordEntered = [NSString stringWithUTF8StdString:password];
 }

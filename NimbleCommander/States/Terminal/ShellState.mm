@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ShellState.h"
 #include <Habanero/CommonPaths.h>
 #include <Utility/NativeFSManager.h>
@@ -15,6 +15,8 @@
 #include <Term/View.h>
 #include <Term/ScrollView.h>
 #include "SettingsAdaptor.h"
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
 
 using namespace nc;
 using namespace nc::term;
@@ -25,9 +27,9 @@ static const auto g_CustomPath = "terminal.customShellPath";
 @implementation NCTermShellState
 {
     NCTermScrollView           *m_TermScrollView;
-    unique_ptr<ShellTask>       m_Task;
-    unique_ptr<Parser>          m_Parser;
-    string                      m_InitalWD;
+    std::unique_ptr<ShellTask>  m_Task;
+    std::unique_ptr<Parser>     m_Parser;
+    std::string                 m_InitalWD;
     NSLayoutConstraint         *m_TopLayoutConstraint;
 }
 
@@ -55,14 +57,14 @@ static const auto g_CustomPath = "terminal.customShellPath";
                                                     metrics:nil
                                                     views:views]];
 
-        m_Task = make_unique<ShellTask>();
+        m_Task = std::make_unique<ShellTask>();
         if( !GlobalConfig().GetBool(g_UseDefault) )
-            if( auto s = GlobalConfig().GetString(g_CustomPath) )
-                m_Task->SetShellPath(*s);
+            if( GlobalConfig().Has(g_CustomPath) )
+                m_Task->SetShellPath(GlobalConfig().GetString(g_CustomPath));
         auto task_ptr = m_Task.get();
-        m_Parser = make_unique<Parser>(m_TermScrollView.screen,
+        m_Parser = std::make_unique<Parser>(m_TermScrollView.screen,
                                            [=](const void* _d, int _sz){
-                                               task_ptr->WriteChildInput( string_view((const char*)_d, _sz) );
+                                               task_ptr->WriteChildInput( std::string_view((const char*)_d, _sz) );
                                            });
         m_Parser->SetTaskScreenResize([=](int sx, int sy) {
             task_ptr->ResizeWindow(sx, sy);
@@ -116,12 +118,12 @@ static const auto g_CustomPath = "terminal.customShellPath";
     return *m_Task;
 }
 
-- (string) initialWD
+- (std::string) initialWD
 {
     return m_InitalWD;
 }
 
-- (void) setInitialWD:(const string&)_wd
+- (void) setInitialWD:(const std::string&)_wd
 {
     if( !_wd.empty() )
         m_InitalWD = _wd;
@@ -195,7 +197,7 @@ static const auto g_CustomPath = "terminal.customShellPath";
     });
 }
 
-- (void) chDir:(const string&)_new_dir
+- (void) chDir:(const std::string&)_new_dir
 {
     m_Task->ChDir(_new_dir.c_str());
 }
@@ -262,7 +264,7 @@ static const auto g_CustomPath = "terminal.customShellPath";
     m_Task->Terminate();
 }
 
-- (string)cwd
+- (std::string)cwd
 {
     if(m_Task->State() == ShellTask::TaskState::Inactive ||
        m_Task->State() == ShellTask::TaskState::Dead)
@@ -293,8 +295,8 @@ static const auto g_CustomPath = "terminal.customShellPath";
     if( NSString *path = notification.userInfo[@"NSDevicePath"] ) {
         auto state = self.task.State();
         if( state == ShellTask::TaskState::Shell ) {
-            auto cwd_volume = NativeFSManager::Instance().VolumeFromPath( self.cwd );
-            auto unmounting_volume = NativeFSManager::Instance().VolumeFromPath(
+            auto cwd_volume = nc::utility::NativeFSManager::Instance().VolumeFromPath( self.cwd );
+            auto unmounting_volume = nc::utility::NativeFSManager::Instance().VolumeFromPath(
                 path.fileSystemRepresentationSafe );
             if( cwd_volume == unmounting_volume )
                 [self chDir:"/Volumes/"]; // TODO: need to do something more elegant

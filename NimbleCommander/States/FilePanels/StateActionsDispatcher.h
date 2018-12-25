@@ -2,6 +2,8 @@
 #pragma once
 
 #include <Utility/MIMResponder.h>
+#include <unordered_map>
+#include <memory>
 
 @class MainWindowFilePanelState;
 
@@ -10,20 +12,21 @@ namespace nc::panel {
         class StateAction;
     }
     
-    using StateActionsMap = unordered_map<SEL, unique_ptr<const actions::StateAction> >;
+    using StateActionsMap = std::unordered_map<SEL, std::unique_ptr<const actions::StateAction> >;
 }
 
 @interface NCPanelsStateActionsDispatcher : AttachedResponder
 @property (nonatomic, readwrite) bool hasTerminal;
 
 - (instancetype)initWithState:(MainWindowFilePanelState*)_state
-                     andActionsMap:(const nc::panel::StateActionsMap&)_actions_map;
+                andActionsMap:(const nc::panel::StateActionsMap&)_actions_map;
 
 - (IBAction)OnSwapPanels:(id)sender;
 - (IBAction)OnSyncPanels:(id)sender;
 - (IBAction)OnShowTerminal:(id)sender;
 - (IBAction)performClose:(id)sender;
 - (IBAction)OnFileCloseWindow:(id)sender;
+- (IBAction)onFileCloseOtherTabs:(id)sender;
 - (IBAction)OnFileNewTab:(id)sender;
 - (IBAction)onSwitchDualSinglePaneMode:(id)sender;
 - (IBAction)onLeftPanelGoToButtonAction:(id)sender;

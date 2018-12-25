@@ -1,7 +1,8 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFS.h>
+#include <Cocoa/Cocoa.h>
 @class PanelController;
 
 @interface PanelDraggingItem : NSPasteboardItem
@@ -25,7 +26,7 @@
 @property(nonatomic, readonly)  bool                                areAllHostsWriteable;
 @property(nonatomic, readonly)  bool                                areAllHostsNative;
 @property(nonatomic, readonly)  const VFSHostPtr&                   commonHost;
-@property(nonatomic, readonly)  const vector<PanelDraggingItem*>&   items;
+@property(nonatomic, readonly)  const std::vector<PanelDraggingItem*>&items;
 
 - (FilesDraggingSource*) initWithSourceController:(PanelController*)_controller;
 - (void)writeURLsPBoard:(NSPasteboard*)_sender;

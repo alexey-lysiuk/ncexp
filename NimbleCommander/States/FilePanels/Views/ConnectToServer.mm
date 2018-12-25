@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ConnectToServer.h"
 #include "FTPConnectionSheetController.h"
 #include "SFTPConnectionSheetController.h"
@@ -6,6 +6,8 @@
 #include "DropboxAccountSheetController.h"
 #include "WebDAVConnectionSheetController.h"
 #include <Utility/SheetWithHotkeys.h>
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
@@ -82,8 +84,8 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
 @implementation ConnectToServer
 {
     NetworkConnectionsManager                       *m_Manager;
-    vector<NetworkConnectionsManager::Connection>   m_Connections;
-    optional<NetworkConnectionsManager::Connection> m_OutputConnection;
+    std::vector<NetworkConnectionsManager::Connection>   m_Connections;
+    std::optional<NetworkConnectionsManager::Connection> m_OutputConnection;
     bool                                            m_Shown;
 }
 
@@ -233,7 +235,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
 
     sheet.setupMode = true;
 
-    string password;
+    std::string password;
     if( m_Manager->GetPassword(connection, password) )
         sheet.password = password;
     
@@ -263,7 +265,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
 }
 
 - (void)insertCreatedConnection:(NetworkConnectionsManager::Connection)_connection
-                   withPassword:(const string&)_password
+                   withPassword:(const std::string&)_password
 {
     m_Manager->InsertConnection(_connection);
     m_Manager->SetPassword(_connection, _password);
@@ -358,7 +360,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
 
 - (bool) LANSharesEnabled
 {
-    return ActivationManager::Instance().HasLANSharesMounting();
+    return nc::bootstrap::ActivationManager::Instance().HasLANSharesMounting();
 }
 
 @end

@@ -1,8 +1,12 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "UserNotificationsCenter.h"
 #include <Cocoa/Cocoa.h>
 #include <Operations/Statistics.h>
 #include <Operations/Operation.h>
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
+
+using namespace std::literals;
 
 static const auto g_DefaultMinElapsedOperationTime = 30s;
 static const auto g_Window = @"window";
@@ -56,12 +60,12 @@ void UserNotificationsCenter::SetShowWhenActive( bool _value )
     m_ShowWhenActive = _value;
 }
 
-nanoseconds UserNotificationsCenter::MinElapsedOperationTime() const noexcept
+std::chrono::nanoseconds UserNotificationsCenter::MinElapsedOperationTime() const noexcept
 {
     return m_MinElapsedOperationTime;
 }
 
-void UserNotificationsCenter::SetMinElapsedOperationTime( nanoseconds _value )
+void UserNotificationsCenter::SetMinElapsedOperationTime( std::chrono::nanoseconds _value )
 {
     m_MinElapsedOperationTime = _value;
 }

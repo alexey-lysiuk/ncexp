@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/HexadecimalColor.h>
 #include <Utility/NSView+Sugar.h>
 #include <Utility/DataBlockAnalysis.h>
@@ -13,21 +13,10 @@
 #include "BigFileViewHex.h"
 #include "InternalViewerViewPreviewMode.h"
 #include "BigFileViewDataBackend.h"
+#include <Habanero/dispatch_cpp.h>
 
 static const auto g_ConfigDefaultEncoding       = "viewer.defaultEncoding";
 static const auto g_ConfigAutoDetectEncoding    = "viewer.autoDetectEncoding";
-/*static const auto g_ConfigModernShouldAntialias = "viewer.modern.shouldAntialiasText";
-static const auto g_ConfigModernShouldSmooth    = "viewer.modern.shouldSmoothText";
-static const auto g_ConfigModernTextColor       = "viewer.modern.textColor";
-static const auto g_ConfigModernSelectionColor  = "viewer.modern.selectionColor";
-static const auto g_ConfigModernBackgroundColor = "viewer.modern.backgroundColor";
-static const auto g_ConfigModernFont            = "viewer.modern.font";
-static const auto g_ConfigClassicShouldAntialias= "viewer.classic.shouldAntialiasText";
-static const auto g_ConfigClassicShouldSmooth   = "viewer.classic.shouldSmoothText";
-static const auto g_ConfigClassicTextColor      = "viewer.classic.textColor";
-static const auto g_ConfigClassicSelectionColor = "viewer.classic.selectionColor";
-static const auto g_ConfigClassicBackgroundColor= "viewer.classic.backgroundColor";
-static const auto g_ConfigClassicFont           = "viewer.classic.font";*/
 
 const static double g_BorderWidth = 1.0;
 
@@ -232,7 +221,7 @@ const static double g_BorderWidth = 1.0;
 
 - (void) SetFile:(FileWindow*) _file
 {
-    int encoding = encodings::EncodingFromName(GlobalConfig().GetString(g_ConfigDefaultEncoding).value_or("").c_str());
+    int encoding = encodings::EncodingFromName(GlobalConfig().GetString(g_ConfigDefaultEncoding).c_str());
     if(encoding == encodings::ENCODING_INVALID)
         encoding = encodings::ENCODING_MACOS_ROMAN_WESTERN; // this should not happen, but just to be sure
 

@@ -1,6 +1,7 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
-#include "../Core/rapidjson.h"
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "InternalViewerHistory.h"
+#include <Config/RapidJSON.h>
+#include <NimbleCommander/Bootstrap/Config.h>
 
 static const auto g_StatePath                   = "viewer.history";
 static const auto g_ConfigMaximumHistoryEntries = "viewer.maximumHistoryEntries";
@@ -10,20 +11,22 @@ static const auto g_ConfigSaveFilePosition      = "viewer.saveFilePosition";
 static const auto g_ConfigSaveFileWrapping      = "viewer.saveFileWrapping";
 static const auto g_ConfigSaveFileSelection     = "viewer.saveFileSelection";
 
-static GenericConfig::ConfigValue EntryToJSONObject( const InternalViewerHistory::Entry &_entry )
+static nc::config::Value EntryToJSONObject( const InternalViewerHistory::Entry &_entry )
 {
-    GenericConfig::ConfigValue o(rapidjson::kObjectType);
-    o.AddMember("path", rapidjson::MakeStandaloneString(_entry.path), GenericConfig::g_CrtAllocator);
-    o.AddMember("position", GenericConfig::ConfigValue(_entry.position), GenericConfig::g_CrtAllocator);
-    o.AddMember("wrapping", GenericConfig::ConfigValue(_entry.wrapping), GenericConfig::g_CrtAllocator);
-    o.AddMember("mode", GenericConfig::ConfigValue((int)_entry.view_mode), GenericConfig::g_CrtAllocator);
-    o.AddMember("encoding", rapidjson::MakeStandaloneString(encodings::NameFromEncoding(_entry.encoding)), GenericConfig::g_CrtAllocator);
-    o.AddMember("selection_loc", GenericConfig::ConfigValue((int64_t)_entry.selection.location), GenericConfig::g_CrtAllocator);
-    o.AddMember("selection_len", GenericConfig::ConfigValue((int64_t)_entry.selection.length), GenericConfig::g_CrtAllocator);
+    using namespace nc::config;
+    Value o(rapidjson::kObjectType);
+    o.AddMember("path", MakeStandaloneString(_entry.path), g_CrtAllocator);
+    o.AddMember("position", Value(_entry.position), g_CrtAllocator);
+    o.AddMember("wrapping", Value(_entry.wrapping), g_CrtAllocator);
+    o.AddMember("mode", Value((int)_entry.view_mode), g_CrtAllocator);
+    o.AddMember("encoding", MakeStandaloneString(encodings::NameFromEncoding(_entry.encoding)), g_CrtAllocator);
+    o.AddMember("selection_loc", Value((int64_t)_entry.selection.location), g_CrtAllocator);
+    o.AddMember("selection_len", Value((int64_t)_entry.selection.length), g_CrtAllocator);
     return o;
 }
 
-static optional<InternalViewerHistory::Entry> JSONObjectToEntry( const GenericConfig::ConfigValue &_object )
+static std::optional<InternalViewerHistory::Entry>
+    JSONObjectToEntry( const nc::config::Value &_object )
 {
     using namespace rapidjson;    
     auto has_string = [&](const char *_key){ return _object.HasMember(_key) && _object[_key].IsString(); };
@@ -33,10 +36,10 @@ static optional<InternalViewerHistory::Entry> JSONObjectToEntry( const GenericCo
     InternalViewerHistory::Entry e;
     
     if( _object.GetType() != kObjectType )
-        return nullopt;
+        return std::nullopt;
     
     if( !has_string("path") )
-        return nullopt;
+        return std::nullopt;
     
     e.path = _object["path"].GetString();
     
@@ -60,10 +63,10 @@ static optional<InternalViewerHistory::Entry> JSONObjectToEntry( const GenericCo
     return e;
 }
 
-InternalViewerHistory::InternalViewerHistory( GenericConfig &_state_config, const char *_config_path ):
+InternalViewerHistory::InternalViewerHistory( nc::config::Config &_state_config, const char *_config_path ):
     m_StateConfig(_state_config),
     m_StateConfigPath(_config_path),
-    m_Limit( max(0, min(GlobalConfig().GetInt(g_ConfigMaximumHistoryEntries), 4096)) )
+    m_Limit( std::max(0, std::min(GlobalConfig().GetInt(g_ConfigMaximumHistoryEntries), 4096)) )
 {
     // Wire up notification about application shutdown
     [NSNotificationCenter.defaultCenter addObserverForName:NSApplicationWillTerminateNotification
@@ -75,7 +78,7 @@ InternalViewerHistory::InternalViewerHistory( GenericConfig &_state_config, cons
     LoadSaveOptions();
     GlobalConfig().ObserveMany(m_ConfigObservations,
                                [=]{ LoadSaveOptions(); },
-                               initializer_list<const char *>{
+                               std::initializer_list<const char *>{
                                    g_ConfigSaveFileEnconding,
                                    g_ConfigSaveFileMode,
                                    g_ConfigSaveFilePosition,
@@ -99,14 +102,15 @@ void InternalViewerHistory::AddEntry( Entry _entry )
         });
         if( it != end(m_History) )
             m_History.erase(it);
-        m_History.push_front( move(_entry) );
+        m_History.push_front( std::move(_entry) );
         
         while( m_History.size() >= m_Limit )
             m_History.pop_back();
     }
 }
 
-optional<InternalViewerHistory::Entry> InternalViewerHistory::EntryByPath( const string &_path ) const
+std::optional<InternalViewerHistory::Entry> InternalViewerHistory::
+    EntryByPath( const std::string &_path ) const
 {
     LOCK_GUARD(m_HistoryLock) {
         auto it = find_if( begin(m_History), end(m_History), [&](auto &_i){
@@ -115,7 +119,7 @@ optional<InternalViewerHistory::Entry> InternalViewerHistory::EntryByPath( const
         if( it != end(m_History) )
             return *it;
     }
-    return nullopt;
+    return std::nullopt;
 }
 
 void InternalViewerHistory::LoadSaveOptions()
@@ -140,12 +144,12 @@ bool InternalViewerHistory::Enabled() const
 
 void InternalViewerHistory::SaveToStateConfig() const
 {
-    GenericConfig::ConfigValue entries(rapidjson::kArrayType);
+    nc::config::Value entries(rapidjson::kArrayType);
     LOCK_GUARD(m_HistoryLock) {
         for(auto &e: m_History) {
             auto o = EntryToJSONObject(e);
             if( o.GetType() != rapidjson::kNullType )
-                entries.PushBack( move(o), GenericConfig::g_CrtAllocator );
+                entries.PushBack( std::move(o), nc::config::g_CrtAllocator );
         }
     }
     m_StateConfig.Set(m_StateConfigPath, entries);

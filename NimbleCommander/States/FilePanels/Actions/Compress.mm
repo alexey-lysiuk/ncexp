@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Compress.h"
 #include "../PanelController.h"
 #include "../PanelView.h"
@@ -8,11 +8,13 @@
 #include <VFS/VFS.h>
 #include <Utility/PathManip.h>
 #include <Operations/Compression.h>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
 
 static PanelController *FindVisibleOppositeController( PanelController *_source );
-static void FocusResult( PanelController *_target, const shared_ptr<nc::ops::Compression>& _op );
+static void FocusResult(PanelController *_target,
+                        const std::shared_ptr<nc::ops::Compression>& _op );
 
 bool CompressHere::Predicate( PanelController *_target ) const
 {
@@ -36,10 +38,10 @@ void CompressHere::Perform( PanelController *_target, id _sender ) const
         return;
     
 
-    auto op = make_shared<nc::ops::Compression>(move(entries),
-                                                _target.currentDirectoryPath,
-                                                _target.vfs);
-    const auto weak_op = weak_ptr<nc::ops::Compression>{op};
+    auto op = std::make_shared<nc::ops::Compression>(std::move(entries),
+                                                     _target.currentDirectoryPath,
+                                                     _target.vfs);
+    const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
     __weak PanelController *weak_target = _target;
     op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
         FocusResult((PanelController*)weak_target, weak_op.lock());
@@ -73,10 +75,10 @@ void CompressToOpposite::Perform( PanelController *_target, id _sender ) const
     if(entries.empty())
         return;
 
-    auto op = make_shared<nc::ops::Compression>(move(entries),
-                                                opposite_panel.currentDirectoryPath,
-                                                opposite_panel.vfs);
-    const auto weak_op = weak_ptr<nc::ops::Compression>{op};
+    auto op = std::make_shared<nc::ops::Compression>(std::move(entries),
+                                                     opposite_panel.currentDirectoryPath,
+                                                     opposite_panel.vfs);
+    const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
     __weak PanelController *weak_target = opposite_panel;
     op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
         FocusResult((PanelController*)weak_target, weak_op.lock());
@@ -85,7 +87,7 @@ void CompressToOpposite::Perform( PanelController *_target, id _sender ) const
     [_target.mainWindowController enqueueOperation:op];
 }
 
-context::CompressHere::CompressHere(const vector<VFSListingItem>&_items):
+context::CompressHere::CompressHere(const std::vector<VFSListingItem>&_items):
     m_Items(_items)
 {
 }
@@ -116,11 +118,11 @@ bool context::CompressHere::ValidateMenuItem( PanelController *_target, NSMenuIt
 void context::CompressHere::Perform( PanelController *_target, id _sender ) const
 {
     auto entries = m_Items;
-    auto op = make_shared<nc::ops::Compression>(move(entries),
-                                                _target.currentDirectoryPath,
-                                                _target.vfs);
+    auto op = std::make_shared<nc::ops::Compression>(std::move(entries),
+                                                     _target.currentDirectoryPath,
+                                                     _target.vfs);
 
-    const auto weak_op = weak_ptr<nc::ops::Compression>{op};
+    const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
     __weak PanelController *weak_target = _target;
     op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
         FocusResult((PanelController*)weak_target, weak_op.lock());
@@ -130,7 +132,7 @@ void context::CompressHere::Perform( PanelController *_target, id _sender ) cons
 
 }
 
-context::CompressToOpposite::CompressToOpposite(const vector<VFSListingItem>&_items):
+context::CompressToOpposite::CompressToOpposite(const std::vector<VFSListingItem>&_items):
     m_Items(_items)
 {
 }
@@ -170,10 +172,10 @@ void context::CompressToOpposite::Perform( PanelController *_target, id _sender 
         return;
     
     auto entries = m_Items;
-    auto op = make_shared<nc::ops::Compression>(move(entries),
-                                                opposite_panel.currentDirectoryPath,
-                                                opposite_panel.vfs);
-    const auto weak_op = weak_ptr<nc::ops::Compression>{op};
+    auto op = std::make_shared<nc::ops::Compression>(std::move(entries),
+                                                     opposite_panel.currentDirectoryPath,
+                                                     opposite_panel.vfs);
+    const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
     __weak PanelController *weak_target = opposite_panel;
     op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
         FocusResult((PanelController*)weak_target, weak_op.lock());
@@ -194,13 +196,14 @@ static PanelController *FindVisibleOppositeController( PanelController *_source 
     return nil;
 }
 
-static void FocusResult( PanelController *_target, const shared_ptr<nc::ops::Compression>& _op )
+static void FocusResult(PanelController *_target,
+                        const std::shared_ptr<nc::ops::Compression>& _op )
 {
     if( !_target || !_op )
         return;
     
     if( dispatch_is_main_queue() ) {
-        const auto result_path = path(_op->ArchivePath());
+        const auto result_path = boost::filesystem::path(_op->ArchivePath());
         const auto directory =  EnsureTrailingSlash(result_path.parent_path().native());
         const auto filename = result_path.filename().native();
         if( _target.isUniform && _target.currentDirectoryPath == directory ) {

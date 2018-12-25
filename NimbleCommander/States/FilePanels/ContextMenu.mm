@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ContextMenu.h"
 #include "PanelController.h"
 #include <NimbleCommander/Bootstrap/ActivationManager.h>
@@ -9,29 +9,30 @@
 #include "Actions/OpenFile.h"
 #include "NCPanelOpenWithMenuDelegate.h"
 #include <VFS/VFS.h>
+#include <Utility/StringExtras.h>
 
 using namespace nc::panel;
 
 @implementation NCPanelContextMenu
 {
-    vector<VFSListingItem>              m_Items;
+    std::vector<VFSListingItem>         m_Items;
     PanelController                    *m_Panel;
     NSMutableArray                     *m_ShareItemsURLs;
     NCPanelOpenWithMenuDelegate        *m_OpenWithDelegate;
-    unique_ptr<actions::PanelAction>    m_CopyAction;
-    unique_ptr<actions::PanelAction>    m_MoveToTrashAction;
-    unique_ptr<actions::PanelAction>    m_DeletePermanentlyAction;
-    unique_ptr<actions::PanelAction>    m_DuplicateAction;
-    unique_ptr<actions::PanelAction>    m_CompressHereAction;
-    unique_ptr<actions::PanelAction>    m_CompressToOppositeAction;
-    unique_ptr<actions::PanelAction>    m_OpenFileAction;
+    std::unique_ptr<actions::PanelAction>   m_CopyAction;
+    std::unique_ptr<actions::PanelAction>   m_MoveToTrashAction;
+    std::unique_ptr<actions::PanelAction>   m_DeletePermanentlyAction;
+    std::unique_ptr<actions::PanelAction>   m_DuplicateAction;
+    std::unique_ptr<actions::PanelAction>   m_CompressHereAction;
+    std::unique_ptr<actions::PanelAction>   m_CompressToOppositeAction;
+    std::unique_ptr<actions::PanelAction>   m_OpenFileAction;
 }
 
-- (instancetype) initWithItems:(vector<VFSListingItem>)_items
+- (instancetype) initWithItems:(std::vector<VFSListingItem>)_items
                        ofPanel:(PanelController*)_panel
 {
     if( _items.empty() )
-        throw invalid_argument("NCPanelContextMenu.initWithData - there's no items");
+        throw std::invalid_argument("NCPanelContextMenu.initWithData - there's no items");
     self = [super init];
     if(self) {
         m_Panel = _panel;
@@ -126,7 +127,7 @@ using namespace nc::panel;
     
     //////////////////////////////////////////////////////////////////////
     // Compression stuff
-    const auto compression_enabled = ActivationManager::Instance().HasCompressionOperation();
+    const auto compression_enabled = nc::bootstrap::ActivationManager::Instance().HasCompressionOperation();
    
     const auto compress_here_item = [NSMenuItem new];
     compress_here_item.title = NSLocalizedStringFromTable(@"Compress", @"FilePanelsContextMenu", "Compress some items here");

@@ -1,7 +1,12 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PreferencesWindowToolsTab.h"
 #include "../Bootstrap/ActivationManager.h"
 #include "../States/FilePanels/ExternalToolsSupport.h"
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
+
+using namespace std::literals;
 
 @interface PreferencesWindowToolsTab ()
 
@@ -15,7 +20,7 @@
 @property (nonatomic) IBOutlet NSButton                               *addParameterButton;
 @property (nonatomic) bool                                             anySelected;
 @property (readonly, nonatomic) bool                                haveCommandLineTools;
-@property (readonly, nonatomic) shared_ptr<const ExternalTool>      selectedTool;
+@property (readonly, nonatomic) std::shared_ptr<const ExternalTool>    selectedTool;
 
 @end
 
@@ -36,12 +41,12 @@ static bool AskUserToDeleteTool()
 
 @implementation PreferencesWindowToolsTab
 {
-    function<ExternalToolsStorage&()>                   m_ToolsStorage;
-    vector<shared_ptr<const ExternalTool>>              m_Tools;
+    std::function<ExternalToolsStorage&()>              m_ToolsStorage;
+    std::vector<std::shared_ptr<const ExternalTool>>    m_Tools;
     ExternalToolsStorage::ObservationTicket             m_ToolsObserver;
 }
 
-- (id) initWithToolsStorage:(function<ExternalToolsStorage&()>)_tool_storage
+- (id) initWithToolsStorage:(std::function<ExternalToolsStorage&()>)_tool_storage
 {
     assert(_tool_storage);
     self = [super init];
@@ -57,7 +62,7 @@ static bool AskUserToDeleteTool()
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:self.identifier];
     item.image = self.toolbarItemImage;
     item.label = self.toolbarItemLabel;
-    item.enabled = ActivationManager::Instance().HasExternalTools();
+    item.enabled = nc::bootstrap::ActivationManager::Instance().HasExternalTools();
     return item;
 }
 
@@ -148,7 +153,7 @@ static bool AskUserToDeleteTool()
     [self.toolStartupMode selectItemWithTag:(int)ExternalTool::StartupMode::Automatic];
 }
 
-- (shared_ptr<const ExternalTool>) selectedTool
+- (std::shared_ptr<const ExternalTool>) selectedTool
 {
     NSInteger row = self.toolsTable.selectedRow;
     return row < (long)m_Tools.size() ? m_Tools[row] : nullptr;
@@ -192,8 +197,9 @@ static bool AskUserToDeleteTool()
             changed_tool.m_Parameters = self.toolParameters.stringValue.UTF8String;
             [self commitToolChanges:changed_tool];
             
-            string error;
-            ExternalToolsParametersParser().Parse(changed_tool.m_Parameters, [&](string _err){ error = _err; });
+            std::string error;
+            ExternalToolsParametersParser().Parse(changed_tool.m_Parameters,
+                                                  [&](std::string _err){ error = _err; });
             if( !error.empty() ) {
                 NSHelpManager *helpManager = [NSHelpManager sharedHelpManager];
                 [helpManager setContextHelp:[[NSAttributedString alloc] initWithString:[NSString stringWithUTF8StdString:error]]
@@ -363,7 +369,7 @@ static bool AskUserToDeleteTool()
 
 - (bool) haveCommandLineTools
 {
-    return ActivationManager::Instance().HasTerminal();
+    return nc::bootstrap::ActivationManager::Instance().HasTerminal();
 }
 
 @end

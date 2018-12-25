@@ -1,11 +1,13 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 
 #include "TabContextMenu.h"
 #include "Actions/TabsManagement.h"
 #include <NimbleCommander/Core/Alert.h>
+#include <unordered_map>
+#include <iostream>
 
 using namespace nc::panel;
-using ActionsT = unordered_map<SEL, unique_ptr<actions::StateAction>>;
+using ActionsT = std::unordered_map<SEL, std::unique_ptr<actions::StateAction>>;
 
 static const actions::StateAction* ActionBySelector(const ActionsT &_actions, SEL _sel);
 static void Perform(const ActionsT &_actions,
@@ -37,9 +39,9 @@ static void Perform(const ActionsT &_actions,
 - (void)buildActions
 {
     using namespace actions::context;
-    m_Actions[@selector(onAddNewTab:)] = make_unique<AddNewTab>(m_CurrentPanel);
-    m_Actions[@selector(onCloseTab:)] = make_unique<CloseTab>(m_CurrentPanel);
-    m_Actions[@selector(onCloseOtherTabs:)] = make_unique<CloseOtherTabs>(m_CurrentPanel);
+    m_Actions[@selector(onAddNewTab:)] = std::make_unique<AddNewTab>(m_CurrentPanel);
+    m_Actions[@selector(onCloseTab:)] = std::make_unique<CloseTab>(m_CurrentPanel);
+    m_Actions[@selector(onCloseOtherTabs:)] = std::make_unique<CloseOtherTabs>(m_CurrentPanel);
 }
 
 - (void)buildMenuItems
@@ -79,11 +81,11 @@ static void Perform(const ActionsT &_actions,
             return action->ValidateMenuItem(m_State, item);
         return true;
     }
-    catch(exception &e) {
-        cout << "Exception caught: " << e.what() << endl;
+    catch(std::exception &e) {
+        std::cout << "Exception caught: " << e.what() << std::endl;
     }
     catch(...) {
-        cout << "Caught an unhandled exception!" << endl;
+        std::cout << "Caught an unhandled exception!" << std::endl;
     }
     return false;
 }
@@ -107,7 +109,7 @@ static void Perform(const ActionsT &_actions,
         try {
             action->second->Perform(_target, _sender);
         }
-        catch( exception &e ) {
+        catch( std::exception &e ) {
             nc::core::ShowExceptionAlert(e);
         }
         catch(...){
@@ -115,7 +117,7 @@ static void Perform(const ActionsT &_actions,
         }
     }
     else {
-        cerr << "warning - unrecognized selector: " <<
-            NSStringFromSelector(_sel).UTF8String << endl;
+        std::cerr << "warning - unrecognized selector: " <<
+        NSStringFromSelector(_sel).UTF8String << std::endl;
     }
 }

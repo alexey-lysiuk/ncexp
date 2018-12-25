@@ -1,8 +1,9 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "../Bootstrap/ActivationManager.h"
 #include "RegistrationInfoWindow.h"
+#include <Utility/StringExtras.h>
 
 @interface RegistrationInfoWindow ()
 @property (nonatomic) IBOutlet NSTabView *tabView;
@@ -31,17 +32,17 @@
     CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     m_Self = self;
     
-    if( ActivationManager::ForAppStore() ) { // MAS version
+    if( nc::bootstrap::ActivationManager::ForAppStore() ) { // MAS version
         [self.tabView selectTabViewItemAtIndex:0];
     }
     else { // standalone version
-        if( ActivationManager::Instance().UserHadRegistered() ) {
-            if( ActivationManager::Instance().UserHasProVersionInstalled() ) { // Pro version
+        if( nc::bootstrap::ActivationManager::Instance().UserHadRegistered() ) {
+            if( nc::bootstrap::ActivationManager::Instance().UserHasProVersionInstalled() ) { // Pro version
                 [self.tabView selectTabViewItemAtIndex:0];
             }
             else { // License
                 [self.tabView selectTabViewItemAtIndex:1];
-                auto &info = ActivationManager::Instance().LicenseInformation();
+                auto &info = nc::bootstrap::ActivationManager::Instance().LicenseInformation();
                 if( info.count("Company") )
                     self.apCompany.stringValue = [NSString stringWithUTF8StdString:info.at("Company")];
                 if( info.count("Email") )

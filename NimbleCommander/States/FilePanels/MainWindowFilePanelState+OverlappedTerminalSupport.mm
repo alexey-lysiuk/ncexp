@@ -1,7 +1,7 @@
 // Copyright (C) 2015-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "MainWindowFilePanelState+OverlappedTerminalSupport.h"
 #include <Utility/NativeFSManager.h>
 #include <VFS/Native.h>
-#include "MainWindowFilePanelState+OverlappedTerminalSupport.h"
 #include "Views/FilePanelOverlappedTerminal.h"
 #include "Views/FilePanelMainSplitView.h"
 #include "PanelView.h"
@@ -9,9 +9,11 @@
 #include "PanelController.h"
 #include "PanelAux.h"
 #include "PanelHistory.h"
+#include <NimbleCommander/Bootstrap/Config.h>
 
 using namespace nc::panel;
 using namespace nc::term;
+using namespace std::literals;
 
 static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTerminal";
 
@@ -48,7 +50,7 @@ static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTe
     if( !m_OverlappedTerminal->terminal || self.isPanelsSplitViewHidden )
         return;
     m_OverlappedTerminal->bottom_gap++;
-    m_OverlappedTerminal->bottom_gap = min(m_OverlappedTerminal->bottom_gap, m_OverlappedTerminal->terminal.totalScreenLines);
+    m_OverlappedTerminal->bottom_gap = std::min(m_OverlappedTerminal->bottom_gap, m_OverlappedTerminal->terminal.totalScreenLines);
     [self updateBottomConstraint];
     [self activateOverlappedTerminal];
     if(m_OverlappedTerminal->bottom_gap == 1) {
@@ -62,7 +64,7 @@ static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTe
         return;
     if( m_OverlappedTerminal->bottom_gap == 0 )
         return;
-    m_OverlappedTerminal->bottom_gap = min(m_OverlappedTerminal->bottom_gap, m_OverlappedTerminal->terminal.totalScreenLines);
+    m_OverlappedTerminal->bottom_gap = std::min(m_OverlappedTerminal->bottom_gap, m_OverlappedTerminal->terminal.totalScreenLines);
     if( m_OverlappedTerminal->bottom_gap > 0 )
         m_OverlappedTerminal->bottom_gap--;
     [self updateBottomConstraint];
@@ -74,7 +76,7 @@ static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTe
 {
     auto s = m_OverlappedTerminal->terminal.state;
     if( s == ShellTask::TaskState::Inactive || s == ShellTask::TaskState::Dead ) {
-        string wd;
+        std::string wd;
         if( auto p = self.activePanelController )
             wd = p.history.LastNativeDirectoryVisited();
         
@@ -104,7 +106,7 @@ static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTe
     if( pc ) {
         auto cwd = m_OverlappedTerminal->terminal.cwd;
         if( cwd != pc.currentDirectoryPath || !pc.vfs->IsNativeFS() ) {
-            auto r = make_shared<nc::panel::DirectoryChangeRequest>();
+            auto r = std::make_shared<nc::panel::DirectoryChangeRequest>();
             r->RequestedDirectory = cwd;
             r->VFS = VFSNativeHost::SharedHost();
             [pc GoToDirWithContext:r];
@@ -199,8 +201,8 @@ static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTe
     if( cpc ) {
         auto opc = cpc == self.leftPanelController ? self.rightPanelController : self.leftPanelController;
         
-        vector<string> strings;
-        auto add = [&](const string &_s) {
+        std::vector<std::string> strings;
+        auto add = [&](const std::string &_s) {
             if(!_s.empty())
                 strings.emplace_back(_s);
         };
@@ -219,7 +221,8 @@ static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTe
     }
 }
 
-- (bool) executeInOverlappedTerminalIfPossible:(const string&)_filename at:(const string&)_path
+- (bool) executeInOverlappedTerminalIfPossible:(const std::string&)_filename
+                                            at:(const std::string&)_path
 {
     if( self.overlappedTerminalVisible &&
        m_OverlappedTerminal->terminal.state == ShellTask::TaskState::Shell &&
@@ -291,7 +294,8 @@ static const auto g_ConfigGapPath =  "filePanel.general.bottomGapForOverlappedTe
     int gap = GlobalConfig().GetInt( g_ConfigGapPath );
     if( gap > 0 ) {
         m_OverlappedTerminal->bottom_gap = gap;
-        m_OverlappedTerminal->bottom_gap = min(m_OverlappedTerminal->bottom_gap, m_OverlappedTerminal->terminal.totalScreenLines);
+        m_OverlappedTerminal->bottom_gap = std::min(m_OverlappedTerminal->bottom_gap,
+                                                    m_OverlappedTerminal->terminal.totalScreenLines);
         [self updateBottomConstraint];
         [self activateOverlappedTerminal];
     }

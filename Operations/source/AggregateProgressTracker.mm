@@ -1,9 +1,13 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "AggregateProgressTracker.h"
 #include "Statistics.h"
+#include <iostream>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::ops {
 
+using namespace std::literals;
+    
 static const auto g_UpdateDelay = 100ms;
 
 AggregateProgressTracker::AggregateProgressTracker():
@@ -11,7 +15,7 @@ AggregateProgressTracker::AggregateProgressTracker():
     m_IsUpdateScheduled{false}
 {
     SetProgressCallback([](double _progress){
-        cout << _progress << endl;
+        std::cout << _progress << std::endl;
     });
 }
     
@@ -29,7 +33,7 @@ void AggregateProgressTracker::AddPool( Pool &_pool )
             return;
         m_Pools.emplace_back(p);
         
-        const auto weak_this = weak_ptr<AggregateProgressTracker>(shared_from_this());
+        const auto weak_this = std::weak_ptr<AggregateProgressTracker>(shared_from_this());
         _pool.ObserveUnticketed(Pool::NotifyAboutChange, [weak_this]{
             if( auto me = weak_this.lock() )
                 me->PoolsChanged();
@@ -47,7 +51,7 @@ void AggregateProgressTracker::PoolsChanged()
         m_IsTracking = true;
         if( !m_IsUpdateScheduled ) {
             m_IsUpdateScheduled = true;
-            const auto weak_this = weak_ptr<AggregateProgressTracker>(shared_from_this());
+            const auto weak_this = std::weak_ptr<AggregateProgressTracker>(shared_from_this());
             dispatch_to_main_queue_after(g_UpdateDelay, [weak_this]{
                 if( auto me = weak_this.lock() )
                     me->Update();
@@ -56,7 +60,7 @@ void AggregateProgressTracker::PoolsChanged()
     }
     else {
         m_IsTracking = false;
-        const auto weak_this = weak_ptr<AggregateProgressTracker>(shared_from_this());
+        const auto weak_this = std::weak_ptr<AggregateProgressTracker>(shared_from_this());
         dispatch_to_main_queue([weak_this]{
             if( auto me = weak_this.lock() )
                 me->Signal(InvalidProgess);
@@ -74,7 +78,7 @@ bool AggregateProgressTracker::ArePoolsEmpty() const
     return true;
 }
 
-tuple<int, double> AggregateProgressTracker::OperationsAmountAndProgress() const
+std::tuple<int, double> AggregateProgressTracker::OperationsAmountAndProgress() const
 {
     int amount = 0;
     double progress = 0.;
@@ -90,7 +94,7 @@ tuple<int, double> AggregateProgressTracker::OperationsAmountAndProgress() const
     if( amount )
         progress /= amount;
 
-    return make_tuple(amount, progress);
+    return std::make_tuple(amount, progress);
 }
 
 void AggregateProgressTracker::Update()
@@ -100,7 +104,7 @@ void AggregateProgressTracker::Update()
     Signal( amount ? progress : InvalidProgess );
 
     if( m_IsTracking ) {
-        const auto weak_this = weak_ptr<AggregateProgressTracker>(shared_from_this());
+        const auto weak_this = std::weak_ptr<AggregateProgressTracker>(shared_from_this());
         dispatch_to_main_queue_after(g_UpdateDelay, [weak_this]{
             if( auto me = weak_this.lock() )
                 me->Update();
@@ -118,7 +122,7 @@ void AggregateProgressTracker::Signal( double _progress )
         m_Callback(_progress);
 }
 
-void AggregateProgressTracker::SetProgressCallback( function<void(double _progress)> _callback )
+void AggregateProgressTracker::SetProgressCallback( std::function<void(double _progress)> _callback )
 {
     dispatch_assert_main_queue();
     m_Callback = move(_callback);

@@ -1,12 +1,13 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Interactions.h"
 #include "ActivationManager.h"
 #include <Habanero/CommonPaths.h>
 #include <NimbleCommander/Core/Alert.h>
+#include <Utility/StringExtras.h>
 
 namespace nc::bootstrap {
 
-optional<string> AskUserForLicenseFile()
+std::optional<std::string> AskUserForLicenseFile()
 {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     panel.resolvesAliases = true;
@@ -14,18 +15,18 @@ optional<string> AskUserForLicenseFile()
     panel.canChooseFiles = true;
     panel.allowsMultipleSelection = false;
     panel.showsHiddenFiles = true;
-    const auto extension = ActivationManager::LicenseFileExtension();
+    const auto extension = bootstrap::ActivationManager::LicenseFileExtension();
     panel.allowedFileTypes = @[ [NSString stringWithUTF8StdString:extension] ];
     panel.allowsOtherFileTypes = false;
     const auto downloads_path = [NSString stringWithUTF8StdString:CommonPaths::Downloads()];
     panel.directoryURL = [[NSURL alloc] initFileURLWithPath:downloads_path isDirectory:true];
-    
+    panel.message = NSLocalizedString(@"Please select your license file (.nimblecommanderlicense)", "");
     if( [panel runModal] == NSFileHandlingPanelOKButton )
         if(panel.URL != nil) {
-            string path = panel.URL.path.fileSystemRepresentationSafe;
+            std::string path = panel.URL.path.fileSystemRepresentationSafe;
             return path;
         }
-    return nullopt;
+    return std::nullopt;
 }
 
 bool AskUserToResetDefaults()

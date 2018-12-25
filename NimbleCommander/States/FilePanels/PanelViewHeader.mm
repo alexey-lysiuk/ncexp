@@ -1,44 +1,16 @@
 // Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/Layout.h>
+#include <Utility/ObjCpp.h>
 #include <Utility/ColoredSeparatorLine.h>
 #include <Utility/VerticallyCenteredTextFieldCell.h>
-#include <NimbleCommander/Bootstrap/AppDelegate.h>
-#include <NimbleCommander/Core/Theming/Theme.h>
-#include <NimbleCommander/Core/Theming/ThemesManager.h>
-#include "PanelView.h"
 #include "PanelViewHeader.h"
 
 using namespace nc::panel;
 
-static NSString *SortLetter(data::SortMode _mode)
-{
-    switch( _mode.sort ) {
-        case data::SortMode::SortByName:         return @"n";
-        case data::SortMode::SortByNameRev:      return @"N";
-        case data::SortMode::SortByExt:          return @"e";
-        case data::SortMode::SortByExtRev:       return @"E";
-        case data::SortMode::SortBySize:         return @"s";
-        case data::SortMode::SortBySizeRev:      return @"S";
-        case data::SortMode::SortByModTime:      return @"m";
-        case data::SortMode::SortByModTimeRev:   return @"M";
-        case data::SortMode::SortByBirthTime:    return @"b";
-        case data::SortMode::SortByBirthTimeRev: return @"B";
-        case data::SortMode::SortByAddTime:      return @"a";
-        case data::SortMode::SortByAddTimeRev:   return @"A";
-        default:                                 return @"?";
-    }
-}
-
-static float Brightness( NSColor *_color )
-{
-    const auto c = [_color colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
-    return (float)c.brightnessComponent;
-}
-
-static bool IsDark( NSColor *_color )
-{
-    return Brightness(_color) < 0.60;
-}
+static NSString *SortLetter(data::SortMode _mode) noexcept;
+static void ChangeForegroundColor(NSButton *_button, NSColor *_new_color);
+static void ChangeAttributedTitle(NSButton *_button, NSString *_new_text);
+static bool IsDark( NSColor *_color );
 
 @interface NCPanelViewHeader()
 @property (nonatomic) IBOutlet NSMenu *sortMenuPopup;
@@ -54,21 +26,24 @@ static bool IsDark( NSColor *_color )
     NSString            *m_SearchPrompt;
     NSButton            *m_SortButton;
     NSProgressIndicator *m_BusyIndicator;
-    __weak PanelView    *m_PanelView;
     data::SortMode      m_SortMode;
-    function<void(data::SortMode)> m_SortModeChangeCallback;
-    function<void(NSString*)> m_SearchRequestChangeCallback;
-    ThemesManager::ObservationTicket    m_ThemeObservation;    
+    std::function<void(data::SortMode)> m_SortModeChangeCallback;
+    std::function<void(NSString*)> m_SearchRequestChangeCallback;
+    std::unique_ptr<nc::panel::HeaderTheme> m_Theme;
+    bool                m_Active;     
 }
 
 @synthesize sortMode = m_SortMode;
 @synthesize sortModeChangeCallback = m_SortModeChangeCallback;
 
 - (id) initWithFrame:(NSRect)frameRect
+               theme:(std::unique_ptr<nc::panel::HeaderTheme>)_theme
 {
     self = [super initWithFrame:frameRect];
     if( self ) {
+        m_Theme = std::move(_theme);
         m_SearchPrompt = nil;
+        m_Active = false;
         
         m_PathTextField= [[NSTextField alloc] initWithFrame:NSRect()];
         m_PathTextField.translatesAutoresizingMaskIntoConstraints = false;
@@ -114,15 +89,15 @@ static bool IsDark( NSColor *_color )
         [self addSubview:m_SearchMatchesField];
         
         m_SeparatorLine = [[ColoredSeparatorLine alloc] initWithFrame:NSRect()];
-        m_SeparatorLine.translatesAutoresizingMaskIntoConstraints = false;
-        m_SeparatorLine.boxType = NSBoxSeparator;
+        m_SeparatorLine.translatesAutoresizingMaskIntoConstraints = false; 
         [self addSubview:m_SeparatorLine];
    
         m_SortButton = [[NSButton alloc] initWithFrame:NSRect()];
         m_SortButton.translatesAutoresizingMaskIntoConstraints = false;
         m_SortButton.title = @"N";
         m_SortButton.bordered = false;
-        m_SortButton.buttonType = NSMomentaryLightButton;
+        m_SortButton.buttonType = NSButtonTypeMomentaryChange;
+        [m_SortButton sendActionOn:NSEventMaskLeftMouseDown];
         m_SortButton.action = @selector(onSortButtonAction:);
         m_SortButton.target = self;
         m_SortButton.enabled = true;
@@ -134,8 +109,7 @@ static bool IsDark( NSColor *_color )
         m_BusyIndicator.style = NSProgressIndicatorSpinningStyle;
         m_BusyIndicator.controlSize = NSSmallControlSize;
         m_BusyIndicator.displayedWhenStopped = false;
-        if( CurrentTheme().AppearanceType() == ThemeAppearance::Light &&
-           IsDark(CurrentTheme().FilePanelsHeaderActiveBackgroundColor()) )
+        if( IsDark(m_Theme->ActiveBackgroundColor()) )
             m_BusyIndicator.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];        
         [self addSubview:m_BusyIndicator positioned:NSWindowAbove relativeTo:m_PathTextField];
         
@@ -143,12 +117,9 @@ static bool IsDark( NSColor *_color )
         [self setupLayout];
         
         __weak NCPanelViewHeader* weak_self = self;
-        m_ThemeObservation = NCAppDelegate.me.themesManager.ObserveChanges(
-            ThemesManager::Notifications::FilePanelsHeader, [weak_self]{
-            if( auto strong_self = weak_self ) {
+        m_Theme->ObserveChanges([weak_self]{
+            if( auto strong_self = weak_self )
                 [strong_self setupAppearance];
-                [strong_self observeValueForKeyPath:@"active" ofObject:nil change:nil context:nil];
-            }
         });
     }
     return self;
@@ -156,10 +127,20 @@ static bool IsDark( NSColor *_color )
 
 - (void) setupAppearance
 {
-    m_PathTextField.font = CurrentTheme().FilePanelsHeaderFont();
-    m_SearchTextField.font = CurrentTheme().FilePanelsHeaderFont();
-    m_SeparatorLine.borderColor = CurrentTheme().FilePanelsHeaderSeparatorColor();
-    m_SortButton.font = CurrentTheme().FilePanelsHeaderFont();
+    const auto font = m_Theme->Font();
+    m_PathTextField.font = font;
+    m_SearchTextField.font = font;
+    m_SeparatorLine.borderColor = m_Theme->SeparatorColor();
+    m_SortButton.font = font;
+    
+    const bool active = m_Active;
+    m_Background = active ? m_Theme->ActiveBackgroundColor() : m_Theme->InactiveBackgroundColor();
+    
+    const auto text_color = active ? m_Theme->ActiveTextColor() : m_Theme->TextColor();
+    m_PathTextField.textColor = text_color;
+    
+    ChangeForegroundColor(m_SortButton, text_color);
+    
     self.needsDisplay = true;
 }
 
@@ -172,7 +153,7 @@ static bool IsDark( NSColor *_color )
                                                          m_SortButton,
                                                          m_BusyIndicator);
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:
-        @"V:|-(==0)-[m_PathTextField]-(==0)-[m_SeparatorLine(<=1)]-(==0)-|"
+        @"V:|-(==0)-[m_PathTextField]-(==0)-[m_SeparatorLine(==1)]-(==0)-|"
         options:0 metrics:nil views:views]];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:
         @"V:|-(==0)-[m_SortButton]-(==0)-|" options:0 metrics:nil views:views]];
@@ -246,15 +227,10 @@ static bool IsDark( NSColor *_color )
     m_PathTextField.stringValue = _path;
 }
 
-- (void)setupBindingToPanelView:(PanelView*)_panel_view
+- (void)setupBindings
 {
     static const auto isnil = @{NSValueTransformerNameBindingOption:NSIsNilTransformerName};
     static const auto isnotnil = @{NSValueTransformerNameBindingOption:NSIsNotNilTransformerName};
-    assert( m_PanelView == nullptr );
-    
-    m_PanelView = _panel_view;
-    [_panel_view addObserver:self forKeyPath:@"active" options:0 context:NULL];
-    [self observeValueForKeyPath:@"active" ofObject:_panel_view change:nil context:nil];
     [m_SearchTextField bind:@"hidden" toObject:self withKeyPath:@"searchPrompt" options:isnil];
     [m_SearchMatchesField bind:@"hidden" toObject:self withKeyPath:@"searchPrompt" options:isnil];
     [m_PathTextField bind:@"hidden" toObject:self withKeyPath:@"searchPrompt" options:isnotnil];
@@ -264,8 +240,6 @@ static bool IsDark( NSColor *_color )
 
 - (void)removeBindings
 {
-    assert( m_PanelView != nullptr );
-    [m_PanelView removeObserver:self forKeyPath:@"active"];
     [m_SearchTextField unbind:@"hidden"];
     [m_SearchMatchesField unbind:@"hidden"];
     [m_PathTextField unbind:@"hidden"];
@@ -275,46 +249,19 @@ static bool IsDark( NSColor *_color )
 
 - (void)viewDidMoveToSuperview
 {
-    if( auto panel_view = objc_cast<PanelView>(self.superview) )
-        [self setupBindingToPanelView:panel_view];
+    if( self.superview )
+        [self setupBindings];
     else
         [self removeBindings];
+
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if( !m_PanelView )
-        return;
-    if( [keyPath isEqualToString:@"active"] ) {
-        const bool active = m_PanelView.active;
-        m_Background = active ?
-            CurrentTheme().FilePanelsHeaderActiveBackgroundColor() :
-            CurrentTheme().FilePanelsHeaderInactiveBackgroundColor();
-        [self setNeedsDisplay:true];
-        
-        NSColor *text_color = active ?
-            CurrentTheme().FilePanelsHeaderActiveTextColor() :
-            CurrentTheme().FilePanelsHeaderTextColor();
-        m_PathTextField.textColor = text_color;
-        
-        const auto sort_title = [[NSMutableAttributedString alloc]
-            initWithAttributedString:m_SortButton.attributedTitle];
-        [sort_title addAttribute:NSForegroundColorAttributeName
-                           value:text_color
-                           range:NSMakeRange(0, sort_title.length)];
-        m_SortButton.attributedTitle = sort_title;
-    }
-}
-
-- (void)setSearchRequestChangeCallback:(function<void (NSString *)>)searchRequestChangeCallback
+- (void)setSearchRequestChangeCallback:(std::function<void (NSString *)>)searchRequestChangeCallback
 {
     m_SearchRequestChangeCallback = move(searchRequestChangeCallback);
 }
 
-- (function<void (NSString *)>)searchRequestChangeCallback
+- (std::function<void (NSString *)>)searchRequestChangeCallback
 {
     return m_SearchRequestChangeCallback;
 }
@@ -351,7 +298,7 @@ static bool IsDark( NSColor *_color )
 - (void) onSearchFieldDiscardButton:(id)sender
 {
     self.searchPrompt = nil;
-    [self.window makeFirstResponder:m_PanelView];
+    [self.window makeFirstResponder:self.defaultResponder];
     if( m_SearchRequestChangeCallback )
         m_SearchRequestChangeCallback(nil);
 }
@@ -399,15 +346,11 @@ static bool IsDark( NSColor *_color )
 
 - (void) setSortMode:(data::SortMode)_mode
 {
-    if( m_SortMode != _mode ) {
-        m_SortMode = _mode;
+    if( m_SortMode == _mode )
+        return;
     
-        auto title = [[NSMutableAttributedString alloc]
-            initWithAttributedString:m_SortButton.attributedTitle];
-        [title replaceCharactersInRange:NSMakeRange(0, title.length)
-                             withString:SortLetter(_mode)];
-        m_SortButton.attributedTitle = title;
-    }
+    m_SortMode = _mode;    
+    ChangeAttributedTitle(m_SortButton, SortLetter(_mode));
 }
 
 - (IBAction)onSortPopupMenuSortByClicked:(id)sender
@@ -442,4 +385,67 @@ static bool IsDark( NSColor *_color )
     return m_BusyIndicator;
 }
 
+- (void) setActive:(bool)active
+{
+    if( active == m_Active )
+        return;
+    m_Active = active;
+    
+    [self setupAppearance];
+}
+
+- (bool) active
+{
+    return m_Active;
+}
+
 @end
+
+static void ChangeForegroundColor(NSButton *_button, NSColor *_new_color)
+{
+    const auto sort_title = [[NSMutableAttributedString alloc]
+                             initWithAttributedString:_button.attributedTitle];
+    [sort_title addAttribute:NSForegroundColorAttributeName
+                       value:_new_color
+                       range:NSMakeRange(0, sort_title.length)];
+    _button.attributedTitle = sort_title;        
+}
+
+static void ChangeAttributedTitle(NSButton *_button, NSString *_new_text)
+{
+    const auto title = [[NSMutableAttributedString alloc]
+                        initWithAttributedString:_button.attributedTitle];
+    [title replaceCharactersInRange:NSMakeRange(0, title.length)
+                         withString:_new_text];
+    _button.attributedTitle = title;    
+}
+
+static NSString *SortLetter(data::SortMode _mode) noexcept
+{
+    switch( _mode.sort ) {
+        case data::SortMode::SortByName:         return @"n";
+        case data::SortMode::SortByNameRev:      return @"N";
+        case data::SortMode::SortByExt:          return @"e";
+        case data::SortMode::SortByExtRev:       return @"E";
+        case data::SortMode::SortBySize:         return @"s";
+        case data::SortMode::SortBySizeRev:      return @"S";
+        case data::SortMode::SortByModTime:      return @"m";
+        case data::SortMode::SortByModTimeRev:   return @"M";
+        case data::SortMode::SortByBirthTime:    return @"b";
+        case data::SortMode::SortByBirthTimeRev: return @"B";
+        case data::SortMode::SortByAddTime:      return @"a";
+        case data::SortMode::SortByAddTimeRev:   return @"A";
+        default:                                 return @"?";
+    }
+}
+
+static float Brightness( NSColor *_color )
+{
+    const auto c = [_color colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+    return (float)c.brightnessComponent;
+}
+
+static bool IsDark( NSColor *_color )
+{
+    return Brightness(_color) < 0.60;
+}

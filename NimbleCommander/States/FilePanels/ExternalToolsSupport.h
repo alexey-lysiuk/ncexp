@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 /**
@@ -42,12 +42,12 @@ public:
     
     struct UserDefined
     {
-        string text;
+        std::string text;
     };
     
     struct EnterValue
     {
-        string name;
+        std::string name;
     };
     
     struct CurrentItem
@@ -93,11 +93,11 @@ private:
     void    InsertCurrentItem(CurrentItem _ci);
     void    InsertSelectedItem(SelectedItems _si);
     
-    vector<Step>            m_Steps;
-    vector<UserDefined>     m_UserDefined;
-    vector<EnterValue>      m_EnterValues;
-    vector<CurrentItem>     m_CurrentItems;
-    vector<SelectedItems>   m_SelectedItems;
+    std::vector<Step>           m_Steps;
+    std::vector<UserDefined>    m_UserDefined;
+    std::vector<EnterValue>     m_EnterValues;
+    std::vector<CurrentItem>    m_CurrentItems;
+    std::vector<SelectedItems>  m_SelectedItems;
     unsigned                m_MaximumTotalFiles = 0;
     
     friend class ExternalToolsParametersParser;
@@ -106,7 +106,8 @@ private:
 class ExternalToolsParametersParser
 {
 public:
-    ExternalToolsParameters Parse( const string &_source, function<void(string)> _parse_error = nullptr );
+    ExternalToolsParameters Parse(const std::string &_source,
+                                  std::function<void(std::string)> _parse_error = nullptr );
     
 private:
 };
@@ -121,9 +122,9 @@ public:
         RunDeatached    = 2
     };
     
-    string          m_Title;
-    string          m_ExecutablePath; // app by bundle?
-    string          m_Parameters;
+    std::string     m_Title;
+    std::string     m_ExecutablePath; // app by bundle?
+    std::string     m_Parameters;
     ActionShortcut  m_Shorcut;
     StartupMode     m_StartupMode = StartupMode::Automatic;
     
@@ -142,8 +143,8 @@ public:
     ExternalToolsStorage(const char*_config_path);
     
     size_t                                  ToolsCount() const;
-    shared_ptr<const ExternalTool>          GetTool(size_t _no) const; // will return nullptr on invalid index
-    vector<shared_ptr<const ExternalTool>>  GetAllTools() const;
+    std::shared_ptr<const ExternalTool>     GetTool(size_t _no) const; // will return nullptr on invalid index
+    std::vector<std::shared_ptr<const ExternalTool>>GetAllTools() const;
     
     void                                    ReplaceTool( ExternalTool _tool, size_t _at_index );
     void                                    InsertTool( ExternalTool _tool ); // adds tool at the end
@@ -151,7 +152,7 @@ public:
     void                                    MoveTool( size_t _at_index, size_t _to_index );
     
     using ObservationTicket = ObservableBase::ObservationTicket;
-    ObservationTicket ObserveChanges( function<void()> _callback );
+    ObservationTicket ObserveChanges( std::function<void()> _callback );
     
 private:
     void LoadToolsFromConfig();
@@ -159,8 +160,8 @@ private:
     void CommitChanges();
     
     mutable spinlock                                m_ToolsLock;
-    vector<shared_ptr<const ExternalTool>>          m_Tools;
+    std::vector<std::shared_ptr<const ExternalTool>>m_Tools;
     const char*                                     m_ConfigPath;
-    vector<GenericConfig::ObservationTicket>        m_ConfigObservations;
+    std::vector<nc::config::Token>                  m_ConfigObservations;
 };
 

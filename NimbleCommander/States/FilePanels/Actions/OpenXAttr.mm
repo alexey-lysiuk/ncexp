@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <VFS/XAttr.h>
 #include <NimbleCommander/Core/Alert.h>
 #include "../PanelController.h"
@@ -19,10 +19,12 @@ void OpenXAttr::Perform( PanelController *_target, id _sender ) const
         return;
     
     try {
-        auto host = make_shared<vfs::XAttrHost>( _target.view.item.Path(), _target.view.item.Host() );
-        auto context = make_shared<DirectoryChangeRequest>();
+        auto host = std::make_shared<vfs::XAttrHost>(_target.view.item.Path(),
+                                                     _target.view.item.Host() );
+        auto context = std::make_shared<DirectoryChangeRequest>();
         context->VFS = host;
         context->RequestedDirectory = "/";
+        context->InitiatedByUser = true;
         [_target GoToDirWithContext:context];
     } catch (const VFSErrorException &e) {
         Alert *alert = [[Alert alloc] init];

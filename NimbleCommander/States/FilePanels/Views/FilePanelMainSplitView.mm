@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/States/FilePanels/PanelView.h>
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
 #include <NimbleCommander/Core/Theming/Theme.h>
@@ -6,6 +6,8 @@
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
 #include "FilePanelsTabbedHolder.h"
 #include "FilePanelMainSplitView.h"
+#include <Utility/ObjCpp.h>
+#include <Habanero/dispatch_cpp.h>
 
 static const auto g_MidGuideGap = 24.;
 static const auto g_MinPanelWidth = 120;
@@ -53,7 +55,7 @@ static const auto g_ResizingGran = 14.;
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainSplitPosition:(CGFloat)proposedPosition ofSubviewAt:(NSInteger)dividerIndex
 {
-    auto mid = floor(self.frame.size.width / 2.);
+    auto mid = std::floor(self.frame.size.width / 2.);
     if( proposedPosition > mid - g_MidGuideGap && proposedPosition < mid + g_MidGuideGap )
         return mid;
     
@@ -130,7 +132,7 @@ static const auto g_ResizingGran = 14.;
     left.frame = rightrect;
     right.frame = leftrect;
 
-    swap(m_BasicViews[0], m_BasicViews[1]);
+    std::swap(m_BasicViews[0], m_BasicViews[1]);
     m_BasicViews[0].frame = leftrect;
     m_BasicViews[1].frame = rightrect;
 }
@@ -297,6 +299,7 @@ static const auto g_ResizingGran = 14.;
 
     v1.frame = left;
     v2.frame = right;
+    [self setNeedsLayout:true];
 }
 
 - (IBAction)OnViewPanelsPositionMoveRight:(id)sender
@@ -335,6 +338,7 @@ static const auto g_ResizingGran = 14.;
     
     v1.frame = left;
     v2.frame = right;
+    [self setNeedsLayout:true];
 }
 
 - (void) collapseLeftView

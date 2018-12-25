@@ -1,10 +1,13 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "DropboxAccountSheetController.h"
 #import <AppAuth.h>
 #include "OIDRedirectHTTPHandler+FixedPort.h"
 #include <VFS/NetDropbox.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <NimbleCommander/Bootstrap/NCE.h>
+#include <Utility/StringExtras.h>
+#include <Habanero/dispatch_cpp.h>
 
 using namespace nc;
 
@@ -48,8 +51,8 @@ enum class State
 @implementation DropboxAccountSheetController
 {
     OIDRedirectHTTPHandler *m_RedirectHTTPHandler;
-    string m_Token;
-    optional<NetworkConnectionsManager::Connection> m_Original;
+    std::string m_Token;
+    std::optional<NetworkConnectionsManager::Connection> m_Original;
     NetworkConnectionsManager::Dropbox m_Connection;
     State m_State;
 }
@@ -170,12 +173,12 @@ enum class State
     });
 }
 
-- (void)setPassword:(string)password
+- (void)setPassword:(std::string)password
 {
     m_Token = password;
 }
 
-- (string)password
+- (std::string)password
 {
     return m_Token;
 }

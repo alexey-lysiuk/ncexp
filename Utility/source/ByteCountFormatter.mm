@@ -1,7 +1,7 @@
 // Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+#include <Utility/ByteCountFormatter.h>
 #include <Foundation/Foundation.h>
 #include <Utility/Encodings.h>
-#include <Utility/ByteCountFormatter.h>
 #include <string>
 
 static inline void strsubst(char *_s, char _what, char _to)
@@ -20,29 +20,6 @@ static inline unsigned chartouni(const char *_from, unsigned short *_to, unsigne
     return _amount;
 }
 
-
-//"__BYTECOUNTFORMATTER_BYTE_POSTFIX" = "B";
-//"__BYTECOUNTFORMATTER_SI_LETTERS_ARRAY" = " KMGTP";
-//"__BYTECOUNTFORMATTER_BYTES_WORD" = "bytes";
-/* Bytes count postfix, for English is 'bytes' */
-//"__BYTECOUNTFORMATTER_BYTES_WORD" = "байт";
-//
-///* One-letter byte postfix, for English is 'B' */
-//"__BYTECOUNTFORMATTER_BYTE_POSTFIX" = "б";
-//
-///* SI postfixes with first symbol empty, for English is ' KMGTP' */
-//"__BYTECOUNTFORMATTER_SI_LETTERS_ARRAY" = " КМГТП";
-
-
-
-//
-//"__BYTECOUNTFORMATTER_BYTE_POSTFIX" = "B";
-//"__BYTECOUNTFORMATTER_SI_LETTERS_ARRAY" = " KMGTP";
-//"__BYTECOUNTFORMATTER_BYTES_WORD" = "bytes";
-
-// NSArray<NSString *> *preferredLocalizations;
-
-
 constexpr uint64_t ByteCountFormatter::m_Exponent[];
 
 ByteCountFormatter::ByteCountFormatter(bool _localized)
@@ -52,7 +29,8 @@ ByteCountFormatter::ByteCountFormatter(bool _localized)
     m_Bytes = {'b', 'y', 't', 'e', 's'};
 
     if(_localized) {
-        auto language = string(NSBundle.mainBundle.preferredLocalizations.firstObject.UTF8String);
+        auto bundle = NSBundle.mainBundle;
+        auto language = std::string(bundle.preferredLocalizations.firstObject.UTF8String);
     
         NSNumberFormatter *def_formatter = [NSNumberFormatter new];
         NSString *decimal_symbol = [def_formatter decimalSeparator];
@@ -100,7 +78,10 @@ ByteCountFormatter &ByteCountFormatter::Instance()
 // External wrapping and convertions
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned ByteCountFormatter::ToUTF8(uint64_t _size, unsigned char *_buf, size_t _buffer_size, Type _type)
+unsigned ByteCountFormatter::ToUTF8(uint64_t _size,
+                                    unsigned char *_buf,
+                                    size_t _buffer_size,
+                                    Type _type) const
 {
     switch (_type) {
         case Fixed6:            return Fixed6_UTF8(_size, _buf, _buffer_size);
@@ -111,7 +92,10 @@ unsigned ByteCountFormatter::ToUTF8(uint64_t _size, unsigned char *_buf, size_t 
     }
 }
 
-unsigned ByteCountFormatter::ToUTF16(uint64_t _size, unsigned short *_buf, size_t _buffer_size, Type _type)
+unsigned ByteCountFormatter::ToUTF16(uint64_t _size,
+                                     unsigned short *_buf,
+                                     size_t _buffer_size,
+                                     Type _type) const
 {
     switch (_type) {
         case Fixed6:            return Fixed6_UTF16(_size, _buf, _buffer_size);
@@ -122,7 +106,7 @@ unsigned ByteCountFormatter::ToUTF16(uint64_t _size, unsigned short *_buf, size_
     }
 }
 
-NSString* ByteCountFormatter::ToNSString(uint64_t _size, Type _type)
+NSString* ByteCountFormatter::ToNSString(uint64_t _size, Type _type) const
 {
     switch (_type) {
         case Fixed6:            return Fixed6_NSString(_size);
@@ -133,7 +117,9 @@ NSString* ByteCountFormatter::ToNSString(uint64_t _size, Type _type)
     }
 }
 
-unsigned ByteCountFormatter::Fixed6_UTF8(uint64_t _size, unsigned char *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::Fixed6_UTF8(uint64_t _size,
+                                         unsigned char *_buf,
+                                         size_t _buffer_size) const
 {
     unsigned short buf[6];
     int len = Fixed6_Impl(_size, buf);
@@ -143,7 +129,9 @@ unsigned ByteCountFormatter::Fixed6_UTF8(uint64_t _size, unsigned char *_buf, si
     return (unsigned)utf8len;
 }
 
-unsigned ByteCountFormatter::Fixed6_UTF16(uint64_t _size, unsigned short *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::Fixed6_UTF16(uint64_t _size,
+                                          unsigned short *_buf,
+                                          size_t _buffer_size) const
 {
     unsigned short buf[6];
     int len = Fixed6_Impl(_size, buf);
@@ -153,14 +141,16 @@ unsigned ByteCountFormatter::Fixed6_UTF16(uint64_t _size, unsigned short *_buf, 
     return i;
 }
 
-NSString* ByteCountFormatter::Fixed6_NSString(uint64_t _size)
+NSString* ByteCountFormatter::Fixed6_NSString(uint64_t _size) const
 {
     unsigned short buf[6];
     int len = Fixed6_Impl(_size, buf);
     return [NSString stringWithCharacters:buf length:len];
 }
 
-unsigned ByteCountFormatter::SpaceSeparated_UTF8(uint64_t _size, unsigned char *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::SpaceSeparated_UTF8(uint64_t _size,
+                                                 unsigned char *_buf,
+                                                 size_t _buffer_size) const
 {
     unsigned short buf[64];
     int len = SpaceSeparated_Impl(_size, buf);
@@ -170,7 +160,9 @@ unsigned ByteCountFormatter::SpaceSeparated_UTF8(uint64_t _size, unsigned char *
     return (unsigned)utf8len;
 }
 
-unsigned ByteCountFormatter::SpaceSeparated_UTF16(uint64_t _size, unsigned short *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::SpaceSeparated_UTF16(uint64_t _size,
+                                                  unsigned short *_buf,
+                                                  size_t _buffer_size) const
 {
     unsigned short buf[64];
     int len = SpaceSeparated_Impl(_size, buf);
@@ -180,14 +172,16 @@ unsigned ByteCountFormatter::SpaceSeparated_UTF16(uint64_t _size, unsigned short
     return i;
 }
 
-NSString* ByteCountFormatter::SpaceSeparated_NSString(uint64_t _size)
+NSString* ByteCountFormatter::SpaceSeparated_NSString(uint64_t _size) const
 {
     unsigned short buf[64];
     int len = SpaceSeparated_Impl(_size, buf);
     return [NSString stringWithCharacters:buf length:len];
 }
 
-unsigned ByteCountFormatter::Adaptive_UTF8(uint64_t _size, unsigned char *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::Adaptive_UTF8(uint64_t _size,
+                                           unsigned char *_buf,
+                                           size_t _buffer_size) const
 {
     unsigned short buf[6];
     int len = Adaptive6_Impl(_size, buf);
@@ -196,7 +190,9 @@ unsigned ByteCountFormatter::Adaptive_UTF8(uint64_t _size, unsigned char *_buf, 
     return (unsigned)utf8len;
 }
 
-unsigned ByteCountFormatter::Adaptive_UTF16(uint64_t _size, unsigned short *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::Adaptive_UTF16(uint64_t _size,
+                                            unsigned short *_buf,
+                                            size_t _buffer_size) const
 {
     unsigned short buf[6];
     int len = Adaptive6_Impl(_size, buf);
@@ -206,7 +202,7 @@ unsigned ByteCountFormatter::Adaptive_UTF16(uint64_t _size, unsigned short *_buf
     return i;
 }
 
-NSString* ByteCountFormatter::Adaptive_NSString(uint64_t _size)
+NSString* ByteCountFormatter::Adaptive_NSString(uint64_t _size) const
 {
     unsigned short buf[6];
     int len = Adaptive6_Impl(_size, buf);
@@ -214,7 +210,9 @@ NSString* ByteCountFormatter::Adaptive_NSString(uint64_t _size)
     return [NSString stringWithCharacters:buf length:len];
 }
 
-unsigned ByteCountFormatter::Adaptive8_UTF8(uint64_t _size, unsigned char *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::Adaptive8_UTF8(uint64_t _size,
+                                            unsigned char *_buf,
+                                            size_t _buffer_size) const
 {
     unsigned short buf[8];
     int len = Adaptive8_Impl(_size, buf);
@@ -223,7 +221,9 @@ unsigned ByteCountFormatter::Adaptive8_UTF8(uint64_t _size, unsigned char *_buf,
     return (unsigned)utf8len;
 }
 
-unsigned ByteCountFormatter::Adaptive8_UTF16(uint64_t _size, unsigned short *_buf, size_t _buffer_size)
+unsigned ByteCountFormatter::Adaptive8_UTF16(uint64_t _size,
+                                             unsigned short *_buf,
+                                             size_t _buffer_size) const
 {
     unsigned short buf[8];
     int len = Adaptive8_Impl(_size, buf);
@@ -233,7 +233,7 @@ unsigned ByteCountFormatter::Adaptive8_UTF16(uint64_t _size, unsigned short *_bu
     return i;
 }
 
-NSString* ByteCountFormatter::Adaptive8_NSString(uint64_t _size)
+NSString* ByteCountFormatter::Adaptive8_NSString(uint64_t _size) const
 {
     unsigned short buf[8];
     int len = Adaptive8_Impl(_size, buf);
@@ -245,7 +245,7 @@ NSString* ByteCountFormatter::Adaptive8_NSString(uint64_t _size)
 // Implementation itself
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-int ByteCountFormatter::Fixed6_Impl(uint64_t _size, unsigned short _buf[6])
+int ByteCountFormatter::Fixed6_Impl(uint64_t _size, unsigned short _buf[6]) const
 {
     char buf[32];
     
@@ -302,7 +302,7 @@ int ByteCountFormatter::Fixed6_Impl(uint64_t _size, unsigned short _buf[6])
     return 0;
 }
 
-int ByteCountFormatter::SpaceSeparated_Impl(uint64_t _sz, unsigned short _buf[64])
+int ByteCountFormatter::SpaceSeparated_Impl(uint64_t _sz, unsigned short _buf[64]) const
 {
     // TODO: localization!
     char buf[128];
@@ -336,7 +336,7 @@ int ByteCountFormatter::SpaceSeparated_Impl(uint64_t _sz, unsigned short _buf[64
     return len;
 }
 
-int ByteCountFormatter::Adaptive6_Impl(uint64_t _size, unsigned short _buf[6])
+int ByteCountFormatter::Adaptive6_Impl(uint64_t _size, unsigned short _buf[6]) const
 {
     char buf[32];
     if (_size <= 0) {
@@ -419,7 +419,7 @@ int ByteCountFormatter::Adaptive6_Impl(uint64_t _size, unsigned short _buf[6])
     }
 }
 
-int ByteCountFormatter::Adaptive8_Impl(uint64_t _size, unsigned short _buf[8])
+int ByteCountFormatter::Adaptive8_Impl(uint64_t _size, unsigned short _buf[8]) const
 {
     char buf[128];
     int len = 0;
@@ -477,7 +477,7 @@ int ByteCountFormatter::Adaptive8_Impl(uint64_t _size, unsigned short _buf[8])
     return 0;
 }
 
-void ByteCountFormatter::MessWithSeparator(char *_s)
+void ByteCountFormatter::MessWithSeparator(char *_s) const
 {
     if( m_DecimalSeparator != '.' && strchr(_s, '.') )
         strsubst(_s, '.', m_DecimalSeparator);

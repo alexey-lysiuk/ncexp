@@ -1,10 +1,11 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/SimpleComboBoxPersistentDataSource.h>
 #include "SelectionWithMaskPopupViewController.h"
+#include <unordered_map>
 
 static const auto                       g_ConfigHistoryPath = "filePanel.selectWithMaskPopup.masks";
-static unordered_map<void*, NSString*>  g_InitialMask;
+static std::unordered_map<void*, NSString*> g_InitialMask;
 static spinlock                         g_InitialMaskLock;
 
 @interface SelectionWithMaskPopupViewController()
@@ -18,7 +19,7 @@ static spinlock                         g_InitialMaskLock;
 {
     void                               *m_TargetWnd;
     SimpleComboBoxPersistentDataSource *m_MaskHistory;
-    function<void(NSString *mask)>      m_Handler;
+    std::function<void(NSString *mask)> m_Handler;
     bool                                m_DoesSelect;
 }
 

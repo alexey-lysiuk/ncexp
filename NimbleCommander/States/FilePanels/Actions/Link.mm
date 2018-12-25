@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Link.h"
 #include "../PanelController.h"
 #include "../PanelView.h"
@@ -10,11 +10,12 @@
 #include <Operations/AlterSymlinkDialog.h>
 #include <Operations/CreateHardlinkDialog.h>
 #include <Utility/PathManip.h>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
 
 static PanelController *FindVisibleOppositeController( PanelController *_source );
-static void FocusResult( PanelController *_target, const string &_path, bool _refresh );
+static void FocusResult( PanelController *_target, const std::string &_path, bool _refresh );
 static void Refresh( PanelController *_target );
 
 bool CreateSymlink::Predicate( PanelController *_target ) const
@@ -68,7 +69,7 @@ void CreateSymlink::Perform( PanelController *_target, id _sender ) const
             item.Directory() + sheet.linkPath;
         const auto focus_opposite = sheet.linkPath.front() == '/';
         const auto value = sheet.sourcePath;
-        const auto operation = make_shared<nc::ops::Linkage>(dest, value, vfs,
+        const auto operation = std::make_shared<nc::ops::Linkage>(dest, value, vfs,
                                                              nc::ops::LinkageType::CreateSymlink);
         __weak PanelController *weak_panel = focus_opposite ? opposite : _target;
         const bool force_refresh = !weak_panel.receivesUpdateNotifications;
@@ -101,7 +102,7 @@ void AlterSymlink::Perform( PanelController *_target, id _sender ) const
             return;
         const auto dest = item.Path();
         const auto value = sheet.sourcePath;
-        const auto operation = make_shared<nc::ops::Linkage>(dest, value, item.Host(),
+        const auto operation = std::make_shared<nc::ops::Linkage>(dest, value, item.Host(),
                                                              nc::ops::LinkageType::AlterSymlink);
         const bool force_refresh = !_target.receivesUpdateNotifications;
         if( force_refresh ) {
@@ -132,7 +133,7 @@ void CreateHardlink::Perform( PanelController *_target, id _sender ) const
         if( returnCode != NSModalResponseOK )
             return;
 
-        string path = sheet.result;
+        std::string path = sheet.result;
         if( path.empty() )
             return;
         
@@ -141,7 +142,7 @@ void CreateHardlink::Perform( PanelController *_target, id _sender ) const
         
         const auto dest = path;
         const auto value = item.Path();
-        const auto operation = make_shared<nc::ops::Linkage>(dest, value, item.Host(),
+        const auto operation = std::make_shared<nc::ops::Linkage>(dest, value, item.Host(),
                                                              nc::ops::LinkageType::CreateHardlink);
         const bool force_refresh = !_target.receivesUpdateNotifications;
         __weak PanelController *weak_panel = _target;
@@ -167,13 +168,13 @@ static PanelController *FindVisibleOppositeController( PanelController *_source 
     return nil;
 }
 
-static void FocusResult( PanelController *_target, const string &_path, bool _refresh )
+static void FocusResult( PanelController *_target, const std::string &_path, bool _refresh )
 {
     if( !_target  )
         return;
     
     if( dispatch_is_main_queue() ) {
-        const auto result_path = path(_path);
+        const auto result_path = boost::filesystem::path(_path);
         const auto directory =  EnsureTrailingSlash(result_path.parent_path().native());
         const auto filename = result_path.filename().native();
         if( _target.isUniform && _target.currentDirectoryPath == directory ) {

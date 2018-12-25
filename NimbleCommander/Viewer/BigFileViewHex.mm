@@ -1,8 +1,9 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/algo.h>
 #include <Utility/NSView+Sugar.h>
 #include "BigFileViewHex.h"
 #include "BigFileView.h"
+#include <cmath>
 
 static const int g_BytesPerHexLine = 16;
 static const int g_RowOffsetSymbs = 10;
@@ -68,7 +69,7 @@ BigFileViewHex::BigFileViewHex(BigFileViewDataBackend* _data, BigFileView* _view
 {
     m_View = _view;
     m_Data = _data;
-    m_FixupWindow = make_unique<UniChar[]>(m_Data->RawSize());
+    m_FixupWindow = std::make_unique<UniChar[]>(m_Data->RawSize());
     m_LeftInset = 5;
     
     GrabFontGeometry();
@@ -88,8 +89,8 @@ BigFileViewHex::~BigFileViewHex()
 
 void BigFileViewHex::GrabFontGeometry()
 {
-    m_FontInfo = FontGeometryInfo([m_View TextFont]);
-    m_FrameLines = (int)floor(m_View.contentBounds.height / m_FontInfo.LineHeight() );
+    m_FontInfo = nc::utility::FontGeometryInfo([m_View TextFont]);
+    m_FrameLines = (int)std::floor(m_View.contentBounds.height / m_FontInfo.LineHeight() );
 }
 
 void BigFileViewHex::OnBufferDecoded()
@@ -244,8 +245,8 @@ CGPoint BigFileViewHex::TextAnchor()
 {
     NSRect v = [m_View visibleRect];
     CGPoint textPosition;
-    textPosition.x = ceil(m_LeftInset) + m_SmoothOffset.x;
-    textPosition.y = floor(v.size.height - m_FontInfo.LineHeight()) + m_SmoothOffset.y;
+    textPosition.x = std::ceil(m_LeftInset) + m_SmoothOffset.x;
+    textPosition.y = std::floor(v.size.height - m_FontInfo.LineHeight()) + m_SmoothOffset.y;
     return textPosition;
 }
 
@@ -267,7 +268,7 @@ int BigFileViewHex::ByteIndexFromHitTest(CGPoint _p)
 {
     CGPoint left_upper = TextAnchor();
     
-    int y_off = (int)ceil((left_upper.y - _p.y) / m_FontInfo.LineHeight());
+    int y_off = (int)std::ceil((left_upper.y - _p.y) / m_FontInfo.LineHeight());
     int row_no = y_off + m_RowsOffset;
     if(row_no < 0)
         return -1;
@@ -275,7 +276,7 @@ int BigFileViewHex::ByteIndexFromHitTest(CGPoint _p)
         return (int)m_Data->RawSize() + 1;
 
     int x_off = int(_p.x - (left_upper.x + m_FontInfo.MonospaceWidth() * (g_RowOffsetSymbs + 3)));
-    int char_ind = (int)ceil(x_off / m_FontInfo.MonospaceWidth());
+    int char_ind = (int)std::ceil(x_off / m_FontInfo.MonospaceWidth());
     int byte_pos = Hex_ByteFromCharPos(char_ind);
     if(byte_pos < 0) byte_pos = 0;
     return m_Lines[row_no].row_byte_start + byte_pos;
@@ -286,7 +287,7 @@ int BigFileViewHex::CharIndexFromHitTest(CGPoint _p)
 {
     CGPoint left_upper = TextAnchor();
     
-    int y_off = (int)ceil((left_upper.y - _p.y) / m_FontInfo.LineHeight());
+    int y_off = (int)std::ceil((left_upper.y - _p.y) / m_FontInfo.LineHeight());
     int row_no = y_off + m_RowsOffset;
     if(row_no < 0)
         return -1;
@@ -401,7 +402,7 @@ void BigFileViewHex::DoDraw(CGContextRef _context, NSRect _dirty_rect)
         
         // draw text itself (drawing with prepared CTLine should be faster than with raw CFString)
         CGContextSetTextMatrix(_context, CGAffineTransformIdentity);
-        CGContextSetTextPosition(_context, pos.x, pos.y + ceil(m_FontInfo.Descent()));
+        CGContextSetTextPosition(_context, pos.x, pos.y + std::ceil(m_FontInfo.Descent()));
         CTLineDraw(c.text_ctline, _context);
         
         text_pos.y -= m_FontInfo.LineHeight();
@@ -647,7 +648,7 @@ void BigFileViewHex::HandleVerticalScroll(double _pos)
 
 void BigFileViewHex::OnFrameChanged()
 {
-    m_FrameLines = (int)floor([m_View frame].size.height / m_FontInfo.LineHeight());
+    m_FrameLines = (int)std::floor([m_View frame].size.height / m_FontInfo.LineHeight());
 }
 
 void BigFileViewHex::ScrollToByteOffset(uint64_t _offset)
@@ -719,12 +720,12 @@ void BigFileViewHex::HandleSelectionWithMouseDragging(NSEvent* event)
     {
         CFRange orig_sel = [m_View SelectionWithinWindow];        
         uint64_t window_size = m_Data->RawSize();
-        int first_byte = clamp(ByteIndexFromHitTest(first_down), 0, (int)window_size);
+        int first_byte = std::clamp(ByteIndexFromHitTest(first_down), 0, (int)window_size);
         
         while ([event type]!=NSLeftMouseUp)
         {
             NSPoint loc = [m_View convertPoint:[event locationInWindow] fromView:nil];
-            int curr_byte = clamp(ByteIndexFromHitTest(loc), 0, (int)window_size);
+            int curr_byte = std::clamp(ByteIndexFromHitTest(loc), 0, (int)window_size);
 
             int base_byte = first_byte;
             if(modifying_existing_selection && orig_sel.length > 0)
@@ -753,12 +754,12 @@ void BigFileViewHex::HandleSelectionWithMouseDragging(NSEvent* event)
     else if(hit_part == HitPart::Text)
     {
         CFRange orig_sel = [m_View SelectionWithinWindowUnichars];
-        int first_char = clamp(CharIndexFromHitTest(first_down), 0, (int)m_Data->UniCharsSize());
+        int first_char = std::clamp(CharIndexFromHitTest(first_down), 0, (int)m_Data->UniCharsSize());
         
         while ([event type]!=NSLeftMouseUp)
         {
             NSPoint loc = [m_View convertPoint:[event locationInWindow] fromView:nil];
-            int curr_char = clamp(CharIndexFromHitTest(loc), 0, (int)m_Data->UniCharsSize());
+            int curr_char = std::clamp(CharIndexFromHitTest(loc), 0, (int)m_Data->UniCharsSize());
             
             int base_char = first_char;
             if(modifying_existing_selection && orig_sel.length > 0)

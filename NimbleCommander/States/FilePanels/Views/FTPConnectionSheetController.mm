@@ -1,9 +1,10 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/NetworkConnectionsManager.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "FTPConnectionSheetController.h"
+#include <Utility/StringExtras.h>
 
 @interface FTPConnectionSheetController()
 @property (nonatomic) NSString *title;
@@ -18,7 +19,7 @@
 
 @implementation FTPConnectionSheetController
 {
-    optional<NetworkConnectionsManager::Connection> m_Original;
+    std::optional<NetworkConnectionsManager::Connection> m_Original;
     NetworkConnectionsManager::FTP m_Connection;
 }
 
@@ -94,12 +95,12 @@
     return NetworkConnectionsManager::Connection( m_Connection );
 }
 
-- (void) setPassword:(string)password
+- (void) setPassword:(std::string)password
 {
     self.passwordEntered = [NSString stringWithUTF8StdString:password];
 }
 
-- (string)password
+- (std::string)password
 {
     return self.passwordEntered ? self.passwordEntered.UTF8String : "";
 }

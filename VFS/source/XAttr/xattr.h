@@ -1,15 +1,16 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <sys/stat.h>
 #include <VFS/Host.h>
+#include <Habanero/spinlock.h>
 
 namespace nc::vfs {
 
 class XAttrHost final: public Host
 {
 public:
-    XAttrHost( const string &_file_path, const VFSHostPtr& _host ); // _host must be native currently
+    XAttrHost( const std::string &_file_path, const VFSHostPtr& _host ); // _host must be native currently
     XAttrHost(const VFSHostPtr &_parent, const VFSConfiguration &_config);
     ~XAttrHost();
 
@@ -20,11 +21,11 @@ public:
     virtual bool IsWritable() const override;
     
     virtual int CreateFile(const char* _path,
-                           shared_ptr<VFSFile> &_target,
+                           std::shared_ptr<VFSFile> &_target,
                            const VFSCancelChecker &_cancel_checker) override;
 
     virtual int FetchDirectoryListing(const char *_path,
-                                      shared_ptr<VFSListing> &_target,
+                                      std::shared_ptr<VFSListing> &_target,
                                       unsigned long _flags,
                                       const VFSCancelChecker &_cancel_checker) override;
     
@@ -42,7 +43,7 @@ private:
     int                             m_FD = -1;
     struct stat                     m_Stat;
     spinlock                        m_AttrsLock;
-    vector< pair<string, unsigned>> m_Attrs;
+    std::vector< std::pair<std::string, unsigned>> m_Attrs;
 };
 
 }

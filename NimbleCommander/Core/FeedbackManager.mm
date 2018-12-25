@@ -1,10 +1,11 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "FeedbackManager.h"
 #include <SystemConfiguration/SystemConfiguration.h>
 #include <Habanero/CFDefaultsCPP.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include "../Bootstrap/ActivationManager.h"
 #include "../GeneralUI/FeedbackWindow.h"
-#include "FeedbackManager.h"
+#include <Habanero/dispatch_cpp.h>
 
 static const auto g_RunsKey = CFSTR("feedbackApplicationRunsCount");
 static const auto g_HoursKey = CFSTR("feedbackHoursUsedCount");
@@ -222,7 +223,7 @@ void FeedbackManager::RateOnAppStore()
 {
     GA().PostEvent("Feedback", "Action", "Rate on AppStore");
     NSString *mas_url = [NSString stringWithFormat:@"macappstore://itunes.apple.com/app/id%s",
-                                 ActivationManager::Instance().AppStoreID().c_str()];
+                                                nc::bootstrap::ActivationManager::Instance().AppStoreID().c_str()];
     [NSWorkspace.sharedWorkspace openURL:[NSURL URLWithString:mas_url]];
 }
 

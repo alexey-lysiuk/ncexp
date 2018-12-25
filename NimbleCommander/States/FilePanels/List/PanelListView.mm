@@ -1,12 +1,14 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "PanelListView.h"
 #include <Habanero/algo.h>
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
 #include <NimbleCommander/Core/Theming/Theme.h>
 #include <NimbleCommander/Core/Theming/ThemesManager.h>
+#include <Utility/AdaptiveDateFormatting.h>
+#include <Utility/ObjCpp.h>
 #include "../PanelData.h"
 #include "../PanelDataSortMode.h"
 #include "../PanelView.h"
-#include "../IconsGenerator2.h"
 #include "Layout.h"
 #include "PanelListViewNameView.h"
 #include "PanelListViewRowView.h"
@@ -16,10 +18,11 @@
 #include "PanelListViewGeometry.h"
 #include "PanelListViewSizeView.h"
 #include "PanelListViewDateTimeView.h"
-#include "PanelListViewDateFormatting.h"
-#include "PanelListView.h"
+#include "../Helpers/IconRepositoryCleaner.h"
 
 using namespace nc::panel;
+using nc::vfsicon::IconRepository;
+using nc::utility::AdaptiveDateFormatting;
 
 static const auto g_MaxStashedRows              = 50;
 static const auto g_SortAscImage = [NSImage imageNamed:@"NSAscendingSortIndicator"];
@@ -40,7 +43,7 @@ void DrawTableVerticalSeparatorForView(NSView *v)
         if( t.gridStyleMask & NSTableViewSolidVerticalGridLineMask ) {
             if( t.gridColor && t.gridColor != NSColor.clearColor ) {
                 const auto bounds = v.bounds;
-                const auto rc = NSMakeRect(ceil(bounds.size.width)-1,
+                const auto rc = NSMakeRect(std::ceil(bounds.size.width)-1,
                                            0,
                                            1,
                                            bounds.size.height);
@@ -58,9 +61,9 @@ void DrawTableVerticalSeparatorForView(NSView *v)
 
 @interface PanelListView()
 
-@property (nonatomic) PanelListViewDateFormatting::Style dateCreatedFormattingStyle;
-@property (nonatomic) PanelListViewDateFormatting::Style dateAddedFormattingStyle;
-@property (nonatomic) PanelListViewDateFormatting::Style dateModifiedFormattingStyle;
+@property (nonatomic) AdaptiveDateFormatting::Style dateCreatedFormattingStyle;
+@property (nonatomic) AdaptiveDateFormatting::Style dateAddedFormattingStyle;
+@property (nonatomic) AdaptiveDateFormatting::Style dateModifiedFormattingStyle;
 
 
 @end
@@ -73,20 +76,20 @@ void DrawTableVerticalSeparatorForView(NSView *v)
     data::Model                        *m_Data;
     __weak PanelView                   *m_PanelView;
     PanelListViewGeometry               m_Geometry;
-    IconsGenerator2                    *m_IconsGenerator;
+    IconRepository                     *m_IconRepository;
     NSTableColumn                      *m_NameColumn;
     NSTableColumn                      *m_SizeColumn;
     NSTableColumn                      *m_DateCreatedColumn;
     NSTableColumn                      *m_DateAddedColumn;
     NSTableColumn                      *m_DateModifiedColumn;
-    PanelListViewDateFormatting::Style  m_DateCreatedFormattingStyle;
-    PanelListViewDateFormatting::Style  m_DateAddedFormattingStyle;
-    PanelListViewDateFormatting::Style  m_DateModifiedFormattingStyle;
+    AdaptiveDateFormatting::Style       m_DateCreatedFormattingStyle;
+    AdaptiveDateFormatting::Style       m_DateAddedFormattingStyle;
+    AdaptiveDateFormatting::Style       m_DateModifiedFormattingStyle;
     
-    stack<PanelListViewRowView*>        m_RowsStash;
+    std::stack<PanelListViewRowView*>   m_RowsStash;
     
     data::SortMode                      m_SortMode;
-    function<void(data::SortMode)>      m_SortModeChangeCallback;
+    std::function<void(data::SortMode)> m_SortModeChangeCallback;
     
     PanelListViewColumnsLayout          m_AssignedLayout;
     ThemesManager::ObservationTicket    m_ThemeObservation;
@@ -98,11 +101,11 @@ void DrawTableVerticalSeparatorForView(NSView *v)
 @synthesize sortMode = m_SortMode;
 @synthesize sortModeChangeCallback = m_SortModeChangeCallback;
 
-- (id) initWithFrame:(NSRect)frameRect andIC:(IconsGenerator2&)_ic
+- (id) initWithFrame:(NSRect)frameRect andIR:(nc::vfsicon::IconRepository&)_ir
 {
     self = [super initWithFrame:frameRect];
     if( self ) {
-        m_IconsGenerator = &_ic;
+        m_IconRepository = &_ir;
         
         [self calculateItemLayout];
         
@@ -143,9 +146,9 @@ void DrawTableVerticalSeparatorForView(NSView *v)
         m_ScrollView.documentView = m_TableView;
         
         __weak PanelListView* weak_self = self;
-        m_IconsGenerator->SetUpdateCallback([=](uint16_t _icon_no, NSImage* _icon){
+        m_IconRepository->SetUpdateCallback([=](IconRepository::SlotKey _slot, NSImage* _icon){
             if( auto strong_self = weak_self )
-                [strong_self onIconUpdated:_icon_no image:_icon];
+                [strong_self onIconUpdated:_slot image:_icon];
         });
         m_ThemeObservation = NCAppDelegate.me.themesManager.ObserveChanges(
             ThemesManager::Notifications::FilePanelsList |
@@ -260,17 +263,17 @@ void DrawTableVerticalSeparatorForView(NSView *v)
 
 - (void)widthDidChangeForColumn:(NSTableColumn*)_column
 {
-    using df = PanelListViewDateFormatting;
+    auto df = AdaptiveDateFormatting{};
     if( _column == m_DateCreatedColumn ) {
-        const auto style = df::SuitableStyleForWidth( (int)m_DateCreatedColumn.width, self.font );
+        const auto style = df.SuitableStyleForWidth( (int)m_DateCreatedColumn.width, self.font );
         self.dateCreatedFormattingStyle = style;
     }
     if( _column == m_DateAddedColumn ) {
-        const auto style = df::SuitableStyleForWidth( (int)m_DateAddedColumn.width, self.font );
+        const auto style = df.SuitableStyleForWidth( (int)m_DateAddedColumn.width, self.font );
         self.dateAddedFormattingStyle = style;
     }
     if( _column == m_DateModifiedColumn ) {
-        const auto style = df::SuitableStyleForWidth( (int)m_DateModifiedColumn.width, self.font );
+        const auto style = df.SuitableStyleForWidth( (int)m_DateModifiedColumn.width, self.font );
         self.dateModifiedFormattingStyle = style;
     }
     [self notifyLastColumnToRedraw];
@@ -299,10 +302,27 @@ void DrawTableVerticalSeparatorForView(NSView *v)
     m_Geometry = PanelListViewGeometry( CurrentTheme().FilePanelsListFont(),
                                         m_AssignedLayout.icon_scale );
 
-    m_IconsGenerator->SetIconSize( m_Geometry.IconSize() );
+    [self setupIconsPxSize];
     
     if( m_TableView )
         m_TableView.rowHeight = m_Geometry.LineHeight();
+}
+
+- (void) setupIconsPxSize
+{
+    if( self.window ) {
+        const auto px_size = int(m_Geometry.IconSize() * self.window.backingScaleFactor);
+        m_IconRepository->SetPxSize( px_size );
+    }
+    else {
+        m_IconRepository->SetPxSize( m_Geometry.IconSize() );
+    }
+}
+
+- (void)viewDidMoveToWindow
+{
+    [super viewDidMoveToWindow];
+    [self setupIconsPxSize]; // we call this here due to a possible DPI change
 }
 
 template <typename View>
@@ -404,14 +424,27 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
                     withItem:(const VFSListingItem&)_item
                        andVD:(data::ItemVolatileData&)_vd
 {
-    NSImage* icon = m_IconsGenerator->ImageFor(_item, _vd);
     [_view setFilename:_item.DisplayNameNS()];
-    [_view setIcon:icon];
+
+    if( m_IconRepository->IsValidSlot(_vd.icon) == true ) {
+        [_view setIcon:m_IconRepository->AvailableIconForSlot(_vd.icon)];
+        m_IconRepository->ScheduleIconProduction(_vd.icon, _item);
+    }
+    else {
+        _vd.icon = m_IconRepository->Register(_item);        
+        if( m_IconRepository->IsValidSlot(_vd.icon) == true ) {
+            [_view setIcon:m_IconRepository->AvailableIconForSlot(_vd.icon)];
+            m_IconRepository->ScheduleIconProduction(_vd.icon, _item);
+        }
+        else {
+            [_view setIcon:m_IconRepository->AvailableIconForListingItem(_item)];            
+        }
+    }
 }
 
 - (void) fillDataForSizeView:(PanelListViewSizeView*)_view
                     withItem:(const VFSListingItem&)_item
-                       andVD:(data::ItemVolatileData&)_vd
+                       andVD:(const data::ItemVolatileData&)_vd
 {
     [_view setSizeWithItem:_item andVD:_vd];
 }
@@ -439,11 +472,10 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
 
 - (void) dataChanged
 {
-//    MachTimeBenchmark mtb;
     const auto old_rows_count = (int)m_TableView.numberOfRows;
     const auto new_rows_count = m_Data->SortedEntriesCount();
 
-    m_IconsGenerator->SyncDiscardedAndOutdated( *m_Data );
+    IconRepositoryCleaner{*m_IconRepository, *m_Data}.SweepUnusedSlots();
     
     [m_TableView enumerateAvailableRowViewsUsingBlock:^(PanelListViewRowView *row_view, NSInteger row) {
         if( row >= new_rows_count )
@@ -537,11 +569,10 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
 
 - (NSFont*) font
 {
-//    return [NSFont systemFontOfSize:13];
     return CurrentTheme().FilePanelsListFont();
 }
 
-- (void) onIconUpdated:(uint16_t)_icon_no image:(NSImage*)_image
+- (void) onIconUpdated:(IconRepository::SlotKey)_icon_no image:(NSImage*)_image
 {
     dispatch_assert_main_queue();
     [m_TableView enumerateAvailableRowViewsUsingBlock:^(PanelListViewRowView *rowView, NSInteger row) {
@@ -554,12 +585,7 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
     }];
 }
 
-//- (PanelListViewDateFormatting::Style) dateCreatedFormattingStyle
-//{
-//    return m_DateCreatedFormattingStyle;
-//}
-
-- (void) updateDateTimeViewAtColumn:(NSTableColumn*)_column withStyle:(PanelListViewDateFormatting::Style)_style
+- (void) updateDateTimeViewAtColumn:(NSTableColumn*)_column withStyle:(AdaptiveDateFormatting::Style)_style
 {
 // use this!!!!
 //m_TableView viewAtColumn:<#(NSInteger)#> row:<#(NSInteger)#> makeIfNecessary:<#(BOOL)#>
@@ -572,7 +598,7 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
         }];
 }
 
-- (void) setDateCreatedFormattingStyle:(PanelListViewDateFormatting::Style)dateCreatedFormattingStyle
+- (void) setDateCreatedFormattingStyle:(AdaptiveDateFormatting::Style)dateCreatedFormattingStyle
 {
     if( m_DateCreatedFormattingStyle != dateCreatedFormattingStyle ) {
         m_DateCreatedFormattingStyle = dateCreatedFormattingStyle;
@@ -580,7 +606,7 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
     }
 }
 
-- (void) setDateAddedFormattingStyle:(PanelListViewDateFormatting::Style)dateAddedFormattingStyle
+- (void) setDateAddedFormattingStyle:(AdaptiveDateFormatting::Style)dateAddedFormattingStyle
 {
     if( m_DateAddedFormattingStyle != dateAddedFormattingStyle ) {
         m_DateAddedFormattingStyle = dateAddedFormattingStyle;
@@ -588,7 +614,7 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
     }
 }
 
-- (void) setDateModifiedFormattingStyle:(PanelListViewDateFormatting::Style)dateModifiedFormattingStyle
+- (void) setDateModifiedFormattingStyle:(AdaptiveDateFormatting::Style)dateModifiedFormattingStyle
 {
     if( m_DateModifiedFormattingStyle != dateModifiedFormattingStyle ) {
         m_DateModifiedFormattingStyle = dateModifiedFormattingStyle;
@@ -669,7 +695,7 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
     for( NSTableColumn *c in m_TableView.tableColumns )
         [m_TableView setIndicatorImage:nil inTableColumn:c];
     
-    auto set = [&]()->pair<NSImage*,NSTableColumn*>{
+    auto set = [&]()->std::pair<NSImage*,NSTableColumn*>{
         using _ = data::SortMode;
         switch( m_SortMode.sort ) {
             case _::SortByName:         return {g_SortAscImage,     m_NameColumn};
@@ -682,7 +708,7 @@ static View *RetrieveOrSpawnView(NSTableView *_tv, NSString *_identifier)
             case _::SortByModTimeRev:   return {g_SortAscImage,     m_DateModifiedColumn};
             case _::SortByAddTime:      return {g_SortDescImage,    m_DateAddedColumn};
             case _::SortByAddTimeRev:   return {g_SortAscImage,     m_DateAddedColumn};
-            default: return make_pair(nil, nil);
+            default: return std::make_pair(nil, nil);
         }
     }();
     
@@ -835,11 +861,11 @@ shouldReorderColumn:(NSInteger)columnIndex
         
         auto layout = self.columnsLayout;
         
-        const auto t = find_if(begin(layout.columns),
-                               end(layout.columns),
-                               [&](const auto &_i){ return _i.kind == kind;});
+        const auto t = std::find_if(std::begin(layout.columns),
+                                    std::end(layout.columns),
+                                    [&](const auto &_i){ return _i.kind == kind;});
 
-        if( t != end(layout.columns) ) {
+        if( t != std::end(layout.columns) ) {
             layout.columns.erase(t);
         }
         else {

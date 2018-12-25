@@ -2,12 +2,20 @@
 #pragma once
 
 #include <VFS/VFS.h>
+#include <VFSIcon/IconRepository.h>
 #include "PanelViewTypes.h"
+
+#include <any>
+#include <memory>
+#include <Cocoa/Cocoa.h>
+
 
 @protocol PanelViewDelegate;
 @protocol NCPanelViewKeystrokeSink;
+@class NCPanelControllerActionsDispatcher;
 @class PanelView;
 @class NCPanelViewHeader;
+@class NCPanelViewFooter;
 
 namespace nc::panel {
     struct PanelViewLayout;
@@ -32,14 +40,19 @@ namespace nc::panel {
 @property (nonatomic, readonly) int headerBarHeight;
 @property (nonatomic, readonly) NSProgressIndicator *busyIndicator;
 @property (nonatomic, readonly) NCPanelViewHeader *headerView;
+@property (nonatomic, weak) NCPanelControllerActionsDispatcher* actionsDispatcher;
 
-- (id)initWithFrame:(NSRect)frame layout:(const nc::panel::PanelViewLayout&)_layout;
+- (id)initWithFrame:(NSRect)frame
+     iconRepository:(std::unique_ptr<nc::vfsicon::IconRepository>)_icon_repository
+             header:(NCPanelViewHeader*)_header
+             footer:(NCPanelViewFooter*)_footer;
 
 /**
  * called by controlled when a directory has been entirely changed in PanelData.
  * possibly focusing some file, may be "".
  */
-- (void) panelChangedWithFocusedFilename:(const string&)_focused_filename loadPreviousState:(bool)_load;
+- (void) panelChangedWithFocusedFilename:(const std::string&)_focused_filename
+                       loadPreviousState:(bool)_load;
 
 /**
  * called by controller to inform that internals of panel data object has changed (possibly reloaded).
@@ -70,7 +83,7 @@ namespace nc::panel {
 - (void) startFieldEditorRenaming;
 
 //PanelViewLayout
-- (any) presentationLayout;
+- (std::any) presentationLayout;
 - (void) setPresentationLayout:(const nc::panel::PanelViewLayout&)_layout;
 
 /*

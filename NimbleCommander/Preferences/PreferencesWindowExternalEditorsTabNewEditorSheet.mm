@@ -1,7 +1,8 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-#include "../Core/FileMask.h"
-#include "../Bootstrap/ActivationManager.h"
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PreferencesWindowExternalEditorsTabNewEditorSheet.h"
+#include <Utility/FileMask.h>
+#include "../Bootstrap/ActivationManager.h"
+#include <Utility/StringExtras.h>
 
 @interface PreferencesWindowExternalEditorsTabNewEditorSheetStringNotEmpty : NSValueTransformer
 @end
@@ -28,7 +29,7 @@
 
 - (bool) hasTerminal
 {
-    return ActivationManager::Instance().HasTerminal();
+    return nc::bootstrap::ActivationManager::Instance().HasTerminal();
 }
 
 - (IBAction)OnClose:(id)sender
@@ -38,9 +39,11 @@
 
 - (IBAction)OnOK:(id)sender
 {
-    if( !FileMask::IsWildCard(self.Info.mask.UTF8String) )
-        if(NSString *replace =  [NSString stringWithUTF8StdString:FileMask::ToExtensionWildCard(self.Info.mask.UTF8String)])
+    if( !nc::utility::FileMask::IsWildCard(self.Info.mask.UTF8String) ) {
+        auto ewc = nc::utility::FileMask::ToExtensionWildCard(self.Info.mask.UTF8String);
+        if(NSString *replace =  [NSString stringWithUTF8StdString:ewc])
             self.Info.mask = replace;
+    }
     
     [self endSheet:NSModalResponseOK];
 }

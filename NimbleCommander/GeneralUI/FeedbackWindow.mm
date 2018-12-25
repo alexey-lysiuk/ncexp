@@ -1,7 +1,11 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "../Bootstrap/ActivationManager.h"
 #include "../Core/FeedbackManager.h"
 #include "FeedbackWindow.h"
+#include <chrono>
+#include <Habanero/dispatch_cpp.h>
+
+using namespace std::literals;
 
 @interface FeedbackWindow ()
 @property (nonatomic) IBOutlet NSTabView *tabView;
@@ -32,7 +36,7 @@
     
     if( self.rating == 5 || self.rating == 4) {
         // positive branch
-        if( ActivationManager::ForAppStore() )
+        if( nc::bootstrap::ActivationManager::ForAppStore() )
             [self.tabView selectTabViewItemAtIndex:0];
         else
             [self.tabView selectTabViewItemAtIndex:1];

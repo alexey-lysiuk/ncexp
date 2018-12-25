@@ -1,6 +1,8 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "../../Core/FeedbackManager.h"
 #include "AskingForRatingOverlayView.h"
+#include <cmath>
+#include <Habanero/dispatch_cpp.h>
 
 @interface AskingForRatingOverlayLevelIndicator : NSLevelIndicator
 @end
@@ -26,7 +28,7 @@
     mouseLocation = [self convertPoint:mouseLocation fromView: nil];
     
     auto f = mouseLocation.x / self.bounds.size.width;
-    int n = (int)floor( f * self.maxValue );
+    int n = (int)std::floor( f * self.maxValue );
     self.integerValue = n+1;
 }
 

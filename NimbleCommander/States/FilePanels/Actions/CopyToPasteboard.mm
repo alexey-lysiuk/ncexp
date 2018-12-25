@@ -1,4 +1,4 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "CopyToPasteboard.h"
 #include "../PanelController.h"
 #include "../Helpers/Pasteboard.h"
@@ -42,7 +42,7 @@ bool CopyToPasteboard::ValidateMenuItem( PanelController *_target, NSMenuItem *_
     return Predicate(_target);
 }
 
-void CopyToPasteboard::PerformWithItems( const vector<VFSListingItem> &_items ) const
+void CopyToPasteboard::PerformWithItems( const std::vector<VFSListingItem> &_items ) const
 {
     if( !PasteboardSupport::WriteFilesnamesPBoard(_items, NSPasteboard.generalPasteboard) )
         NSBeep();
@@ -53,11 +53,11 @@ void CopyToPasteboard::Perform( PanelController *_target, id _sender ) const
     PerformWithItems( _target.selectedEntriesOrFocusedEntryWithDotDot );
 }
 
-context::CopyToPasteboard::CopyToPasteboard(const vector<VFSListingItem> &_items):
+context::CopyToPasteboard::CopyToPasteboard(const std::vector<VFSListingItem> &_items):
     m_Items(_items)
 {
     if( _items.empty() )
-        throw invalid_argument("CopyToPasteboard was made with empty items set");
+        throw std::invalid_argument("CopyToPasteboard was made with empty items set");
 }
 
 bool context::CopyToPasteboard::Predicate( PanelController *_target ) const

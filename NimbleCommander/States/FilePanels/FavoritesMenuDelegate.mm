@@ -1,9 +1,11 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/AnyHolder.h>
 #include "PanelDataPersistency.h"
 #include "PanelControllerActionsDispatcher.h"
 #include "Favorites.h"
 #include "FavoritesMenuDelegate.h"
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 using namespace nc::panel;
 
@@ -22,7 +24,7 @@ static NSMenuItem *BuildMenuItem( const FavoriteLocationsStorage::Favorite &_fav
     
     it.target = nil;
     it.action = @selector(OnGoToFavoriteLocation:);
-    it.representedObject = [[AnyHolder alloc] initWithAny:any(_favorite.location->hosts_stack)];
+    it.representedObject = [[AnyHolder alloc] initWithAny:std::any(_favorite.location->hosts_stack)];
     return it;
 }
 
@@ -33,13 +35,13 @@ static NSMenuItem *BuildMenuItem( const FavoriteLocationsStorage::Location &_loc
         it.title = title;
     it.target = nil;
     it.action = @selector(OnGoToFavoriteLocation:);
-    it.representedObject = [[AnyHolder alloc] initWithAny:any(_location.hosts_stack)];
+    it.representedObject = [[AnyHolder alloc] initWithAny:std::any(_location.hosts_stack)];
     return it;
 }
 
 @implementation FavoriteLocationsMenuDelegate
 {
-    vector<NSMenuItem*> m_MenuItems;
+    std::vector<NSMenuItem*> m_MenuItems;
     bool m_MenuIsDirty;
     FavoriteLocationsStorage *m_Storage;
     NSMenuItem* m_ManageItem;
@@ -108,8 +110,8 @@ static NSMenuItem *BuildMenuItem( const FavoriteLocationsStorage::Location &_loc
 
 - (BOOL)menuHasKeyEquivalent:(NSMenu*)menu
                     forEvent:(NSEvent*)event
-                      target:(__nullable id* _Nullable)target
-                      action:(__nullable SEL* _Nullable)action
+                      target:(__nullable id* __nonnull)target
+                      action:(__nullable SEL* __nonnull)action
 {
     return false; // this menu has no hotkeys, so there's no reason to (re)build it upon a keydown.
 }

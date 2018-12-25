@@ -1,10 +1,15 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "NativeFSHelpers.h"
+#include <sys/stat.h>
+#include <sys/param.h>
+#include <sys/mount.h>
 
 namespace nc::ops::copying {
 
-bool ShouldPreallocateSpace(int64_t _bytes_to_write, const NativeFileSystemInfo &_fs_info) noexcept
+bool ShouldPreallocateSpace(int64_t _bytes_to_write,
+                            const utility::NativeFileSystemInfo &_fs_info) noexcept
 {
+    using namespace std::literals;
     const auto min_prealloc_size = 4096;
     if( _bytes_to_write <= min_prealloc_size )
         return false;
@@ -30,14 +35,15 @@ bool TryToPreallocateSpace(int64_t _preallocate_delta, int _file_des) noexcept
     return false;
 }
     
-bool SupportsFastTruncationAfterPreallocation(const NativeFileSystemInfo &_fs_info) noexcept
+bool SupportsFastTruncationAfterPreallocation
+    (const utility::NativeFileSystemInfo &_fs_info) noexcept
 {
     // For some reasons, as of 10.13.2, "apfs" behaves strangely and writes the entire preallocated
     // space (presumably zeroing the space) upon ftruncate() call, which causes a significant and
     // noticable lag. Thus, until something changes in F_PREALLOCATE/ftruncate() implementation on
     // APFS or some clarification on the situation appears, the preallocation is not followed with
     // ftruncate() for this FS.
-    
+    using namespace std::literals;
     static const auto hfs_plus = "hfs"s;
     return _fs_info.fs_type_name == hfs_plus;
 }
@@ -90,8 +96,8 @@ void AdjustFileTimesForNativeFD(int _target_fd, const VFSStat &_with_times)
 }
 
 bool IsAnExternalExtenedAttributesStorage(VFSHost &_host,
-                                          const string &_path,
-                                          const string& _item_name,
+                                          const std::string &_path,
+                                          const std::string &_item_name,
                                           const VFSStat &_st )
 {
     // currently we think that ExtEAs can be only on native VFS
@@ -104,7 +110,7 @@ bool IsAnExternalExtenedAttributesStorage(VFSHost &_host,
         return false;
     
     // check if current filesystem uses external eas
-    auto fs_info = NativeFSManager::Instance().VolumeFromDevID( _st.dev );
+    auto fs_info = utility::NativeFSManager::Instance().VolumeFromDevID( _st.dev );
     if( !fs_info || fs_info->interfaces.extended_attr == true )
         return false;
     

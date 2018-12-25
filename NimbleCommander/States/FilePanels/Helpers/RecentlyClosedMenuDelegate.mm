@@ -1,3 +1,4 @@
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "RecentlyClosedMenuDelegate.h"
 #include "../ListingPromise.h"
 #include "LocationFormatter.h"
@@ -6,6 +7,8 @@
 #include "../MainWindowFilePanelState.h"
 #include "../MainWindowFilePanelState+TabsSupport.h"
 #include <NimbleCommander/Core/AnyHolder.h>
+#include <Utility/ObjCpp.h>
+#include <Utility/StringExtras.h>
 
 using namespace nc::panel;
 
@@ -13,13 +16,13 @@ using namespace nc::panel;
 {
     NSMenu *m_Menu;
     NSMenuItem *m_RestoreLast;
-    shared_ptr<nc::panel::ClosedPanelsHistory> m_Storage;
-    function<MainWindowFilePanelState*()> m_Locator;
+    std::shared_ptr<nc::panel::ClosedPanelsHistory> m_Storage;
+    std::function<MainWindowFilePanelState*()> m_Locator;
 }
 
 - (instancetype) initWithMenu:(NSMenu*)_menu
-                      storage:(shared_ptr<nc::panel::ClosedPanelsHistory>)_storage
-                panelsLocator:(function<MainWindowFilePanelState*()>)_locator
+                      storage:(std::shared_ptr<nc::panel::ClosedPanelsHistory>)_storage
+                panelsLocator:(std::function<MainWindowFilePanelState*()>)_locator
 {
     assert( _menu );
     assert( _storage );
@@ -39,8 +42,8 @@ using namespace nc::panel;
 
 - (BOOL)menuHasKeyEquivalent:(NSMenu*)menu
                     forEvent:(NSEvent*)event
-                      target:(__nullable id* _Nullable)target
-                      action:(__nullable SEL* _Nullable)action
+                      target:(__nullable id* __nonnull)target
+                      action:(__nullable SEL* __nonnull)action
 {
     if( m_RestoreLast.keyEquivalentModifierMask == event.modifierFlags &&
         [m_RestoreLast.keyEquivalent isEqualToString:event.charactersIgnoringModifiers] ) {
@@ -101,7 +104,7 @@ static RestoreClosedTabRequest::Side CurrentSide(MainWindowFilePanelState *_stat
         if( current_state ) {
             item.target = current_state;
             item.action = @selector(respawnRecentlyClosedCallout:);
-            item.representedObject = [[AnyHolder alloc] initWithAny:any{
+            item.representedObject = [[AnyHolder alloc] initWithAny:std::any{
                 RestoreClosedTabRequest(side, listing_promise)
             }];
         }
@@ -129,7 +132,7 @@ static RestoreClosedTabRequest::Side CurrentSide(MainWindowFilePanelState *_stat
         return;
     }
     
-    auto payload = [[AnyHolder alloc] initWithAny:any{
+    auto payload = [[AnyHolder alloc] initWithAny:std::any{
         RestoreClosedTabRequest(CurrentSide(current_state), records.front())
     }];
     objc_cast<NSMenuItem>(_sender).representedObject = payload;

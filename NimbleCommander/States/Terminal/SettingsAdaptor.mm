@@ -1,10 +1,11 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "SettingsAdaptor.h"
 #include <Term/Settings.h>
 #include <NimbleCommander/Core/Theming/Theme.h>
 #include <NimbleCommander/Core/Theming/ThemesManager.h>
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
 #include <NimbleCommander/Bootstrap/Config.h>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::term {
 
@@ -15,8 +16,8 @@ static const auto g_ConfigHideScrollbar = "terminal.hideVerticalScrollbar";
 class SettingsImpl : public DefaultSettings
 {
     ThemesManager::ObservationTicket m_ThemeObservation;
-    vector<GenericConfig::ObservationTicket> m_ConfigObservationTickets;
-    vector<pair<int, function<void()>>> m_Callbacks;
+    std::vector<config::Token> m_ConfigObservationTickets;
+    std::vector<std::pair<int, std::function<void()>>> m_Callbacks;
     int m_LastTicket = 1;
 public:
     SettingsImpl()
@@ -28,11 +29,11 @@ public:
         GlobalConfig().ObserveMany(
             m_ConfigObservationTickets,
             []{ DispatchNotification(); },
-            initializer_list<const char*>{g_ConfigCursorMode}
+            std::initializer_list<const char*>{g_ConfigCursorMode}
         );
     }
     
-    int StartChangesObserving( function<void()> _callback ) override
+    int StartChangesObserving( std::function<void()> _callback ) override
     {
         dispatch_assert_main_queue();
         if( !_callback )
@@ -66,10 +67,10 @@ public:
     static void DispatchNotification()
     {
         if( dispatch_is_main_queue() )
-            dynamic_pointer_cast<SettingsImpl>(TerminalSettings())->FireNotification();
+            std::dynamic_pointer_cast<SettingsImpl>(TerminalSettings())->FireNotification();
         else
             dispatch_to_main_queue([]{
-                dynamic_pointer_cast<SettingsImpl>(TerminalSettings())->FireNotification();
+                std::dynamic_pointer_cast<SettingsImpl>(TerminalSettings())->FireNotification();
             });
     }
     
@@ -104,9 +105,9 @@ public:
     }
 };
     
-shared_ptr<Settings> TerminalSettings()
+std::shared_ptr<Settings> TerminalSettings()
 {
-    static const auto settings = make_shared<SettingsImpl>();
+    static const auto settings = std::make_shared<SettingsImpl>();
     return settings;
 }
 

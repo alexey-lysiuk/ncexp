@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/types.h>
 #include <sys/dirent.h>
 #include <sys/stat.h>
@@ -11,12 +11,16 @@
 #include <Utility/PathManip.h>
 #include <NimbleCommander/Bootstrap/ActivationManager.h>
 #include "TemporaryNativeFileStorage.h"
+#include <thread>
+#include <Habanero/dispatch_cpp.h>
+
+using namespace std::literals;
 
 // hack to access function from libc implementation directly.
 // this func does readdir but without mutex locking
 struct dirent	*_readdir_unlocked(DIR *, int) __DARWIN_INODE64(_readdir_unlocked);
 
-static const string g_Pref = ActivationManager::BundleID() + ".tmp.";
+static const std::string g_Pref = nc::bootstrap::ActivationManager::BundleID() + ".tmp.";
 
 static void DoTempPurge();
 
@@ -61,7 +65,7 @@ static int Extract(
     }
     
     { // xattrs stuff
-        vfs_file->XAttrIterateNames(^bool(const char *name){
+        vfs_file->XAttrIterateNames([&](const char *name) -> bool{
             ssize_t res = vfs_file->XAttrGet(name, bufp, bufsz);
             if(res >= 0)
                 fsetxattr(fd, name, bufp, res, 0, 0);
@@ -96,7 +100,7 @@ static int rmrf(char *path)
 
 TemporaryNativeFileStorage::TemporaryNativeFileStorage()
 {
-    thread(DoTempPurge).detach();
+    std::thread(DoTempPurge).detach();
     
     auto tmp_1st = NewTempDir();
     if(!tmp_1st.empty())
@@ -112,7 +116,7 @@ TemporaryNativeFileStorage &TemporaryNativeFileStorage::Instance()
     return *g_SharedInstance;
 }
 
-string TemporaryNativeFileStorage::NewTempDir()
+std::string TemporaryNativeFileStorage::NewTempDir()
 {
     char pattern_buf[MAXPATHLEN];
     sprintf(pattern_buf, "%s%sXXXXXX", CommonPaths::AppTemporaryDirectory().c_str(), g_Pref.c_str());
@@ -127,7 +131,7 @@ string TemporaryNativeFileStorage::NewTempDir()
 bool TemporaryNativeFileStorage::GetSubDirForFilename(const char *_filename, char *_full_path)
 {
     // check currently owned directories for being able to hold such filename (no collisions)
-    lock_guard<mutex> lock(m_SubDirsLock);
+    std::lock_guard<std::mutex> lock(m_SubDirsLock);
     bool found = false;
     retry:
     for(auto i = begin(m_SubDirs), e = end(m_SubDirs); i != e; ++i) {
@@ -162,20 +166,21 @@ bool TemporaryNativeFileStorage::GetSubDirForFilename(const char *_filename, cha
     return false; // something is very bad with whole system
 }
 
-optional<string> TemporaryNativeFileStorage::WriteStringIntoTempFile( const string& _source)
+std::optional<std::string>
+    TemporaryNativeFileStorage::WriteStringIntoTempFile( const std::string& _source)
 {
-    string filename;
+    std::string filename;
     for(int i = 0; i < 6; ++i)
         filename += 'A' + rand() % ('Z'-'A');
     
     char path[MAXPATHLEN];
     if( !GetSubDirForFilename(filename.c_str(), path) )
-        return nullopt;
+        return std::nullopt;
     strcat(path, filename.c_str());
     
     int fd = open(path, O_EXLOCK|O_NONBLOCK|O_RDWR|O_CREAT, S_IRUSR|S_IWUSR);
     if(fd < 0)
-        return nullopt;
+        return std::nullopt;
     auto close_fd = at_scope_end([=]{ close(fd); });
     
     fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) & ~O_NONBLOCK);
@@ -190,34 +195,35 @@ optional<string> TemporaryNativeFileStorage::WriteStringIntoTempFile( const stri
         }
         else {
             unlink(path);
-            return nullopt;
+            return std::nullopt;
         }
     }
    
-    return string(path);
+    return std::string(path);
 }
 
-optional<string> TemporaryNativeFileStorage::CopySingleFile(const string &_vfs_filepath, VFSHost &_host)
+std::optional<std::string>
+    TemporaryNativeFileStorage::CopySingleFile(const std::string &_vfs_filepath, VFSHost &_host)
 {
     VFSFilePtr vfs_file;
     if( _host.CreateFile(_vfs_filepath.c_str(), vfs_file, 0) < 0 )
-        return nullopt;
+        return std::nullopt;
 
     if( vfs_file->Open(VFSFlags::OF_Read) < 0 )
-        return nullopt;
+        return std::nullopt;
     
     char name[MAXPATHLEN];
     if( !GetFilenameFromPath(_vfs_filepath.c_str(), name) )
-        return nullopt;
+        return std::nullopt;
     
     char native_path[MAXPATHLEN];
     if( !GetSubDirForFilename(name, native_path) )
-       return nullopt;
+       return std::nullopt;
     strcat(native_path, name);
     
     int fd = open(native_path, O_EXLOCK|O_NONBLOCK|O_RDWR|O_CREAT, S_IRUSR|S_IWUSR);
     if( fd < 0 )
-        return nullopt;
+        return std::nullopt;
     
     fcntl(fd, F_SETFL, fcntl(fd, F_GETFL) & ~O_NONBLOCK);
     
@@ -250,19 +256,19 @@ optional<string> TemporaryNativeFileStorage::CopySingleFile(const string &_vfs_f
     }
     
     close(fd);
-    return string(native_path);
+    return std::string(native_path);
     
 error:
     close(fd);
     unlink(native_path);
-    return nullopt;
+    return std::nullopt;
 }
 
-bool TemporaryNativeFileStorage::CopyDirectory(const string &_vfs_dirpath,
+bool TemporaryNativeFileStorage::CopyDirectory(const std::string &_vfs_dirpath,
                                                const VFSHostPtr &_host,
                                                uint64_t _max_total_size,
-                                               function<bool()> _cancel_checker,
-                                               string &_tmp_dirpath)
+                                               std::function<bool()> _cancel_checker,
+                                               std::string &_tmp_dirpath)
 {
     // this is not a-best-of-all implementation.
     // supposed that temp extraction of dirs would be rare thus with much less pressure that extracting of single files
@@ -277,38 +283,40 @@ bool TemporaryNativeFileStorage::CopyDirectory(const string &_vfs_dirpath,
     uint64_t total_size = 0;
     
     struct S {
-        inline S(const path &_src_path, const path &_rel_path, const VFSStat& _st):
+        inline S(const boost::filesystem::path &_src_path,
+                 const boost::filesystem::path &_rel_path,
+                 const VFSStat& _st):
             src_path(_src_path),
             rel_path(_rel_path),
             st(_st)
         {}
-        path src_path;
-        path rel_path;
+        boost::filesystem::path src_path;
+        boost::filesystem::path rel_path;
         VFSStat st;
     };
     
-    path vfs_dirpath = _vfs_dirpath;
-    string top_level_name = vfs_dirpath.filename() == "." ?
+    boost::filesystem::path vfs_dirpath = _vfs_dirpath;
+    std::string top_level_name = vfs_dirpath.filename() == "." ?
         vfs_dirpath.parent_path().filename().native() :
         vfs_dirpath.filename().native();
     
     // traverse source structure
-    vector< S > src;
-    stack< S > traverse_log;
+    std::vector< S > src;
+    std::stack< S > traverse_log;
     
     src.emplace_back(_vfs_dirpath, top_level_name, st_src_dir);
     
     traverse_log.push(src.back());
     while( !traverse_log.empty() ) {
         auto last = traverse_log.top();
-        path dir_path = last.src_path;
+        boost::filesystem::path dir_path = last.src_path;
         traverse_log.pop();
         
         int res = _host->IterateDirectoryListing(dir_path.c_str(), [&](const VFSDirEnt &_dirent) {
             if( _cancel_checker && _cancel_checker() )
                 return false;
             
-            path cur = dir_path / _dirent.name;
+            boost::filesystem::path cur = dir_path / _dirent.name;
             VFSStat st;
             if( _host->Stat(cur.c_str(), st, 0, 0) != 0 )
                 return false; // break directory iterating on any error
@@ -339,7 +347,7 @@ bool TemporaryNativeFileStorage::CopyDirectory(const string &_vfs_dirpath,
         if( _cancel_checker && _cancel_checker() )
             return false;
         
-        path p = path(native_path) / i.rel_path;
+        auto p = boost::filesystem::path(native_path) / i.rel_path;
         
         if( i.st.mode_bits.dir ) {
             if(mkdir(p.c_str(), 0700) != 0)
@@ -357,7 +365,7 @@ bool TemporaryNativeFileStorage::CopyDirectory(const string &_vfs_dirpath,
         }
     }
     
-    _tmp_dirpath = (path(native_path) / top_level_name).native();
+    _tmp_dirpath = (boost::filesystem::path(native_path) / top_level_name).native();
     
     return true;
 }

@@ -1,6 +1,7 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Dock.h"
 #include <Utility/VerticallyCenteredTextFieldCell.h>
+#include <cmath>
 
 @interface NCCoreDockProgressIndicator : NSProgressIndicator
 @end
@@ -158,7 +159,7 @@ static NSView *MakeUnregBadge( NSSize _title_size )
   
     const auto inner_rect = NSMakeRect(clip_rect.origin.x,
                                        clip_rect.origin.y,
-                                       floor(clip_rect.size.width * self.doubleValue),
+                                       std::floor(clip_rect.size.width * self.doubleValue),
                                        clip_rect.size.width);
 
     [inner_color set];

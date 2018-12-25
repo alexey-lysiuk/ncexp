@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFS.h>
@@ -36,8 +36,8 @@ public:
     // PanelData is solely sync class - it does not know about concurrency,
     // any parallelism should be done by callers (i.e. controller)
     // just like Metallica:
-    void Load  (const shared_ptr<VFSListing> &_listing, PanelType _type);
-    void ReLoad(const shared_ptr<VFSListing> &_listing);
+    void Load  (const std::shared_ptr<VFSListing> &_listing, PanelType _type);
+    void ReLoad(const std::shared_ptr<VFSListing> &_listing);
 
     /**
      * Tells whether Model was provided with a valid listing object.  
@@ -47,21 +47,21 @@ public:
     /**
      * Will throw logic_error if called on listing with no common host.
      */
-    const shared_ptr<VFSHost>&      Host() const;
+    const std::shared_ptr<VFSHost>& Host() const;
     const VFSListing&               Listing() const;
-    const shared_ptr<VFSListing>&   ListingPtr() const;
+    const std::shared_ptr<VFSListing>&ListingPtr() const;
     PanelType                       Type() const noexcept;
     
     int RawEntriesCount() const noexcept;
     int SortedEntriesCount() const noexcept;
     
-    const vector<unsigned>& SortedDirectoryEntries() const noexcept;
+    const std::vector<unsigned>& SortedDirectoryEntries() const noexcept;
     
     
     /**
      * EntriesBySoftFiltering return a vector of filtered indeces of sorted entries (not raw ones)
      */
-    const vector<unsigned>& EntriesBySoftFiltering() const noexcept;
+    const std::vector<unsigned>& EntriesBySoftFiltering() const noexcept;
     
     VFSListingItem   EntryAtRawPosition(int _pos) const noexcept; // will return an "empty" item upon invalid index
     ItemVolatileData&       VolatileDataAtRawPosition( int _pos ); // will throw an exception upon invalid index
@@ -72,8 +72,8 @@ public:
     ItemVolatileData&       VolatileDataAtSortPosition( int _pos ); // will throw an exception upon invalid index
     const ItemVolatileData& VolatileDataAtSortPosition( int _pos ) const; // will throw an exception upon invalid index
     
-    vector<string>          SelectedEntriesFilenames() const;
-    vector<VFSListingItem> SelectedEntries() const;
+    std::vector<std::string> SelectedEntriesFilenames() const;
+    std::vector<VFSListingItem> SelectedEntries() const;
     
     /**
      * Will throw an invalid_argument on invalid _pos.
@@ -83,7 +83,7 @@ public:
     /**
      * will redirect ".." upwards
      */
-    string FullPathForEntry(int _raw_index) const;
+    std::string FullPathForEntry(int _raw_index) const;
     
     /**
      * Return _item position in sorted array, -1 if not found.
@@ -125,21 +125,21 @@ public:
     /**
      * return current directory in long variant starting from /
      */
-    string DirectoryPathWithoutTrailingSlash() const;
+    std::string DirectoryPathWithoutTrailingSlash() const;
 
     /**
      * same as DirectoryPathWithoutTrailingSlash() but path will ends with slash
      */
-    string DirectoryPathWithTrailingSlash() const;
+    std::string DirectoryPathWithTrailingSlash() const;
     
     /**
      * return name of a current directory in a parent directory.
      * returns a zero string for a root dir.
      */
-    string DirectoryPathShort() const;
+    std::string DirectoryPathShort() const;
     
     
-    string VerboseDirectoryFullPath() const;
+    std::string VerboseDirectoryFullPath() const;
     
     // sorting
     void SetSortMode(SortMode _mode);
@@ -166,7 +166,7 @@ public:
     // TODO: bool results?????
     
     void CustomFlagsSelectSorted(int _at_sorted_pos, bool _is_selected);
-    bool CustomFlagsSelectSorted(const vector<bool>& _is_selected);
+    bool CustomFlagsSelectSorted(const std::vector<bool>& _is_selected);
     
     void CustomIconClearAll();
     void CustomFlagsClearHighlights();
@@ -195,11 +195,11 @@ private:
     
     // m_Listing container will change every time directory change/reloads,
     // while the following sort-indeces(except for m_EntriesByRawName) will be permanent with it's content changing
-    shared_ptr<VFSListing>      m_Listing;
-    vector<ItemVolatileData>    m_VolatileData;
-    vector<unsigned>            m_EntriesByRawName;    // sorted with raw strcmp comparison
-    vector<unsigned>            m_EntriesByCustomSort; // custom defined sort
-    vector<unsigned>            m_EntriesBySoftFiltering; // points at m_EntriesByCustomSort indeces, not raw ones
+    std::shared_ptr<VFSListing> m_Listing;
+    std::vector<ItemVolatileData>m_VolatileData;
+    std::vector<unsigned>       m_EntriesByRawName;    // sorted with raw strcmp comparison
+    std::vector<unsigned>       m_EntriesByCustomSort; // custom defined sort
+    std::vector<unsigned>       m_EntriesBySoftFiltering; // points at m_EntriesByCustomSort indeces, not raw ones
     struct SortMode             m_CustomSortMode;
     HardFilter                  m_HardFiltering;
     TextualFilter               m_SoftFiltering;

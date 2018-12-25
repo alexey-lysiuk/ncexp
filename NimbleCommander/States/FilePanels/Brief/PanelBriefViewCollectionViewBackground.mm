@@ -1,8 +1,8 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/Theming/Theme.h>
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PanelBriefViewCollectionViewBackground.h"
-#include "PanelBriefViewCollectionViewLayout.h"
-#include "PanelBriefView.h"
+#include "PanelBriefViewLayoutProtocol.h"
+#include <NimbleCommander/Core/Theming/Theme.h>
+#include <Utility/ObjCpp.h>
 
 @implementation PanelBriefViewCollectionViewBackground
 {
@@ -40,14 +40,10 @@
     return objc_cast<NSCollectionView>(self.superview);
 }
 
-- (PanelBriefView*)briefView
+- (NSCollectionViewLayout<NCPanelBriefViewLayoutProtocol>*)viewLayout
 {
-    return objc_cast<PanelBriefView>(self.collectionView.delegate);
-}
-
-- (PanelBriefViewCollectionViewLayout*)viewLayout
-{
-    return objc_cast<PanelBriefViewCollectionViewLayout>(self.collectionView.collectionViewLayout);
+    auto layout = self.collectionView.collectionViewLayout;
+    return objc_cast<NSCollectionViewLayout<NCPanelBriefViewLayoutProtocol>>(layout);
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -72,61 +68,41 @@
     }
 }
 
-- (void)drawGrid:(NSRect)dirtyRect
+- (void)drawGrid:(NSRect)_dirty_rect
 {
     static const bool draws_grid =
         [self.collectionView respondsToSelector:@selector(setBackgroundViewScrollsWithContent:)];
     if( !draws_grid )
         return;
 
+    const auto layout = self.viewLayout;
+    if( layout == nil )
+        return;
+    
+    const auto &column_widths = layout.columnsWidths;
+    const auto &column_origins = layout.columnsPositions;
+    if( column_origins.empty() )
+        return;
+    
     const auto context = NSGraphicsContext.currentContext.CGContext;
-
-    if( const auto cv = self.collectionView ) {
-        if( const auto layout = self.viewLayout ) {
-            if( const auto brief = self.briefView ) {
-                const auto color = CurrentTheme().FilePanelsBriefGridColor();
-                CGContextSetFillColorWithColor(context, color.CGColor);
-                
-                const auto &column_origins = layout.columnPositions;
-                const auto valid_columns = brief.columns;
-                const auto dirty_start = (int)dirtyRect.origin.x;
-                const auto dirty_end = dirty_start + (int)dirtyRect.size.width;
-                for( int i = 0, e = min((int)column_origins.size(), valid_columns); i < e; ++i ) {
-                    const int origin = column_origins[i];
-                    if( origin == numeric_limits<int>::max() )
-                        continue;
-                    if( origin < dirty_start  ) {
-                    }
-                    else if( origin >= dirty_end ) {
-                        break;
-                    }
-                    else {
-                        const auto rc = CGRectMake(origin-1,
-                                                   dirtyRect.origin.y,
-                                                   1,
-                                                   dirtyRect.size.height);
-                        CGContextFillRect(context, rc);
-                    }
-                }
-                
-                if( valid_columns > 0 ) {
-                    const auto &column_widths = layout.columnWidths;
-                    const auto origin = column_origins[valid_columns - 1];
-                    const auto width = column_widths[valid_columns - 1];
-                    if( origin != numeric_limits<int>::max() &&
-                        width != 0 &&
-                        origin >= dirty_start &&
-                        origin + width - 1 < dirty_end ) {
-                        const auto rc = CGRectMake(origin + width - 1,
-                                                   dirtyRect.origin.y,
-                                                   1,
-                                                   dirtyRect.size.height);
-                        CGContextFillRect(context, rc);
-                    }
-                }
-            }
-        }
-    }
+    const auto color = CurrentTheme().FilePanelsBriefGridColor();
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    
+    const auto draw_vline_at = [&](int _x){
+        const auto rc = CGRectMake(_x, _dirty_rect.origin.y, 1, _dirty_rect.size.height);
+        CGContextFillRect(context, rc);                               
+    }; 
+    
+    const auto dirty_start = (int)_dirty_rect.origin.x;
+    const auto dirty_end = dirty_start + (int)_dirty_rect.size.width;
+    const auto first = std::lower_bound(column_origins.begin(), column_origins.end(), dirty_start);
+    const auto last = std::lower_bound(column_origins.begin(), column_origins.end(), dirty_end);
+    for( auto it = first; it < last; ++it )
+        draw_vline_at( *it - 1 );                                        
+    
+    const auto right_border_pos = column_origins.back() + column_widths.back() - 1;
+    if( right_border_pos >= dirty_start && right_border_pos < dirty_end )
+        draw_vline_at( right_border_pos );
 }
 
 - (void) setRowHeight:(int)rowHeight

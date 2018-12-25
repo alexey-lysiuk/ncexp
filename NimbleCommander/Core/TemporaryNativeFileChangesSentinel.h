@@ -1,6 +1,13 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
+#include <Habanero/spinlock.h>
+#include <string>
+#include <functional>
+#include <memory>
+#include <atomic>
+#include <chrono>
+#include <vector>
 
 class TemporaryNativeFileChangesSentinel
 {
@@ -15,31 +22,34 @@ public:
      * @param _check_delay delay on FSEvent after which background content checking should start
      * @param _drop_delay time threshold after which file watch should drop if no file changes occured in that time
      */
-    bool WatchFile( const string& _path, function<void()> _on_file_changed, milliseconds _check_delay = 5s, milliseconds _drop_delay = 1h );
+    bool WatchFile(const std::string& _path,
+                   std::function<void()> _on_file_changed,
+                   std::chrono::milliseconds _check_delay = std::chrono::seconds{5},
+                   std::chrono::milliseconds _drop_delay = std::chrono::hours{1} );
     
     /**
      * Stops file watching. If background checking currently goes on then one more callback event may occur.
      * This method is thread-safe.
      * @param _path filepath to stop watching at
      */
-    bool StopFileWatch( const string& _path );
+    bool StopFileWatch( const std::string& _path );
     
 private:
     struct Meta {
-        string                          path;
-        shared_ptr<function<void()>>    callback;
+        std::string                     path;
+        std::shared_ptr<std::function<void()>>callback;
         uint64_t                        fswatch_ticket = 0;
-        vector<uint8_t>                 last_md5_hash;
-        milliseconds                    drop_time;
-        milliseconds                    check_delay;
-        milliseconds                    drop_delay;
-        atomic_bool                     checking_now;
+        std::vector<uint8_t>            last_md5_hash;
+        std::chrono::milliseconds       drop_time;
+        std::chrono::milliseconds       check_delay;
+        std::chrono::milliseconds       drop_delay;
+        std::atomic_bool                checking_now;
     };
     
-    void FSEventCallback( shared_ptr<Meta> _meta );
-    void BackgroundItemCheck( shared_ptr<Meta> _meta );
-    void ScheduleItemDrop( const shared_ptr<Meta> &_meta );
+    void FSEventCallback( std::shared_ptr<Meta> _meta );
+    void BackgroundItemCheck( std::shared_ptr<Meta> _meta );
+    void ScheduleItemDrop( const std::shared_ptr<Meta> &_meta );
 
     spinlock                    m_WatchesLock;
-    vector<shared_ptr<Meta>>    m_Watches;
+    std::vector<std::shared_ptr<Meta>> m_Watches;
 };

@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFS_fwd.h>
@@ -58,18 +58,18 @@ public:
      */
     const Path* MostRecent() const;
     
-    vector<reference_wrapper<const Path>> All() const;
+    std::vector<std::reference_wrapper<const Path>> All() const;
     
-    const string &LastNativeDirectoryVisited() const noexcept;
+    const std::string &LastNativeDirectoryVisited() const noexcept;
     
     void SetVFSInstanceManager(core::VFSInstanceManager &_mgr);
 private:
-    deque<Path>         m_History;
+    std::deque<Path>    m_History;
      // lesser the index - farther the history entry
      // most recent entry is at .size()-1
     unsigned            m_PlayingPosition = 0; // have meaningful value only when m_IsRecording==false
     bool                m_IsRecording = true;
-    string              m_LastNativeDirectory;
+    std::string         m_LastNativeDirectory;
     enum {              m_HistoryLength = 128 };
     core::VFSInstanceManager *m_VFSMgr = nullptr;
 };

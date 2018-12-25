@@ -1,5 +1,10 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
+
+#include <string>
+#include <vector>
+#include <Habanero/spinlock.h>
+#include <Cocoa/Cocoa.h>
 
 /**
  * SandboxManager has tread-safe public interface.
@@ -18,18 +23,18 @@ public:
      * Returns some (presumably the first) folder user has granted access to.
      * If Empty() then will return "".
      */
-    string FirstFolderWithAccess() const;
+    std::string FirstFolderWithAccess() const;
     
     /**
      * Currently don't work with symlinks, it's a caller's duty.
      */
-    bool CanAccessFolder(const string& _path) const;
+    bool CanAccessFolder(const std::string& _path) const;
     bool CanAccessFolder(const char* _path) const;
     
     /**
      * Will synchronously show NSOpenPanel.
      */
-    bool AskAccessForPathSync(const string& _path, bool _mandatory_path = true);
+    bool AskAccessForPathSync(const std::string& _path, bool _mandatory_path = true);
     
     /**
      * Removes any filesystem access granted by user.
@@ -40,7 +45,7 @@ public:
      * Will immediately return true for non-sandboxed build.
      * Otherwise, will chack access with CanAccessFolder and call AskAccessForPathSync if needed.
      */
-    static bool EnsurePathAccess(const string& _path);
+    static bool EnsurePathAccess(const std::string& _path);
 
 private:
     SandboxManager();
@@ -49,7 +54,7 @@ private:
     {
         NSData*data         = nil;
         NSURL *url          = nil;
-        string path         = "";
+        std::string path    = "";
     };
     
     
@@ -57,8 +62,8 @@ private:
     void SaveSecurityScopeBookmarks();
     void StopUsingBookmarks();
     
-    bool HasAccessToFolder_Unlocked(const string &_p) const;
+    bool HasAccessToFolder_Unlocked(const std::string &_p) const;
     
-    vector<Bookmark>        m_Bookmarks;
+    std::vector<Bookmark>   m_Bookmarks;
     mutable spinlock        m_Lock;
 };

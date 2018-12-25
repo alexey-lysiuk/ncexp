@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/Hash.h>
 #include <Habanero/SerialQueue.h>
 #include <NimbleCommander/Bootstrap/Config.h>
@@ -6,11 +6,12 @@
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include "CalculateChecksumSheetController.h"
+#include <numeric>
 
 static const auto g_ConfigAlgo = "filePanel.general.checksumCalculationAlgorithm";
-const static string g_SumsFilename = "checksums.txt";
+const static std::string g_SumsFilename = "checksums.txt";
 
-const static vector<pair<NSString*,int>> g_Algos = {
+const static std::vector<std::pair<NSString*,int>> g_Algos = {
     {@"Adler32",     Hash::Adler32},
     {@"CRC32",       Hash::CRC32},
     {@"MD2",         Hash::MD2},
@@ -26,26 +27,26 @@ const static vector<pair<NSString*,int>> g_Algos = {
 @implementation CalculateChecksumSheetController
 {
     VFSHostPtr          m_Host;
-    vector<string>      m_Filenames;
-    vector<uint64_t>    m_Sizes;
-    vector<string>      m_Checksums;
-    vector<string>      m_Errors;
-    string              m_Path;
+    std::vector<std::string> m_Filenames;
+    std::vector<uint64_t>m_Sizes;
+    std::vector<std::string> m_Checksums;
+    std::vector<std::string> m_Errors;
+    std::string              m_Path;
     SerialQueue         m_WorkQue;
     uint64_t            m_TotalSize;
 }
 
-- (id)initWithFiles:(vector<string>)files
-          withSizes:(vector<uint64_t>)sizes
+- (id)initWithFiles:(std::vector<std::string>)files
+          withSizes:(std::vector<uint64_t>)sizes
              atHost:(const VFSHostPtr&)host
-             atPath:(string)path
+             atPath:(std::string)path
 {
     self = [super init];
     if(self) {
         m_Host = host;
         m_Filenames = files;
         m_Sizes = sizes;
-        m_TotalSize = accumulate(begin(m_Sizes), end(m_Sizes), 0ull);
+        m_TotalSize = std::accumulate(begin(m_Sizes), end(m_Sizes), 0ull);
         assert(files.size() == sizes.size());
         m_Checksums.resize(m_Filenames.size());
         m_Errors.resize(m_Filenames.size());
@@ -54,13 +55,13 @@ const static vector<pair<NSString*,int>> g_Algos = {
         self.sumsAvailable = false;
         self.didSaved = false;
         m_WorkQue.SetOnWet([=]{
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_to_main_queue([self]{
                 self.isWorking = true;
                 self.sumsAvailable = false;
             });
         });
         m_WorkQue.SetOnDry([=]{
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_to_main_queue([self]{
                 self.isWorking = false;
                 self.sumsAvailable = count_if(begin(m_Checksums), end(m_Checksums), [](auto &i){return !i.empty();}) > 0;
             });
@@ -81,28 +82,30 @@ const static vector<pair<NSString*,int>> g_Algos = {
     int method = g_Algos[self.HashMethod.indexOfSelectedItem].second;
     self.Progress.doubleValue = 0;
     
-//    m_WorkQue->Run([=](auto &_q) {
     m_WorkQue.Run([=]{
-        auto buf = make_unique<uint8_t[]>(chunk_sz);
+        auto buf = std::make_unique<uint8_t[]>(chunk_sz);
         uint64_t total_fed = 0;
         for(auto &i:m_Filenames) {
             if( m_WorkQue.IsStopped() )
                 break;
+            const auto item_index = int(&i - &m_Filenames[0]); 
             
             VFSFilePtr file;
-            int rc = m_Host->CreateFile((path(m_Path) / i).c_str(), file, ^{ return m_WorkQue.IsStopped(); } );
+            int rc = m_Host->CreateFile((boost::filesystem::path(m_Path) / i).c_str(),
+                                        file,
+                                        [self]{ return m_WorkQue.IsStopped(); } );
             if(rc != 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self reportError:rc forFilenameAtIndex:int(&i-&m_Filenames[0])];
+                dispatch_to_main_queue([self, rc, item_index]{
+                    [self reportError:rc forFilenameAtIndex:item_index];
                 });
                 continue;
             }
             
             rc = file->Open( VFSFlags::OF_Read | VFSFlags::OF_ShLock | VFSFlags::OF_NoCache,
-                            ^{ return m_WorkQue.IsStopped(); } );
+                            [self]{ return m_WorkQue.IsStopped(); } );
             if(rc != 0) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self reportError:rc forFilenameAtIndex:int(&i-&m_Filenames[0])];
+                dispatch_to_main_queue([self, rc, item_index]{
+                    [self reportError:rc forFilenameAtIndex:item_index];
                 });
                 continue;
             }
@@ -115,20 +118,22 @@ const static vector<pair<NSString*,int>> g_Algos = {
                     break;
                 h.Feed(buf.get(), rn);
                 total_fed += rn;
-                self.Progress.doubleValue = double(total_fed);
+                dispatch_to_main_queue([self, progress = double(total_fed)]{                
+                    self.Progress.doubleValue = progress;
+                });
             }
             
             if( rn < 0 ) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self reportError:(int)rn forFilenameAtIndex:int(&i-&m_Filenames[0])];
+                dispatch_to_main_queue([self, rn, item_index]{
+                    [self reportError:(int)rn forFilenameAtIndex:item_index];
                 });
                 continue;
             }
         
             auto result = h.Final();
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self reportChecksum:Hash::Hex(result) forFilenameAtIndex:int(&i-&m_Filenames[0])];
+            dispatch_to_main_queue([self, result=std::move(result), item_index]{
+                [self reportChecksum:Hash::Hex(result) forFilenameAtIndex:item_index];
             });
         }
     });
@@ -144,8 +149,8 @@ const static vector<pair<NSString*,int>> g_Algos = {
         [self.HashMethod addItemWithTitle:i.first];
     
     NSString *def_algo = @"MD5";
-    if( auto k = GlobalConfig().GetString(g_ConfigAlgo) )
-        def_algo = [NSString stringWithUTF8String:k->c_str()];
+    if( GlobalConfig().Has(g_ConfigAlgo) )
+        def_algo = [NSString stringWithUTF8String:GlobalConfig().GetString(g_ConfigAlgo).c_str()];
     [self.HashMethod selectItemWithTitle:def_algo];
     
     self.Table.delegate = self;
@@ -180,7 +185,7 @@ const static vector<pair<NSString*,int>> g_Algos = {
     [self endSheet:NSModalResponseCancel];
 }
 
-- (void)reportChecksum:(string)checksum forFilenameAtIndex:(int)ind
+- (void)reportChecksum:(std::string)checksum forFilenameAtIndex:(int)ind
 {
     m_Checksums[ind] = checksum;
     [self.Table reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:ind]
@@ -235,7 +240,7 @@ const static vector<pair<NSString*,int>> g_Algos = {
 - (IBAction)OnSave:(id)sender
 {
     // currently doing all stuff on main thread synchronously. may be bad for some vfs like ftp
-    string str;
+    std::string str;
     for(auto &i: m_Checksums)
         if(!i.empty())
             str += i + "  " + m_Filenames[ &i-&m_Checksums[0] ] + "\n";
@@ -244,7 +249,7 @@ const static vector<pair<NSString*,int>> g_Algos = {
         return;
     
     VFSFilePtr file;
-    m_Host->CreateFile( (path(m_Path) / g_SumsFilename).c_str(), file);
+    m_Host->CreateFile( (boost::filesystem::path(m_Path) / g_SumsFilename).c_str(), file);
     int rc = file->Open(VFSFlags::OF_Write | VFSFlags::OF_NoExist | VFSFlags::OF_Create | S_IWUSR | S_IRUSR | S_IRGRP );
     if(rc < 0) {
         [[Alert alertWithError:VFSError::ToNSError(rc)] runModal];
@@ -258,7 +263,7 @@ const static vector<pair<NSString*,int>> g_Algos = {
     self.didSaved = true;
 }
 
-- (string) savedFilename
+- (std::string) savedFilename
 {
     return g_SumsFilename;
 }

@@ -1,25 +1,29 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/stat.h>
 #include <Habanero/algo.h>
 #include <Habanero/CommonPaths.h>
 #include "SandboxManager.h"
 #include <NimbleCommander/Bootstrap/ActivationManager.h>
+#include <boost/filesystem.hpp>
+#include <Utility/ObjCpp.h>
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
 
 static const auto g_BookmarksKey = @"GeneralSecurityScopeBookmarks";
 
 @interface SandboxManagerPanelDelegate : NSObject<NSOpenSavePanelDelegate>
 
-- (instancetype) initWithPath:(const string &)_path mandatory:(bool)_mandatory;
+- (instancetype) initWithPath:(const std::string &)_path mandatory:(bool)_mandatory;
 
 @end
 
 @implementation SandboxManagerPanelDelegate
 {
-    path m_Path;
+    boost::filesystem::path m_Path;
     bool m_Mandatory;
 }
 
-- (instancetype) initWithPath:(const string &)_path mandatory:(bool)_mandatory
+- (instancetype) initWithPath:(const std::string &)_path mandatory:(bool)_mandatory
 {
     self = [super init];
     if(self) {
@@ -43,7 +47,7 @@ static const auto g_BookmarksKey = @"GeneralSecurityScopeBookmarks";
     if(!m_Mandatory)
         return true;
     
-    path p = _url.path.fileSystemRepresentation;
+    boost::filesystem::path p = _url.path.fileSystemRepresentation;
     if(p.filename() == ".")
         p.remove_filename();
     
@@ -52,7 +56,7 @@ static const auto g_BookmarksKey = @"GeneralSecurityScopeBookmarks";
 
 @end
 
-static string EnsureNoTrailingSlash( string _path )
+static std::string EnsureNoTrailingSlash( std::string _path )
 {
     while( _path.length() > 1 && _path.back() == '/'  )
         _path.pop_back();
@@ -60,7 +64,7 @@ static string EnsureNoTrailingSlash( string _path )
     return _path;
 }
 
-static string MakeRealPathWithoutTrailingSlash( string _path )
+static std::string MakeRealPathWithoutTrailingSlash( std::string _path )
 {
     // check if path is a symlink in fact
     struct stat st;
@@ -138,7 +142,7 @@ bool SandboxManager::Empty() const
     return m_Bookmarks.empty();
 }
 
-bool SandboxManager::AskAccessForPathSync(const string& _path, bool _mandatory_path)
+bool SandboxManager::AskAccessForPathSync(const std::string& _path, bool _mandatory_path)
 {
     if( !dispatch_is_main_queue() ) {
         bool result = false;
@@ -202,7 +206,7 @@ bool SandboxManager::AskAccessForPathSync(const string& _path, bool _mandatory_p
     return false;
 }
 
-bool SandboxManager::HasAccessToFolder_Unlocked(const string &_p) const
+bool SandboxManager::HasAccessToFolder_Unlocked(const std::string &_p) const
 {
     // NB! TODO: consider using more complex comparison, regaring lowercase/uppercase and normalization stuff.
     // currently doesn't accounts this and compares directly with characters
@@ -215,7 +219,7 @@ bool SandboxManager::HasAccessToFolder_Unlocked(const string &_p) const
     
     // look in built-in r/o access
     // also we can do stuff in dedicated temporary directory and in sandbox container
-    static const vector<string> granted_ro = {
+    static const std::vector<std::string> granted_ro = {
         "/bin",
         "/sbin",
         "/usr/bin",
@@ -237,7 +241,7 @@ bool SandboxManager::HasAccessToFolder_Unlocked(const string &_p) const
     return false;
 }
 
-bool SandboxManager::CanAccessFolder(const string& _path) const
+bool SandboxManager::CanAccessFolder(const std::string& _path) const
 {
     LOCK_GUARD(m_Lock) {
         return HasAccessToFolder_Unlocked(_path);
@@ -253,7 +257,7 @@ bool SandboxManager::CanAccessFolder(const char* _path) const
     return false;
 }
 
-string SandboxManager::FirstFolderWithAccess() const
+std::string SandboxManager::FirstFolderWithAccess() const
 {
     LOCK_GUARD(m_Lock) {
         return m_Bookmarks.empty() ? "" : m_Bookmarks.front().path;
@@ -279,9 +283,9 @@ void SandboxManager::StopUsingBookmarks()
     }
 }
 
-bool SandboxManager::EnsurePathAccess(const string& _path)
+bool SandboxManager::EnsurePathAccess(const std::string& _path)
 {
-    if( ActivationManager::Instance().Sandboxed() &&
+    if( nc::bootstrap::ActivationManager::Instance().Sandboxed() &&
         !SandboxManager::Instance().CanAccessFolder(_path) &&
         !SandboxManager::Instance().AskAccessForPathSync(_path) )
         return false;

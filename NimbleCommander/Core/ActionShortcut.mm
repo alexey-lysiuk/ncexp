@@ -1,8 +1,9 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "ActionShortcut.h"
 #include <locale>
+#include <vector>
 #include <codecvt>
 #include <Carbon/Carbon.h>
-#include "ActionShortcut.h"
 
 static_assert( sizeof(ActionShortcut) == 4 );
 
@@ -12,7 +13,7 @@ ActionShortcut::ActionShortcut():
 {
 }
 
-ActionShortcut::ActionShortcut(const string& _from):
+ActionShortcut::ActionShortcut(const std::string& _from):
     ActionShortcut(_from.c_str())
 {
 }
@@ -20,9 +21,9 @@ ActionShortcut::ActionShortcut(const string& _from):
 ActionShortcut::ActionShortcut(const char* _from): // construct from persistency string
     ActionShortcut()
 {
-    wstring_convert<codecvt_utf8_utf16<char16_t>, char16_t> convert;
-    u16string utf16 = convert.from_bytes(_from);
-    u16string_view v(utf16);
+    std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> convert;
+    std::u16string utf16 = convert.from_bytes(_from);
+    std::u16string_view v(utf16);
     uint64_t mod_flags = 0;
     while( !v.empty() ) {
         auto c = v.front();
@@ -65,9 +66,9 @@ ActionShortcut::operator bool() const
     return unicode != 0;
 }
 
-string ActionShortcut::ToPersString() const
+std::string ActionShortcut::ToPersString() const
 {
-    string result;
+    std::string result;
     if( modifiers & NSShiftKeyMask )
         result += u8"⇧";
     if( modifiers & NSControlKeyMask )
@@ -82,9 +83,9 @@ string ActionShortcut::ToPersString() const
     else if( unicode == '\t' )
         result += "\\t";
     else {
-        u16string key_utf16;
+        std::u16string key_utf16;
         key_utf16.push_back(unicode);
-        wstring_convert<codecvt_utf8_utf16<char16_t>,char16_t> convert;
+        std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
         result += convert.to_bytes(key_utf16);
     }
     
@@ -117,7 +118,7 @@ static NSString *StringForModifierFlags(uint64_t flags)
 
 NSString *ActionShortcut::PrettyString() const
 {
-    static const vector< pair<uint16_t, NSString*> > unicode_to_nice_string = {
+    static const std::vector< std::pair<uint16_t, NSString*> > unicode_to_nice_string = {
             {NSLeftArrowFunctionKey,     @"←"},
             {NSRightArrowFunctionKey,    @"→"},
             {NSDownArrowFunctionKey,     @"↓"},

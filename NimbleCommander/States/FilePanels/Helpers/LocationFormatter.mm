@@ -6,27 +6,29 @@
 #include <NimbleCommander/Core/NetworkConnectionIconProvider.h>
 #include "../PanelDataPersistency.h"
 #include <Utility/NativeFSManager.h>
+#include <Utility/StringExtras.h>
+#include <iostream>
+#include <Cocoa/Cocoa.h>
 
 namespace nc::panel::loc_fmt {
 
 static const auto g_IconSize = NSMakeSize(16, 16);
     
 static NSImage *ImageForPromiseAndPath(const core::VFSInstancePromise &_promise,
-                                       const string& _path );
+                                       const std::string& _path );
 static NSImage* ImageForLocation(const PersistentLocation &_location,
                                  const NetworkConnectionsManager &_conn_mgr);
 static NSImage* ImageForVFSPath(const VFSHost &_vfs,
-                                const string &_path);
+                                const std::string &_path);
 static NSString *NonNull(NSString *_string);
     
 ListingPromiseFormatter::Representation
 ListingPromiseFormatter::Render( RenderOptions _options, const ListingPromise &_promise )
 {
     Representation rep;
-    
-    const auto visitor = compose_visitors
-    (
-     [&](const ListingPromise::UniformListing &l) {
+ 
+    // yes, i know about std::visit, but libc++ on macOS requires 10.14+ to use it.
+    auto visit_uniform_listing = [&](const ListingPromise::UniformListing &l) {
          if( (_options & RenderMenuTitle) || (_options & RenderMenuTooltip) ) {
              const auto title = l.promise.verbose_title() + l.directory;
              rep.menu_title = NonNull([NSString stringWithUTF8StdString:title]);
@@ -34,26 +36,31 @@ ListingPromiseFormatter::Render( RenderOptions _options, const ListingPromise &_
          }
          if( _options & RenderMenuIcon )
              rep.menu_icon = ImageForPromiseAndPath(l.promise, l.directory);
-     },
-     [&](const ListingPromise::NonUniformListing &l)
-     {
-         if( (_options & RenderMenuTitle) || (_options & RenderMenuTooltip) ) {
-             static const auto formatter = []{
-                 auto fmt = [[NSNumberFormatter alloc] init];
-                 fmt.usesGroupingSeparator = true;
-                 fmt.groupingSize = 3;
-                 return fmt;
-             }();
-             
-             const auto count = [NSNumber numberWithUnsignedInteger:l.EntriesCount()];
-             rep.menu_title = [NSString stringWithFormat:@"Temporary Panel (%@)",
-                               [formatter stringFromNumber:count]];
-             rep.menu_tooltip = rep.menu_title;
-         }
-     }
-     );
-    boost::apply_visitor(visitor, _promise.Description());
+    };
+    auto visit_nonuniform_listing = [&](const ListingPromise::NonUniformListing &l) {
+        if( (_options & RenderMenuTitle) || (_options & RenderMenuTooltip) ) {
+            static const auto formatter = []{
+                auto fmt = [[NSNumberFormatter alloc] init];
+                fmt.usesGroupingSeparator = true;
+                fmt.groupingSize = 3;
+                return fmt;
+            }();
+            
+            const auto count = [NSNumber numberWithUnsignedInteger:l.EntriesCount()];
+            rep.menu_title = [NSString stringWithFormat:@"Temporary Panel (%@)",
+                              [formatter stringFromNumber:count]];
+            rep.menu_tooltip = rep.menu_title;
+        }
+    };
 
+    auto description = &_promise.Description();
+    if( auto uniform = std::get_if<ListingPromise::UniformListing>(description) )
+        visit_uniform_listing(*uniform);
+    else if( auto nonuniform = std::get_if<ListingPromise::NonUniformListing>(description) )
+        visit_nonuniform_listing(*nonuniform);
+    else
+        std::cerr << "ListingPromiseFormatter::Render: unhandled case" << std::endl;
+    
     return rep;
 }
 
@@ -138,7 +145,7 @@ NetworkConnectionFormatter::Render(RenderOptions _options,
     
 VolumeFormatter::Representation
 VolumeFormatter::Render(RenderOptions _options,
-                        const NativeFileSystemInfo &_volume )
+                        const utility::NativeFileSystemInfo &_volume )
 {
     Representation rep;
     
@@ -161,7 +168,7 @@ VolumeFormatter::Render(RenderOptions _options,
 VFSPromiseFormatter::Representation
 VFSPromiseFormatter::Render(RenderOptions _options,
                             const core::VFSInstancePromise &_promise,
-                            const string &_path)
+                            const std::string &_path)
 {
     Representation rep;
     
@@ -180,7 +187,7 @@ VFSPromiseFormatter::Render(RenderOptions _options,
 VFSPathFormatter::Representation
 VFSPathFormatter::Render(RenderOptions _options,
                          const VFSHost &_vfs,
-                         const string &_path)
+                         const std::string &_path)
 {
     Representation rep;
     
@@ -197,7 +204,7 @@ VFSPathFormatter::Render(RenderOptions _options,
 }
 
 static NSImage *ImageForPromiseAndPath(const core::VFSInstancePromise &_promise,
-                                       const string& _path )
+                                       const std::string& _path )
 {
     if( _promise.tag() == VFSNativeHost::UniqueTag ) {
         static const auto workspace = NSWorkspace.sharedWorkspace;
@@ -219,7 +226,7 @@ static NSImage *ImageForPromiseAndPath(const core::VFSInstancePromise &_promise,
 }
     
 static NSImage* ImageForVFSPath(const VFSHost &_vfs,
-                                const string &_path)
+                                const std::string &_path)
 {
     if( _vfs.IsNativeFS() ) {
         static const auto workspace = NSWorkspace.sharedWorkspace;

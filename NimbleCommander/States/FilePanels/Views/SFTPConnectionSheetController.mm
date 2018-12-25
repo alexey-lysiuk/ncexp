@@ -1,9 +1,10 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/CommonPaths.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
 #include <VFS/NetSFTP.h>
 #include "SFTPConnectionSheetController.h"
+#include <Utility/StringExtras.h>
 
 static const auto g_SSHdir = CommonPaths::Home() + ".ssh/";
 
@@ -21,14 +22,14 @@ static const auto g_SSHdir = CommonPaths::Home() + ".ssh/";
 
 @end
 
-static bool ValidateFileExistence( const string &_filepath )
+static bool ValidateFileExistence( const std::string &_filepath )
 {
     return access(_filepath.c_str(), R_OK) == 0;
 }
 
 @implementation SFTPConnectionSheetController
 {
-    optional<NetworkConnectionsManager::Connection> m_Original;
+    std::optional<NetworkConnectionsManager::Connection> m_Original;
     NetworkConnectionsManager::SFTP m_Connection;
 }
 
@@ -37,8 +38,8 @@ static bool ValidateFileExistence( const string &_filepath )
     self = [super init];
     if(self) {
         
-        string rsa_path = g_SSHdir + "id_rsa";
-        string dsa_path = g_SSHdir + "id_dsa";
+        std::string rsa_path = g_SSHdir + "id_rsa";
+        std::string dsa_path = g_SSHdir + "id_dsa";
         
         if( ValidateFileExistence(rsa_path) )
             self.keypath = [NSString stringWithUTF8StdString:rsa_path];
@@ -126,12 +127,12 @@ static bool ValidateFileExistence( const string &_filepath )
     return NetworkConnectionsManager::Connection( m_Connection );
 }
 
-- (void) setPassword:(string)password
+- (void) setPassword:(std::string)password
 {
     self.passwordEntered = [NSString stringWithUTF8StdString:password];
 }
 
-- (string)password
+- (std::string)password
 {
     return self.passwordEntered ? self.passwordEntered.UTF8String : "";
 }

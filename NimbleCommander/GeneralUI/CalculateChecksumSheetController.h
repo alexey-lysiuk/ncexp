@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <Utility/SheetController.h>
@@ -12,14 +12,14 @@
 @property (nonatomic) bool isWorking;
 @property (nonatomic) bool sumsAvailable;
 @property (nonatomic) bool didSaved;
-@property (nonatomic, readonly) string savedFilename;
+@property (nonatomic, readonly) std::string savedFilename;
 @property (nonatomic) IBOutlet NSTableColumn *filenameTableColumn;
 @property (nonatomic) IBOutlet NSTableColumn *checksumTableColumn;
 
-- (id)initWithFiles:(vector<string>)files
-          withSizes:(vector<uint64_t>)sizes
+- (id)initWithFiles:(std::vector<std::string>)files
+          withSizes:(std::vector<uint64_t>)sizes
              atHost:(const VFSHostPtr&)host
-             atPath:(string)path;
+             atPath:(std::string)path;
 
 - (IBAction)OnClose:(id)sender;
 - (IBAction)OnCalc:(id)sender;

@@ -1,23 +1,24 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Select.h"
-#include <NimbleCommander/Core/FileMask.h>
+#include <Utility/FileMask.h>
 #include "../Views/SelectionWithMaskPopupViewController.h"
 #include "../PanelDataSelection.h"
 #include "../PanelController.h"
 #include "../PanelData.h"
 #include "../PanelView.h"
 #include <VFS/VFS.h>
+#include <Utility/StringExtras.h>
 
 namespace nc::panel::actions {
 
 void SelectAll::Perform( PanelController *_target, id _sender ) const
 {
-    [_target setEntriesSelection: vector<bool>(_target.data.SortedEntriesCount(), true) ];
+    [_target setEntriesSelection: std::vector<bool>(_target.data.SortedEntriesCount(), true) ];
 }
 
 void DeselectAll::Perform( PanelController *_target, id _sender ) const
 {
-    [_target setEntriesSelection: vector<bool>(_target.data.SortedEntriesCount(), false) ];
+    [_target setEntriesSelection: std::vector<bool>(_target.data.SortedEntriesCount(), false) ];
 }
 
 void InvertSelection::Perform( PanelController *_target, id _sender ) const
@@ -42,7 +43,7 @@ void SelectAllByExtension::Perform( PanelController *_target, id _sender ) const
     if( !item )
         return;
     
-    const string extension = item.HasExtension() ? item.Extension() : "";
+    const std::string extension = item.HasExtension() ? item.Extension() : "";
     auto selector = data::SelectionBuilder(_target.data,
                                            _target.ignoreDirectoriesOnSelectionByMask);
     auto selection = selector.SelectionByExtension(extension, m_ResultSelection);
@@ -61,9 +62,9 @@ void SelectAllByMask::Perform( PanelController *_target, id _sender ) const
     __weak PanelController *wp = _target;
     view.handler = [wp, this](NSString *_mask) {
         if( PanelController *panel = wp ) {
-            string mask = _mask.fileSystemRepresentationSafe;
-            if( !FileMask::IsWildCard(mask) )
-                mask = FileMask::ToExtensionWildCard(mask);
+            std::string mask = _mask.fileSystemRepresentationSafe;
+            if( !utility::FileMask::IsWildCard(mask) )
+                mask = utility::FileMask::ToExtensionWildCard(mask);
             
             auto selector = data::SelectionBuilder(panel.data,
                                                    panel.ignoreDirectoriesOnSelectionByMask);

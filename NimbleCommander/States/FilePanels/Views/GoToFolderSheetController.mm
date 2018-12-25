@@ -1,16 +1,19 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "GoToFolderSheetController.h"
 #include <VFS/VFS.h>
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/States/FilePanels/PanelController.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
-#include "GoToFolderSheetController.h"
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 static const auto g_StateGoToKey = "filePanel.goToSheetLastPath";
 
-static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const string& _prefix)
+static std::vector<unsigned> ListDirsWithPrefix
+    (const VFSListing& _listing, const std::string& _prefix)
 {
-    vector<unsigned> result;
+    std::vector<unsigned> result;
     
     NSString *prefix = [NSString stringWithUTF8StdString:_prefix];
     NSRange range = NSMakeRange(0, prefix.length);
@@ -36,8 +39,8 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
 
 @interface GoToFolderSheetController()
 
-@property (nonatomic, readonly) string currentDirectory; // return expanded value
-@property (nonatomic, readonly) string currentFilename;
+@property (nonatomic, readonly) std::string currentDirectory; // return expanded value
+@property (nonatomic, readonly) std::string currentFilename;
 @property (nonatomic) IBOutlet NSTextField *Text;
 @property (nonatomic) IBOutlet NSTextField *Error;
 @property (nonatomic) IBOutlet NSButton *GoButton;
@@ -49,9 +52,9 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
 
 @implementation GoToFolderSheetController
 {
-    function<void()>        m_Handler; // return VFS error code
-    shared_ptr<VFSListing>  m_LastListing;
-    string                  m_RequestedPath;
+    std::function<void()>       m_Handler; // return VFS error code
+    std::shared_ptr<VFSListing> m_LastListing;
+    std::string                 m_RequestedPath;
 }
 @synthesize requestedPath = m_RequestedPath;
 
@@ -68,15 +71,18 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
     [super windowDidLoad];
     CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
-    if( auto last = StateConfig().GetString(g_StateGoToKey) )
-        self.Text.stringValue = [NSString stringWithUTF8StdString:*last];
+    if( StateConfig().Has(g_StateGoToKey) ) {
+        auto path = StateConfig().GetString(g_StateGoToKey);
+        self.Text.stringValue = [NSString stringWithUTF8StdString:path];
+    }
     
     self.Text.delegate = self;
     [self controlTextDidChange:[NSNotification notificationWithName:@"" object:nil]];
     GA().PostScreenView("Go To Folder");
 }
 
-- (void)showSheetWithParentWindow:(NSWindow *)_window handler:(function<void()>)_handler
+- (void)showSheetWithParentWindow:(NSWindow *)_window
+                          handler:(std::function<void()>)_handler
 {
     m_Handler = _handler;
     [_window beginSheet:self.window
@@ -151,14 +157,16 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
     return false;
 }
 
-- (NSMenu*) buildMenuWithElements:(const vector<unsigned>&)_inds ofListing:(const VFSListing&)_listing
+- (NSMenu*) buildMenuWithElements:(const std::vector<unsigned>&)_inds
+                        ofListing:(const VFSListing&)_listing
 {
-    vector<NSString *> filenames;
+    std::vector<NSString *> filenames;
     for(auto i:_inds)
         filenames.emplace_back( _listing.FilenameNS(i) );
 
     sort( begin(filenames), end(filenames), [](auto _1st, auto _2nd) {
-        static auto opts = NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch | NSForcedOrderingSearch;
+        static auto opts = NSCaseInsensitiveSearch | NSNumericSearch |
+                           NSWidthInsensitiveSearch | NSForcedOrderingSearch;
         return [_1st compare:_2nd options:opts] < 0;
     });
     
@@ -195,9 +203,9 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
             [self updateUserInputWithAutocompetion:dir.fileSystemRepresentationSafe];
 }
 
-- (void) updateUserInputWithAutocompetion:(const string&)_dir_name
+- (void) updateUserInputWithAutocompetion:(const std::string&)_dir_name
 {
-    path curr = self.Text.stringValue.fileSystemRepresentationSafe;
+    boost::filesystem::path curr = self.Text.stringValue.fileSystemRepresentationSafe;
     
     if( curr != "/" && curr.has_filename() )
         curr.remove_filename();
@@ -208,9 +216,9 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
     self.Text.stringValue = [NSString stringWithUTF8StdString:curr.native()];
 }
 
-- (string) currentDirectory
+- (std::string) currentDirectory
 {
-    path path = [self.panel expandPath:self.Text.stringValue.fileSystemRepresentationSafe];
+    boost::filesystem::path path = [self.panel expandPath:self.Text.stringValue.fileSystemRepresentationSafe];
     
     if( path == "/" )
         return path.native();
@@ -221,9 +229,9 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
     return path.native();
 }
 
-- (string) currentFilename
+- (std::string) currentFilename
 {
-    path path = [self.panel expandPath:self.Text.stringValue.fileSystemRepresentationSafe];
+    boost::filesystem::path path = [self.panel expandPath:self.Text.stringValue.fileSystemRepresentationSafe];
     
     if( path.has_filename() )
         if( path.native().back() != '/' )
@@ -232,7 +240,7 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
 }
 
 // sync operation with simple caching
-- (VFSListing*) listingFromDir:(const string&)_path
+- (VFSListing*) listingFromDir:(const std::string&)_path
 {
     if( _path.empty() )
         return nullptr;
@@ -249,7 +257,7 @@ static vector<unsigned> ListDirsWithPrefix(const VFSListing& _listing, const str
         return nullptr;
     auto vfs = self.panel.vfs;
     
-    shared_ptr<VFSListing> listing;
+    std::shared_ptr<VFSListing> listing;
     int ret = vfs->FetchDirectoryListing(path.c_str(),
                                          listing,
                                          VFSFlags::F_NoDotDot,

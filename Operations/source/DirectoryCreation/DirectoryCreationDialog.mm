@@ -1,5 +1,7 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "DirectoryCreationDialog.h"
+#include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 @interface NCOpsDirectoryCreationDialog()
 
@@ -11,9 +13,9 @@
 
 @implementation NCOpsDirectoryCreationDialog
 {
-    string m_Result;
-    string m_Suggestion;
-    function<bool(const string&)> m_ValidationCallback;
+    std::string m_Result;
+    std::string m_Suggestion;
+    std::function<bool(const std::string&)> m_ValidationCallback;
 }
 
 @synthesize result = m_Result;

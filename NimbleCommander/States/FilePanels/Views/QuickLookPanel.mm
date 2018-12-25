@@ -1,10 +1,12 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "QuickLookPanel.h"
 #include <Quartz/Quartz.h>
 #include "../MainWindowFilePanelState.h"
 #include "QuickLookVFSBridge.h"
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
 
-static const nanoseconds g_Delay = 100ms;
+static const std::chrono::nanoseconds g_Delay = std::chrono::milliseconds{100};
 
 @class NCPanelQLPanelProxy;
 static NCPanelQLPanelProxy *Proxy();
@@ -16,9 +18,9 @@ static NCPanelQLPanelProxy *Proxy();
 
 @implementation NCPanelQLPanelAdaptor
 {
-    string          m_CurrentPath;
+    std::string     m_CurrentPath;
     VFSHostWeakPtr  m_CurrentHost;
-    atomic_ullong   m_CurrentTicket;
+    std::atomic_ullong m_CurrentTicket;
 }
 
 - (instancetype)init
@@ -56,13 +58,15 @@ static NCPanelQLPanelProxy *Proxy();
         [self doVFSPreview:_path.Path() host:_path.Host() ticket:m_CurrentTicket];
 }
 
-- (void)doNativePreview:(const string&)_path
+- (void)doNativePreview:(const std::string&)_path
 {
     if( const auto path = [NSString stringWithUTF8StdString:_path] )
         [Proxy() setPreviewURL:[NSURL fileURLWithPath:path]];
 }
 
-- (void)doVFSPreview:(const string&)_path host:(const VFSHostPtr&)_host ticket:(uint64_t)_ticket
+- (void)doVFSPreview:(const std::string&)_path
+                host:(const VFSHostPtr&)_host
+              ticket:(uint64_t)_ticket
 {
     dispatch_after(g_Delay,
                    dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),

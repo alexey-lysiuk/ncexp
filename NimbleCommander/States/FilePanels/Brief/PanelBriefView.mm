@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <VFS/VFS.h>
 #include <Habanero/algo.h>
 #include <Utility/FontExtras.h>
@@ -10,40 +10,45 @@
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <NimbleCommander/Core/Theming/Theme.h>
 #include <NimbleCommander/Core/Theming/ThemesManager.h>
-#include "../IconsGenerator2.h"
 #include "PanelBriefView.h"
 #include "PanelBriefViewCollectionView.h"
-#include "PanelBriefViewCollectionViewLayout.h"
 #include "PanelBriefViewCollectionViewItem.h"
 #include "PanelBriefViewCollectionViewBackground.h"
 #include "TextWidthsCache.h"
+#include "../Helpers/IconRepositoryCleaner.h"
+#include "PanelBriefViewFixedWidthLayout.h"
+#include "PanelBriefViewDynamicWidthLayout.h"
+#include "PanelBriefViewFixedNumberLayout.h"
+#include <Utility/ObjCpp.h>
 
 using namespace ::nc::panel;
 using namespace ::nc::panel::brief;
+using ::nc::vfsicon::IconRepository;
 
 // font_size, double_icon, icon_size, line_height, text_baseline
-static const array< tuple<int8_t, int8_t, int8_t, int8_t, int8_t>, 21> g_FixedLayoutData = {{
-    make_tuple(10, 0,  0, 17, 5),
-    make_tuple(10, 1, 16, 17, 5),
-    make_tuple(10, 2, 32, 35, 14),
-    make_tuple(11, 0,  0, 17, 5),
-    make_tuple(11, 1, 16, 17, 5),
-    make_tuple(11, 2, 32, 35, 14),
-    make_tuple(12, 0,  9, 19, 5),
-    make_tuple(12, 1, 16, 19, 5),
-    make_tuple(12, 2, 32, 35, 13),
-    make_tuple(13, 0,  0, 19, 4),
-    make_tuple(13, 1, 16, 19, 4),
-    make_tuple(13, 2, 32, 35, 12),
-    make_tuple(14, 0,  0, 19, 4),
-    make_tuple(14, 1, 16, 19, 4),
-    make_tuple(14, 2, 32, 35, 12),
-    make_tuple(15, 0,  0, 21, 6),
-    make_tuple(15, 1, 16, 21, 6),
-    make_tuple(15, 2, 32, 35, 12),
-    make_tuple(16, 0,  0, 22, 6),
-    make_tuple(16, 1, 16, 22, 6),
-    make_tuple(16, 2, 32, 35, 12)
+using LayoutDataT = std::tuple<int8_t, int8_t, int8_t, int8_t, int8_t>;
+static const std::array<LayoutDataT, 21> g_FixedLayoutData = {{
+    std::make_tuple(10, 0,  0, 17, 5),
+    std::make_tuple(10, 1, 16, 17, 5),
+    std::make_tuple(10, 2, 32, 35, 14),
+    std::make_tuple(11, 0,  0, 17, 5),
+    std::make_tuple(11, 1, 16, 17, 5),
+    std::make_tuple(11, 2, 32, 35, 14),
+    std::make_tuple(12, 0,  9, 19, 5),
+    std::make_tuple(12, 1, 16, 19, 5),
+    std::make_tuple(12, 2, 32, 35, 13),
+    std::make_tuple(13, 0,  0, 19, 4),
+    std::make_tuple(13, 1, 16, 19, 4),
+    std::make_tuple(13, 2, 32, 35, 12),
+    std::make_tuple(14, 0,  0, 19, 4),
+    std::make_tuple(14, 1, 16, 19, 4),
+    std::make_tuple(14, 2, 32, 35, 12),
+    std::make_tuple(15, 0,  0, 21, 6),
+    std::make_tuple(15, 1, 16, 21, 6),
+    std::make_tuple(15, 2, 32, 35, 12),
+    std::make_tuple(16, 0,  0, 22, 6),
+    std::make_tuple(16, 1, 16, 22, 6),
+    std::make_tuple(16, 2, 32, 35, 12)
 }};
 
 static PanelBriefViewItemLayoutConstants BuildItemsLayout(NSFont *_font,
@@ -57,22 +62,22 @@ static PanelBriefViewItemLayoutConstants BuildItemsLayout(NSFont *_font,
     short icon_size = 16;
     short line_height = 20;
     short text_baseline = 4;
-    const int font_size = (int)floor(_font.pointSize+0.5);
+    const int font_size = (int)std::floor(_font.pointSize+0.5);
     
     // check predefined values
     auto pit = find_if(begin(g_FixedLayoutData), end(g_FixedLayoutData), [&](auto &l) {
-        return get<0>(l) == font_size && get<1>(l) == _layout.icon_scale;
+        return std::get<0>(l) == font_size && std::get<1>(l) == _layout.icon_scale;
     });
     
     if( pit != end(g_FixedLayoutData) ) {
         // use hardcoded stuff to mimic Finder's layout
-        icon_size = get<2>(*pit);
-        line_height = get<3>(*pit);
-        text_baseline = get<4>(*pit);
+        icon_size = std::get<2>(*pit);
+        line_height = std::get<3>(*pit);
+        text_baseline = std::get<4>(*pit);
     }
     else {
         // try to calculate something by ourselves
-        auto font_info = FontGeometryInfo( (__bridge CTFontRef)_font );
+        auto font_info = nc::utility::FontGeometryInfo( (__bridge CTFontRef)_font );
         line_height = short(font_info.LineHeight()) + insets[1] + insets[3];
         if( _layout.icon_scale == 1 && line_height < 17 )
             line_height = 17;
@@ -119,12 +124,13 @@ const noexcept
 {
     NSScrollView                       *m_ScrollView;
     PanelBriefViewCollectionView       *m_CollectionView;
-    PanelBriefViewCollectionViewLayout *m_Layout;
+    NSCollectionViewLayout<NCPanelBriefViewLayoutProtocol> *m_Layout;
+    
     PanelBriefViewCollectionViewBackground *m_Background;
     data::Model                        *m_Data;
-    vector<short>                       m_FilenamesPxWidths;
-    short                               m_MaxFilenamePxWidth;
-    IconsGenerator2                    *m_IconsGenerator;
+    std::vector<short>                  m_IntrinsicItemsWidths;
+    IconRepository                     *m_IconsRepository;
+    std::unordered_map<IconRepository::SlotKey, int> m_IconSlotToItemIndexMapping; 
     PanelBriefViewItemLayoutConstants   m_ItemLayout;
     PanelBriefViewColumnsLayout         m_ColumnsLayout;
     __weak PanelView                   *m_PanelView;
@@ -144,16 +150,14 @@ static const auto g_ScrollingBackground =
     [self dataChanged];
 }
 
-- (id)initWithFrame:(NSRect)frameRect andIC:(IconsGenerator2&)_ic
+- (id)initWithFrame:(NSRect)frameRect andIR:(IconRepository&)_ir
 {
     self = [super initWithFrame:frameRect];
     if( !self )
         return nil;
     
-    m_IconsGenerator = &_ic;
-    
-    [self calculateItemLayout];
-    
+    m_IconsRepository = &_ir;
+        
     m_ScrollView = [[NSScrollView alloc] initWithFrame:frameRect];
     m_ScrollView.translatesAutoresizingMaskIntoConstraints = false;
     m_ScrollView.wantsLayer = true;
@@ -164,48 +168,50 @@ static const auto g_ScrollingBackground =
         NSColor.clearColor;
     [self addSubview:m_ScrollView];
     
-    NSDictionary *views = NSDictionaryOfVariableBindings(m_ScrollView);
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(0)-[m_ScrollView]-(0)-|" options:0 metrics:nil views:views]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|-(0)-[m_ScrollView]-(0)-|" options:0 metrics:nil views:views]];
+    const auto views_dict = NSDictionaryOfVariableBindings(m_ScrollView);
+    const auto add_constraints = [&](NSString *_vis_fmt) {
+        const auto constraints = [NSLayoutConstraint constraintsWithVisualFormat:_vis_fmt
+                                                                         options:0
+                                                                         metrics:nil
+                                                                           views:views_dict]; 
+        [self addConstraints:constraints];
+    };
+    add_constraints(@"V:|-(0)-[m_ScrollView]-(0)-|");
+    add_constraints(@"|-(0)-[m_ScrollView]-(0)-|");
     
     m_CollectionView = [[PanelBriefViewCollectionView alloc] initWithFrame:frameRect];
     m_CollectionView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     m_CollectionView.dataSource = self;
     m_CollectionView.delegate = self;
     
-    m_Background = [[PanelBriefViewCollectionViewBackground alloc] initWithFrame:NSMakeRect(0, 0, 100, 100)];
-    m_Background.rowHeight = m_ItemLayout.item_height;
+    m_Background = [[PanelBriefViewCollectionViewBackground alloc]
+                    initWithFrame:NSMakeRect(0, 0, 100, 100)];
     m_CollectionView.backgroundView = m_Background;
     m_CollectionView.backgroundColors = @[NSColor.clearColor];
     
-    m_Layout = [[PanelBriefViewCollectionViewLayout alloc] init];
-    m_Layout.itemSize = NSMakeSize(100, m_ItemLayout.item_height);
-    m_CollectionView.collectionViewLayout = m_Layout;
+    [self calculateItemLayout];    
+        
     [m_CollectionView registerClass:PanelBriefViewItem.class forItemWithIdentifier:@"A"];
     
     m_ScrollView.documentView = m_CollectionView;
     
     __weak PanelBriefView* weak_self = self;
-    m_IconsGenerator->SetUpdateCallback([=](uint16_t _icon_no, NSImage* _icon){
+    m_IconsRepository->SetUpdateCallback([=](IconRepository::SlotKey _icon_no,
+                                             NSImage* _icon){
         if( auto strong_self = weak_self )
             [strong_self onIconUpdated:_icon_no image:_icon];
-    });
+    });    
     m_ThemeObservation = NCAppDelegate.me.themesManager.ObserveChanges(
         ThemesManager::Notifications::FilePanelsBrief|
         ThemesManager::Notifications::FilePanelsGeneral,
         objc_callback(self, @selector(themeDidChange)));
     
-    [NSNotificationCenter.defaultCenter addObserver:self
-                                           selector:@selector(frameDidChange)
-                                               name:NSViewFrameDidChangeNotification
-                                             object:self];
     return self;
 }
 
 -(void) dealloc
 {
     [m_PanelView removeObserver:self forKeyPath:@"active"];
-    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (BOOL)isOpaque
@@ -222,7 +228,10 @@ static const auto g_ScrollingBackground =
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
 {
     if( [keyPath isEqualToString:@"active"] ) {
         const bool active = m_PanelView.active;
@@ -231,12 +240,14 @@ static const auto g_ScrollingBackground =
     }    
 }
 
-- (NSInteger)collectionView:(NSCollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (NSInteger)collectionView:(NSCollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section
 {
     return m_Data ? m_Data->SortedDirectoryEntries().size() : 0;
 }
 
-- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
+- (NSCollectionViewItem *)collectionView:(NSCollectionView *)collectionView
+     itemForRepresentedObjectAtIndexPath:(NSIndexPath *)indexPath
 {
     PanelBriefViewItem *item = [collectionView makeItemWithIdentifier:@"A" forIndexPath:indexPath];
     assert(item);
@@ -248,109 +259,150 @@ static const auto g_ScrollingBackground =
             
             auto &vd = m_Data->VolatileDataAtSortPosition(index);
             
-            NSImage *icon = m_IconsGenerator->ImageFor(vfs_item, vd);
-            
+            if( m_IconsRepository->IsValidSlot(vd.icon) == false )
+                vd.icon = m_IconsRepository->Register(vfs_item); 
+
+            if( m_IconsRepository->IsValidSlot(vd.icon) == true ) {
+                [item setIcon:m_IconsRepository->AvailableIconForSlot(vd.icon)];
+                m_IconsRepository->ScheduleIconProduction(vd.icon, vfs_item);
+                m_IconSlotToItemIndexMapping[vd.icon] = index;
+            }
+            else {
+                [item setIcon:m_IconsRepository->AvailableIconForListingItem(vfs_item)];
+            }
+                        
             [item setVD:vd];
-            [item setIcon:icon];
         }
         [item setPanelActive:m_PanelView.active];
     }
     
-//    - (NSImageRep*) itemRequestsIcon:(PanelBriefViewItem*)_item;
-    
-
-//    mtb.ResetMicro("setting up PanelBriefViewItem ");
-    
     return item;
 }
 
-- (CGFloat)collectionView:(NSCollectionView *)collectionView
-                   layout:(NSCollectionViewLayout*)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section
+static std::vector<CFStringRef> GatherDisplayFilenames(const data::Model *_data)
 {
-    return 0;
-}
-
-- (CGFloat)collectionView:(NSCollectionView *)collectionView
-                   layout:(NSCollectionViewLayout*)collectionViewLayout
-minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    return 0;
+    if( _data == nullptr )
+        return {};
+    
+    const auto &sorted_idices = _data->SortedDirectoryEntries();
+    const auto &listing = _data->Listing();
+    const auto count = (int)sorted_idices.size();
+    auto strings = std::vector<CFStringRef>(count, nullptr);
+    for( int i = 0; i < count; ++i )
+        strings[i] = listing.DisplayFilenameCF( sorted_idices[i] );
+    return strings;
 }
 
 - (void) calculateFilenamesWidths
 {
-    const auto min_width = 50;
-
-    const auto count = m_Data ? (int)m_Data->SortedDirectoryEntries().size() : 0;
-    vector<reference_wrapper<const string>> strings;
-    strings.reserve(count);
-    for( auto i = 0; i < count; ++i )
-        strings.emplace_back( ref(m_Data->EntryAtSortPosition(i).DisplayName()) );
+    const auto strings = GatherDisplayFilenames(m_Data);
+    const auto count = (int)strings.size();
     
-    m_FilenamesPxWidths = TextWidthsCache::Instance().Widths(strings,
-                                                             CurrentTheme().FilePanelsBriefFont());
-    
-    auto max_it = max_element( begin(m_FilenamesPxWidths), end(m_FilenamesPxWidths) );
-    m_MaxFilenamePxWidth = max_it != end(m_FilenamesPxWidths) ? *max_it : min_width;
-}
-
-- (NSSize)collectionView:(NSCollectionView *)collectionView
-                  layout:(NSCollectionViewLayout*)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    const auto &layout = m_ItemLayout;
-    const auto index = (int)indexPath.item;
-    
-    switch( m_ColumnsLayout.mode ) {
-        case PanelBriefViewColumnsLayout::Mode::DynamicWidth: {
-            assert( index < (int)m_FilenamesPxWidths.size() );
-            short width = m_ColumnsLayout.dynamic_width_equal ?
-                m_MaxFilenamePxWidth :
-                m_FilenamesPxWidths[index];
-            width += 2*layout.inset_left + layout.icon_size + layout.inset_right;
-            width = clamp(width,
-                          m_ColumnsLayout.dynamic_width_min,
-                          m_ColumnsLayout.dynamic_width_max );
-            return NSMakeSize( width, layout.item_height );
-        }
-        case PanelBriefViewColumnsLayout::Mode::FixedWidth: {
-            return NSMakeSize( m_ColumnsLayout.fixed_mode_width, layout.item_height );
-        }
-        case PanelBriefViewColumnsLayout::Mode::FixedAmount: {
-            assert( m_ColumnsLayout.fixed_amount_value != 0);
-            const int rows_count = m_Layout.rowsCount;
-            const int colums_per_screen = m_ColumnsLayout.fixed_amount_value;
-            const int screen_width = (int)self.bounds.size.width;
-            const int column = index / rows_count;
-            const int column_in_chunk = column % colums_per_screen;
-            const int width_per_col = screen_width / colums_per_screen;
-            const int remainer = screen_width % colums_per_screen;
-            return NSMakeSize(width_per_col + (column_in_chunk >= remainer ? 0 : 1),
-                              layout.item_height );
-        }
-        default:
-            break;
+    if( count == 0 ) {
+        m_IntrinsicItemsWidths.clear();
+        return;
     }
     
-    return {50, 20};
+    const auto font = CurrentTheme().FilePanelsBriefFont();
+    auto widths = TextWidthsCache::Instance().Widths(strings, font);
+    assert( (int)widths.size() == count );
+    
+    const auto &layout = m_ItemLayout;
+    const short width_addition = 2 * layout.inset_left +  layout.icon_size + layout.inset_right;     
+    if( m_ColumnsLayout.dynamic_width_equal ) {
+        const auto max_width = *std::max_element( widths.begin(), widths.begin() );
+        const short width =  max_width + width_addition;
+        std::fill(widths.begin(), widths.end(), width);
+    }
+    else {
+        std::for_each(widths.begin(), widths.end(),
+                      [width_addition](auto &width){ width += width_addition; } );
+    }
+    m_IntrinsicItemsWidths = std::move(widths);
+}
+
+- (std::vector<short>&)collectionViewProvideIntrinsicItemsWidths:(NSCollectionView *)collectionView
+{
+    return m_IntrinsicItemsWidths;
+}
+
+- (void) updateItemsLayoutEngine
+{
+    const auto columns_layout = m_ColumnsLayout;
+    if( columns_layout.mode == PanelBriefViewColumnsLayout::Mode::FixedWidth ) {
+        if( auto fixed_width = objc_cast<NCPanelBriefViewFixedWidthLayout>(m_Layout) ) {
+            fixed_width.itemWidth = columns_layout.fixed_mode_width;
+            fixed_width.itemHeight = m_ItemLayout.item_height;
+        }
+        else {
+            auto layout = [[NCPanelBriefViewFixedWidthLayout alloc] init];
+            layout.itemHeight = m_ItemLayout.item_height;
+            layout.itemWidth = columns_layout.fixed_mode_width;
+            layout.layoutDelegate = self;
+            m_Layout = layout;
+            m_CollectionView.collectionViewLayout = layout;
+        }
+    }
+    else if( columns_layout.mode == PanelBriefViewColumnsLayout::Mode::FixedAmount ) {
+        if( auto fixed_number = objc_cast<NCPanelBriefViewFixedNumberLayout>(m_Layout) ) {
+            fixed_number.columnsPerScreen = columns_layout.fixed_amount_value;
+            fixed_number.itemHeight = m_ItemLayout.item_height;
+        }
+        else {
+            auto layout = [[NCPanelBriefViewFixedNumberLayout alloc] init];
+            layout.itemHeight = m_ItemLayout.item_height;
+            layout.columnsPerScreen = columns_layout.fixed_amount_value;
+            layout.layoutDelegate = self;
+            m_Layout = layout;
+            m_CollectionView.collectionViewLayout = layout;
+        }
+    }
+    else if( columns_layout.mode == PanelBriefViewColumnsLayout::Mode::DynamicWidth ) {
+        if( auto dynamic_width = objc_cast<NCPanelBriefViewDynamicWidthLayout>(m_Layout) ) {
+            dynamic_width.itemMinWidth  = columns_layout.dynamic_width_min;
+            dynamic_width.itemMaxWidth = columns_layout.dynamic_width_max;
+            dynamic_width.itemHeight = m_ItemLayout.item_height;
+        }
+        else {
+            auto layout = [[NCPanelBriefViewDynamicWidthLayout alloc] init];
+            layout.itemHeight = m_ItemLayout.item_height;
+            layout.itemMinWidth  = columns_layout.dynamic_width_min;
+            layout.itemMaxWidth = columns_layout.dynamic_width_max;            
+            layout.layoutDelegate = self;
+            m_Layout = layout;
+            m_CollectionView.collectionViewLayout = layout;
+        }        
+    }
 }
 
 - (void) calculateItemLayout
 {
     m_ItemLayout = BuildItemsLayout(CurrentTheme().FilePanelsBriefFont(), m_ColumnsLayout);
-    m_IconsGenerator->SetIconSize( m_ItemLayout.icon_size );
+    [self updateItemsLayoutEngine];
+    
+    [self setupIconsPxSize];
 
-    if( m_Background )
-        m_Background.rowHeight = m_ItemLayout.item_height;
+    m_Background.rowHeight = m_ItemLayout.item_height;
     
-    if( m_Layout )
-        m_Layout.itemSize = NSMakeSize(100, m_ItemLayout.item_height);
-    
-    if( m_CollectionView )
-        for( PanelBriefViewItem *i in m_CollectionView.visibleItems )
-            [i updateItemLayout];
-    
+    for( PanelBriefViewItem *i in m_CollectionView.visibleItems )
+        [i updateItemLayout];    
+}
+
+- (void) setupIconsPxSize
+{
+    if( self.window ) {
+        const auto px_size = int(m_ItemLayout.icon_size * self.window.backingScaleFactor);
+        m_IconsRepository->SetPxSize(px_size);
+    }
+    else {
+        m_IconsRepository->SetPxSize(m_ItemLayout.icon_size);
+    }
+}
+
+- (void)viewDidMoveToWindow
+{
+    [super viewDidMoveToWindow];
+    [self setupIconsPxSize]; // we call this here due to a possible DPI change
 }
 
 - (void) dataChanged
@@ -358,7 +410,8 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     dispatch_assert_main_queue();
     assert( m_Data );
     [self calculateFilenamesWidths];
-    m_IconsGenerator->SyncDiscardedAndOutdated( *m_Data );
+    m_IconSlotToItemIndexMapping.clear();
+    IconRepositoryCleaner{*m_IconsRepository, *m_Data}.SweepUnusedSlots();
     [m_CollectionView reloadData];
     [self syncVolatileData];
     [m_Background setNeedsDisplay:true];
@@ -372,37 +425,56 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
          return -1;
 }
 
-- (void) setCursorPosition:(int)cursorPosition
+- (void) ensureItemIsVisible:(int)_item_index
 {
-    if( self.cursorPosition == cursorPosition )
+    if( _item_index < 0 )
+        return;
+    
+    const auto visible_rect = m_ScrollView.documentVisibleRect;
+    const auto item_rect = [m_CollectionView frameForItemAtIndex:_item_index];
+    if( !NSContainsRect(visible_rect, item_rect) ) {
+        const auto index_path = [NSIndexPath indexPathForItem:_item_index inSection:0];
+        const auto indices = [NSSet setWithObject:index_path];
+        if( visible_rect.size.width >= item_rect.size.width ) {
+            const auto scroll_mode = [&]{
+                if( item_rect.origin.x < visible_rect.origin.x )
+                    return NSCollectionViewScrollPositionLeft;
+                if( NSMaxX(item_rect) > NSMaxX(visible_rect) )
+                    return NSCollectionViewScrollPositionRight;
+                return NSCollectionViewScrollPositionCenteredHorizontally;
+            }();
+            [m_CollectionView scrollToItemsAtIndexPaths:indices
+                                         scrollPosition:scroll_mode];
+        }
+        else {
+            // TODO: this call can be redundant.
+            // Need to check whether the scroll position is already optimal
+            [m_CollectionView scrollToItemsAtIndexPaths:indices
+                                         scrollPosition:NSCollectionViewScrollPositionLeft];
+        }
+    }
+}
+
+- (void) setCursorPosition:(int)_cursor_position
+{
+    if( self.cursorPosition == _cursor_position )
         return;
     
     const auto entries_count = [m_CollectionView numberOfItemsInSection:0];
     
-    if( cursorPosition >= 0 && cursorPosition >= entries_count ) {
+    if( _cursor_position >= 0 && _cursor_position >= entries_count ) {
         // currently data<->cursor invariant is temporary broken => skipping this request
         return;
     }
     
-    if( cursorPosition < 0 )
+    if( _cursor_position < 0 ) {
         m_CollectionView.selectionIndexPaths = [NSSet set];
+    }
     else {
-        const auto ind = [NSSet setWithObject:[NSIndexPath indexPathForItem:cursorPosition
-                                                                  inSection:0]];
-        m_CollectionView.selectionIndexPaths = ind;
-        
-        const auto vis_rect = m_ScrollView.documentVisibleRect;
-        const auto item_rect = [m_CollectionView frameForItemAtIndex:cursorPosition];
-        if( !NSContainsRect(vis_rect, item_rect) ) {
-            const auto scroll_mode = [&]{
-                if( item_rect.origin.x < vis_rect.origin.x )
-                    return NSCollectionViewScrollPositionLeft;
-                if( NSMaxX(item_rect) > NSMaxX(vis_rect) )
-                    return NSCollectionViewScrollPositionRight;
-                return NSCollectionViewScrollPositionCenteredHorizontally;
-            }();
-            [m_CollectionView scrollToItemsAtIndexPaths:ind scrollPosition:scroll_mode];
-        }
+        const auto index_path = [NSIndexPath indexPathForItem:_cursor_position inSection:0];
+        const auto indices = [NSSet setWithObject:index_path];
+        m_CollectionView.selectionIndexPaths = indices;
+        [self ensureItemIsVisible:_cursor_position];
     }
 }
 
@@ -426,18 +498,7 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 
 - (int) itemsInColumn
 {
-    return m_Layout.rowsCount;
-}
-
-- (int) columns
-{
-    if( !m_Data )
-        return 1;
-    
-    const auto items_total = m_Data->SortedDirectoryEntries().size();
-    const auto items_in_column = self.itemsInColumn;
-    
-    return (int)(items_total/items_in_column) + (items_total % items_in_column ? 1 : 0);
+    return m_Layout.rowsNumber;
 }
 
 - (void) syncVolatileData
@@ -452,7 +513,8 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
         }
 }
 
-- (void)collectionView:(NSCollectionView *)collectionView didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
+- (void)collectionView:(NSCollectionView *)collectionView
+didSelectItemsAtIndexPaths:(NSSet<NSIndexPath *> *)indexPaths
 {
 }
 
@@ -461,76 +523,15 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     return m_ItemLayout;
 }
 
-- (void) onIconUpdated:(uint16_t)_icon_no image:(NSImage*)_image
+- (void) onIconUpdated:(IconRepository::SlotKey)_icon_no image:(NSImage*)_image
 {
     dispatch_assert_main_queue();
-    for( PanelBriefViewItem *i in m_CollectionView.visibleItems )
-        if( NSIndexPath *index_path = [m_CollectionView indexPathForItem:i]) {
-            const auto index = (int)index_path.item;
-            if( m_Data->IsValidSortPosition(index) ) {
-                auto &vd = m_Data->VolatileDataAtSortPosition(index);
-                if( vd.icon == _icon_no ) {
-                    [i setIcon:_image];
-                    break;
-                }
-            }
+    const auto it = m_IconSlotToItemIndexMapping.find(_icon_no);
+    if( it != end(m_IconSlotToItemIndexMapping) ) {
+        const auto index = [NSIndexPath indexPathForItem:it->second inSection:0];        
+        if( auto item = objc_cast<PanelBriefViewItem>([m_CollectionView itemAtIndexPath:index]) ) {
+            [item setIcon:_image];
         }
-}
-
-- (void) updateFixedAmountLayout
-{
-    // find a column to stick with
-    const auto &column_positions = m_Layout.columnPositions;
-    optional<int> column_stick;
-    if( !column_positions.empty() ) {
-        const auto visible_rect = m_ScrollView.documentVisibleRect;
-        const auto it = find_if( begin(column_positions), end(column_positions), [=](auto v) {
-            return v != numeric_limits<int>::max() && v >= visible_rect.origin.x;
-        });
-        if( it != end(column_positions) )
-            column_stick = (int)distance( begin(column_positions), it );
-    }
-    
-    // find delta between that column origin and visible rect
-    const auto previous_scroll_position = m_ScrollView.contentView.bounds.origin;
-    const auto previous_delta = column_stick ?
-        column_positions[*column_stick] - int(previous_scroll_position.x) :
-        0;
-    
-    // rearrange stuff now
-    [m_Layout invalidateLayout];
-    [self layoutSubtreeIfNeeded];
-    
-    // find a new delta between sticked column and visible rect
-    const auto new_scroll_position = m_ScrollView.contentView.bounds.origin;
-    const auto new_delta = (column_stick &&
-                            *column_stick < (int)column_positions.size() &&
-                            column_positions[*column_stick] != numeric_limits<int>::max() ) ?
-        column_positions[*column_stick] - int(new_scroll_position.x) :
-        0;
-    
-    // if there is the difference - adjust scroll position
-    if( previous_delta != new_delta ) {
-        const auto new_pos = NSMakePoint(new_scroll_position.x + new_delta - previous_delta,
-                                         new_scroll_position.y);
-        [m_ScrollView.documentView scrollPoint:new_pos];
-    }
-}
-
-- (void)frameDidChange
-{
-    // special treating for FixedAmount layout mode
-    if( m_ColumnsLayout.mode == PanelBriefViewColumnsLayout::Mode::FixedAmount ) {
-        if( !self.window.visible )
-            // the is really a HACK:
-            // we have to push update into next cycle, since it could be ignored if triggered in
-            // the middle of another update cycle, which happens on resize during initial layout.
-            // sadface.
-            dispatch_to_main_queue([=]{
-                [self updateFixedAmountLayout];
-            });
-        else
-            [self updateFixedAmountLayout];
     }
 }
 
@@ -591,13 +592,13 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
     const auto cur_pos = self.cursorPosition;
     if( cur_pos < 0 ) {
-        return m_Layout.rowsCount;
+        return m_Layout.rowsNumber;
     }
     else {
-        const auto items_per_column = m_Layout.rowsCount;
+        const auto items_per_column = m_Layout.rowsNumber;
         const auto prob_vis_items = ( NSArray<PanelBriefViewItem*> *) m_CollectionView.visibleItems;
         const auto vis_rect = m_ScrollView.documentVisibleRect;
-        vector<int> visible_item_columns;
+        std::vector<int> visible_item_columns;
         
         for( PanelBriefViewItem* i in prob_vis_items ) {
             const auto item_rect = i.view.frame;
@@ -624,6 +625,14 @@ minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
     m_Background.needsDisplay = true;
     if( g_ScrollingBackground )
         m_ScrollView.backgroundColor = CurrentTheme().FilePanelsBriefRegularEvenRowBackgroundColor();
+}
+
+- (void)collectionViewDidLayoutItems:(NSCollectionView *)collectionView
+{    
+    static const bool draws_grid =
+        [m_CollectionView respondsToSelector:@selector(setBackgroundViewScrollsWithContent:)];
+    if( draws_grid )
+        [m_CollectionView.backgroundView setNeedsDisplay:true];
 }
 
 @end

@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/xattr.h>
 #include <Utility/NativeFSManager.h>
 #include <RoutedIO/RoutedIO.h>
@@ -7,7 +7,7 @@
 
 namespace nc::vfs::native {
 
-File::File(const char* _relative_path, const shared_ptr<NativeHost> &_host):
+File::File(const char* _relative_path, const std::shared_ptr<NativeHost> &_host):
     VFSFile(_relative_path, _host),
     m_FD(-1),
     m_Position(0),
@@ -23,7 +23,7 @@ File::~File()
 int File::Open(unsigned long _open_flags, const VFSCancelChecker &_cancel_checker)
 {
     auto &io = RoutedIO::Default;
-    auto fs_info = NativeFSManager::Instance().VolumeFromPath(Path());
+    auto fs_info = utility::NativeFSManager::Instance().VolumeFromPath(Path());
     
     int openflags = O_NONBLOCK;
     
@@ -175,10 +175,10 @@ bool File::Eof() const
     return m_Position >= m_Size;
 }
 
-shared_ptr<VFSFile> File::Clone() const
+std::shared_ptr<VFSFile> File::Clone() const
 {
-    return make_shared<File>(Path(),
-                             dynamic_pointer_cast<VFSNativeHost>(Host()));
+    return std::make_shared<File>(Path(),
+                                  std::dynamic_pointer_cast<VFSNativeHost>(Host()));
 }
 
 unsigned File::XAttrCount() const
@@ -206,7 +206,7 @@ unsigned File::XAttrCount() const
     return count;
 }
 
-void File::XAttrIterateNames( function<bool(const char* _xattr_name)> _handler ) const
+void File::XAttrIterateNames( const XAttrIterateNamesCallback &_handler ) const
 {
     if(m_FD < 0 || !_handler)
         return;

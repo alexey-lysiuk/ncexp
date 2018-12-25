@@ -1,34 +1,33 @@
-// Copyright (C) 2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
-#include <NimbleCommander/Core/rapidjson.h>
+#include <Config/RapidJSON_fwd.h>
 #include <NimbleCommander/States/FilePanels/PanelViewPresentationItemsColoringFilter.h>
 
 #include "Theme.h"
 
 struct ThemePersistence
 {
-    using v = const rapidjson::StandaloneValue &;
+    using Value = nc::config::Value;
     
     /**
     * May return nil;
     */
-    static NSColor *ExtractColor( v _doc, const char *_path );
-    static rapidjson::StandaloneValue EncodeColor( NSColor *_color );
+    static NSColor *ExtractColor( const Value &_doc, const char *_path );
+    static Value EncodeColor( NSColor *_color );
 
     /**
     * May return nil;
     */
-    static NSFont *ExtractFont( v _doc, const char *_path );
-    static rapidjson::StandaloneValue EncodeFont( NSFont *_font );
+    static NSFont *ExtractFont( const Value &_doc, const char *_path );
+    static Value EncodeFont( NSFont *_font );
     
-    static vector<PanelViewPresentationItemsColoringRule> ExtractRules( v _doc, const char *_path );
-    static rapidjson::StandaloneValue EncodeRules(
-        const vector<PanelViewPresentationItemsColoringRule> &_rules );
+    using ColoringRulesT = std::vector<nc::panel::PresentationItemsColoringRule>;
+    static ColoringRulesT ExtractRules(const Value& _doc, const char *_path );
+    static Value EncodeRules( const ColoringRulesT &_rules );
     
-    static ThemeAppearance ExtractAppearance( v _doc, const char *_path  );
-    static rapidjson::StandaloneValue EncodeAppearance(
-        ThemeAppearance _appearance );
+    static ThemeAppearance ExtractAppearance( const Value &_doc, const char *_path  );
+    static Value EncodeAppearance( ThemeAppearance _appearance );
     
 };
 

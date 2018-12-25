@@ -1,9 +1,9 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/States/FilePanels/PanelViewPresentationItemsColoringFilter.h>
-#include "ThemePersistence.h"
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Theme.h"
-
+#include <NimbleCommander/States/FilePanels/PanelViewPresentationItemsColoringFilterPersistence.h>
+#include "ThemePersistence.h"
 #include <Utility/HexadecimalColor.h>
+#include <Config/RapidJSON.h>
 
 static atomic_ulong g_LastGeneration{1};
 
@@ -13,7 +13,7 @@ struct Theme::Internals
     ThemeAppearance m_ThemeAppearanceType;
     NSAppearance *m_Appearance;
 
-    vector<PanelViewPresentationItemsColoringRule> m_ColoringRules;
+    vector<nc::panel::PresentationItemsColoringRule> m_ColoringRules;
     NSColor *m_FilePanelsGeneralDropBorderColor;
     NSColor *m_FilePanelsGeneralOverlayColor;
     NSColor *m_FilePanelsGeneralSplitterColor;
@@ -92,8 +92,8 @@ Theme::Theme( const void *_theme_data, const void *_backup_theme_data ):
     I( make_unique<Internals>() )
 {
     assert( _theme_data && _backup_theme_data );
-    const auto &doc     = *(const rapidjson::StandaloneValue*)_theme_data;
-    const auto &backup  = *(const rapidjson::StandaloneValue*)_backup_theme_data;
+    const auto &doc     = *(const nc::config::Value*)_theme_data;
+    const auto &backup  = *(const nc::config::Value*)_backup_theme_data;
   
     const auto ExtractColor = [&]( const char *_path ) {
         if( auto v = ThemePersistence::ExtractColor(doc, _path) )
@@ -134,8 +134,8 @@ Theme::Theme( const void *_theme_data, const void *_backup_theme_data ):
     auto cr = &doc.FindMember("filePanelsColoringRules_v1")->value;
     if( cr->IsArray() )
         for( auto i = cr->Begin(), e = cr->End(); i != e; ++i ) {
-            auto v = GenericConfig::ConfigValue( *i, rapidjson::g_CrtAllocator );
-            I->m_ColoringRules.emplace_back( PanelViewPresentationItemsColoringRule::FromJSON(v) );
+            auto rule = nc::panel::PresentationItemsColoringRulePersistence{}.FromJSON(*i);            
+            I->m_ColoringRules.emplace_back( std::move(rule) );
         }
     // always have a default ("others") non-filtering filter at the back
     I->m_ColoringRules.emplace_back();
@@ -348,7 +348,7 @@ NSColor *Theme::FilePanelsGeneralDropBorderColor() const noexcept
     return I->m_FilePanelsGeneralDropBorderColor;
 }
 
-const vector<Theme::ColoringRules>& Theme::FilePanelsItemsColoringRules() const noexcept
+const vector<Theme::ColoringRule>& Theme::FilePanelsItemsColoringRules() const noexcept
 {
     return I->m_ColoringRules;
 }

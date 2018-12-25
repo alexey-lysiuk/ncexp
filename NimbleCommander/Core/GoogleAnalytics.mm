@@ -1,12 +1,14 @@
 // Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/SystemInformation.h>
 #include <NimbleCommander/Bootstrap/ActivationManager.h>
+#include <NimbleCommander/Bootstrap/NCE.h>
 #include "GoogleAnalytics.h"
+#include <Habanero/dispatch_cpp.h>
 
 static void PostStartupInfo()
 {
-    sysinfo::SystemOverview so;
-    if( sysinfo::GetSystemOverview(so) )
+    nc::utility::SystemOverview so;
+    if( nc::utility::GetSystemOverview(so) )
         GA().PostEvent("Init info", "Hardware", so.coded_model.c_str());
     
     NSString* lang = [NSLocale.autoupdatingCurrentLocale objectForKey:NSLocaleLanguageCode];
@@ -15,12 +17,12 @@ static void PostStartupInfo()
 
 static const char *TrackingID()
 {
-    switch( ActivationManager::Type() ) {
-        case ActivationManager::Distribution::Trial:
+    switch( nc::bootstrap::ActivationManager::Type() ) {
+        case nc::bootstrap::ActivationManager::Distribution::Trial:
             return NCE(nc::env::ga_nonmas_trial);
-        case ActivationManager::Distribution::Free:
+        case nc::bootstrap::ActivationManager::Distribution::Free:
             return NCE(nc::env::ga_mas_free);
-        case ActivationManager::Distribution::Paid:
+        case nc::bootstrap::ActivationManager::Distribution::Paid:
             return NCE(nc::env::ga_mas_paid);
         default:
             return "";

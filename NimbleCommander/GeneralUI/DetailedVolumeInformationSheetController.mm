@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/VolumeInformation.h>
 #include <Utility/NSTimer+Tolerance.h>
 #include <Utility/NativeFSManager.h>
@@ -31,7 +31,7 @@
 
 @implementation DetailedVolumeInformationSheetController
 {
-    string                        m_Root;
+    std::string                   m_Root;
     VolumeCapabilitiesInformation m_Capabilities;
     VolumeAttributesInformation   m_Attributes;
     NSTimer                      *m_UpdateTimer;
@@ -292,9 +292,9 @@ static NSString* Bool2ToString(const bool b[2])
     GA().PostScreenView("Detailed Volume Information");
 }
 
-- (void)showSheetForWindow:(NSWindow *)_window withPath: (const string&)_path
+- (void)showSheetForWindow:(NSWindow *)_window withPath: (const std::string&)_path
 {
-    if( auto volume = NativeFSManager::Instance().VolumeFromPath(_path) )
+    if( auto volume = nc::utility::NativeFSManager::Instance().VolumeFromPath(_path) )
         m_Root = volume->mounted_at_path;
     
     if( FetchVolumeCapabilitiesInformation(m_Root.c_str(), &m_Capabilities) != 0 )

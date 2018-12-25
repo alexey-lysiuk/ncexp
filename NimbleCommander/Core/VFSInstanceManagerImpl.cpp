@@ -1,13 +1,15 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/algo.h>
 #include "VFSInstanceManagerImpl.h"
 #include <VFS/VFS.h>
+#include <iostream>
+#include <Habanero/dispatch_cpp.h>
 
 namespace nc::core {
 
 struct VFSInstanceManagerImpl::Info
 {
-    Info(const shared_ptr<VFSHost>& _host,
+    Info(const std::shared_ptr<VFSHost>& _host,
          uint64_t _id,
          uint64_t _parent_id,
          VFSConfiguration _config
@@ -15,7 +17,7 @@ struct VFSInstanceManagerImpl::Info
     uint64_t            m_ID;
     uint64_t            m_PromisesCount; // combined from Promise instances and links via .m_ParentVFSID
     uint64_t            m_ParentVFSID; // zero means no parent vfs info
-    weak_ptr<VFSHost>   m_WeakHost; // need to think about clearing this weak_ptr, so host's memory can be freed
+    std::weak_ptr<VFSHost> m_WeakHost; // need to think about clearing this weak_ptr, so host's memory can be freed
     VFSConfiguration    m_Configuration;
 };
 
@@ -38,7 +40,7 @@ VFSInstanceManagerImpl::VFSInstanceManagerImpl()
     
 VFSInstanceManagerImpl::~VFSInstanceManagerImpl()
 {
-    cerr << "VFSInstanceManager instances must live forever!" << endl;
+    std::cerr << "VFSInstanceManager instances must live forever!" << std::endl;
 }
     
 VFSInstanceManager::Promise VFSInstanceManagerImpl::TameVFS( const VFSHostPtr& _instance )
@@ -54,7 +56,7 @@ VFSInstanceManager::Promise VFSInstanceManagerImpl::TameVFS( const VFSHostPtr& _
       
         // check if we have this vfs before, but it was destroyed.
         // in this case we can just update an existing information, so all previous promises will point at a new _instance
-        vector<Info*> existing_match;
+        std::vector<Info*> existing_match;
         uint64_t info_id_request = 0;
         VFSHostPtr instance_recursive = _instance;
         while( instance_recursive  ) {
@@ -130,7 +132,8 @@ VFSInstanceManager::Promise VFSInstanceManagerImpl::TameVFS( const VFSHostPtr& _
     return result;
 }
 
-VFSInstanceManager::Promise VFSInstanceManagerImpl::PreserveVFS( const weak_ptr<VFSHost>& _instance )
+VFSInstanceManager::Promise VFSInstanceManagerImpl::
+    PreserveVFS( const std::weak_ptr<VFSHost>& _instance )
 {
     LOCK_GUARD(m_MemoryLock) {
         // check if we have a weak_ptr to this instance
@@ -185,7 +188,8 @@ void VFSInstanceManagerImpl::DecPromiseCount(uint64_t _inst_id)
         FireObservers( KnownVFSListObservation );
 }
 
-VFSInstanceManagerImpl::Info *VFSInstanceManagerImpl::InfoFromVFSWeakPtr_Unlocked(const weak_ptr<VFSHost> &_ptr)
+VFSInstanceManagerImpl::Info *VFSInstanceManagerImpl::
+    InfoFromVFSWeakPtr_Unlocked(const std::weak_ptr<VFSHost> &_ptr)
 {
     for( auto &i: m_Memory )
         if( !i.m_WeakHost.owner_before(_ptr) && !_ptr.owner_before(i.m_WeakHost) )
@@ -270,7 +274,8 @@ void VFSInstanceManagerImpl::SweepDeadReferences()
     FireObservers( AliveVFSListObservation ); // tell that we have removed some vfs from alive list
 }
 
-VFSHostPtr VFSInstanceManagerImpl::RetrieveVFS( const Promise &_promise, function<bool()> _cancel_checker )
+VFSHostPtr VFSInstanceManagerImpl::RetrieveVFS(const Promise &_promise,
+                                               std::function<bool()> _cancel_checker )
 {
     if( !_promise )
         return nullptr;
@@ -337,7 +342,8 @@ const char *VFSInstanceManagerImpl::GetTag( const Promise &_promise )
 }
 
 // assumes that m_MemoryLock is aquired
-VFSHostPtr VFSInstanceManagerImpl::GetOrRestoreVFS_Unlocked( Info *_info, const function<bool()> &_cancel_checker )
+VFSHostPtr VFSInstanceManagerImpl::
+    GetOrRestoreVFS_Unlocked( Info *_info, const std::function<bool()> &_cancel_checker )
 {
     // check if host is alive - in this case we can return it immediately
     if( auto host = _info->m_WeakHost.lock() )
@@ -368,14 +374,14 @@ VFSHostPtr VFSInstanceManagerImpl::GetOrRestoreVFS_Unlocked( Info *_info, const 
     return host;
 }
 
-string VFSInstanceManagerImpl::GetVerboseVFSTitle( const Promise &_promise )
+std::string VFSInstanceManagerImpl::GetVerboseVFSTitle( const Promise &_promise )
 {
     if( !_promise )
         return "";
     assert( InstanceFromPromise(_promise) == this );
     
     LOCK_GUARD(m_MemoryLock) {
-        string title;
+        std::string title;
         uint64_t next = _promise.id();
         while( next > 0 ) {
             auto info = InfoFromID_Unlocked( next );
@@ -391,19 +397,21 @@ string VFSInstanceManagerImpl::GetVerboseVFSTitle( const Promise &_promise )
     return "'";
 }
 
-VFSInstanceManager::ObservationTicket VFSInstanceManagerImpl::ObserveAliveVFSListChanged( function<void()> _callback )
+VFSInstanceManager::ObservationTicket VFSInstanceManagerImpl::
+    ObserveAliveVFSListChanged( std::function<void()> _callback )
 {
     return AddObserver(move(_callback), AliveVFSListObservation);
 }
 
-VFSInstanceManager::ObservationTicket VFSInstanceManagerImpl::ObserveKnownVFSListChanged( function<void()> _callback )
+VFSInstanceManager::ObservationTicket VFSInstanceManagerImpl::
+    ObserveKnownVFSListChanged( std::function<void()> _callback )
 {
     return AddObserver(move(_callback), KnownVFSListObservation);
 }
 
-vector<weak_ptr<VFSHost>> VFSInstanceManagerImpl::AliveHosts()
+std::vector<std::weak_ptr<VFSHost>> VFSInstanceManagerImpl::AliveHosts()
 {
-    vector<weak_ptr<VFSHost>> list;
+    std::vector<std::weak_ptr<VFSHost>> list;
     LOCK_GUARD(m_AliveHostsLock) {
         list = m_AliveHosts;
     }

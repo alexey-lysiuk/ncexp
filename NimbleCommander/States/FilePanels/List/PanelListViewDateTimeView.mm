@@ -1,9 +1,12 @@
-// Copyright (C) 2016-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PanelListView.h"
 #include "PanelListViewGeometry.h"
 #include "PanelListViewRowView.h"
 #include "PanelListViewDateTimeView.h"
 #include <NimbleCommander/Core/Theming/Theme.h>
+#include <Utility/ObjCpp.h>
+
+using nc::utility::AdaptiveDateFormatting;
 
 @interface PanelListViewDateTimeView()
 
@@ -17,7 +20,8 @@
     NSString       *m_String;
     NSFont         *m_Font;
     CTLineRef       m_Line;
-    PanelListViewDateFormatting::Style m_Style;
+    
+    AdaptiveDateFormatting::Style m_Style;
     __weak PanelListViewRowView *m_RowView;    
 }
 
@@ -28,7 +32,7 @@
         m_Time = 0;
         m_Line = nullptr;
         m_String = @"";
-        m_Style = PanelListViewDateFormatting::Style::Orthodox;
+        m_Style = AdaptiveDateFormatting::Style::Orthodox;
         m_Font = CurrentTheme().FilePanelsListFont();
     }
     return self;
@@ -75,7 +79,7 @@
     m_Time = 0;
     m_Line = nullptr;
     m_String = @"";
-    m_Style = PanelListViewDateFormatting::Style::Orthodox;
+    m_Style = AdaptiveDateFormatting::Style::Orthodox;
     m_Font = CurrentTheme().FilePanelsListFont();
 }
 
@@ -87,12 +91,12 @@
     }
 }
 
-- (PanelListViewDateFormatting::Style)style
+- (AdaptiveDateFormatting::Style)style
 {
     return m_Style;
 }
 
-- (void) setStyle:(PanelListViewDateFormatting::Style)style
+- (void) setStyle:(AdaptiveDateFormatting::Style)style
 {
     if( m_Style != style ) {
         m_Style = style;
@@ -117,7 +121,7 @@
 {
     const auto new_string = [&]{
         if( m_Time >= 0 ) {
-            auto dts = PanelListViewDateFormatting::Format(m_Style, m_Time);
+            auto dts = AdaptiveDateFormatting{}.Format(m_Style, m_Time);
             return dts ? dts : @"";
         }
         else

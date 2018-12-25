@@ -1,4 +1,4 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/CFDefaultsCPP.h>
 #include <NimbleCommander/GeneralUI/ProFeaturesWindowController.h>
 #include <NimbleCommander/Core/FeedbackManager.h>
@@ -29,23 +29,29 @@ string CFBundleGetAppStoreReceiptPath( CFBundleRef _bundle )
 
 @implementation AppStoreHelper
 {
-    SKProductsRequest                   *m_ProductRequest;
-    SKProduct                           *m_ProFeaturesProduct;
+    SKProductsRequest                  *m_ProductRequest;
+    SKProduct                          *m_ProFeaturesProduct;
     function<void(const string &_id)>   m_PurchaseCallback;
-    NSString                            *m_PriceString;
+    NSString                           *m_PriceString;
+    function<void()>                    m_OnProFeaturesProductFetched;    
 }
 
 @synthesize onProductPurchased = m_PurchaseCallback;
 @synthesize priceString = m_PriceString;
+@synthesize proFeaturesProduct = m_ProFeaturesProduct;
 
 - (id) init
 {
     if(self = [super init]) {
-        [SKPaymentQueue.defaultQueue addTransactionObserver:self];
+        m_ProFeaturesProduct = nil;
+        m_ProductRequest = nil;
         
-        m_ProductRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObject:g_ProFeaturesInAppID]];
+        [SKPaymentQueue.defaultQueue addTransactionObserver:self];
+        const auto products = [NSSet setWithObject:g_ProFeaturesInAppID];
+        m_ProductRequest = [[SKProductsRequest alloc] initWithProductIdentifiers:products];
         m_ProductRequest.delegate = self;
         [m_ProductRequest start];
+        
         m_PriceString = [NSUserDefaults.standardUserDefaults objectForKey:g_PrefsPriceString];
         if( !m_PriceString )
             m_PriceString = @"";
@@ -54,7 +60,8 @@ string CFBundleGetAppStoreReceiptPath( CFBundleRef _bundle )
 }
 
 // background thread
-- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response
+- (void)productsRequest:(SKProductsRequest *)request
+     didReceiveResponse:(SKProductsResponse *)response
 {
     for( SKProduct* p in response.products ) {
         if( [p.productIdentifier isEqualToString:g_ProFeaturesInAppID] ) {
@@ -67,19 +74,29 @@ string CFBundleGetAppStoreReceiptPath( CFBundleRef _bundle )
             NSString *price_string = [formatter stringFromNumber:p.price];
             if( ![price_string isEqualToString:m_PriceString] ) {
                 m_PriceString = price_string;
-                [NSUserDefaults.standardUserDefaults setObject:m_PriceString forKey:g_PrefsPriceString];
+                [NSUserDefaults.standardUserDefaults setObject:m_PriceString
+                                                        forKey:g_PrefsPriceString];
             }
         }
+    }
+    
+    if( m_ProFeaturesProduct != nil ) {
+        dispatch_to_main_queue([self]{
+            if( m_OnProFeaturesProductFetched )
+                m_OnProFeaturesProductFetched();
+        });        
     }
 }
 
 // background thread
-- (void)request:(SKRequest *)request didFailWithError:(NSError *)error
+- (void)request:(SKRequest *)request
+didFailWithError:(NSError *)error
 {
 }
 
 // background thread
-- (void) paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions
+- (void) paymentQueue:(SKPaymentQueue *)queue
+  updatedTransactions:(NSArray<SKPaymentTransaction *> *)transactions
 {
     for( SKPaymentTransaction *pt in transactions ) {
         switch( pt.transactionState ) {
@@ -104,9 +121,23 @@ string CFBundleGetAppStoreReceiptPath( CFBundleRef _bundle )
 
 - (void) askUserToBuyProFeatures
 {
-    if( !m_ProFeaturesProduct )
-        return;
-    
+    dispatch_assert_main_queue();    
+    if( m_ProFeaturesProduct != nil ) {
+        [self doAskUserToBuyProFeatures];
+    }
+    else {
+        const auto timeout = time(nullptr) + 60;
+        m_OnProFeaturesProductFetched = [self, timeout]{
+            if( time(nullptr) < timeout )
+                [self doAskUserToBuyProFeatures];
+        };
+    }
+}
+
+- (void)doAskUserToBuyProFeatures
+{
+    assert( m_ProFeaturesProduct != nil );
+    dispatch_assert_main_queue();
     GA().PostEvent("Licensing", "Buy", "Buy Pro features IAP");
     SKPayment *payment = [SKPayment paymentWithProduct:m_ProFeaturesProduct];
     [SKPaymentQueue.defaultQueue addPayment:payment];
@@ -140,7 +171,7 @@ string CFBundleGetAppStoreReceiptPath( CFBundleRef _bundle )
     const auto min_runs = 10;
     const auto next_show_delay = 60l * 60l* 24l * 14l; // every 14 days
 
-    if( ActivationManager::Instance().UsedHadPurchasedProFeatures() ||      // don't show nag screen if user has already bought pro features
+    if( nc::bootstrap::ActivationManager::Instance().UsedHadPurchasedProFeatures() ||      // don't show nag screen if user has already bought pro features
         FeedbackManager::Instance().ApplicationRunsCount() < min_runs ||    // don't show nag screen if user didn't use software for long enough
         CFDefaultsGetBool(g_PrefsPFDontShow) )                              // don't show nag screen it user has opted to
         return;
@@ -156,14 +187,18 @@ string CFBundleGetAppStoreReceiptPath( CFBundleRef _bundle )
     GA().PostEvent("Licensing", "Buy", "Show Pro features IAP As Nagscreen");
 
     ProFeaturesWindowController *w = [[ProFeaturesWindowController alloc] init];
+    w.priceText = self.priceString;
     const auto result = [NSApp runModalForWindow:w.window];
     
     if( w.dontShowAgain ) {
         CFDefaultsSetBool(g_PrefsPFDontShow, true);
         GA().PostEvent("Licensing", "Buy", "User has turned off IAP Nagscreen");
     }
-    if( result == NSModalResponseOK )
-        [self askUserToBuyProFeatures];
+    if( result == NSModalResponseOK ) {
+        dispatch_to_main_queue([self] {
+            [self askUserToBuyProFeatures];
+        });
+    }
 }
 
 @end

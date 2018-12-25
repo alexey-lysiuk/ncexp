@@ -1,8 +1,10 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "PreferencesWindowTerminalTab.h"
 #include <Utility/FontExtras.h>
+#include <Config/ObjCBridge.h>
 #include "../Bootstrap/Config.h"
 #include "../Bootstrap/ActivationManager.h"
-#include "PreferencesWindowTerminalTab.h"
+#include <Utility/StringExtras.h>
 
 static const auto g_ConfigFont = "terminal.font";
 
@@ -12,7 +14,7 @@ static const auto g_ConfigFont = "terminal.font";
 class ConfigBinder
 {
 public:
-    ConfigBinder( GenericConfig &_config, const char *_config_path, id _object, NSString *_object_key ):
+    ConfigBinder( nc::config::Config &_config, const char *_config_path, id _object, NSString *_object_key ):
         m_Config(_config),
         m_Object(_object),
         m_ConfigPath(_config_path),
@@ -29,13 +31,14 @@ public:
 private:
     void ConfigChanged()
     {
-        if( id v = [GenericConfigObjC valueForKeyPath:m_ConfigPath inConfig:&m_Config] )
+        auto bridge = [[NCConfigObjCBridge alloc] initWithConfig:m_Config];
+        if( id v = [bridge valueForKeyPath:[NSString stringWithUTF8String:m_ConfigPath]] )
             [m_Object setValue:v forKey:m_ObjectKey];
     }
 
-    GenericConfig &m_Config;
+    nc::config::Config &m_Config;
     const char *m_ConfigPath;
-    GenericConfig::ObservationTicket m_Ticket;
+    nc::config::Token m_Ticket;
     
     __weak id m_Object;
     NSString *m_ObjectKey;
@@ -53,14 +56,14 @@ private:
 @implementation PreferencesWindowTerminalTab
 {
     NSFont *m_Font;
-    unique_ptr<ConfigBinder> m_B1;
+    std::unique_ptr<ConfigBinder> m_B1;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:NSStringFromClass(self.class) bundle:nibBundleOrNil];
     if (self) {
-        m_B1 = make_unique<ConfigBinder>( GlobalConfig(), "terminal.useDefaultLoginShell", self, @"usesDefaultLoginShell" );
+        m_B1 = std::make_unique<ConfigBinder>( GlobalConfig(), "terminal.useDefaultLoginShell", self, @"usesDefaultLoginShell" );
     }
     return self;
 }
@@ -73,7 +76,7 @@ private:
 - (void)loadView
 {
     [super loadView];
-    m_Font = [NSFont fontWithStringDescription:[NSString stringWithUTF8StdString:GlobalConfig().GetString(g_ConfigFont).value_or("")]];
+    m_Font = [NSFont fontWithStringDescription:[NSString stringWithUTF8StdString:GlobalConfig().GetString(g_ConfigFont)]];
     if(!m_Font) m_Font = [NSFont fontWithName:@"Menlo-Regular" size:13];
 
     [self updateFontVisibleName];
@@ -85,7 +88,7 @@ private:
     NSToolbarItem *item = [[NSToolbarItem alloc] initWithItemIdentifier:self.identifier];
     item.image = self.toolbarItemImage;
     item.label = self.toolbarItemLabel;
-    item.enabled = ActivationManager::Instance().HasTerminal();
+    item.enabled = nc::bootstrap::ActivationManager::Instance().HasTerminal();
     return item;
 }
 

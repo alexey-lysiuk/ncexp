@@ -1,8 +1,9 @@
-// Copyright (C) 2014-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Bootstrap/AppDelegate.h>
 #include <NimbleCommander/States/FilePanels/ExternalEditorInfo.h>
 #include "PreferencesWindowExternalEditorsTabNewEditorSheet.h"
 #include "PreferencesWindowExternalEditorsTab.h"
+#include <Utility/StringExtras.h>
 
 #define MyPrivateTableViewDataType @"PreferencesWindowExternalEditorsTabPrivateTableViewDataType"
 
@@ -89,7 +90,7 @@ static bool AskUserToDeleteEditor()
 - (void) setExtEditors:(NSMutableArray *)ExtEditors
 {
     m_Editors = ExtEditors;
-    vector< shared_ptr<ExternalEditorStartupInfo> > eds;
+    std::vector< std::shared_ptr<ExternalEditorStartupInfo> > eds;
     for( ExternalEditorInfo *i in m_Editors )
         eds.emplace_back( [i toStartupInfo] );
     

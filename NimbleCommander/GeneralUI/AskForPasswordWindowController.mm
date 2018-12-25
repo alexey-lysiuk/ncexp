@@ -1,7 +1,9 @@
-// Copyright (C) 2016 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "AskForPasswordWindowController.h"
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
-#include "AskForPasswordWindowController.h"
+#include <Habanero/dispatch_cpp.h>
+#include <Utility/StringExtras.h>
 
 @interface AskForPasswordWindowController ()
 @property (nonatomic) IBOutlet NSSecureTextField *Password;
@@ -59,7 +61,7 @@
 // consider the following:
 // http://stackoverflow.com/questions/25310545/how-to-let-dropboxapi-work-in-runmodalforwindow
 
-bool RunAskForPasswordModalWindow( const string& _password_for, string &_passwd )
+bool RunAskForPasswordModalWindow( const std::string& _password_for, std::string &_passwd )
 {
     if( !dispatch_is_main_queue() ) {
         bool r = false;

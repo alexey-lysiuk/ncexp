@@ -35,18 +35,24 @@
 #include "Actions/ShowQuickLook.h"
 #include "Actions/ShowSystemOverview.h"
 
+// Temp dependency:
+#include <NimbleCommander/Bootstrap/ActivationManager.h>
+
 namespace nc::panel {
 
 using namespace actions;
 
-PanelActionsMap BuildPanelActionsMap(NetworkConnectionsManager& _net_mgr)
+PanelActionsMap BuildPanelActionsMap(NetworkConnectionsManager& _net_mgr,
+                                     utility::NativeFSManager& _native_fs_mgr)
 {
     PanelActionsMap m;
     auto add = [&](SEL _sel, actions::PanelAction *_action) {
         m[_sel].reset( _action );
     };
 
-    add( @selector(OnOpen:), new Enter );
+    const auto has_archive_support = bootstrap::ActivationManager::Instance().HasArchivesBrowsing();
+    
+    add( @selector(OnOpen:), new Enter{has_archive_support} );
     add( @selector(OnOpenNatively:),                 new OpenFilesWithDefaultHandler);
     add( @selector(onOpenFileWith:),                 new OpenFileWithSubmenu);
     add( @selector(onAlwaysOpenFileWith:),           new AlwaysOpenFileWithSubmenu);
@@ -89,7 +95,7 @@ PanelActionsMap BuildPanelActionsMap(NetworkConnectionsManager& _net_mgr)
     add( @selector(onToggleViewLayout10:), new ToggleLayout{9});
     add( @selector(OnRefreshPanel:),     new RefreshPanel);
     add( @selector(OnGoToUpperDirectory:),new GoToEnclosingFolder);
-    add( @selector(OnGoIntoDirectory:),  new GoIntoFolder{true});
+    add( @selector(OnGoIntoDirectory:),  new GoIntoFolder{has_archive_support, true});
     add( @selector(OnGoBack:),           new GoBack);
     add( @selector(OnGoForward:),        new GoForward);
     add( @selector(OnGoToHome:),         new GoToHomeFolder);
@@ -125,7 +131,7 @@ PanelActionsMap BuildPanelActionsMap(NetworkConnectionsManager& _net_mgr)
     add( @selector(OnDetailedVolumeInformation:),new ShowVolumeInformation);
     add( @selector(OnFileAttributes:),           new ChangeAttributes);
     add( @selector(OnOpenWithExternalEditor:),   new OpenWithExternalEditor);
-    add( @selector(OnEjectVolume:),              new EjectVolume);
+    add( @selector(OnEjectVolume:),              new EjectVolume{_native_fs_mgr});
     add( @selector(OnCopyCurrentFileName:),      new CopyFileName);
     add( @selector(OnCopyCurrentFilePath:),      new CopyFilePath);
     add( @selector(OnCreateDirectoryCommand:),   new MakeNewNamedFolder);

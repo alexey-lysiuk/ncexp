@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PanelHistory.h"
 #include "../../Core/VFSInstanceManager.h"
 
@@ -30,7 +30,7 @@ bool History::CanMoveBack() const noexcept
 void History::MoveForth()
 {
     if( !CanMoveForth() )
-        throw logic_error("PanelHistory::MoveForth called when CanMoveForth()==false");
+        throw std::logic_error("PanelHistory::MoveForth called when CanMoveForth()==false");
     
     if(m_IsRecording) return;
     if(m_History.size() < 2) return;
@@ -41,7 +41,7 @@ void History::MoveForth()
 void History::MoveBack()
 {
     if( !CanMoveBack() )
-        throw logic_error("PanelHistory::MoveBack called when CanMoveBack()==false");
+        throw std::logic_error("PanelHistory::MoveBack called when CanMoveBack()==false");
     
     if(m_IsRecording) {
         m_IsRecording = false;
@@ -77,7 +77,7 @@ void History::Put(const VFSListing &_listing )
     if( _listing.IsUniform() && _listing.Host()->IsNativeFS() )
         m_LastNativeDirectory = _listing.Directory();
     
-    const auto adapter = [this](const shared_ptr<VFSHost>&_host) -> core::VFSInstancePromise {
+    const auto adapter = [this](const std::shared_ptr<VFSHost>&_host) -> core::VFSInstancePromise {
         if( !m_VFSMgr )
             return {};
         return m_VFSMgr->TameVFS(_host);
@@ -87,7 +87,7 @@ void History::Put(const VFSListing &_listing )
     if( m_IsRecording ) {
         if( !m_History.empty() && m_History.back() == promise )
             return;
-        m_History.emplace_back( move(promise) );
+        m_History.emplace_back( std::move(promise) );
         if( m_History.size() > m_HistoryLength )
             m_History.pop_front();
     }
@@ -99,7 +99,7 @@ void History::Put(const VFSListing &_listing )
             m_IsRecording = true;
             while( m_History.size() > m_PlayingPosition + 1 )
                 m_History.pop_back();
-            m_History.emplace_back( move(promise) );
+            m_History.emplace_back( std:: move(promise) );
         }
     }
 }
@@ -114,11 +114,11 @@ bool History::Empty() const noexcept
     return m_History.empty();
 }
     
-vector<reference_wrapper<const History::Path>> History::All() const
+std::vector<std::reference_wrapper<const History::Path>> History::All() const
 {
-    vector<reference_wrapper<const Path>> res;
+    std::vector<std::reference_wrapper<const Path>> res;
     for( auto &i:m_History )
-        res.emplace_back( cref(i) );
+        res.emplace_back( std::cref(i) );
     return res;
 }
 
@@ -133,7 +133,7 @@ const History::Path* History::RewindAt(size_t _indx)
     return CurrentPlaying();
 }
 
-const string &History::LastNativeDirectoryVisited() const noexcept
+const std::string &History::LastNativeDirectoryVisited() const noexcept
 {
     return m_LastNativeDirectory;
 }

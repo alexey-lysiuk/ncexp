@@ -1,9 +1,12 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include "../Core/SandboxManager.h"
 #include "../Bootstrap/AppDelegate.h"
 #include "../Bootstrap/ActivationManager.h"
 #include "PreferencesWindowGeneralTab.h"
+#include <Habanero/dispatch_cpp.h>
+
+using namespace std::literals;
 
 @interface PreferencesWindowGeneralTab()
 
@@ -27,9 +30,8 @@
 - (void)loadView
 {
     [super loadView];
-    if( !ActivationManager::Instance().Sandboxed() ) {
+    if( !nc::bootstrap::ActivationManager::Instance().Sandboxed() ) {
         self.FSAccessResetButton.enabled = false;
-//        self.FSAccessLabel.enabled = true;
     }
     [self.view layoutSubtreeIfNeeded];    
 }
