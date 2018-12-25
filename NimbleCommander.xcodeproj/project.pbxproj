@@ -208,6 +208,29 @@
 		8A25280C21579BC7006AD68F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E892156818D009284A2 /* Media.xcassets */; };
 		8A25280D21579BCB006AD68F /* State.json in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E922156818E009284A2 /* State.json */; };
 		8A25282B2157A43D006AD68F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A453E822156818D009284A2 /* Localizable.strings */; };
+		8A3BC32E21D241610016E49E /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7821D2401A0014A8ED /* Config.cpp */; };
+		8A3BC32F21D241610016E49E /* ConfigImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7D21D2401B0014A8ED /* ConfigImpl.cpp */; };
+		8A3BC33021D241610016E49E /* Executor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7A21D2401A0014A8ED /* Executor.cpp */; };
+		8A3BC33121D241610016E49E /* FileOverwritesStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7B21D2401A0014A8ED /* FileOverwritesStorage.cpp */; };
+		8A3BC33221D241610016E49E /* NonPersistentOverwritesStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7C21D2401A0014A8ED /* NonPersistentOverwritesStorage.cpp */; };
+		8A3BC33321D241610016E49E /* ObjCBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7721D2401A0014A8ED /* ObjCBridge.mm */; };
+		8A3BC33421D241610016E49E /* OverwritesStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7921D2401A0014A8ED /* OverwritesStorage.cpp */; };
+		8A3BC33521D241610016E49E /* RapidJSON.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8AAB9D7F21D2401B0014A8ED /* RapidJSON.cpp */; };
+		8A3BC35621D2421E0016E49E /* IconBuilder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC35321D2420B0016E49E /* IconBuilder.mm */; };
+		8A3BC35721D2421E0016E49E /* IconBuilderImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC35221D2420B0016E49E /* IconBuilderImpl.mm */; };
+		8A3BC35821D2421E0016E49E /* IconRepository.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34D21D2420A0016E49E /* IconRepository.mm */; };
+		8A3BC35921D2421E0016E49E /* IconRepositoryImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34E21D2420A0016E49E /* IconRepositoryImpl.mm */; };
+		8A3BC35A21D2421E0016E49E /* IconRepositoryImplBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34F21D2420B0016E49E /* IconRepositoryImplBase.mm */; };
+		8A3BC35B21D2421E0016E49E /* QLThumbnailsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34C21D2420A0016E49E /* QLThumbnailsCache.mm */; };
+		8A3BC35C21D2421E0016E49E /* QLThumbnailsCacheImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34721D2420A0016E49E /* QLThumbnailsCacheImpl.mm */; };
+		8A3BC35D21D2421E0016E49E /* QLVFSThumbnailsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC35421D2420B0016E49E /* QLVFSThumbnailsCache.mm */; };
+		8A3BC35E21D2421E0016E49E /* QLVFSThumbnailsCacheImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC35021D2420B0016E49E /* QLVFSThumbnailsCacheImpl.mm */; };
+		8A3BC35F21D2421E0016E49E /* VFSBundleIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34B21D2420A0016E49E /* VFSBundleIconsCache.mm */; };
+		8A3BC36021D2421E0016E49E /* VFSBundleIconsCacheImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC35521D2420B0016E49E /* VFSBundleIconsCacheImpl.mm */; };
+		8A3BC36121D2421E0016E49E /* WorkspaceExtensionIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC35121D2420B0016E49E /* WorkspaceExtensionIconsCache.mm */; };
+		8A3BC36221D2421E0016E49E /* WorkspaceExtensionIconsCacheImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34A21D2420A0016E49E /* WorkspaceExtensionIconsCacheImpl.mm */; };
+		8A3BC36321D2421E0016E49E /* WorkspaceIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34821D2420A0016E49E /* WorkspaceIconsCache.mm */; };
+		8A3BC36421D2421E0016E49E /* WorkspaceIconsCacheImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34921D2420A0016E49E /* WorkspaceIconsCacheImpl.mm */; };
 		8A4534C7215672CA009284A2 /* AttrsChanging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D72156725200E92BC9 /* AttrsChanging.mm */; };
 		8A4534C8215672CD009284A2 /* AttrsChangingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */; };
 		8A4534C9215672CF009284A2 /* AttrsChangingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */; };
@@ -1748,6 +1771,36 @@
 		8A2527AB2157811E006AD68F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8A2527CA21578225006AD68F /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		8A25280421578D1A006AD68F /* x86_64cpuid.s */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = x86_64cpuid.s; sourceTree = "<group>"; };
+		8A3BC32A21D2412B0016E49E /* libVFSIcon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVFSIcon.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A3BC33921D241FC0016E49E /* QLThumbnailsCacheImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QLThumbnailsCacheImpl.h; path = include/VFSIcon/QLThumbnailsCacheImpl.h; sourceTree = "<group>"; };
+		8A3BC33A21D241FC0016E49E /* WorkspaceIconsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WorkspaceIconsCache.h; path = include/VFSIcon/WorkspaceIconsCache.h; sourceTree = "<group>"; };
+		8A3BC33B21D241FC0016E49E /* WorkspaceExtensionIconsCacheImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WorkspaceExtensionIconsCacheImpl.h; path = include/VFSIcon/WorkspaceExtensionIconsCacheImpl.h; sourceTree = "<group>"; };
+		8A3BC33C21D241FC0016E49E /* IconBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IconBuilder.h; path = include/VFSIcon/IconBuilder.h; sourceTree = "<group>"; };
+		8A3BC33D21D241FD0016E49E /* IconRepository.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IconRepository.h; path = include/VFSIcon/IconRepository.h; sourceTree = "<group>"; };
+		8A3BC33E21D241FD0016E49E /* WorkspaceIconsCacheImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WorkspaceIconsCacheImpl.h; path = include/VFSIcon/WorkspaceIconsCacheImpl.h; sourceTree = "<group>"; };
+		8A3BC33F21D241FD0016E49E /* VFSBundleIconsCacheImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VFSBundleIconsCacheImpl.h; path = include/VFSIcon/VFSBundleIconsCacheImpl.h; sourceTree = "<group>"; };
+		8A3BC34021D241FD0016E49E /* QLThumbnailsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QLThumbnailsCache.h; path = include/VFSIcon/QLThumbnailsCache.h; sourceTree = "<group>"; };
+		8A3BC34121D241FD0016E49E /* IconRepositoryImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IconRepositoryImpl.h; path = include/VFSIcon/IconRepositoryImpl.h; sourceTree = "<group>"; };
+		8A3BC34221D241FD0016E49E /* IconBuilderImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IconBuilderImpl.h; path = include/VFSIcon/IconBuilderImpl.h; sourceTree = "<group>"; };
+		8A3BC34321D241FD0016E49E /* QLVFSThumbnailsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QLVFSThumbnailsCache.h; path = include/VFSIcon/QLVFSThumbnailsCache.h; sourceTree = "<group>"; };
+		8A3BC34421D241FD0016E49E /* QLVFSThumbnailsCacheImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QLVFSThumbnailsCacheImpl.h; path = include/VFSIcon/QLVFSThumbnailsCacheImpl.h; sourceTree = "<group>"; };
+		8A3BC34521D241FD0016E49E /* WorkspaceExtensionIconsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WorkspaceExtensionIconsCache.h; path = include/VFSIcon/WorkspaceExtensionIconsCache.h; sourceTree = "<group>"; };
+		8A3BC34621D241FE0016E49E /* VFSBundleIconsCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = VFSBundleIconsCache.h; path = include/VFSIcon/VFSBundleIconsCache.h; sourceTree = "<group>"; };
+		8A3BC34721D2420A0016E49E /* QLThumbnailsCacheImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = QLThumbnailsCacheImpl.mm; path = source/QLThumbnailsCacheImpl.mm; sourceTree = "<group>"; };
+		8A3BC34821D2420A0016E49E /* WorkspaceIconsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = WorkspaceIconsCache.mm; path = source/WorkspaceIconsCache.mm; sourceTree = "<group>"; };
+		8A3BC34921D2420A0016E49E /* WorkspaceIconsCacheImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = WorkspaceIconsCacheImpl.mm; path = source/WorkspaceIconsCacheImpl.mm; sourceTree = "<group>"; };
+		8A3BC34A21D2420A0016E49E /* WorkspaceExtensionIconsCacheImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = WorkspaceExtensionIconsCacheImpl.mm; path = source/WorkspaceExtensionIconsCacheImpl.mm; sourceTree = "<group>"; };
+		8A3BC34B21D2420A0016E49E /* VFSBundleIconsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VFSBundleIconsCache.mm; path = source/VFSBundleIconsCache.mm; sourceTree = "<group>"; };
+		8A3BC34C21D2420A0016E49E /* QLThumbnailsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = QLThumbnailsCache.mm; path = source/QLThumbnailsCache.mm; sourceTree = "<group>"; };
+		8A3BC34D21D2420A0016E49E /* IconRepository.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = IconRepository.mm; path = source/IconRepository.mm; sourceTree = "<group>"; };
+		8A3BC34E21D2420A0016E49E /* IconRepositoryImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = IconRepositoryImpl.mm; path = source/IconRepositoryImpl.mm; sourceTree = "<group>"; };
+		8A3BC34F21D2420B0016E49E /* IconRepositoryImplBase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = IconRepositoryImplBase.mm; path = source/IconRepositoryImplBase.mm; sourceTree = "<group>"; };
+		8A3BC35021D2420B0016E49E /* QLVFSThumbnailsCacheImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = QLVFSThumbnailsCacheImpl.mm; path = source/QLVFSThumbnailsCacheImpl.mm; sourceTree = "<group>"; };
+		8A3BC35121D2420B0016E49E /* WorkspaceExtensionIconsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = WorkspaceExtensionIconsCache.mm; path = source/WorkspaceExtensionIconsCache.mm; sourceTree = "<group>"; };
+		8A3BC35221D2420B0016E49E /* IconBuilderImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = IconBuilderImpl.mm; path = source/IconBuilderImpl.mm; sourceTree = "<group>"; };
+		8A3BC35321D2420B0016E49E /* IconBuilder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = IconBuilder.mm; path = source/IconBuilder.mm; sourceTree = "<group>"; };
+		8A3BC35421D2420B0016E49E /* QLVFSThumbnailsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = QLVFSThumbnailsCache.mm; path = source/QLVFSThumbnailsCache.mm; sourceTree = "<group>"; };
+		8A3BC35521D2420B0016E49E /* VFSBundleIconsCacheImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VFSBundleIconsCacheImpl.mm; path = source/VFSBundleIconsCacheImpl.mm; sourceTree = "<group>"; };
 		8A4534C32156729E009284A2 /* libOperations.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOperations.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A4534D12156747B009284A2 /* any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		8A453B1B21568144009284A2 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
@@ -2714,6 +2767,25 @@
 		8AAA8BEF215671B00053BE9D /* Pool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Pool.h; path = include/Operations/Pool.h; sourceTree = "<group>"; };
 		8AAA8BF0215671B00053BE9D /* DirectoryCreationDialog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DirectoryCreationDialog.h; path = include/Operations/DirectoryCreationDialog.h; sourceTree = "<group>"; };
 		8AAA8BF1215671B00053BE9D /* Linkage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Linkage.h; path = include/Operations/Linkage.h; sourceTree = "<group>"; };
+		8AAB9D6E21D2400E0014A8ED /* ConfigImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConfigImpl.h; path = include/Config/ConfigImpl.h; sourceTree = "<group>"; };
+		8AAB9D6F21D2400F0014A8ED /* FileOverwritesStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileOverwritesStorage.h; path = include/Config/FileOverwritesStorage.h; sourceTree = "<group>"; };
+		8AAB9D7021D2400F0014A8ED /* NonPersistentOverwritesStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NonPersistentOverwritesStorage.h; path = include/Config/NonPersistentOverwritesStorage.h; sourceTree = "<group>"; };
+		8AAB9D7121D2400F0014A8ED /* Executor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Executor.h; path = include/Config/Executor.h; sourceTree = "<group>"; };
+		8AAB9D7221D2400F0014A8ED /* ObjCBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjCBridge.h; path = include/Config/ObjCBridge.h; sourceTree = "<group>"; };
+		8AAB9D7321D2400F0014A8ED /* OverwritesStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OverwritesStorage.h; path = include/Config/OverwritesStorage.h; sourceTree = "<group>"; };
+		8AAB9D7421D2400F0014A8ED /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Config.h; path = include/Config/Config.h; sourceTree = "<group>"; };
+		8AAB9D7521D240100014A8ED /* RapidJSON_fwd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RapidJSON_fwd.h; path = include/Config/RapidJSON_fwd.h; sourceTree = "<group>"; };
+		8AAB9D7621D240100014A8ED /* RapidJSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RapidJSON.h; path = include/Config/RapidJSON.h; sourceTree = "<group>"; };
+		8AAB9D7721D2401A0014A8ED /* ObjCBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ObjCBridge.mm; path = source/ObjCBridge.mm; sourceTree = "<group>"; };
+		8AAB9D7821D2401A0014A8ED /* Config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Config.cpp; path = source/Config.cpp; sourceTree = "<group>"; };
+		8AAB9D7921D2401A0014A8ED /* OverwritesStorage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OverwritesStorage.cpp; path = source/OverwritesStorage.cpp; sourceTree = "<group>"; };
+		8AAB9D7A21D2401A0014A8ED /* Executor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Executor.cpp; path = source/Executor.cpp; sourceTree = "<group>"; };
+		8AAB9D7B21D2401A0014A8ED /* FileOverwritesStorage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FileOverwritesStorage.cpp; path = source/FileOverwritesStorage.cpp; sourceTree = "<group>"; };
+		8AAB9D7C21D2401A0014A8ED /* NonPersistentOverwritesStorage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = NonPersistentOverwritesStorage.cpp; path = source/NonPersistentOverwritesStorage.cpp; sourceTree = "<group>"; };
+		8AAB9D7D21D2401B0014A8ED /* ConfigImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ConfigImpl.cpp; path = source/ConfigImpl.cpp; sourceTree = "<group>"; };
+		8AAB9D7E21D2401B0014A8ED /* PrecompiledHeaders.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrecompiledHeaders.pch; path = source/PrecompiledHeaders.pch; sourceTree = "<group>"; };
+		8AAB9D7F21D2401B0014A8ED /* RapidJSON.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RapidJSON.cpp; path = source/RapidJSON.cpp; sourceTree = "<group>"; };
+		8AAB9D8421D240300014A8ED /* libConfig.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConfig.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AB24C832154F64500A1C3A7 /* NSView+Sugar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSView+Sugar.h"; path = "Utility/include/Utility/NSView+Sugar.h"; sourceTree = SOURCE_ROOT; };
 		8AB24C842154F64500A1C3A7 /* NSMenu+Hierarchical.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSMenu+Hierarchical.h"; path = "Utility/include/Utility/NSMenu+Hierarchical.h"; sourceTree = SOURCE_ROOT; };
 		8AB24C852154F64500A1C3A7 /* Encodings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Encodings.h; path = Utility/include/Utility/Encodings.h; sourceTree = SOURCE_ROOT; };
@@ -4516,6 +4588,58 @@
 			name = Headers;
 			sourceTree = "<group>";
 		};
+		8A3BC33621D241C60016E49E /* VFSIcon */ = {
+			isa = PBXGroup;
+			children = (
+				8A3BC33721D241E30016E49E /* Headers */,
+				8A3BC33821D241E90016E49E /* Sources */,
+			);
+			path = VFSIcon;
+			sourceTree = "<group>";
+		};
+		8A3BC33721D241E30016E49E /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8A3BC33C21D241FC0016E49E /* IconBuilder.h */,
+				8A3BC34221D241FD0016E49E /* IconBuilderImpl.h */,
+				8A3BC33D21D241FD0016E49E /* IconRepository.h */,
+				8A3BC34121D241FD0016E49E /* IconRepositoryImpl.h */,
+				8A3BC34021D241FD0016E49E /* QLThumbnailsCache.h */,
+				8A3BC33921D241FC0016E49E /* QLThumbnailsCacheImpl.h */,
+				8A3BC34321D241FD0016E49E /* QLVFSThumbnailsCache.h */,
+				8A3BC34421D241FD0016E49E /* QLVFSThumbnailsCacheImpl.h */,
+				8A3BC34621D241FE0016E49E /* VFSBundleIconsCache.h */,
+				8A3BC33F21D241FD0016E49E /* VFSBundleIconsCacheImpl.h */,
+				8A3BC34521D241FD0016E49E /* WorkspaceExtensionIconsCache.h */,
+				8A3BC33B21D241FC0016E49E /* WorkspaceExtensionIconsCacheImpl.h */,
+				8A3BC33A21D241FC0016E49E /* WorkspaceIconsCache.h */,
+				8A3BC33E21D241FD0016E49E /* WorkspaceIconsCacheImpl.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8A3BC33821D241E90016E49E /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8A3BC35321D2420B0016E49E /* IconBuilder.mm */,
+				8A3BC35221D2420B0016E49E /* IconBuilderImpl.mm */,
+				8A3BC34D21D2420A0016E49E /* IconRepository.mm */,
+				8A3BC34E21D2420A0016E49E /* IconRepositoryImpl.mm */,
+				8A3BC34F21D2420B0016E49E /* IconRepositoryImplBase.mm */,
+				8A3BC34C21D2420A0016E49E /* QLThumbnailsCache.mm */,
+				8A3BC34721D2420A0016E49E /* QLThumbnailsCacheImpl.mm */,
+				8A3BC35421D2420B0016E49E /* QLVFSThumbnailsCache.mm */,
+				8A3BC35021D2420B0016E49E /* QLVFSThumbnailsCacheImpl.mm */,
+				8A3BC34B21D2420A0016E49E /* VFSBundleIconsCache.mm */,
+				8A3BC35521D2420B0016E49E /* VFSBundleIconsCacheImpl.mm */,
+				8A3BC35121D2420B0016E49E /* WorkspaceExtensionIconsCache.mm */,
+				8A3BC34A21D2420A0016E49E /* WorkspaceExtensionIconsCacheImpl.mm */,
+				8A3BC34821D2420A0016E49E /* WorkspaceIconsCache.mm */,
+				8A3BC34921D2420A0016E49E /* WorkspaceIconsCacheImpl.mm */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
 		8A4534CF2156747B009284A2 /* c++ */ = {
 			isa = PBXGroup;
 			children = (
@@ -5588,9 +5712,11 @@
 				8A548D782154EE410047A5B2 /* NimbleCommander */,
 				8A548D8B2154F0510047A5B2 /* Habanero */,
 				8A997D922154F5E8008E63DD /* Utility */,
+				8AAB9D6B21D23FC20014A8ED /* Config */,
 				8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */,
 				8AF07323215519CE00895FEF /* Term */,
 				8ABF0D9221566BCF00BC1103 /* VFS */,
+				8A3BC33621D241C60016E49E /* VFSIcon */,
 				8AAA8BD5215671400053BE9D /* Operations */,
 				8AF06992215516E000895FEF /* ThirdParty */,
 				8A453ED5215682AD009284A2 /* Frameworks */,
@@ -5617,6 +5743,8 @@
 				8ABF0BEB215650F900BC1103 /* libarchive.a */,
 				8ABF0D8E21566BA900BC1103 /* libVFS.a */,
 				8A4534C32156729E009284A2 /* libOperations.a */,
+				8AAB9D8421D240300014A8ED /* libConfig.a */,
+				8A3BC32A21D2412B0016E49E /* libVFSIcon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -6085,6 +6213,47 @@
 				8AAA8BE9215671AF0053BE9D /* Statistics.h */,
 			);
 			name = Headers;
+			sourceTree = "<group>";
+		};
+		8AAB9D6B21D23FC20014A8ED /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				8AAB9D6C21D23FE70014A8ED /* Headers */,
+				8AAB9D6D21D23FF00014A8ED /* Sources */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		8AAB9D6C21D23FE70014A8ED /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				8AAB9D7421D2400F0014A8ED /* Config.h */,
+				8AAB9D6E21D2400E0014A8ED /* ConfigImpl.h */,
+				8AAB9D7121D2400F0014A8ED /* Executor.h */,
+				8AAB9D6F21D2400F0014A8ED /* FileOverwritesStorage.h */,
+				8AAB9D7021D2400F0014A8ED /* NonPersistentOverwritesStorage.h */,
+				8AAB9D7221D2400F0014A8ED /* ObjCBridge.h */,
+				8AAB9D7321D2400F0014A8ED /* OverwritesStorage.h */,
+				8AAB9D7521D240100014A8ED /* RapidJSON_fwd.h */,
+				8AAB9D7621D240100014A8ED /* RapidJSON.h */,
+			);
+			name = Headers;
+			sourceTree = "<group>";
+		};
+		8AAB9D6D21D23FF00014A8ED /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8AAB9D7821D2401A0014A8ED /* Config.cpp */,
+				8AAB9D7D21D2401B0014A8ED /* ConfigImpl.cpp */,
+				8AAB9D7A21D2401A0014A8ED /* Executor.cpp */,
+				8AAB9D7B21D2401A0014A8ED /* FileOverwritesStorage.cpp */,
+				8AAB9D7C21D2401A0014A8ED /* NonPersistentOverwritesStorage.cpp */,
+				8AAB9D7721D2401A0014A8ED /* ObjCBridge.mm */,
+				8AAB9D7921D2401A0014A8ED /* OverwritesStorage.cpp */,
+				8AAB9D7E21D2401B0014A8ED /* PrecompiledHeaders.pch */,
+				8AAB9D7F21D2401B0014A8ED /* RapidJSON.cpp */,
+			);
+			name = Sources;
 			sourceTree = "<group>";
 		};
 		8AB24CEC2154F9FA00A1C3A7 /* RoutedIO */ = {
@@ -8721,6 +8890,21 @@
 			productReference = 8A171C4B2154F5760043D119 /* libUtility.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		8A3BC32921D2412B0016E49E /* VFSIcon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A3BC32D21D2412B0016E49E /* Build configuration list for PBXNativeTarget "VFSIcon" */;
+			buildPhases = (
+				8A3BC32721D2412B0016E49E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VFSIcon;
+			productName = VFSIcon;
+			productReference = 8A3BC32A21D2412B0016E49E /* libVFSIcon.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		8A4534C22156729E009284A2 /* Operations */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A4534C42156729E009284A2 /* Build configuration list for PBXNativeTarget "Operations" */;
@@ -8780,6 +8964,21 @@
 			name = Habanero;
 			productName = Habanero;
 			productReference = 8A548DBF2154F0870047A5B2 /* libHabanero.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		8AAB9D8321D240300014A8ED /* Config */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8AAB9D8521D240300014A8ED /* Build configuration list for PBXNativeTarget "Config" */;
+			buildPhases = (
+				8AAB9D8121D240300014A8ED /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Config;
+			productName = Config;
+			productReference = 8AAB9D8421D240300014A8ED /* libConfig.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		8ABF06592156382600BC1103 /* crypto */ = {
@@ -8959,6 +9158,9 @@
 					8A171C4A2154F5760043D119 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
+					8A3BC32921D2412B0016E49E = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					8A4534C22156729E009284A2 = {
 						CreatedOnToolsVersion = 9.4.1;
 					};
@@ -8967,6 +9169,9 @@
 					};
 					8A548DBE2154F0870047A5B2 = {
 						CreatedOnToolsVersion = 9.4.1;
+					};
+					8AAB9D8321D240300014A8ED = {
+						CreatedOnToolsVersion = 10.1;
 					};
 					8ABF06592156382600BC1103 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -9020,9 +9225,11 @@
 				8A548D752154EE410047A5B2 /* NimbleCommander */,
 				8A548DBE2154F0870047A5B2 /* Habanero */,
 				8A171C4A2154F5760043D119 /* Utility */,
+				8AAB9D8321D240300014A8ED /* Config */,
 				8AF05FDE2154FAEC00895FEF /* RoutedIO */,
 				8AF0731D2155191900895FEF /* Term */,
 				8ABF0D8D21566BA900BC1103 /* VFS */,
+				8A3BC32921D2412B0016E49E /* VFSIcon */,
 				8A4534C22156729E009284A2 /* Operations */,
 				8ABF0BEA215650F900BC1103 /* archive */,
 				8AF073042155171F00895FEF /* boost_system */,
@@ -9194,6 +9401,28 @@
 				8AB24CE92154F6CA00A1C3A7 /* SystemInformation.mm in Sources */,
 				8AB24CEA2154F6CA00A1C3A7 /* VerticallyCenteredTextFieldCell.mm in Sources */,
 				8AB24CEB2154F6CA00A1C3A7 /* VolumeInformation.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A3BC32721D2412B0016E49E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A3BC35621D2421E0016E49E /* IconBuilder.mm in Sources */,
+				8A3BC35721D2421E0016E49E /* IconBuilderImpl.mm in Sources */,
+				8A3BC35821D2421E0016E49E /* IconRepository.mm in Sources */,
+				8A3BC35921D2421E0016E49E /* IconRepositoryImpl.mm in Sources */,
+				8A3BC35A21D2421E0016E49E /* IconRepositoryImplBase.mm in Sources */,
+				8A3BC35B21D2421E0016E49E /* QLThumbnailsCache.mm in Sources */,
+				8A3BC35C21D2421E0016E49E /* QLThumbnailsCacheImpl.mm in Sources */,
+				8A3BC35D21D2421E0016E49E /* QLVFSThumbnailsCache.mm in Sources */,
+				8A3BC35E21D2421E0016E49E /* QLVFSThumbnailsCacheImpl.mm in Sources */,
+				8A3BC35F21D2421E0016E49E /* VFSBundleIconsCache.mm in Sources */,
+				8A3BC36021D2421E0016E49E /* VFSBundleIconsCacheImpl.mm in Sources */,
+				8A3BC36121D2421E0016E49E /* WorkspaceExtensionIconsCache.mm in Sources */,
+				8A3BC36221D2421E0016E49E /* WorkspaceExtensionIconsCacheImpl.mm in Sources */,
+				8A3BC36321D2421E0016E49E /* WorkspaceIconsCache.mm in Sources */,
+				8A3BC36421D2421E0016E49E /* WorkspaceIconsCacheImpl.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9547,6 +9776,21 @@
 				8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */,
 				8A171C452154F1CF0043D119 /* StringsBulk.cpp in Sources */,
 				8A171C462154F1CF0043D119 /* tiny_string.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8AAB9D8121D240300014A8ED /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A3BC32E21D241610016E49E /* Config.cpp in Sources */,
+				8A3BC32F21D241610016E49E /* ConfigImpl.cpp in Sources */,
+				8A3BC33021D241610016E49E /* Executor.cpp in Sources */,
+				8A3BC33121D241610016E49E /* FileOverwritesStorage.cpp in Sources */,
+				8A3BC33221D241610016E49E /* NonPersistentOverwritesStorage.cpp in Sources */,
+				8A3BC33321D241610016E49E /* ObjCBridge.mm in Sources */,
+				8A3BC33421D241610016E49E /* OverwritesStorage.cpp in Sources */,
+				8A3BC33521D241610016E49E /* RapidJSON.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -11568,7 +11812,6 @@
 		8A171C4D2154F5760043D119 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
@@ -11581,7 +11824,6 @@
 		8A171C4E2154F5760043D119 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
@@ -11591,10 +11833,37 @@
 			};
 			name = Release;
 		};
+		8A3BC32B21D2412B0016E49E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/VFS/include",
+					"$(SRCROOT)/VFSIcon/include",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8A3BC32C21D2412B0016E49E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/VFS/include",
+					"$(SRCROOT)/VFSIcon/include",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8A4534C52156729E009284A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Operations/source/Operations-prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -11614,7 +11883,6 @@
 		8A4534C62156729E009284A2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Operations/source/Operations-prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -11634,7 +11902,7 @@
 		8A548D852154EE420047A5B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++2a";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -11650,7 +11918,7 @@
 		8A548D862154EE420047A5B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++2a";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
@@ -11727,7 +11995,6 @@
 		8A548DC12154F0870047A5B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = Habanero/include;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11736,8 +12003,35 @@
 		8A548DC22154F0870047A5B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = Habanero/include;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8AAB9D8621D240300014A8ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/ThirdParty/rapidjson/include",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/Config/include/Config",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8AAB9D8721D240300014A8ED /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/ThirdParty/rapidjson/include",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/Config/include/Config",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -11745,7 +12039,6 @@
 		8ABF065C2156382700BC1103 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					L_ENDIAN,
@@ -11788,7 +12081,6 @@
 		8ABF065D2156382700BC1103 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					L_ENDIAN,
@@ -11831,7 +12123,6 @@
 		8ABF09292156429300BC1103 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					L_ENDIAN,
@@ -11870,7 +12161,6 @@
 		8ABF092A2156429300BC1103 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					L_ENDIAN,
@@ -11909,7 +12199,6 @@
 		8ABF095D2156488D00BC1103 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					HAVE_CONFIG_H,
@@ -11926,7 +12215,6 @@
 		8ABF095E2156488D00BC1103 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					HAVE_CONFIG_H,
@@ -11943,7 +12231,6 @@
 		8ABF09AF21564B8600BC1103 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					HAVE_CONFIG_H,
@@ -11967,7 +12254,6 @@
 		8ABF09B021564B8600BC1103 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					HAVE_CONFIG_H,
@@ -11991,7 +12277,6 @@
 		8ABF0BED215650F900BC1103 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					HAVE_CONFIG_H,
@@ -12007,7 +12292,6 @@
 		8ABF0BEE215650F900BC1103 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					HAVE_CONFIG_H,
@@ -12023,7 +12307,6 @@
 		8ABF0D8F21566BA900BC1103 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFS/source/VFS-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -12051,7 +12334,6 @@
 		8ABF0D9021566BA900BC1103 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "VFS/source/VFS-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -12079,7 +12361,6 @@
 		8AF05FE02154FAEC00895FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
@@ -12092,7 +12373,6 @@
 		8AF05FE12154FAEC00895FEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = (
 					Habanero/include,
 					Utility/include,
@@ -12105,7 +12385,6 @@
 		8AF073072155171F00895FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = ThirdParty/boost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -12114,7 +12393,6 @@
 		8AF073082155171F00895FEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = ThirdParty/boost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -12123,7 +12401,6 @@
 		8AF0730F2155172E00895FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = ThirdParty/boost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -12132,7 +12409,6 @@
 		8AF073102155172E00895FEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				HEADER_SEARCH_PATHS = ThirdParty/boost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -12141,7 +12417,6 @@
 		8AF0731F2155191900895FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Term/source/Term-prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -12158,7 +12433,6 @@
 		8AF073202155191900895FEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Term/source/Term-prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -12175,7 +12449,6 @@
 		8AF073EF2155237600895FEF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"_FILE_OFFSET_BITS=64",
@@ -12197,7 +12470,6 @@
 		8AF073F02155237600895FEF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXECUTABLE_PREFIX = lib;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"_FILE_OFFSET_BITS=64",
@@ -12224,6 +12496,15 @@
 			buildConfigurations = (
 				8A171C4D2154F5760043D119 /* Debug */,
 				8A171C4E2154F5760043D119 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A3BC32D21D2412B0016E49E /* Build configuration list for PBXNativeTarget "VFSIcon" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A3BC32B21D2412B0016E49E /* Debug */,
+				8A3BC32C21D2412B0016E49E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -12260,6 +12541,15 @@
 			buildConfigurations = (
 				8A548DC12154F0870047A5B2 /* Debug */,
 				8A548DC22154F0870047A5B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8AAB9D8521D240300014A8ED /* Build configuration list for PBXNativeTarget "Config" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8AAB9D8621D240300014A8ED /* Debug */,
+				8AAB9D8721D240300014A8ED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
