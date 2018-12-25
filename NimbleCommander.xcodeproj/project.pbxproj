@@ -231,6 +231,17 @@
 		8A3BC36221D2421E0016E49E /* WorkspaceExtensionIconsCacheImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34A21D2420A0016E49E /* WorkspaceExtensionIconsCacheImpl.mm */; };
 		8A3BC36321D2421E0016E49E /* WorkspaceIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34821D2420A0016E49E /* WorkspaceIconsCache.mm */; };
 		8A3BC36421D2421E0016E49E /* WorkspaceIconsCacheImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC34921D2420A0016E49E /* WorkspaceIconsCacheImpl.mm */; };
+		8A3BC36C21D2437B0016E49E /* PosixFilesystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC36B21D243620016E49E /* PosixFilesystem.cpp */; };
+		8A3BC36D21D2437B0016E49E /* PosixFilesystemImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC36A21D243610016E49E /* PosixFilesystemImpl.cpp */; };
+		8A3BC37C21D244660016E49E /* AdaptiveDateFormatting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37621D243F10016E49E /* AdaptiveDateFormatting.mm */; };
+		8A3BC37D21D2446C0016E49E /* BriefOnDiskStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37321D243F10016E49E /* BriefOnDiskStorage.cpp */; };
+		8A3BC37E21D2446E0016E49E /* BriefOnDiskStorageImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37421D243F10016E49E /* BriefOnDiskStorageImpl.cpp */; };
+		8A3BC37F21D244750016E49E /* DiskUtility.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37721D243F10016E49E /* DiskUtility.mm */; };
+		8A3BC38021D244790016E49E /* FileMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37821D243F10016E49E /* FileMask.cpp */; };
+		8A3BC38121D244810016E49E /* PathManip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37A21D243F20016E49E /* PathManip.cpp */; };
+		8A3BC38221D2448B0016E49E /* NSObject+MassObserving.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37521D243F10016E49E /* NSObject+MassObserving.mm */; };
+		8A3BC38321D244900016E49E /* NSTimer+Tolerance.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37921D243F10016E49E /* NSTimer+Tolerance.mm */; };
+		8A3BC38721D245C00016E49E /* Helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC38521D245A90016E49E /* Helpers.cpp */; };
 		8A4534C7215672CA009284A2 /* AttrsChanging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D72156725200E92BC9 /* AttrsChanging.mm */; };
 		8A4534C8215672CD009284A2 /* AttrsChangingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */; };
 		8A4534C9215672CF009284A2 /* AttrsChangingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */; };
@@ -526,11 +537,8 @@
 		8AB24CDC2154F6CA00A1C3A7 /* MIMResponder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB22154F65200A1C3A7 /* MIMResponder.mm */; };
 		8AB24CDD2154F6CA00A1C3A7 /* NativeFSManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAE2154F65200A1C3A7 /* NativeFSManager.mm */; };
 		8AB24CDE2154F6CA00A1C3A7 /* NSMenu+Hierarchical.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC42154F65300A1C3A7 /* NSMenu+Hierarchical.mm */; };
-		8AB24CDF2154F6CA00A1C3A7 /* NSObject+MassObserving.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBD2154F65200A1C3A7 /* NSObject+MassObserving.m */; };
-		8AB24CE02154F6CA00A1C3A7 /* NSTimer+Tolerance.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CAF2154F65200A1C3A7 /* NSTimer+Tolerance.m */; };
 		8AB24CE12154F6CA00A1C3A7 /* NSView+Sugar.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB82154F65200A1C3A7 /* NSView+Sugar.mm */; };
 		8AB24CE22154F6CA00A1C3A7 /* OrthodoxMonospace.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC22154F65300A1C3A7 /* OrthodoxMonospace.mm */; };
-		8AB24CE32154F6CA00A1C3A7 /* PathManip.c in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CA82154F65100A1C3A7 /* PathManip.c */; };
 		8AB24CE42154F6CA00A1C3A7 /* SheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CBA2154F65200A1C3A7 /* SheetController.mm */; };
 		8AB24CE52154F6CA00A1C3A7 /* SheetWithHotkeys.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CB62154F65200A1C3A7 /* SheetWithHotkeys.mm */; };
 		8AB24CE62154F6CA00A1C3A7 /* SimpleComboBoxPersistentDataSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8AB24CC12154F65300A1C3A7 /* SimpleComboBoxPersistentDataSource.mm */; };
@@ -1801,6 +1809,30 @@
 		8A3BC35321D2420B0016E49E /* IconBuilder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = IconBuilder.mm; path = source/IconBuilder.mm; sourceTree = "<group>"; };
 		8A3BC35421D2420B0016E49E /* QLVFSThumbnailsCache.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = QLVFSThumbnailsCache.mm; path = source/QLVFSThumbnailsCache.mm; sourceTree = "<group>"; };
 		8A3BC35521D2420B0016E49E /* VFSBundleIconsCacheImpl.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VFSBundleIconsCacheImpl.mm; path = source/VFSBundleIconsCacheImpl.mm; sourceTree = "<group>"; };
+		8A3BC36521D243460016E49E /* PosixFilesystemMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PosixFilesystemMock.h; path = include/Habanero/PosixFilesystemMock.h; sourceTree = "<group>"; };
+		8A3BC36621D243460016E49E /* tribool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tribool.h; path = include/Habanero/tribool.h; sourceTree = "<group>"; };
+		8A3BC36721D243470016E49E /* intrusive_ptr.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = intrusive_ptr.h; path = include/Habanero/intrusive_ptr.h; sourceTree = "<group>"; };
+		8A3BC36821D243470016E49E /* PosixFilesystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PosixFilesystem.h; path = include/Habanero/PosixFilesystem.h; sourceTree = "<group>"; };
+		8A3BC36921D243470016E49E /* PosixFilesystemImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PosixFilesystemImpl.h; path = include/Habanero/PosixFilesystemImpl.h; sourceTree = "<group>"; };
+		8A3BC36A21D243610016E49E /* PosixFilesystemImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PosixFilesystemImpl.cpp; path = source/PosixFilesystemImpl.cpp; sourceTree = "<group>"; };
+		8A3BC36B21D243620016E49E /* PosixFilesystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PosixFilesystem.cpp; path = source/PosixFilesystem.cpp; sourceTree = "<group>"; };
+		8A3BC36E21D243C70016E49E /* BriefOnDiskStorageImpl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BriefOnDiskStorageImpl.h; path = include/Utility/BriefOnDiskStorageImpl.h; sourceTree = "<group>"; };
+		8A3BC36F21D243C70016E49E /* FileMask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FileMask.h; path = include/Utility/FileMask.h; sourceTree = "<group>"; };
+		8A3BC37021D243C70016E49E /* AdaptiveDateFormatting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AdaptiveDateFormatting.h; path = include/Utility/AdaptiveDateFormatting.h; sourceTree = "<group>"; };
+		8A3BC37121D243C70016E49E /* BriefOnDiskStorage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BriefOnDiskStorage.h; path = include/Utility/BriefOnDiskStorage.h; sourceTree = "<group>"; };
+		8A3BC37221D243C70016E49E /* DiskUtility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DiskUtility.h; path = include/Utility/DiskUtility.h; sourceTree = "<group>"; };
+		8A3BC37321D243F10016E49E /* BriefOnDiskStorage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BriefOnDiskStorage.cpp; path = source/BriefOnDiskStorage.cpp; sourceTree = "<group>"; };
+		8A3BC37421D243F10016E49E /* BriefOnDiskStorageImpl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = BriefOnDiskStorageImpl.cpp; path = source/BriefOnDiskStorageImpl.cpp; sourceTree = "<group>"; };
+		8A3BC37521D243F10016E49E /* NSObject+MassObserving.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSObject+MassObserving.mm"; path = "source/NSObject+MassObserving.mm"; sourceTree = "<group>"; };
+		8A3BC37621D243F10016E49E /* AdaptiveDateFormatting.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = AdaptiveDateFormatting.mm; path = source/AdaptiveDateFormatting.mm; sourceTree = "<group>"; };
+		8A3BC37721D243F10016E49E /* DiskUtility.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DiskUtility.mm; path = source/DiskUtility.mm; sourceTree = "<group>"; };
+		8A3BC37821D243F10016E49E /* FileMask.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FileMask.cpp; path = source/FileMask.cpp; sourceTree = "<group>"; };
+		8A3BC37921D243F10016E49E /* NSTimer+Tolerance.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "NSTimer+Tolerance.mm"; path = "source/NSTimer+Tolerance.mm"; sourceTree = "<group>"; };
+		8A3BC37A21D243F20016E49E /* PathManip.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = PathManip.cpp; path = source/PathManip.cpp; sourceTree = "<group>"; };
+		8A3BC37B21D243F20016E49E /* PrecompiledHeaders.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrecompiledHeaders.pch; path = source/PrecompiledHeaders.pch; sourceTree = "<group>"; };
+		8A3BC38421D245380016E49E /* PrecompiledHeaders.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrecompiledHeaders.pch; path = source/PrecompiledHeaders.pch; sourceTree = "<group>"; };
+		8A3BC38521D245A90016E49E /* Helpers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Helpers.cpp; sourceTree = "<group>"; };
+		8A3BC38621D245A90016E49E /* Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
 		8A4534C32156729E009284A2 /* libOperations.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOperations.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A4534D12156747B009284A2 /* any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		8A453B1B21568144009284A2 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
@@ -2823,14 +2855,12 @@
 		8AB24CA52154F64700A1C3A7 /* KeychainServices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KeychainServices.h; path = Utility/include/Utility/KeychainServices.h; sourceTree = SOURCE_ROOT; };
 		8AB24CA62154F65100A1C3A7 /* StringExtras.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = StringExtras.mm; path = Utility/source/StringExtras.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CA72154F65100A1C3A7 /* SystemInformation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SystemInformation.mm; path = Utility/source/SystemInformation.mm; sourceTree = SOURCE_ROOT; };
-		8AB24CA82154F65100A1C3A7 /* PathManip.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = PathManip.c; path = Utility/source/PathManip.c; sourceTree = SOURCE_ROOT; };
 		8AB24CA92154F65100A1C3A7 /* HexadecimalColor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = HexadecimalColor.mm; path = Utility/source/HexadecimalColor.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CAA2154F65100A1C3A7 /* ByteCountFormatter.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ByteCountFormatter.mm; path = Utility/source/ByteCountFormatter.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CAB2154F65200A1C3A7 /* FilenameTextNavigation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FilenameTextNavigation.mm; path = Utility/source/FilenameTextNavigation.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CAC2154F65200A1C3A7 /* FontCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FontCache.cpp; path = Utility/source/FontCache.cpp; sourceTree = SOURCE_ROOT; };
 		8AB24CAD2154F65200A1C3A7 /* FontExtras.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FontExtras.cpp; path = Utility/source/FontExtras.cpp; sourceTree = SOURCE_ROOT; };
 		8AB24CAE2154F65200A1C3A7 /* NativeFSManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = NativeFSManager.mm; path = Utility/source/NativeFSManager.mm; sourceTree = SOURCE_ROOT; };
-		8AB24CAF2154F65200A1C3A7 /* NSTimer+Tolerance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSTimer+Tolerance.m"; path = "Utility/source/NSTimer+Tolerance.m"; sourceTree = SOURCE_ROOT; };
 		8AB24CB02154F65200A1C3A7 /* FunctionKeysPass.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FunctionKeysPass.mm; path = Utility/source/FunctionKeysPass.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CB12154F65200A1C3A7 /* DataBlockAnalysis.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = DataBlockAnalysis.mm; path = Utility/source/DataBlockAnalysis.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CB22154F65200A1C3A7 /* MIMResponder.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = MIMResponder.mm; path = Utility/source/MIMResponder.mm; sourceTree = SOURCE_ROOT; };
@@ -2844,7 +2874,6 @@
 		8AB24CBA2154F65200A1C3A7 /* SheetController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = SheetController.mm; path = Utility/source/SheetController.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CBB2154F65200A1C3A7 /* ColoredSeparatorLine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = ColoredSeparatorLine.mm; path = Utility/source/ColoredSeparatorLine.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CBC2154F65200A1C3A7 /* Encodings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Encodings.cpp; path = Utility/source/Encodings.cpp; sourceTree = SOURCE_ROOT; };
-		8AB24CBD2154F65200A1C3A7 /* NSObject+MassObserving.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSObject+MassObserving.m"; path = "Utility/source/NSObject+MassObserving.m"; sourceTree = SOURCE_ROOT; };
 		8AB24CBE2154F65200A1C3A7 /* FPSLimitedDrawer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = FPSLimitedDrawer.mm; path = Utility/source/FPSLimitedDrawer.mm; sourceTree = SOURCE_ROOT; };
 		8AB24CBF2154F65200A1C3A7 /* FSEventsDirUpdate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FSEventsDirUpdate.cpp; path = Utility/source/FSEventsDirUpdate.cpp; sourceTree = SOURCE_ROOT; };
 		8AB24CC02154F65200A1C3A7 /* VerticallyCenteredTextFieldCell.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = VerticallyCenteredTextFieldCell.mm; path = Utility/source/VerticallyCenteredTextFieldCell.mm; sourceTree = SOURCE_ROOT; };
@@ -4574,15 +4603,20 @@
 				8A171C1C2154F1B70043D119 /* fixed_eytzinger_map.h */,
 				8A171C142154F1B70043D119 /* Hash.h */,
 				8A171C172154F1B70043D119 /* IdleSleepPreventer.h */,
+				8A3BC36721D243470016E49E /* intrusive_ptr.h */,
 				8A171C182154F1B70043D119 /* KVO.h */,
 				8A171C0E2154F1B60043D119 /* LRUCache.h */,
 				8A171C0C2154F1B60043D119 /* mach_time.h */,
 				8A171C102154F1B60043D119 /* Observable.h */,
+				8A3BC36821D243470016E49E /* PosixFilesystem.h */,
+				8A3BC36921D243470016E49E /* PosixFilesystemImpl.h */,
+				8A3BC36521D243460016E49E /* PosixFilesystemMock.h */,
 				8A171C0F2154F1B60043D119 /* ScopedObservable.h */,
 				8A171C1E2154F1B70043D119 /* SerialQueue.h */,
 				8A171C122154F1B60043D119 /* spinlock.h */,
 				8A171C0D2154F1B60043D119 /* StringsBulk.h */,
 				8A171C192154F1B70043D119 /* tiny_string.h */,
+				8A3BC36621D243460016E49E /* tribool.h */,
 				8A171C1D2154F1B70043D119 /* variable_container.h */,
 			);
 			name = Headers;
@@ -5789,6 +5823,8 @@
 				8A171C2C2154F1C20043D119 /* KVO.cpp */,
 				8A171C2A2154F1C20043D119 /* mach_time.cpp */,
 				8A171C202154F1C20043D119 /* Observable.cpp */,
+				8A3BC36B21D243620016E49E /* PosixFilesystem.cpp */,
+				8A3BC36A21D243610016E49E /* PosixFilesystemImpl.cpp */,
 				8A171C2B2154F1C20043D119 /* ScopedObservable.cpp */,
 				8A171C302154F1C20043D119 /* SerialQueue.cpp */,
 				8A171C222154F1C20043D119 /* spinlock.cpp */,
@@ -5864,6 +5900,8 @@
 				8A67B6FE2156725300E92BC9 /* DisclosureViewController.m */,
 				8A67B6FF2156725300E92BC9 /* FileAlreadyExistDialog.h */,
 				8A67B7002156725300E92BC9 /* FileAlreadyExistDialog.mm */,
+				8A3BC38521D245A90016E49E /* Helpers.cpp */,
+				8A3BC38621D245A90016E49E /* Helpers.h */,
 				8A67B7012156725300E92BC9 /* NativeFSHelpers.cpp */,
 				8A67B7022156725300E92BC9 /* NativeFSHelpers.h */,
 				8A67B7032156725300E92BC9 /* Options.h */,
@@ -5952,14 +5990,20 @@
 		8A997D932154F607008E63DD /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8A3BC37621D243F10016E49E /* AdaptiveDateFormatting.mm */,
+				8A3BC37B21D243F20016E49E /* PrecompiledHeaders.pch */,
 				8AB24CB92154F65200A1C3A7 /* BlinkingCaret.mm */,
+				8A3BC37321D243F10016E49E /* BriefOnDiskStorage.cpp */,
+				8A3BC37421D243F10016E49E /* BriefOnDiskStorageImpl.cpp */,
 				8AB24CC32154F65300A1C3A7 /* ButtonWithTextColor.mm */,
 				8AB24CAA2154F65100A1C3A7 /* ByteCountFormatter.mm */,
 				8AB24CBB2154F65200A1C3A7 /* ColoredSeparatorLine.mm */,
 				8AB24CB12154F65200A1C3A7 /* DataBlockAnalysis.mm */,
+				8A3BC37721D243F10016E49E /* DiskUtility.mm */,
 				8AB24CBC2154F65200A1C3A7 /* Encodings.cpp */,
 				8AB24CC52154F65300A1C3A7 /* EncodingsAdditions.mm */,
 				8AB24CB42154F65200A1C3A7 /* ExtensionLowercaseComparison.cpp */,
+				8A3BC37821D243F10016E49E /* FileMask.cpp */,
 				8AB24CC72154F65300A1C3A7 /* FilenameTextControl.mm */,
 				8AB24CAB2154F65200A1C3A7 /* FilenameTextNavigation.mm */,
 				8AB24CAC2154F65200A1C3A7 /* FontCache.cpp */,
@@ -5974,11 +6018,11 @@
 				8AB24CB22154F65200A1C3A7 /* MIMResponder.mm */,
 				8AB24CAE2154F65200A1C3A7 /* NativeFSManager.mm */,
 				8AB24CC42154F65300A1C3A7 /* NSMenu+Hierarchical.mm */,
-				8AB24CBD2154F65200A1C3A7 /* NSObject+MassObserving.m */,
-				8AB24CAF2154F65200A1C3A7 /* NSTimer+Tolerance.m */,
+				8A3BC37521D243F10016E49E /* NSObject+MassObserving.mm */,
+				8A3BC37921D243F10016E49E /* NSTimer+Tolerance.mm */,
 				8AB24CB82154F65200A1C3A7 /* NSView+Sugar.mm */,
 				8AB24CC22154F65300A1C3A7 /* OrthodoxMonospace.mm */,
-				8AB24CA82154F65100A1C3A7 /* PathManip.c */,
+				8A3BC37A21D243F20016E49E /* PathManip.cpp */,
 				8AB24CBA2154F65200A1C3A7 /* SheetController.mm */,
 				8AB24CB62154F65200A1C3A7 /* SheetWithHotkeys.mm */,
 				8AB24CC12154F65300A1C3A7 /* SimpleComboBoxPersistentDataSource.mm */,
@@ -5994,13 +6038,18 @@
 		8A997D942154F60F008E63DD /* Headers */ = {
 			isa = PBXGroup;
 			children = (
+				8A3BC37021D243C70016E49E /* AdaptiveDateFormatting.h */,
 				8AB24C9A2154F64600A1C3A7 /* BlinkingCaret.h */,
+				8A3BC37121D243C70016E49E /* BriefOnDiskStorage.h */,
+				8A3BC36E21D243C70016E49E /* BriefOnDiskStorageImpl.h */,
 				8AB24C9D2154F64700A1C3A7 /* ButtonWithTextColor.h */,
 				8AB24C9C2154F64600A1C3A7 /* ByteCountFormatter.h */,
 				8AB24C8B2154F64600A1C3A7 /* ColoredSeparatorLine.h */,
 				8AB24C932154F64600A1C3A7 /* DataBlockAnalysis.h */,
+				8A3BC37221D243C70016E49E /* DiskUtility.h */,
 				8AB24C852154F64500A1C3A7 /* Encodings.h */,
 				8AB24C922154F64600A1C3A7 /* ExtensionLowercaseComparison.h */,
+				8A3BC36F21D243C70016E49E /* FileMask.h */,
 				8AB24CA32154F64700A1C3A7 /* FilenameTextControl.h */,
 				8AB24C992154F64600A1C3A7 /* FilenameTextNavigation.h */,
 				8AB24C9B2154F64600A1C3A7 /* FontCache.h */,
@@ -8685,6 +8734,7 @@
 				8AF0732E21551A5D00895FEF /* FlippableHolder.h */,
 				8AF0732A21551A5D00895FEF /* FlippableHolder.mm */,
 				8AF0732B21551A5D00895FEF /* Parser.mm */,
+				8A3BC38421D245380016E49E /* PrecompiledHeaders.pch */,
 				8AF0732C21551A5D00895FEF /* Screen.cpp */,
 				8AF0733121551A5D00895FEF /* ScreenBuffer.cpp */,
 				8AF0732D21551A5D00895FEF /* ScrollView.mm */,
@@ -9366,14 +9416,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A3BC37C21D244660016E49E /* AdaptiveDateFormatting.mm in Sources */,
 				8AB24CC92154F6CA00A1C3A7 /* BlinkingCaret.mm in Sources */,
+				8A3BC37D21D2446C0016E49E /* BriefOnDiskStorage.cpp in Sources */,
+				8A3BC37E21D2446E0016E49E /* BriefOnDiskStorageImpl.cpp in Sources */,
 				8AB24CCA2154F6CA00A1C3A7 /* ButtonWithTextColor.mm in Sources */,
 				8AB24CCB2154F6CA00A1C3A7 /* ByteCountFormatter.mm in Sources */,
 				8AB24CCC2154F6CA00A1C3A7 /* ColoredSeparatorLine.mm in Sources */,
 				8AB24CCD2154F6CA00A1C3A7 /* DataBlockAnalysis.mm in Sources */,
+				8A3BC37F21D244750016E49E /* DiskUtility.mm in Sources */,
 				8AB24CCE2154F6CA00A1C3A7 /* Encodings.cpp in Sources */,
 				8AB24CCF2154F6CA00A1C3A7 /* EncodingsAdditions.mm in Sources */,
 				8AB24CD02154F6CA00A1C3A7 /* ExtensionLowercaseComparison.cpp in Sources */,
+				8A3BC38021D244790016E49E /* FileMask.cpp in Sources */,
 				8AB24CD12154F6CA00A1C3A7 /* FilenameTextControl.mm in Sources */,
 				8AB24CD22154F6CA00A1C3A7 /* FilenameTextNavigation.mm in Sources */,
 				8AB24CD32154F6CA00A1C3A7 /* FontCache.cpp in Sources */,
@@ -9388,11 +9443,11 @@
 				8AB24CDC2154F6CA00A1C3A7 /* MIMResponder.mm in Sources */,
 				8AB24CDD2154F6CA00A1C3A7 /* NativeFSManager.mm in Sources */,
 				8AB24CDE2154F6CA00A1C3A7 /* NSMenu+Hierarchical.mm in Sources */,
-				8AB24CDF2154F6CA00A1C3A7 /* NSObject+MassObserving.m in Sources */,
-				8AB24CE02154F6CA00A1C3A7 /* NSTimer+Tolerance.m in Sources */,
+				8A3BC38221D2448B0016E49E /* NSObject+MassObserving.mm in Sources */,
+				8A3BC38321D244900016E49E /* NSTimer+Tolerance.mm in Sources */,
 				8AB24CE12154F6CA00A1C3A7 /* NSView+Sugar.mm in Sources */,
 				8AB24CE22154F6CA00A1C3A7 /* OrthodoxMonospace.mm in Sources */,
-				8AB24CE32154F6CA00A1C3A7 /* PathManip.c in Sources */,
+				8A3BC38121D244810016E49E /* PathManip.cpp in Sources */,
 				8AB24CE42154F6CA00A1C3A7 /* SheetController.mm in Sources */,
 				8AB24CE52154F6CA00A1C3A7 /* SheetWithHotkeys.mm in Sources */,
 				8AB24CE62154F6CA00A1C3A7 /* SimpleComboBoxPersistentDataSource.mm in Sources */,
@@ -9447,6 +9502,7 @@
 				8A4534D82156749C009284A2 /* CopyingTitleBuilder.mm in Sources */,
 				8A4534D92156749C009284A2 /* DisclosureViewController.m in Sources */,
 				8A4534DA2156749C009284A2 /* FileAlreadyExistDialog.mm in Sources */,
+				8A3BC38721D245C00016E49E /* Helpers.cpp in Sources */,
 				8A4534DB2156749C009284A2 /* NativeFSHelpers.cpp in Sources */,
 				8A4534DC2156749C009284A2 /* SourceItems.cpp in Sources */,
 				8A4534DD215674BF009284A2 /* Deletion.mm in Sources */,
@@ -9771,6 +9827,8 @@
 				8A171C3F2154F1CF0043D119 /* KVO.cpp in Sources */,
 				8A171C402154F1CF0043D119 /* mach_time.cpp in Sources */,
 				8A171C412154F1CF0043D119 /* Observable.cpp in Sources */,
+				8A3BC36C21D2437B0016E49E /* PosixFilesystem.cpp in Sources */,
+				8A3BC36D21D2437B0016E49E /* PosixFilesystemImpl.cpp in Sources */,
 				8A171C422154F1CF0043D119 /* ScopedObservable.cpp in Sources */,
 				8A171C432154F1CF0043D119 /* SerialQueue.cpp in Sources */,
 				8A171C442154F1CF0043D119 /* spinlock.cpp in Sources */,
@@ -11813,9 +11871,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					Habanero/include,
-					Utility/include,
-					Utility/include/Utility,
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/Utility/include/Utility",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11825,9 +11884,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
-					Habanero/include,
-					Utility/include,
-					Utility/include/Utility,
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/Utility/include/Utility",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -11995,7 +12055,10 @@
 		8A548DC12154F0870047A5B2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = Habanero/include;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Habanero/include/Habanero",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -12003,7 +12066,10 @@
 		8A548DC22154F0870047A5B2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = Habanero/include;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Habanero/include/Habanero",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
