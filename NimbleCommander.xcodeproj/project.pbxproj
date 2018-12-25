@@ -242,6 +242,23 @@
 		8A3BC38221D2448B0016E49E /* NSObject+MassObserving.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37521D243F10016E49E /* NSObject+MassObserving.mm */; };
 		8A3BC38321D244900016E49E /* NSTimer+Tolerance.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC37921D243F10016E49E /* NSTimer+Tolerance.mm */; };
 		8A3BC38721D245C00016E49E /* Helpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC38521D245A90016E49E /* Helpers.cpp */; };
+		8A3BC39A21D247FD0016E49E /* Helpers.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC38A21D247890016E49E /* Helpers.mm */; };
+		8A3BC39B21D248480016E49E /* PanelBriefViewFixedNumberLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC39921D247A70016E49E /* PanelBriefViewFixedNumberLayout.mm */; };
+		8A3BC39C21D248480016E49E /* PanelBriefViewFixedNumberLayoutEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC39821D247A70016E49E /* PanelBriefViewFixedNumberLayoutEngine.mm */; };
+		8A3BC39D21D248480016E49E /* PanelBriefViewFixedWidthLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC39121D247A60016E49E /* PanelBriefViewFixedWidthLayout.mm */; };
+		8A3BC39E21D248480016E49E /* PanelBriefViewFixedWidthLayoutEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC38C21D247A50016E49E /* PanelBriefViewFixedWidthLayoutEngine.mm */; };
+		8A3BC39F21D248640016E49E /* PanelBriefViewLayoutEngineBase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC39721D247A70016E49E /* PanelBriefViewLayoutEngineBase.mm */; };
+		8A3BC3A221D248A50016E49E /* IconRepositoryCleaner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC3A021D2488D0016E49E /* IconRepositoryCleaner.mm */; };
+		8A3BC3AD21D249070016E49E /* PanelViewFooterThemeImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC3A321D249060016E49E /* PanelViewFooterThemeImpl.mm */; };
+		8A3BC3AE21D249070016E49E /* PanelViewHeaderThemeImpl.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC3A421D249060016E49E /* PanelViewHeaderThemeImpl.mm */; };
+		8A3BC3AF21D249070016E49E /* PanelViewPresentationItemsColoringFilterPersistence.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC3A621D249060016E49E /* PanelViewPresentationItemsColoringFilterPersistence.mm */; };
+		8A3BC3B021D249070016E49E /* PanelViewHeaderTheme.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC3A821D249070016E49E /* PanelViewHeaderTheme.mm */; };
+		8A3BC3B121D249070016E49E /* PanelViewFooterTheme.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC3AB21D249070016E49E /* PanelViewFooterTheme.mm */; };
+		8A3BC3B421D24BD60016E49E /* PanelViewDummyPresentation.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC3B221D24BB30016E49E /* PanelViewDummyPresentation.mm */; };
+		8A3BC3B521D25DF10016E49E /* libConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AAB9D8421D240300014A8ED /* libConfig.a */; };
+		8A3BC3B621D25DF50016E49E /* libVFSIcon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A3BC32A21D2412B0016E49E /* libVFSIcon.a */; };
+		8A3BC3B721D25E670016E49E /* PanelBriefViewDynamicWidthLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC39621D247A70016E49E /* PanelBriefViewDynamicWidthLayout.mm */; };
+		8A3BC3B821D25E670016E49E /* PanelBriefViewDynamicWidthLayoutEngine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A3BC39521D247A60016E49E /* PanelBriefViewDynamicWidthLayoutEngine.mm */; };
 		8A4534C7215672CA009284A2 /* AttrsChanging.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D72156725200E92BC9 /* AttrsChanging.mm */; };
 		8A4534C8215672CD009284A2 /* AttrsChangingDialog.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6D92156725200E92BC9 /* AttrsChangingDialog.mm */; };
 		8A4534C9215672CF009284A2 /* AttrsChangingJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A67B6DA2156725200E92BC9 /* AttrsChangingJob.cpp */; };
@@ -292,8 +309,6 @@
 		8A453ECC21568228009284A2 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF02156818D009284A2 /* AppDelegate.mm */; };
 		8A453ECD21568228009284A2 /* AppDelegateCPP.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF32156818D009284A2 /* AppDelegateCPP.mm */; };
 		8A453ECE21568228009284A2 /* Application.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF52156818D009284A2 /* Application.mm */; };
-		8A453ECF21568228009284A2 /* Config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CF82156818D009284A2 /* Config.cpp */; };
-		8A453ED021568228009284A2 /* Config.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFA2156818D009284A2 /* Config.mm */; };
 		8A453ED121568228009284A2 /* ConfigWiring.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFC2156818D009284A2 /* ConfigWiring.mm */; };
 		8A453ED221568228009284A2 /* Interactions.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFE2156818D009284A2 /* Interactions.mm */; };
 		8A453ED321568228009284A2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453CFF2156818D009284A2 /* main.cpp */; };
@@ -312,10 +327,6 @@
 		8A453EFD21568322009284A2 /* libarchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF0BEB215650F900BC1103 /* libarchive.a */; };
 		8A453EFE21568326009284A2 /* liblzma.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF09AD21564B8600BC1103 /* liblzma.a */; };
 		8A453EFF2156832E009284A2 /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8ABF095B2156488D00BC1103 /* libssh2.a */; };
-		8A453F0021568E92009284A2 /* QLThumbnailsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C562156818C009284A2 /* QLThumbnailsCache.mm */; };
-		8A453F0121568E92009284A2 /* QLVFSThumbnailsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C582156818C009284A2 /* QLVFSThumbnailsCache.mm */; };
-		8A453F0221568E92009284A2 /* WorkspaceExtensionIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5A2156818C009284A2 /* WorkspaceExtensionIconsCache.mm */; };
-		8A453F0321568E92009284A2 /* WorkspaceIconsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5C2156818C009284A2 /* WorkspaceIconsCache.mm */; };
 		8A453F0421568EAF009284A2 /* CocoaAppearanceManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C892156818C009284A2 /* CocoaAppearanceManager.mm */; };
 		8A453F0521568EAF009284A2 /* Theme.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C8B2156818C009284A2 /* Theme.mm */; };
 		8A453F0621568EAF009284A2 /* ThemePersistence.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C8D2156818C009284A2 /* ThemePersistence.mm */; };
@@ -327,12 +338,10 @@
 		8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C5E2156818C009284A2 /* ConfigBackedNetworkConnectionsManager.mm */; };
 		8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C602156818C009284A2 /* ConnectionsMenuDelegate.mm */; };
 		8A453F0F21568ED0009284A2 /* Dock.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C622156818C009284A2 /* Dock.mm */; };
-		8A453F1121568ED0009284A2 /* FileMask.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C652156818C009284A2 /* FileMask.cpp */; };
 		8A453F1321568ED0009284A2 /* FileWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C682156818C009284A2 /* FileWindow.cpp */; };
 		8A453F1621568ED0009284A2 /* LaunchServices.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C6E2156818C009284A2 /* LaunchServices.mm */; };
 		8A453F1721568ED0009284A2 /* NetworkConnectionIconProvider.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C732156818C009284A2 /* NetworkConnectionIconProvider.mm */; };
 		8A453F1821568ED0009284A2 /* NetworkConnectionsManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C752156818C009284A2 /* NetworkConnectionsManager.mm */; };
-		8A453F1921568ED0009284A2 /* rapidjson.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C762156818C009284A2 /* rapidjson.cpp */; };
 		8A453F1B21568ED0009284A2 /* SearchForFiles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7B2156818C009284A2 /* SearchForFiles.cpp */; };
 		8A453F1C21568ED0009284A2 /* SearchInFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C7D2156818C009284A2 /* SearchInFile.cpp */; };
 		8A453F1D21568ED0009284A2 /* ServicesHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453C802156818C009284A2 /* ServicesHandler.mm */; };
@@ -411,7 +420,6 @@
 		8A453F6A215690D5009284A2 /* PanelBriefViewCollectionView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D722156818D009284A2 /* PanelBriefViewCollectionView.mm */; };
 		8A453F6B215690D5009284A2 /* PanelBriefViewCollectionViewBackground.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D742156818D009284A2 /* PanelBriefViewCollectionViewBackground.mm */; };
 		8A453F6C215690D5009284A2 /* PanelBriefViewCollectionViewItem.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D762156818D009284A2 /* PanelBriefViewCollectionViewItem.mm */; };
-		8A453F6D215690D5009284A2 /* PanelBriefViewCollectionViewLayout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D782156818D009284A2 /* PanelBriefViewCollectionViewLayout.mm */; };
 		8A453F6E215690D5009284A2 /* PanelBriefViewItemCarrier.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D7A2156818D009284A2 /* PanelBriefViewItemCarrier.mm */; };
 		8A453F6F215690D5009284A2 /* TextWidthsCache.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D7C2156818D009284A2 /* TextWidthsCache.mm */; };
 		8A453F70215690E1009284A2 /* ClosedPanelsHistoryImpl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D9D2156818D009284A2 /* ClosedPanelsHistoryImpl.cpp */; };
@@ -420,7 +428,6 @@
 		8A453F73215690E1009284A2 /* RecentlyClosedMenuDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DA42156818D009284A2 /* RecentlyClosedMenuDelegate.mm */; };
 		8A453F74215690F7009284A2 /* Layout.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DAB2156818D009284A2 /* Layout.mm */; };
 		8A453F75215690F7009284A2 /* PanelListView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DAD2156818D009284A2 /* PanelListView.mm */; };
-		8A453F76215690F7009284A2 /* PanelListViewDateFormatting.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DAF2156818D009284A2 /* PanelListViewDateFormatting.mm */; };
 		8A453F77215690F7009284A2 /* PanelListViewDateTimeView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB12156818D009284A2 /* PanelListViewDateTimeView.mm */; };
 		8A453F78215690F7009284A2 /* PanelListViewGeometry.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB32156818D009284A2 /* PanelListViewGeometry.mm */; };
 		8A453F79215690F7009284A2 /* PanelListViewNameView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DB52156818D009284A2 /* PanelListViewNameView.mm */; };
@@ -460,7 +467,6 @@
 		8A453F9F21569159009284A2 /* FavoritesWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D962156818D009284A2 /* FavoritesWindowController.mm */; };
 		8A453FA021569159009284A2 /* FilesDraggingSource.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D982156818D009284A2 /* FilesDraggingSource.mm */; };
 		8A453FA121569159009284A2 /* FindFilesSheetController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453D9A2156818D009284A2 /* FindFilesSheetController.mm */; };
-		8A453FA221569159009284A2 /* IconsGenerator2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DA62156818D009284A2 /* IconsGenerator2.mm */; };
 		8A453FA321569159009284A2 /* ListingPromise.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DC22156818D009284A2 /* ListingPromise.cpp */; };
 		8A453FA421569159009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DC52156818D009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm */; };
 		8A453FA621569159009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A453DC92156818D009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm */; };
@@ -1616,6 +1622,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8A3BC3BA21D264DF0016E49E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8AAB9D8321D240300014A8ED;
+			remoteInfo = Config;
+		};
+		8A3BC3BC21D264E20016E49E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A3BC32921D2412B0016E49E;
+			remoteInfo = VFSIcon;
+		};
 		8A453EDC215682D2009284A2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8A548D6E2154EE410047A5B2 /* Project object */;
@@ -1833,6 +1853,39 @@
 		8A3BC38421D245380016E49E /* PrecompiledHeaders.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PrecompiledHeaders.pch; path = source/PrecompiledHeaders.pch; sourceTree = "<group>"; };
 		8A3BC38521D245A90016E49E /* Helpers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Helpers.cpp; sourceTree = "<group>"; };
 		8A3BC38621D245A90016E49E /* Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
+		8A3BC38821D246F00016E49E /* NCE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NCE.h; sourceTree = "<group>"; };
+		8A3BC38921D247890016E49E /* Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Helpers.h; sourceTree = "<group>"; };
+		8A3BC38A21D247890016E49E /* Helpers.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Helpers.mm; sourceTree = "<group>"; };
+		8A3BC38B21D247A50016E49E /* PanelBriefViewDynamicWidthLayoutEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewDynamicWidthLayoutEngine.h; sourceTree = "<group>"; };
+		8A3BC38C21D247A50016E49E /* PanelBriefViewFixedWidthLayoutEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewFixedWidthLayoutEngine.mm; sourceTree = "<group>"; };
+		8A3BC38D21D247A50016E49E /* PanelBriefViewFixedNumberLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewFixedNumberLayout.h; sourceTree = "<group>"; };
+		8A3BC38E21D247A60016E49E /* PanelBriefViewFixedWidthLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewFixedWidthLayout.h; sourceTree = "<group>"; };
+		8A3BC38F21D247A60016E49E /* PanelBriefViewDynamicWidthLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewDynamicWidthLayout.h; sourceTree = "<group>"; };
+		8A3BC39021D247A60016E49E /* PanelBriefViewFixedNumberLayoutEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewFixedNumberLayoutEngine.h; sourceTree = "<group>"; };
+		8A3BC39121D247A60016E49E /* PanelBriefViewFixedWidthLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewFixedWidthLayout.mm; sourceTree = "<group>"; };
+		8A3BC39221D247A60016E49E /* PanelBriefViewLayoutProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewLayoutProtocol.h; sourceTree = "<group>"; };
+		8A3BC39321D247A60016E49E /* PanelBriefViewFixedWidthLayoutEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewFixedWidthLayoutEngine.h; sourceTree = "<group>"; };
+		8A3BC39421D247A60016E49E /* PanelBriefViewLayoutEngineBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelBriefViewLayoutEngineBase.h; sourceTree = "<group>"; };
+		8A3BC39521D247A60016E49E /* PanelBriefViewDynamicWidthLayoutEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewDynamicWidthLayoutEngine.mm; sourceTree = "<group>"; };
+		8A3BC39621D247A70016E49E /* PanelBriefViewDynamicWidthLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewDynamicWidthLayout.mm; sourceTree = "<group>"; };
+		8A3BC39721D247A70016E49E /* PanelBriefViewLayoutEngineBase.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewLayoutEngineBase.mm; sourceTree = "<group>"; };
+		8A3BC39821D247A70016E49E /* PanelBriefViewFixedNumberLayoutEngine.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewFixedNumberLayoutEngine.mm; sourceTree = "<group>"; };
+		8A3BC39921D247A70016E49E /* PanelBriefViewFixedNumberLayout.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelBriefViewFixedNumberLayout.mm; sourceTree = "<group>"; };
+		8A3BC3A021D2488D0016E49E /* IconRepositoryCleaner.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = IconRepositoryCleaner.mm; sourceTree = "<group>"; };
+		8A3BC3A121D2488D0016E49E /* IconRepositoryCleaner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IconRepositoryCleaner.h; sourceTree = "<group>"; };
+		8A3BC3A321D249060016E49E /* PanelViewFooterThemeImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewFooterThemeImpl.mm; sourceTree = "<group>"; };
+		8A3BC3A421D249060016E49E /* PanelViewHeaderThemeImpl.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewHeaderThemeImpl.mm; sourceTree = "<group>"; };
+		8A3BC3A521D249060016E49E /* PanelViewHeaderTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelViewHeaderTheme.h; sourceTree = "<group>"; };
+		8A3BC3A621D249060016E49E /* PanelViewPresentationItemsColoringFilterPersistence.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewPresentationItemsColoringFilterPersistence.mm; sourceTree = "<group>"; };
+		8A3BC3A721D249070016E49E /* PanelViewHeaderThemeImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelViewHeaderThemeImpl.h; sourceTree = "<group>"; };
+		8A3BC3A821D249070016E49E /* PanelViewHeaderTheme.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewHeaderTheme.mm; sourceTree = "<group>"; };
+		8A3BC3A921D249070016E49E /* PanelViewPresentationItemsColoringFilterPersistence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelViewPresentationItemsColoringFilterPersistence.h; sourceTree = "<group>"; };
+		8A3BC3AA21D249070016E49E /* PanelViewFooterTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelViewFooterTheme.h; sourceTree = "<group>"; };
+		8A3BC3AB21D249070016E49E /* PanelViewFooterTheme.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewFooterTheme.mm; sourceTree = "<group>"; };
+		8A3BC3AC21D249070016E49E /* PanelViewFooterThemeImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanelViewFooterThemeImpl.h; sourceTree = "<group>"; };
+		8A3BC3B221D24BB30016E49E /* PanelViewDummyPresentation.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PanelViewDummyPresentation.mm; sourceTree = "<group>"; };
+		8A3BC3B321D24BB40016E49E /* PanelViewDummyPresentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PanelViewDummyPresentation.h; sourceTree = "<group>"; };
+		8A3BC3B921D260BB0016E49E /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		8A4534C32156729E009284A2 /* libOperations.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libOperations.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A4534D12156747B009284A2 /* any.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = any.hpp; sourceTree = "<group>"; };
 		8A453B1B21568144009284A2 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
@@ -4570,9 +4623,11 @@
 				8A25279221577ED8006AD68F /* libz.tbd in Frameworks */,
 				8A453ED6215682AD009284A2 /* libHabanero.a in Frameworks */,
 				8A453ED7215682AF009284A2 /* libUtility.a in Frameworks */,
+				8A3BC3B521D25DF10016E49E /* libConfig.a in Frameworks */,
 				8A453ED8215682B1009284A2 /* libRoutedIO.a in Frameworks */,
 				8A453ED9215682B3009284A2 /* libTerm.a in Frameworks */,
 				8A453EDA215682C0009284A2 /* libVFS.a in Frameworks */,
+				8A3BC3B621D25DF50016E49E /* libVFSIcon.a in Frameworks */,
 				8A453EDB215682C5009284A2 /* libOperations.a in Frameworks */,
 				8A453EFD21568322009284A2 /* libarchive.a in Frameworks */,
 				8A453EF821568310009284A2 /* libboost_system.a in Frameworks */,
@@ -5261,6 +5316,7 @@
 				8A453CFD2156818D009284A2 /* Interactions.h */,
 				8A453CFE2156818D009284A2 /* Interactions.mm */,
 				8A453CFF2156818D009284A2 /* main.cpp */,
+				8A3BC38821D246F00016E49E /* NCE.h */,
 				8A453D002156818D009284A2 /* NimbleCommander-Prefix.pch */,
 				8A453D012156818D009284A2 /* MainMenu.strings */,
 				8A453D032156818D009284A2 /* VFSInit.h */,
@@ -5385,20 +5441,32 @@
 				8A453DF82156818D009284A2 /* PanelView.h */,
 				8A453DF92156818D009284A2 /* PanelView.mm */,
 				8A453DFA2156818D009284A2 /* PanelViewDelegate.h */,
+				8A3BC3B321D24BB40016E49E /* PanelViewDummyPresentation.h */,
+				8A3BC3B221D24BB30016E49E /* PanelViewDummyPresentation.mm */,
 				8A453DFB2156818D009284A2 /* PanelViewFieldEditor.h */,
 				8A453DFC2156818D009284A2 /* PanelViewFieldEditor.mm */,
 				8A453DFD2156818D009284A2 /* PanelViewFooter.h */,
 				8A453DFE2156818D009284A2 /* PanelViewFooter.mm */,
+				8A3BC3AA21D249070016E49E /* PanelViewFooterTheme.h */,
+				8A3BC3AB21D249070016E49E /* PanelViewFooterTheme.mm */,
+				8A3BC3AC21D249070016E49E /* PanelViewFooterThemeImpl.h */,
+				8A3BC3A321D249060016E49E /* PanelViewFooterThemeImpl.mm */,
 				8A453DFF2156818D009284A2 /* PanelViewFooterVolumeInfoFetcher.h */,
 				8A453E002156818D009284A2 /* PanelViewFooterVolumeInfoFetcher.mm */,
 				8A453E012156818D009284A2 /* PanelViewHeader.h */,
 				8A453E022156818D009284A2 /* PanelViewHeader.mm */,
+				8A3BC3A521D249060016E49E /* PanelViewHeaderTheme.h */,
+				8A3BC3A821D249070016E49E /* PanelViewHeaderTheme.mm */,
+				8A3BC3A721D249070016E49E /* PanelViewHeaderThemeImpl.h */,
+				8A3BC3A421D249060016E49E /* PanelViewHeaderThemeImpl.mm */,
 				8A453E032156818D009284A2 /* PanelViewImplementationProtocol.h */,
 				8A453E042156818D009284A2 /* PanelViewKeystrokeSink.h */,
 				8A453E052156818D009284A2 /* PanelViewLayoutSupport.h */,
 				8A453E062156818D009284A2 /* PanelViewLayoutSupport.mm */,
 				8A453E072156818D009284A2 /* PanelViewPresentationItemsColoringFilter.h */,
 				8A453E082156818D009284A2 /* PanelViewPresentationItemsColoringFilter.mm */,
+				8A3BC3A921D249070016E49E /* PanelViewPresentationItemsColoringFilterPersistence.h */,
+				8A3BC3A621D249060016E49E /* PanelViewPresentationItemsColoringFilterPersistence.mm */,
 				8A453E092156818D009284A2 /* PanelViewPresentationSettings.h */,
 				8A453E0A2156818D009284A2 /* PanelViewPresentationSettings.mm */,
 				8A453E0B2156818D009284A2 /* PanelViewTypes.h */,
@@ -5461,6 +5529,8 @@
 				8A453D292156818D009284A2 /* FindFiles.mm */,
 				8A453D2A2156818D009284A2 /* GoToFolder.h */,
 				8A453D2B2156818D009284A2 /* GoToFolder.mm */,
+				8A3BC38921D247890016E49E /* Helpers.h */,
+				8A3BC38A21D247890016E49E /* Helpers.mm */,
 				8A453D2C2156818D009284A2 /* InsertFromPasteboard.h */,
 				8A453D2D2156818D009284A2 /* InsertFromPasteboard.mm */,
 				8A453D2E2156818D009284A2 /* Link.h */,
@@ -5530,8 +5600,23 @@
 				8A453D762156818D009284A2 /* PanelBriefViewCollectionViewItem.mm */,
 				8A453D772156818D009284A2 /* PanelBriefViewCollectionViewLayout.h */,
 				8A453D782156818D009284A2 /* PanelBriefViewCollectionViewLayout.mm */,
+				8A3BC38F21D247A60016E49E /* PanelBriefViewDynamicWidthLayout.h */,
+				8A3BC39621D247A70016E49E /* PanelBriefViewDynamicWidthLayout.mm */,
+				8A3BC38B21D247A50016E49E /* PanelBriefViewDynamicWidthLayoutEngine.h */,
+				8A3BC39521D247A60016E49E /* PanelBriefViewDynamicWidthLayoutEngine.mm */,
+				8A3BC38D21D247A50016E49E /* PanelBriefViewFixedNumberLayout.h */,
+				8A3BC39921D247A70016E49E /* PanelBriefViewFixedNumberLayout.mm */,
+				8A3BC39021D247A60016E49E /* PanelBriefViewFixedNumberLayoutEngine.h */,
+				8A3BC39821D247A70016E49E /* PanelBriefViewFixedNumberLayoutEngine.mm */,
+				8A3BC38E21D247A60016E49E /* PanelBriefViewFixedWidthLayout.h */,
+				8A3BC39121D247A60016E49E /* PanelBriefViewFixedWidthLayout.mm */,
+				8A3BC39321D247A60016E49E /* PanelBriefViewFixedWidthLayoutEngine.h */,
+				8A3BC38C21D247A50016E49E /* PanelBriefViewFixedWidthLayoutEngine.mm */,
 				8A453D792156818D009284A2 /* PanelBriefViewItemCarrier.h */,
 				8A453D7A2156818D009284A2 /* PanelBriefViewItemCarrier.mm */,
+				8A3BC39421D247A60016E49E /* PanelBriefViewLayoutEngineBase.h */,
+				8A3BC39721D247A70016E49E /* PanelBriefViewLayoutEngineBase.mm */,
+				8A3BC39221D247A60016E49E /* PanelBriefViewLayoutProtocol.h */,
 				8A453D7B2156818D009284A2 /* TextWidthsCache.h */,
 				8A453D7C2156818D009284A2 /* TextWidthsCache.mm */,
 			);
@@ -5544,6 +5629,8 @@
 				8A453D9C2156818D009284A2 /* ClosedPanelsHistory.h */,
 				8A453D9D2156818D009284A2 /* ClosedPanelsHistoryImpl.cpp */,
 				8A453D9E2156818D009284A2 /* ClosedPanelsHistoryImpl.h */,
+				8A3BC3A121D2488D0016E49E /* IconRepositoryCleaner.h */,
+				8A3BC3A021D2488D0016E49E /* IconRepositoryCleaner.mm */,
 				8A453D9F2156818D009284A2 /* LocationFormatter.h */,
 				8A453DA02156818D009284A2 /* LocationFormatter.mm */,
 				8A453DA12156818D009284A2 /* Pasteboard.h */,
@@ -5677,6 +5764,7 @@
 				8A453E7D2156818D009284A2 /* AliasBadgeIcon.icns */,
 				8A453E7E2156818D009284A2 /* Credits.rtf */,
 				8A453E802156818D009284A2 /* InfoPlist.strings */,
+				8A3BC3B921D260BB0016E49E /* Localizable.stringsdict */,
 				8A453E822156818D009284A2 /* Localizable.strings */,
 				8A453E842156818D009284A2 /* Config.json */,
 				8A453E872156818D009284A2 /* Help.pdf */,
@@ -5765,8 +5853,12 @@
 				8A548D762154EE410047A5B2 /* NimbleCommander.app */,
 				8A548DBF2154F0870047A5B2 /* libHabanero.a */,
 				8A171C4B2154F5760043D119 /* libUtility.a */,
+				8AAB9D8421D240300014A8ED /* libConfig.a */,
 				8AF05FDF2154FAEC00895FEF /* libRoutedIO.a */,
 				8AF0731E2155191900895FEF /* libTerm.a */,
+				8ABF0D8E21566BA900BC1103 /* libVFS.a */,
+				8A4534C32156729E009284A2 /* libOperations.a */,
+				8A3BC32A21D2412B0016E49E /* libVFSIcon.a */,
 				8AF073052155171F00895FEF /* libboost_system.a */,
 				8AF0730D2155172E00895FEF /* libboost_filesystem.a */,
 				8AF073ED2155237600895FEF /* libunrar.a */,
@@ -5775,10 +5867,6 @@
 				8ABF095B2156488D00BC1103 /* libssh2.a */,
 				8ABF09AD21564B8600BC1103 /* liblzma.a */,
 				8ABF0BEB215650F900BC1103 /* libarchive.a */,
-				8ABF0D8E21566BA900BC1103 /* libVFS.a */,
-				8A4534C32156729E009284A2 /* libOperations.a */,
-				8AAB9D8421D240300014A8ED /* libConfig.a */,
-				8A3BC32A21D2412B0016E49E /* libVFSIcon.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -8984,8 +9072,10 @@
 				8A453EDD215682D2009284A2 /* PBXTargetDependency */,
 				8A453EDF215682D3009284A2 /* PBXTargetDependency */,
 				8A453EE1215682D4009284A2 /* PBXTargetDependency */,
+				8A3BC3BB21D264DF0016E49E /* PBXTargetDependency */,
 				8A453EE3215682D6009284A2 /* PBXTargetDependency */,
 				8A453EE5215682D7009284A2 /* PBXTargetDependency */,
+				8A3BC3BD21D264E20016E49E /* PBXTargetDependency */,
 				8A453EE7215682D8009284A2 /* PBXTargetDependency */,
 				8A453EE9215682EA009284A2 /* PBXTargetDependency */,
 				8A453EED215682F1009284A2 /* PBXTargetDependency */,
@@ -9598,16 +9688,10 @@
 				8A453ECC21568228009284A2 /* AppDelegate.mm in Sources */,
 				8A453ECD21568228009284A2 /* AppDelegateCPP.mm in Sources */,
 				8A453ECE21568228009284A2 /* Application.mm in Sources */,
-				8A453ECF21568228009284A2 /* Config.cpp in Sources */,
-				8A453ED021568228009284A2 /* Config.mm in Sources */,
 				8A453ED121568228009284A2 /* ConfigWiring.mm in Sources */,
 				8A453ED221568228009284A2 /* Interactions.mm in Sources */,
 				8A453ED321568228009284A2 /* main.cpp in Sources */,
 				8A453ED421568228009284A2 /* VFSInit.mm in Sources */,
-				8A453F0021568E92009284A2 /* QLThumbnailsCache.mm in Sources */,
-				8A453F0121568E92009284A2 /* QLVFSThumbnailsCache.mm in Sources */,
-				8A453F0221568E92009284A2 /* WorkspaceExtensionIconsCache.mm in Sources */,
-				8A453F0321568E92009284A2 /* WorkspaceIconsCache.mm in Sources */,
 				8A453F0421568EAF009284A2 /* CocoaAppearanceManager.mm in Sources */,
 				8A453F0521568EAF009284A2 /* Theme.mm in Sources */,
 				8A453F0621568EAF009284A2 /* ThemePersistence.mm in Sources */,
@@ -9619,12 +9703,10 @@
 				8A453F0D21568ED0009284A2 /* ConfigBackedNetworkConnectionsManager.mm in Sources */,
 				8A453F0E21568ED0009284A2 /* ConnectionsMenuDelegate.mm in Sources */,
 				8A453F0F21568ED0009284A2 /* Dock.mm in Sources */,
-				8A453F1121568ED0009284A2 /* FileMask.cpp in Sources */,
 				8A453F1321568ED0009284A2 /* FileWindow.cpp in Sources */,
 				8A453F1621568ED0009284A2 /* LaunchServices.mm in Sources */,
 				8A453F1721568ED0009284A2 /* NetworkConnectionIconProvider.mm in Sources */,
 				8A453F1821568ED0009284A2 /* NetworkConnectionsManager.mm in Sources */,
-				8A453F1921568ED0009284A2 /* rapidjson.cpp in Sources */,
 				8A453F1B21568ED0009284A2 /* SearchForFiles.cpp in Sources */,
 				8A453F1C21568ED0009284A2 /* SearchInFile.cpp in Sources */,
 				8A453F1D21568ED0009284A2 /* ServicesHandler.mm in Sources */,
@@ -9673,6 +9755,7 @@
 				8A453F4C215690C7009284A2 /* ExecuteInTerminal.mm in Sources */,
 				8A453F4D215690C7009284A2 /* FindFiles.mm in Sources */,
 				8A453F4E215690C7009284A2 /* GoToFolder.mm in Sources */,
+				8A3BC39A21D247FD0016E49E /* Helpers.mm in Sources */,
 				8A453F4F215690C7009284A2 /* InsertFromPasteboard.mm in Sources */,
 				8A453F50215690C7009284A2 /* Link.mm in Sources */,
 				8A453F51215690C7009284A2 /* MakeNew.mm in Sources */,
@@ -9703,16 +9786,22 @@
 				8A453F6A215690D5009284A2 /* PanelBriefViewCollectionView.mm in Sources */,
 				8A453F6B215690D5009284A2 /* PanelBriefViewCollectionViewBackground.mm in Sources */,
 				8A453F6C215690D5009284A2 /* PanelBriefViewCollectionViewItem.mm in Sources */,
-				8A453F6D215690D5009284A2 /* PanelBriefViewCollectionViewLayout.mm in Sources */,
+				8A3BC3B721D25E670016E49E /* PanelBriefViewDynamicWidthLayout.mm in Sources */,
+				8A3BC3B821D25E670016E49E /* PanelBriefViewDynamicWidthLayoutEngine.mm in Sources */,
+				8A3BC39B21D248480016E49E /* PanelBriefViewFixedNumberLayout.mm in Sources */,
+				8A3BC39C21D248480016E49E /* PanelBriefViewFixedNumberLayoutEngine.mm in Sources */,
+				8A3BC39D21D248480016E49E /* PanelBriefViewFixedWidthLayout.mm in Sources */,
+				8A3BC39E21D248480016E49E /* PanelBriefViewFixedWidthLayoutEngine.mm in Sources */,
 				8A453F6E215690D5009284A2 /* PanelBriefViewItemCarrier.mm in Sources */,
+				8A3BC39F21D248640016E49E /* PanelBriefViewLayoutEngineBase.mm in Sources */,
 				8A453F6F215690D5009284A2 /* TextWidthsCache.mm in Sources */,
 				8A453F70215690E1009284A2 /* ClosedPanelsHistoryImpl.cpp in Sources */,
+				8A3BC3A221D248A50016E49E /* IconRepositoryCleaner.mm in Sources */,
 				8A453F71215690E1009284A2 /* LocationFormatter.mm in Sources */,
 				8A453F72215690E1009284A2 /* Pasteboard.mm in Sources */,
 				8A453F73215690E1009284A2 /* RecentlyClosedMenuDelegate.mm in Sources */,
 				8A453F74215690F7009284A2 /* Layout.mm in Sources */,
 				8A453F75215690F7009284A2 /* PanelListView.mm in Sources */,
-				8A453F76215690F7009284A2 /* PanelListViewDateFormatting.mm in Sources */,
 				8A453F77215690F7009284A2 /* PanelListViewDateTimeView.mm in Sources */,
 				8A453F78215690F7009284A2 /* PanelListViewGeometry.mm in Sources */,
 				8A453F79215690F7009284A2 /* PanelListViewNameView.mm in Sources */,
@@ -9752,7 +9841,6 @@
 				8A453F9F21569159009284A2 /* FavoritesWindowController.mm in Sources */,
 				8A453FA021569159009284A2 /* FilesDraggingSource.mm in Sources */,
 				8A453FA121569159009284A2 /* FindFilesSheetController.mm in Sources */,
-				8A453FA221569159009284A2 /* IconsGenerator2.mm in Sources */,
 				8A453FA321569159009284A2 /* ListingPromise.cpp in Sources */,
 				8A453FA421569159009284A2 /* MainWindowFilePanelsStateToolbarDelegate.mm in Sources */,
 				8A453FA621569159009284A2 /* MainWindowFilePanelState+OverlappedTerminalSupport.mm in Sources */,
@@ -9777,12 +9865,18 @@
 				8A453FBC21569159009284A2 /* PanelDataStatistics.cpp in Sources */,
 				8A453FBD21569159009284A2 /* PanelHistory.mm in Sources */,
 				8A453FBE21569159009284A2 /* PanelView.mm in Sources */,
+				8A3BC3B421D24BD60016E49E /* PanelViewDummyPresentation.mm in Sources */,
 				8A453FBF21569159009284A2 /* PanelViewFieldEditor.mm in Sources */,
 				8A453FC021569159009284A2 /* PanelViewFooter.mm in Sources */,
+				8A3BC3B121D249070016E49E /* PanelViewFooterTheme.mm in Sources */,
+				8A3BC3AD21D249070016E49E /* PanelViewFooterThemeImpl.mm in Sources */,
 				8A453FC121569159009284A2 /* PanelViewFooterVolumeInfoFetcher.mm in Sources */,
 				8A453FC221569159009284A2 /* PanelViewHeader.mm in Sources */,
+				8A3BC3B021D249070016E49E /* PanelViewHeaderTheme.mm in Sources */,
+				8A3BC3AE21D249070016E49E /* PanelViewHeaderThemeImpl.mm in Sources */,
 				8A453FC321569159009284A2 /* PanelViewLayoutSupport.mm in Sources */,
 				8A453FC421569159009284A2 /* PanelViewPresentationItemsColoringFilter.mm in Sources */,
+				8A3BC3AF21D249070016E49E /* PanelViewPresentationItemsColoringFilterPersistence.mm in Sources */,
 				8A453FC521569159009284A2 /* PanelViewPresentationSettings.mm in Sources */,
 				8A453FC621569159009284A2 /* QuickSearch.mm in Sources */,
 				8A453FC821569159009284A2 /* SharingService.mm in Sources */,
@@ -11002,6 +11096,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8A3BC3BB21D264DF0016E49E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8AAB9D8321D240300014A8ED /* Config */;
+			targetProxy = 8A3BC3BA21D264DF0016E49E /* PBXContainerItemProxy */;
+		};
+		8A3BC3BD21D264E20016E49E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A3BC32921D2412B0016E49E /* VFSIcon */;
+			targetProxy = 8A3BC3BC21D264E20016E49E /* PBXContainerItemProxy */;
+		};
 		8A453EDD215682D2009284A2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8A548DBE2154F0870047A5B2 /* Habanero */;
@@ -11993,21 +12097,22 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NimbleCommander/Bootstrap/NimbleCommander-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					ThirdParty/AppAuth/Source,
-					ThirdParty/AppAuth/Source/macOS,
-					ThirdParty/archive,
-					ThirdParty/boost,
-					"ThirdParty/c++/include",
-					ThirdParty/MMTabBarView/,
-					ThirdParty/rapidjson/include,
-					ThirdParty/unrar,
-					Habanero/include,
-					Utility/include,
-					RoutedIO/include,
-					VFS/include,
-					Operations/include,
-					Term/include,
-					.,
+					"$(SRCROOT)/ThirdParty/AppAuth/Source",
+					"$(SRCROOT)/ThirdParty/AppAuth/Source/macOS",
+					"$(SRCROOT)/ThirdParty/archive",
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/ThirdParty/MMTabBarView/",
+					"$(SRCROOT)/ThirdParty/rapidjson/include",
+					"$(SRCROOT)/ThirdParty/unrar",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/Config/include",
+					"$(SRCROOT)/RoutedIO/include",
+					"$(SRCROOT)/VFS/include",
+					"$(SRCROOT)/VFSIcon/include",
+					"$(SRCROOT)/Operations/include",
+					"$(SRCROOT)/Term/include",
+					"$(SRCROOT)",
 				);
 				INFOPLIST_FILE = "NimbleCommander/Resources/NimbleCommander-Info.plist";
 				OTHER_LDFLAGS = (
@@ -12026,21 +12131,22 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NimbleCommander/Bootstrap/NimbleCommander-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
-					ThirdParty/AppAuth/Source,
-					ThirdParty/AppAuth/Source/macOS,
-					ThirdParty/archive,
-					ThirdParty/boost,
-					"ThirdParty/c++/include",
-					ThirdParty/MMTabBarView/,
-					ThirdParty/rapidjson/include,
-					ThirdParty/unrar,
-					Habanero/include,
-					Utility/include,
-					RoutedIO/include,
-					VFS/include,
-					Operations/include,
-					Term/include,
-					.,
+					"$(SRCROOT)/ThirdParty/AppAuth/Source",
+					"$(SRCROOT)/ThirdParty/AppAuth/Source/macOS",
+					"$(SRCROOT)/ThirdParty/archive",
+					"$(SRCROOT)/ThirdParty/boost",
+					"$(SRCROOT)/ThirdParty/MMTabBarView/",
+					"$(SRCROOT)/ThirdParty/rapidjson/include",
+					"$(SRCROOT)/ThirdParty/unrar",
+					"$(SRCROOT)/Habanero/include",
+					"$(SRCROOT)/Utility/include",
+					"$(SRCROOT)/Config/include",
+					"$(SRCROOT)/RoutedIO/include",
+					"$(SRCROOT)/VFS/include",
+					"$(SRCROOT)/VFSIcon/include",
+					"$(SRCROOT)/Operations/include",
+					"$(SRCROOT)/Term/include",
+					"$(SRCROOT)",
 				);
 				INFOPLIST_FILE = "NimbleCommander/Resources/NimbleCommander-Info.plist";
 				OTHER_LDFLAGS = (
