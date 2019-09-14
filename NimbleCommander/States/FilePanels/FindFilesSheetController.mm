@@ -1,31 +1,30 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "FindFilesSheetController.h"
 #include <Habanero/dispatch_cpp.h>
 #include <Habanero/DispatchGroup.h>
 #include <Utility/NSTimer+Tolerance.h>
 #include <Utility/SheetWithHotkeys.h>
 #include <Utility/Encodings.h>
 #include <Utility/PathManip.h>
-#include <NimbleCommander/Viewer/BigFileViewSheet.h>
-#include <NimbleCommander/Viewer/InternalViewerWindowController.h>
-#include <NimbleCommander/Core/SearchForFiles.h>
+#include <VFS/SearchForFiles.h>
 #include <Utility/ByteCountFormatter.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/States/FilePanels/PanelAux.h>
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <Config/RapidJSON.h>
 #include <NimbleCommander/Bootstrap/ActivationManager.h>
-#include <NimbleCommander/Bootstrap/AppDelegate.h>
 #include <NimbleCommander/Core/VFSInstanceManager.h>
 #include <NimbleCommander/Core/VFSInstancePromise.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
-#include "FindFilesSheetController.h"
+#include <Utility/CocoaAppearanceManager.h>
 #include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
 
 static const auto g_StateMaskHistory = "filePanel.findFilesSheet.maskHistory";
 static const auto g_StateTextHistory = "filePanel.findFilesSheet.textHistory";
 static const int g_MaximumSearchResults = 262144;
 
-static const auto g_ConfigModalInternalViewer = "viewer.modalMode";
+using namespace nc::panel;
+using nc::vfs::SearchForFiles;
 
 static std::string ensure_tr_slash( std::string _str )
 {
@@ -64,8 +63,8 @@ class FindFilesSheetComboHistory : public std::vector<std::string>
 {
 public:
     FindFilesSheetComboHistory(int _max, const char *_config_path):
-        m_Path(_config_path),
-        m_Max(_max)
+        m_Max(_max),
+        m_Path(_config_path)
     {
         auto arr = StateConfig().Get(m_Path);
         if( arr.GetType() == rapidjson::kArrayType )
@@ -99,7 +98,7 @@ private:
 };
 
 @interface FindFilesSheetFoundItem : NSObject
-@property (nonatomic, readonly) FindFilesSheetControllerFoundItem *data;
+@property (nonatomic, readonly) const FindFilesSheetControllerFoundItem &data;
 @property (nonatomic, readonly) NSString *location;
 @property (nonatomic, readonly) NSString *filename;
 @property (nonatomic, readonly) uint64_t size;
@@ -135,8 +134,8 @@ private:
     return m_Data.st.mtime.tv_sec;
 }
 
-- (FindFilesSheetControllerFoundItem*) data {
-    return &m_Data;
+- (const FindFilesSheetControllerFoundItem&) data {
+    return m_Data;
 }
 
 @end
@@ -150,7 +149,10 @@ private:
 }
 - (id)transformedValue:(id)value
 {
-    return (value == nil) ? nil : ByteCountFormatter::Instance().ToNSString([value unsignedLongLongValue], ByteCountFormatter::Fixed6);
+    if( value == nil )
+        return nil;
+    const auto &bf = ByteCountFormatter::Instance();
+    return bf.ToNSString([value unsignedLongLongValue], ByteCountFormatter::Fixed6);
 }
 @end
 
@@ -197,6 +199,7 @@ private:
 @property (nonatomic) IBOutlet NSTableView         *TableView;
 @property (nonatomic) IBOutlet NSButton            *CaseSensitiveButton;
 @property (nonatomic) IBOutlet NSButton            *WholePhraseButton;
+@property (nonatomic) IBOutlet NSButton            *NotContainingButton;
 @property (nonatomic) IBOutlet NSArrayController   *ArrayController;
 @property (nonatomic) IBOutlet NSPopUpButton       *SizeRelationPopUp;
 @property (nonatomic) IBOutlet NSTextField         *SizeTextField;
@@ -208,6 +211,7 @@ private:
 @property (nonatomic) IBOutlet NSPopUpButton       *searchForPopup;
 @property (nonatomic) NSMutableArray            *FoundItems;
 @property (nonatomic) FindFilesSheetFoundItem   *focusedItem; // may be nullptr
+@property (nonatomic) bool                       focusedItemIsReg;
 
 @end
 
@@ -235,12 +239,14 @@ private:
     
     FindFilesSheetFoundItem    *m_DoubleClickedItem;
     std::function<void(const std::vector<VFSPath> &_filepaths)> m_OnPanelize;
+    std::function<void(const nc::panel::FindFilesSheetViewRequest&)> m_OnView;
 }
 
 @synthesize FoundItems = m_FoundItems;
 @synthesize host = m_Host;
 @synthesize path = m_Path;
 @synthesize onPanelize = m_OnPanelize;
+@synthesize onView = m_OnView;
 
 - (id) init
 {
@@ -254,6 +260,7 @@ private:
         m_TextHistory = std::make_unique<FindFilesSheetComboHistory>(16, g_StateTextHistory);
         
         self.focusedItem = nil;
+        self.focusedItemIsReg = false;
         self.didAnySearchStarted = false;
         self.searchingNow = false;
         m_UIChanged = true;
@@ -264,7 +271,7 @@ private:
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
     self.TableView.columnAutoresizingStyle = NSTableViewUniformColumnAutoresizingStyle;
     [self.TableView sizeToFit];
@@ -302,6 +309,7 @@ private:
         self.PanelButton.enabled = false;
     }
     if( !nc::bootstrap::ActivationManager::Instance().HasInternalViewer() ) {
+        [self.ViewButton unbind:@"enabled2"];
         [self.ViewButton unbind:@"enabled"];
         self.ViewButton.enabled = false;
     }
@@ -333,7 +341,7 @@ private:
     return true;
 }
 
-- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox;
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox
 {
     if(aComboBox == self.MaskComboBox)
         return m_MaskHistory->size();
@@ -342,7 +350,7 @@ private:
     return 0;
 }
 
-- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index;
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index
 {
     if(aComboBox == self.MaskComboBox)
         return [NSString stringWithUTF8StdString:m_MaskHistory->at(index)];
@@ -351,7 +359,7 @@ private:
     return 0;
 }
 
-- (IBAction)OnClose:(id)sender
+- (IBAction)OnClose:(id)[[maybe_unused]]_sender
 {
     if( NSEvent *ev = NSApp.currentEvent )
         if( ev.type == NSKeyDown && m_FileSearch->IsRunning() ) {
@@ -429,7 +437,7 @@ private:
     return filter_size;
 }
 
-- (IBAction)OnSearch:(id)sender
+- (IBAction)OnSearch:(id)[[maybe_unused]]_sender
 {
     if( m_FileSearch->IsRunning() ) {
         m_FileSearch->Stop();
@@ -460,6 +468,7 @@ private:
         filter_content.encoding = (int)self.EncodingsPopUp.selectedTag;
         filter_content.case_sensitive = self.CaseSensitiveButton.intValue;
         filter_content.whole_phrase = self.WholePhraseButton.intValue;
+        filter_content.not_containing = self.NotContainingButton.intValue;
         m_FileSearch->SetFilterContent(filter_content);
     }
     m_TextHistory->insert_unique( text_query ? text_query.UTF8String : "" );
@@ -564,7 +573,7 @@ private:
     return host;
 }
 
-- (void)updateLookingInByTimer:(NSTimer*)theTimer
+- (void)updateLookingInByTimer:(NSTimer*)[[maybe_unused]]theTimer
 {
     NSString *new_title;
     LOCK_GUARD(m_LookingInPathGuard)
@@ -572,7 +581,7 @@ private:
     self.LookingIn.stringValue = new_title;
 }
 
-- (void) UpdateByTimer:(NSTimer*)theTimer
+- (void) UpdateByTimer:(NSTimer*)[[maybe_unused]]theTimer
 {
     m_BatchQueue.Run([=]{
         if( m_FoundItemsBatch.count == 0 )
@@ -589,14 +598,14 @@ private:
     });
 }
 
-- (FindFilesSheetControllerFoundItem*) selectedItem
+- (const FindFilesSheetControllerFoundItem*) selectedItem
 {
     if(m_DoubleClickedItem == nil)
         return nullptr;
-    return m_DoubleClickedItem.data;
+    return &m_DoubleClickedItem.data;
 }
 
-- (IBAction)doubleClick:(id)table
+- (IBAction)doubleClick:(id)[[maybe_unused]]table
 {
     NSInteger row = [self.TableView clickedRow];
     if(row < 0 || row >= self.TableView.numberOfRows)
@@ -606,16 +615,26 @@ private:
     [self OnClose:self];
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+- (void)tableViewSelectionDidChange:(NSNotification *)[[maybe_unused]]aNotification
 {
     NSInteger row = [self.TableView selectedRow];
-    if(row >= 0)
-        self.focusedItem = (FindFilesSheetFoundItem *)[self.ArrayController.arrangedObjects objectAtIndex:row];
-    else
+    if( row >= 0 ) {
+        id selected_object = [self.ArrayController.arrangedObjects objectAtIndex:row];
+        self.focusedItem = objc_cast<FindFilesSheetFoundItem>(selected_object);
+    }
+    else {
         self.focusedItem = nil;
+    }
+    
+    if( self.focusedItem ) {
+        self.focusedItemIsReg = (self.focusedItem.data.st.mode & S_IFMT) == S_IFREG;
+    }
+    else {
+        self.focusedItemIsReg = false;
+    }
 }
 
-- (IBAction)OnGoToFile:(id)sender
+- (IBAction)OnGoToFile:(id)[[maybe_unused]]sender
 {
     if( self.focusedItem ) {
         m_DoubleClickedItem = self.focusedItem;
@@ -633,63 +652,41 @@ private:
     [self OnFileView:sender];
 }
 
-- (IBAction)OnFileView:(id)sender
+- (IBAction)OnFileView:(id)[[maybe_unused]]sender
 {
     dispatch_assert_main_queue();
-    NSInteger row = self.TableView.selectedRow;
-    FindFilesSheetFoundItem *item = [self.ArrayController.arrangedObjects objectAtIndex:row];
-    FindFilesSheetControllerFoundItem *data = item.data;
+    if( m_OnView == nullptr )
+        return;
+     
+    const auto row_index = self.TableView.selectedRow;
+    if( row_index < 0 )
+        return;
     
-    std::string p = data->full_filename;
-    VFSHostPtr vfs = data->host;
-    CFRange cont = data->content_pos;
-    NSString *search_req = self.TextComboBox.stringValue;
+    const auto found_item = objc_cast<FindFilesSheetFoundItem>
+        ([self.ArrayController.arrangedObjects objectAtIndex:row_index]);
     
-    if( GlobalConfig().GetBool(g_ConfigModalInternalViewer) ) { // as a sheet
-        BigFileViewSheet *sheet = [[BigFileViewSheet alloc] initWithFilepath:p at:vfs];
-        dispatch_to_background([=]{
-            const auto success = [sheet open];
-            dispatch_to_main_queue([=]{
-                // make sure that 'sheet' will be destroyed in main queue
-                if( success ) {
-                    [sheet beginSheetForWindow:self.window];
-                    if(cont.location >= 0)
-                        [sheet markInitialSelection:cont searchTerm:search_req.UTF8String];
-                }
-            });
-        });
+    const FindFilesSheetControllerFoundItem &data = found_item.data;
+    
+    auto request = FindFilesSheetViewRequest{};
+    request.vfs = data.host;
+    request.path = data.full_filename;
+    request.sender = self;
+    if( data.content_pos.location >= 0 ) {
+        request.content_mark.emplace();
+        request.content_mark->bytes_offset = data.content_pos.location;
+        request.content_mark->bytes_length = data.content_pos.length;
+        request.content_mark->search_term = self.TextComboBox.stringValue.UTF8String;
     }
-    else { // as a window
-        if( InternalViewerWindowController *window = [NCAppDelegate.me findInternalViewerWindowForPath:p onVFS:vfs]  ) {
-            // already has this one
-            [window showWindow:self];
-            
-            if(cont.location >= 0)
-                [window markInitialSelection:cont searchTerm:search_req.UTF8String];
-        }
-        else {
-            // need to create a new one
-            window = [[InternalViewerWindowController alloc] initWithFilepath:p at:vfs];
-            dispatch_to_background([=]{
-                if( [window performBackgrounOpening] ) {
-                    dispatch_to_main_queue([=]{
-                        [window showAsFloatingWindow];
-                        if(cont.location >= 0)
-                            [window markInitialSelection:cont searchTerm:search_req.UTF8String];
-                    });
-                }
-            });
-        }
-    }
+    m_OnView( request );
 }
 
 // Workaround about combox' menu forcing Search by selecting item from list with Return key
-- (void)comboBoxWillPopUp:(NSNotification *)notification
+- (void)comboBoxWillPopUp:(NSNotification *)[[maybe_unused]]notification
 {
     [self clearReturnKey];
 }
 
-- (void)comboBoxWillDismiss:(NSNotification *)notification
+- (void)comboBoxWillDismiss:(NSNotification *)[[maybe_unused]]notification
 {
     using namespace std::literals;
     dispatch_to_main_queue_after(10ms, [=]{
@@ -702,19 +699,19 @@ private:
     [self onSearchSettingsUIChanged:obj.object];
 }
 
-- (IBAction)onSearchSettingsUIChanged:(id)sender
+- (IBAction)onSearchSettingsUIChanged:(id)[[maybe_unused]]sender
 {
     m_UIChanged = true;
     [self setupReturnKey];
 }
 
-- (IBAction)OnPanelize:(id)sender
+- (IBAction)OnPanelize:(id)[[maybe_unused]]sender
 {
     if( m_OnPanelize ) {
         std::vector<VFSPath> results;
         for( FindFilesSheetFoundItem *item in self.ArrayController.arrangedObjects ) {
-            auto d = item.data;
-            results.emplace_back( d->host, d->full_filename );
+            auto &data = item.data;
+            results.emplace_back( data.host, data.full_filename );
         }
 
         if( !results.empty() )
@@ -746,9 +743,9 @@ private:
     self.GoToButton.keyEquivalent = @"";
 }
 
-- (BOOL)tableView:(NSTableView *)tableView
+- (BOOL)tableView:(NSTableView *)[[maybe_unused]]tableView
 shouldTypeSelectForEvent:(NSEvent *)event
-withCurrentSearchString:(NSString *)searchString
+withCurrentSearchString:(NSString *)[[maybe_unused]]searchString
 {
     if( event.charactersIgnoringModifiers.length == 1 &&
         [event.charactersIgnoringModifiers characterAtIndex:0] == 0x20 ) {

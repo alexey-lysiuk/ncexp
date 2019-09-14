@@ -1,8 +1,8 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
 #include <NimbleCommander/Core/NetworkConnectionsManager.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include "FTPConnectionSheetController.h"
 #include <Utility/StringExtras.h>
 
@@ -40,7 +40,7 @@
     if( self.setupMode )
         self.connectButton.title = self.connectButton.alternateTitle;
     
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
     GA().PostScreenView("FTP Connection");
     
@@ -55,7 +55,7 @@
     [self validate];
 }
 
-- (IBAction)OnConnect:(id)sender
+- (IBAction)OnConnect:(id)[[maybe_unused]]_sender
 {
     if( m_Original)
         m_Connection.uuid = m_Original->Uuid();
@@ -75,7 +75,7 @@
     [self endSheet:NSModalResponseOK];
 }
 
-- (IBAction)OnClose:(id)sender
+- (IBAction)OnClose:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseCancel];
 }
@@ -116,7 +116,7 @@
     self.isValid = valid_server;
 }
 
-- (void)controlTextDidChange:(NSNotification *)obj
+- (void)controlTextDidChange:(NSNotification *)[[maybe_unused]]_obj
 {
     [self validate];
 }

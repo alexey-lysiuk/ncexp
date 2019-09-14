@@ -1,7 +1,7 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "NetworkShareSheetController.h"
 #include <NimbleCommander/Core/GoogleAnalytics.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include <Utility/StringExtras.h>
 
 @interface NetworkShareSheetController ()
@@ -46,7 +46,7 @@
 {
     [super windowDidLoad];
     
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
     GA().PostScreenView("LANShare Connection");
     
@@ -66,12 +66,12 @@
     [self validate];
 }
 
-- (IBAction)onClose:(id)sender
+- (IBAction)onClose:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseCancel];
 }
 
-- (IBAction)onConnect:(id)sender
+- (IBAction)onConnect:(id)[[maybe_unused]]_sender
 {
     if( m_Original)
         m_Connection.uuid = m_Original->Uuid();
@@ -115,7 +115,7 @@
     self.passwordEntered = [NSString stringWithUTF8StdString:password];
 }
 
-- (IBAction)onChooseMountPath:(id)sender
+- (IBAction)onChooseMountPath:(id)[[maybe_unused]]_sender
 {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     panel.resolvesAliases = false;
@@ -131,27 +131,27 @@
     }
 }
 
-- (IBAction)onServerChanged:(id)sender
+- (IBAction)onServerChanged:(id)[[maybe_unused]]_sender
 {
     [self validate];
 }
 
-- (IBAction)onShareChanged:(id)sender
+- (IBAction)onShareChanged:(id)[[maybe_unused]]_sender
 {
     [self validate];
 }
 
-- (IBAction)onMountPathChanged:(id)sender
+- (IBAction)onMountPathChanged:(id)[[maybe_unused]]_sender
 {
     [self validate];
 }
 
-- (void)controlTextDidChange:(NSNotification *)notification
+- (void)controlTextDidChange:(NSNotification *)[[maybe_unused]]_notification
 {
     [self validate];
 }
 
-- (IBAction)onProtocolChanged:(id)sender
+- (IBAction)onProtocolChanged:(id)[[maybe_unused]]_sender
 {
     [self validate];
 }

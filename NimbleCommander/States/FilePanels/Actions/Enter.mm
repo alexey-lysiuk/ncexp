@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Enter.h"
 #include "GoToFolder.h"
 #include "ExecuteInTerminal.h"
@@ -9,8 +9,10 @@
 
 namespace nc::panel::actions {
 
-Enter::Enter(bool _support_archives):
-    m_SupportArchives(_support_archives)
+Enter::Enter(bool _support_archives,
+             const PanelAction &_open_files_action):
+    m_SupportArchives(_support_archives),
+    m_OpenFilesAction(_open_files_action)
 {
 }
     
@@ -19,7 +21,7 @@ bool Enter::Predicate( PanelController *_target ) const
     return _target.view.item;
 }
 
-bool Enter::ValidateMenuItem( PanelController *_target, NSMenuItem *_item ) const
+bool Enter::ValidateMenuItem( PanelController *_target, [[maybe_unused]] NSMenuItem *_item ) const
 {
     // TODO: add a proper title like:
     // Enter "Directory"
@@ -40,7 +42,7 @@ void Enter::Perform( PanelController *_target, id _sender ) const
         return;
     }
     
-    actions::OpenFilesWithDefaultHandler{}.Perform(_target, _sender);
+    m_OpenFilesAction.Perform(_target, _sender);
 }
 
 }

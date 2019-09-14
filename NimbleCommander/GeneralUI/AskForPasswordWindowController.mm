@@ -1,7 +1,7 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "AskForPasswordWindowController.h"
 #include <NimbleCommander/Core/GoogleAnalytics.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include <Habanero/dispatch_cpp.h>
 #include <Utility/StringExtras.h>
 
@@ -27,7 +27,7 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
 }
 
 - (NSString*)enteredPasswd
@@ -35,7 +35,7 @@
     return self.Password.stringValue ? self.Password.stringValue : @"";
 }
 
-- (IBAction)onOk:(id)sender
+- (IBAction)onOk:(id)[[maybe_unused]]_sender
 {
     if( NSApp.modalWindow == self.window ) {
         [self.window close];
@@ -46,7 +46,7 @@
     }
 }
 
-- (IBAction)onCancel:(id)sender
+- (IBAction)onCancel:(id)[[maybe_unused]]_sender
 {
     if( NSApp.modalWindow == self.window ) {
         [self.window close];

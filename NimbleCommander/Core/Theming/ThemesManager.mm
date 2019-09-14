@@ -1,13 +1,14 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <Config/RapidJSON.h>
 #include "Theme.h"
-#include "CocoaAppearanceManager.h"
+#include <Utility/CocoaAppearanceManager.h>
 #include "ThemesManager.h"
 #include <Habanero/fixed_eytzinger_map.h>
 #include <Habanero/dispatch_cpp.h>
 
 using namespace std::literals;
+using nc::utility::CocoaAppearanceManager;
 
 static const auto g_NameKey = "themeName";
 
@@ -103,8 +104,9 @@ ThemesManager::ThemesManager( const char *_current_theme_path, const char *_them
     
     UpdateCurrentTheme();
     
+    CocoaAppearanceManager::Instance().SetCurrentAppearance(CurrentTheme().Appearance());
     m_AppearanceObservation = ObserveChanges(Notifications::Appearance, []{
-        CocoaAppearanceManager::Instance().UpdateCurrentAppearance();
+        CocoaAppearanceManager::Instance().SetCurrentAppearance(CurrentTheme().Appearance());
     });
 }
 

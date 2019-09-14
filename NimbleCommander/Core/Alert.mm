@@ -1,6 +1,6 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Alert.h"
+#include <Utility/CocoaAppearanceManager.h>
 #include <Habanero/dispatch_cpp.h>
 #include <Utility/StringExtras.h>
 
@@ -48,7 +48,7 @@
         // use this fact to hijack the panel's window and move focus with arrow buttons:
         m_Controller = [[AlertWindowController alloc] initWithWindow:m_Alert.window];
         
-        CocoaAppearanceManager::Instance().ManageWindowApperance( m_Alert.window );
+        nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance( m_Alert.window );
     }
     return self;
 }

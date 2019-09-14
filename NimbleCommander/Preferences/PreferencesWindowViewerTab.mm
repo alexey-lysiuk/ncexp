@@ -1,8 +1,8 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PreferencesWindowViewerTab.h"
 #include <Utility/FontExtras.h>
 #include "../Bootstrap/ActivationManager.h"
-#include "../Viewer/InternalViewerHistory.h"
+#include <Viewer/History.h>
 #include "Utility/Encodings.h"
 #include "../Bootstrap/Config.h"
 #include <Utility/ObjCpp.h>
@@ -44,14 +44,24 @@ static const auto g_ConfigDefaultEncoding = "viewer.defaultEncoding";
 @end
 
 @implementation PreferencesWindowViewerTab
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nibBundleOrNil];
-    if (self) {        
+    nc::viewer::History *m_History;
+}
+
+- (instancetype)initWithHistory:(nc::viewer::History&)_history
+{
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nil];
+    if (self) {
+        m_History = &_history;
     }
-    
     return self;
+}
+
+- (id)initWithNibName:(NSString*)[[maybe_unused]] _nibNameOrNil
+               bundle:(NSBundle*)[[maybe_unused]] _nibBundleOrNil
+{
+    assert(0);
+    return nil;
 }
 
 - (void)loadView
@@ -94,9 +104,9 @@ static const auto g_ConfigDefaultEncoding = "viewer.defaultEncoding";
                                       "General preferences tab title");
 }
 
-- (void)changeAttributes:(id)sender {} // wtf, is this necessary?
+- (void)changeAttributes:(id)[[maybe_unused]]_sender {} // wtf, is this necessary?
 
-- (IBAction)DefaultEncodingChanged:(id)sender
+- (IBAction)DefaultEncodingChanged:(id)[[maybe_unused]]_sender
 {
     for(const auto &i: encodings::LiteralEncodingsList())
         if([(__bridge NSString*)i.second isEqualToString:[[self.DefaultEncoding selectedItem] title]]) {
@@ -105,7 +115,7 @@ static const auto g_ConfigDefaultEncoding = "viewer.defaultEncoding";
         }    
 }
 
-- (IBAction)ClearHistory:(id)sender
+- (IBAction)ClearHistory:(id)[[maybe_unused]]_sender
 {
     NSAlert *alert = [[NSAlert alloc] init];
     alert.messageText = NSLocalizedStringFromTable(@"Are you sure you want to clear saved file states?",
@@ -118,7 +128,7 @@ static const auto g_ConfigDefaultEncoding = "viewer.defaultEncoding";
     [alert addButtonWithTitle:NSLocalizedString(@"Cancel","")];
     [[alert.buttons objectAtIndex:0] setKeyEquivalent:@""];
     if([alert runModal] == NSAlertFirstButtonReturn)
-        InternalViewerHistory::Instance().ClearHistory();
+        m_History->ClearHistory();
 }
 
 @end

@@ -1,15 +1,16 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/Hash.h>
 #include <Habanero/SerialQueue.h>
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <NimbleCommander/Core/Alert.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include "CalculateChecksumSheetController.h"
 #include <numeric>
 
 static const auto g_ConfigAlgo = "filePanel.general.checksumCalculationAlgorithm";
 const static std::string g_SumsFilename = "checksums.txt";
+using nc::base::Hash;
 
 const static std::vector<std::pair<NSString*,int>> g_Algos = {
     {@"Adler32",     Hash::Adler32},
@@ -70,7 +71,7 @@ const static std::vector<std::pair<NSString*,int>> g_Algos = {
     return self;
 }
 
-- (IBAction)OnCalc:(id)sender
+- (IBAction)OnCalc:(id)[[maybe_unused]]_sender
 {
     if( !m_WorkQue.Empty() )
         return;
@@ -143,7 +144,7 @@ const static std::vector<std::pair<NSString*,int>> g_Algos = {
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
     for(auto &i:g_Algos)
         [self.HashMethod addItemWithTitle:i.first];
@@ -178,7 +179,7 @@ const static std::vector<std::pair<NSString*,int>> g_Algos = {
     GA().PostScreenView("Calculate Checksum");
 }
 
-- (IBAction)OnClose:(id)sender
+- (IBAction)OnClose:(id)[[maybe_unused]]_sender
 {
     m_WorkQue.Stop();
     m_WorkQue.Wait();
@@ -199,12 +200,12 @@ const static std::vector<std::pair<NSString*,int>> g_Algos = {
                           columnIndexes:[NSIndexSet indexSetWithIndex:1]];
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)[[maybe_unused]]_tableView
 {
     return m_Filenames.size();
 }
 
-- (NSView *)tableView:(NSTableView *)tableView
+- (NSView *)tableView:(NSTableView *)[[maybe_unused]]_tableView
    viewForTableColumn:(NSTableColumn *)tableColumn
                   row:(NSInteger)row
 {
@@ -237,7 +238,7 @@ const static std::vector<std::pair<NSString*,int>> g_Algos = {
     return nil;
 }
 
-- (IBAction)OnSave:(id)sender
+- (IBAction)OnSave:(id)[[maybe_unused]]_sender
 {
     // currently doing all stuff on main thread synchronously. may be bad for some vfs like ftp
     std::string str;

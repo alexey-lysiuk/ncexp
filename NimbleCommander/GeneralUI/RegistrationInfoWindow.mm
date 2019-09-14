@@ -1,6 +1,6 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/GoogleAnalytics.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include "../Bootstrap/ActivationManager.h"
 #include "RegistrationInfoWindow.h"
 #include <Utility/StringExtras.h>
@@ -29,7 +29,7 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     m_Self = self;
     
     if( nc::bootstrap::ActivationManager::ForAppStore() ) { // MAS version
@@ -60,7 +60,7 @@
     GA().PostScreenView("Registration Info Sheet");
 }
 
-- (IBAction)onOK:(id)sender
+- (IBAction)onOK:(id)[[maybe_unused]]_sender
 {
     [self.window.sheetParent endSheet:self.window returnCode:0];
     m_Self = nil;

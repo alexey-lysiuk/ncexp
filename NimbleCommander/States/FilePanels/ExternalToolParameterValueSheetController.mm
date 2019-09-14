@@ -1,6 +1,6 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ExternalToolParameterValueSheetController.h"
+#include <Utility/CocoaAppearanceManager.h>
 #include <Utility/StringExtras.h>
 #include <Utility/ObjCpp.h>
 
@@ -32,7 +32,7 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);    
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);    
     
     m_Values.resize( m_ValueNames.size() );
     
@@ -74,12 +74,12 @@
     [self.window.contentView layoutSubtreeIfNeeded];
 }
 
-- (IBAction)onOK:(id)sender
+- (IBAction)onOK:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseOK];
 }
 
-- (IBAction)onCancel:(id)sender
+- (IBAction)onCancel:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseCancel];
 }

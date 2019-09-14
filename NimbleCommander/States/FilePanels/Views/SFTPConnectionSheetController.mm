@@ -1,7 +1,7 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/CommonPaths.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include <VFS/NetSFTP.h>
 #include "SFTPConnectionSheetController.h"
 #include <Utility/StringExtras.h>
@@ -56,7 +56,7 @@ static bool ValidateFileExistence( const std::string &_filepath )
 - (void) windowDidLoad
 {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
 
     if( self.setupMode )
         self.connectButton.title = self.connectButton.alternateTitle;
@@ -76,7 +76,7 @@ static bool ValidateFileExistence( const std::string &_filepath )
     [self validate];    
 }
 
-- (IBAction)OnConnect:(id)sender
+- (IBAction)OnConnect:(id)[[maybe_unused]]_sender
 {
     if( m_Original)
         m_Connection.uuid = m_Original->Uuid();
@@ -94,12 +94,12 @@ static bool ValidateFileExistence( const std::string &_filepath )
     [self endSheet:NSModalResponseOK];
 }
 
-- (IBAction)OnClose:(id)sender
+- (IBAction)OnClose:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseCancel];
 }
 
-- (IBAction)OnChooseKey:(id)sender
+- (IBAction)OnChooseKey:(id)[[maybe_unused]]_sender
 {
     auto initial_dir = access(g_SSHdir.c_str(), X_OK) == 0 ? g_SSHdir : CommonPaths::Home();
     NSOpenPanel *panel = [NSOpenPanel openPanel];
@@ -172,7 +172,9 @@ static bool ValidateFileExistence( const std::string &_filepath )
     self.invalidKeypath = false;
 
     nc::vfs::sftp::KeyValidator validator{self.keypath.fileSystemRepresentation,
-                                          self.passwordEntered.UTF8String};
+                                          self.passwordEntered.UTF8String ?
+                                          self.passwordEntered.UTF8String :
+                                          ""};
     if( validator.Validate() ) {
         self.invalidPassword = false;
         return true;
@@ -200,7 +202,7 @@ static bool ValidateFileExistence( const std::string &_filepath )
     self.isValid = valid_server && valid_username && valid_port && valid_password && valid_keypath;
 }
 
-- (void)controlTextDidChange:(NSNotification *)obj
+- (void)controlTextDidChange:(NSNotification *)[[maybe_unused]]_obj
 {
     [self validate];
 }

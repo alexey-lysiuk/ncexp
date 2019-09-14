@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "CompressionJob.h"
 #include <Habanero/algo.h>
 #include <libarchive/archive.h>
@@ -30,7 +30,7 @@ struct CompressionJob::Source
         uint16_t    flags;
     };
 
-    chained_strings             filenames;
+    base::chained_strings       filenames;
     std::vector<ItemMeta>       metas;
     std::vector<VFSHostPtr>     base_hosts;
     std::vector<std::string>    base_paths;
@@ -52,10 +52,12 @@ static void	archive_entry_copy_stat(struct archive_entry *_ae, const VFSStat &_v
 
 CompressionJob::CompressionJob(std::vector<VFSListingItem> _src_files,
                                std::string _dst_root,
-                               VFSHostPtr _dst_vfs):
+                               VFSHostPtr _dst_vfs,
+                               std::string _password):
     m_InitialListingItems{ std::move(_src_files) },
     m_DstRoot{ std::move(_dst_root) },
-    m_DstVFS{ std::move(_dst_vfs) }
+    m_DstVFS{ std::move(_dst_vfs) },
+    m_Password{ std::move(_password) }
 {
     if( m_DstRoot.empty() || m_DstRoot.back() != '/' )
         m_DstRoot += '/';
@@ -97,6 +99,22 @@ bool CompressionJob::BuildArchive()
     if( open_rc == VFSError::Ok ) {
         m_Archive = archive_write_new();
         archive_write_set_format_zip(m_Archive);
+        archive_write_add_filter_none(m_Archive);
+        if( !m_Password.empty() ) {
+            if( archive_write_set_options(m_Archive, "zip:encryption=aes256") != ARCHIVE_OK) {
+                Stop();
+                return false;                
+            }
+            if( archive_write_set_options(m_Archive, "zip:experimental") != ARCHIVE_OK) {
+                Stop();
+                return false;                
+            }            
+            if( archive_write_set_passphrase(m_Archive, m_Password.c_str()) != ARCHIVE_OK ) {
+                Stop();
+                return false;
+            }
+        }
+        
         archive_write_open(m_Archive, this, 0, WriteCallback, 0);
         archive_write_set_bytes_in_last_block(m_Archive, 1);
 
@@ -135,7 +153,7 @@ void CompressionJob::ProcessItems()
     }
 }
 
-void CompressionJob::ProcessItem(const chained_strings::node &_node, int _index)
+void CompressionJob::ProcessItem(const base::chained_strings::node &_node, int _index)
 {
     const auto meta = m_Source->metas[_index];
     if ( meta.flags & (int)Source::ItemFlags::is_dir)
@@ -146,7 +164,7 @@ void CompressionJob::ProcessItem(const chained_strings::node &_node, int _index)
         ProcessRegularItem(_node, _index);
 }
 
-void CompressionJob::ProcessSymlinkItem(const chained_strings::node &_node, int _index)
+void CompressionJob::ProcessSymlinkItem(const base::chained_strings::node &_node, int _index)
 {
     const auto itemname = _node.to_str_with_pref();
     const auto meta = m_Source->metas[_index];
@@ -187,7 +205,7 @@ void CompressionJob::ProcessSymlinkItem(const chained_strings::node &_node, int 
     archive_write_header(m_Archive, entry);
 }
 
-void CompressionJob::ProcessDirectoryItem(const chained_strings::node &_node, int _index)
+void CompressionJob::ProcessDirectoryItem(const base::chained_strings::node &_node, int _index)
 {
     const auto itemname = _node.to_str_with_pref();
     const auto meta = m_Source->metas[_index];
@@ -218,15 +236,18 @@ void CompressionJob::ProcessDirectoryItem(const chained_strings::node &_node, in
         Stop();
     }
     
-    VFSFilePtr src_file;
-    vfs.CreateFile(source_path.c_str(), src_file);
-    if( src_file->Open(VFSFlags::OF_Read) ==  VFSError::Ok ) {
-        std::string name_wo_slash = {std::begin(itemname), std::end(itemname)-1};
-        WriteEAsIfAny(*src_file, m_Archive, name_wo_slash.c_str());
+    if( IsEncrypted() == false ) {
+        // we can't support encrypted EAs due to lack of read support in LA
+        VFSFilePtr src_file;
+        vfs.CreateFile(source_path.c_str(), src_file);
+        if( src_file->Open(VFSFlags::OF_Read) ==  VFSError::Ok ) {
+            std::string name_wo_slash = {std::begin(itemname), std::end(itemname)-1};
+            WriteEAsIfAny(*src_file, m_Archive, name_wo_slash.c_str());
+        }
     }
 }
 
-void CompressionJob::ProcessRegularItem(const chained_strings::node &_node, int _index)
+void CompressionJob::ProcessRegularItem(const base::chained_strings::node &_node, int _index)
 {
     const auto itemname = _node.to_str_with_pref();
     const auto meta = m_Source->metas[_index];
@@ -305,7 +326,10 @@ void CompressionJob::ProcessRegularItem(const chained_strings::node &_node, int 
             case SourceReadErrorResolution::Skip: return;
         }
     
-    WriteEAsIfAny(*src_file, m_Archive, itemname.c_str());
+    if( IsEncrypted() == false ) {
+        // we can't support encrypted EAs due to lack of read support in LA 
+        WriteEAsIfAny(*src_file, m_Archive, itemname.c_str());
+    }
 }
 
 std::string CompressionJob::FindSuitableFilename(const std::string& _proposed_arcname) const
@@ -405,7 +429,7 @@ bool CompressionJob::ScanItem(const std::string &_full_path,
                               const std::string &_filename,
                               unsigned _vfs_no,
                               unsigned _basepath_no,
-                              const chained_strings::node *_prefix,
+                              const base::chained_strings::node *_prefix,
                               Source &_ctx)
 {
     VFSStat stat_buffer;
@@ -490,6 +514,11 @@ ssize_t	CompressionJob::WriteCallback(struct archive *,
         return ret;
     return ARCHIVE_FATAL;
 }
+    
+bool CompressionJob::IsEncrypted() const noexcept
+{
+    return m_Password.empty() == false; 
+}
 
 static void	archive_entry_copy_stat(struct archive_entry *_ae, const VFSStat &_vfs_stat)
 {
@@ -523,7 +552,7 @@ static bool WriteEAs(struct archive *_a, void *_md, size_t _md_s, const char* _p
     ssize_t ret = archive_write_data(_a, _md, _md_s); // we may need cycle here
     archive_entry_free(entry);
     
-    return ret == _md_s;
+    return ret == (ssize_t)_md_s;
 }
 
 static bool WriteEAsIfAny(VFSFile &_src, struct archive *_a, const char *_source_fn)

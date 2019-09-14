@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/PathManip.h>
 #include "../ListingInput.h"
 #include "Host.h"
@@ -77,9 +77,9 @@ FTPHost::FTPHost(const std::string &_serv_url,
                  const std::string &_passwd,
                  const std::string &_start_dir,
                  long   _port):
-    Host(_serv_url.c_str(), nullptr, UniqueTag),
-    m_Configuration( ComposeConfiguration(_serv_url, _user, _passwd, _start_dir, _port) ),
-    m_Cache(std::make_unique<ftp::Cache>())
+    Host(_serv_url.c_str(), nullptr, UniqueTag),    
+    m_Cache(std::make_unique<ftp::Cache>()),
+    m_Configuration( ComposeConfiguration(_serv_url, _user, _passwd, _start_dir, _port) )
 {
     int rc = DoInit();
     if(rc < 0)
@@ -105,7 +105,9 @@ VFSMeta FTPHost::Meta()
 {
     VFSMeta m;
     m.Tag = UniqueTag;
-    m.SpawnWithConfig = [](const VFSHostPtr &_parent, const VFSConfiguration& _config, VFSCancelChecker _cancel_checker) {
+    m.SpawnWithConfig = []([[maybe_unused]] const VFSHostPtr &_parent,
+                           const VFSConfiguration& _config,
+                           [[maybe_unused]] VFSCancelChecker _cancel_checker) {
         return std::make_shared<FTPHost>(_config);
     };
     return m;
@@ -213,7 +215,7 @@ std::unique_ptr<CURLInstance> FTPHost::SpawnCURL()
 
 int FTPHost::Stat(const char *_path,
                   VFSStat &_st,
-                  unsigned long _flags,
+                  [[maybe_unused]] unsigned long _flags,
                   const VFSCancelChecker &_cancel_checker)
 {
     if(_path == nullptr || _path[0] != '/' )
@@ -293,6 +295,7 @@ int FTPHost::FetchDirectoryListing(const char *_path,
         return result;
     
     // setup of listing structure
+    using nc::base::variable_container;
     ListingInput listing_source;
     listing_source.hosts[0] = shared_from_this();
     listing_source.directories[0] = EnsureTrailingSlash(_path);
@@ -337,7 +340,7 @@ int FTPHost::FetchDirectoryListing(const char *_path,
     return 0;
 }
 
-int FTPHost::GetListingForFetching(CURLInstance *_inst,
+int FTPHost::GetListingForFetching([[maybe_unused]] CURLInstance *_inst,
                                    const char *_path,
                                    std::shared_ptr<Directory> *_cached_dir,
                                    VFSCancelChecker _cancel_checker)
@@ -374,7 +377,8 @@ int FTPHost::CreateFile(const char* _path,
     return VFSError::Ok;
 }
 
-int FTPHost::Unlink(const char *_path, const VFSCancelChecker &_cancel_checker)
+int FTPHost::Unlink(const char *_path,
+                    [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     boost::filesystem::path path = _path;
     if(path.is_absolute() == false || path.filename() == ".")
@@ -415,7 +419,9 @@ int FTPHost::Unlink(const char *_path, const VFSCancelChecker &_cancel_checker)
 }
 
 // _mode is ignored, since we can't specify any access mode from ftp
-int FTPHost::CreateDirectory(const char* _path, int _mode, const VFSCancelChecker &_cancel_checker)
+int FTPHost::CreateDirectory(const char* _path,
+                             [[maybe_unused]] int _mode,
+                             [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     boost::filesystem::path path = _path;
     if(path.is_absolute() == false)
@@ -459,7 +465,8 @@ int FTPHost::CreateDirectory(const char* _path, int _mode, const VFSCancelChecke
                         VFSError::FromErrno(EPERM); // TODO: convert curl_res to something meaningful
 }
 
-int FTPHost::RemoveDirectory(const char *_path, const VFSCancelChecker &_cancel_checker)
+int FTPHost::RemoveDirectory(const char *_path,
+                             [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     boost::filesystem::path path = _path;
     if(path.is_absolute() == false)
@@ -501,7 +508,9 @@ int FTPHost::RemoveDirectory(const char *_path, const VFSCancelChecker &_cancel_
                         VFSError::FromErrno(EPERM); // TODO: convert curl_res to something meaningful
 }
 
-int FTPHost::Rename(const char *_old_path, const char *_new_path, const VFSCancelChecker &_cancel_checker)
+int FTPHost::Rename(const char *_old_path,
+                    const char *_new_path,
+                    [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     boost::filesystem::path old_path = _old_path, new_path = _new_path;
     if(old_path.is_absolute() == false || new_path.is_absolute() == false)
@@ -556,7 +565,7 @@ void FTPHost::MakeDirectoryStructureDirty(const char *_path)
     }
 }
 
-bool FTPHost::IsDirChangeObservingAvailable(const char *_path)
+bool FTPHost::IsDirChangeObservingAvailable([[maybe_unused]] const char *_path)
 {
     return true;
 }
@@ -683,7 +692,9 @@ void FTPHost::BasicOptsSetup(CURLInstance *_inst)
     // _inst->EasySetOpt(CURLOPT_SSL_VERIFYHOST, false);
 }
 
-int FTPHost::StatFS(const char *_path, VFSStatFS &_stat, const VFSCancelChecker &_cancel_checker)
+int FTPHost::StatFS([[maybe_unused]] const char *_path,
+                    VFSStatFS &_stat,
+                    [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     _stat.avail_bytes = _stat.free_bytes = _stat.total_bytes = 0;
     _stat.volume_name = JunctionPath();

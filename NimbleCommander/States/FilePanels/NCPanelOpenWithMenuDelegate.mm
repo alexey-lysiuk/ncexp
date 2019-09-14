@@ -1,9 +1,10 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "NCPanelOpenWithMenuDelegate.h"
 #include <NimbleCommander/Core/LaunchServices.h>
 #include <Sparkle/Sparkle.h>
 #include <Utility/SystemInformation.h>
 #include <Utility/ObjCpp.h>
+#include <Utility/UTI.h>
 #include <VFS/VFS.h>
 #include "PanelAux.h"
 #include "PanelController.h"
@@ -12,6 +13,7 @@
 
 using namespace nc::core;
 using namespace nc::panel;
+using nc::utility::UTIDB;
 
 namespace {
 
@@ -49,11 +51,11 @@ static void SortAndPurgeDuplicateHandlers(std::vector<LaunchServiceHandler> &_ha
     }
 }
 
-static FetchResult FetchHandlers(const std::vector<VFSListingItem> &_items)
+static FetchResult FetchHandlers(const std::vector<VFSListingItem> &_items, const UTIDB& _db)
 {
     std::vector<LauchServicesHandlers> per_item_handlers;
     for( auto &i: _items )
-        per_item_handlers.emplace_back( LauchServicesHandlers{i} );
+        per_item_handlers.emplace_back( LauchServicesHandlers{i, _db} );
     
     LauchServicesHandlers items_handlers{per_item_handlers};
     
@@ -89,6 +91,18 @@ static FetchResult FetchHandlers(const std::vector<VFSListingItem> &_items)
     std::string m_ItemsUTI;
     SerialQueue                     m_FetchQueue;
     std::set<NSMenu*>               m_ManagedMenus;
+    FileOpener                     *m_FileOpener;
+    const UTIDB                    *m_UTIDB;
+}
+
+- (instancetype)initWithFileOpener:(nc::panel::FileOpener&)_file_opener
+                             utiDB:(const nc::utility::UTIDB&)_uti_db
+{
+    if( self = [super init] ) {
+        m_FileOpener = &_file_opener;
+        m_UTIDB = &_uti_db;
+    }
+    return self;
 }
 
 + (NSString*) regularMenuIdentifier
@@ -106,10 +120,10 @@ static FetchResult FetchHandlers(const std::vector<VFSListingItem> &_items)
     m_ContextItems = move(_items);
 }
 
-- (BOOL)menuHasKeyEquivalent:(NSMenu*)menu
-                    forEvent:(NSEvent*)event
-                      target:(__nullable id* __nonnull)target
-                      action:(__nullable SEL* __nonnull)action
+- (BOOL)menuHasKeyEquivalent:(NSMenu*)[[maybe_unused]]_menu
+                    forEvent:(NSEvent*)[[maybe_unused]]_event
+                      target:(__nullable id* __nonnull)[[maybe_unused]]_target
+                      action:(__nullable SEL* __nonnull)[[maybe_unused]]_action
 {
     return false;
 }
@@ -124,7 +138,7 @@ static FetchResult FetchHandlers(const std::vector<VFSListingItem> &_items)
         std::make_shared<std::vector<VFSListingItem>>(m_ContextItems);
     
     m_FetchQueue.Run([source_items, self]{
-        auto f = std::make_shared<FetchResult>(FetchHandlers(*source_items));
+        auto f = std::make_shared<FetchResult>(FetchHandlers(*source_items, *m_UTIDB));
         dispatch_to_main_queue([f, self]{
             [self acceptFetchResult:f];
         });
@@ -339,21 +353,21 @@ static void ShowOpenPanel(NSOpenPanel *_panel,
             std::vector<std::string> items;
             for(auto &i: source_items)
                 items.emplace_back( i.Path() );
-            PanelVFSFileWorkspaceOpener::Open(items,
-                                              source_items.front().Host(),
-                                              _handler.Identifier(),
-                                              self.target);
+            m_FileOpener->Open(items,
+                               source_items.front().Host(),
+                               _handler.Identifier(),
+                               self.target);
         }
     }
     else if( source_items.size() == 1 ) {
-        PanelVFSFileWorkspaceOpener::Open(source_items.front().Path(),
-                                          source_items.front().Host(),
-                                          _handler.Path(),
-                                          self.target);
+        m_FileOpener->Open(source_items.front().Path(),
+                           source_items.front().Host(),
+                           _handler.Path(),
+                           self.target);
     }
 }
 
-- (void)OnSearchInMAS:(id)sender
+- (void)OnSearchInMAS:(id)[[maybe_unused]]_sender
 {
     auto format = @"macappstores://search.itunes.apple.com/WebObjects/MZSearch.woa/wa/docTypeLookup?uti=%s";
     NSString *mas_url = [NSString stringWithFormat:format, m_ItemsUTI.c_str()];

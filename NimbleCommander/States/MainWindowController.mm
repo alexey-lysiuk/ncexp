@@ -1,4 +1,5 @@
-// Copyright (C) 2013-2017 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
+#include "MainWindowController.h"
 #include <Habanero/debug.h>
 #include <Config/RapidJSON.h>
 #include <rapidjson/stringbuffer.h>
@@ -9,12 +10,11 @@
 #include "Terminal/ShellState.h"
 #include "Terminal/ExternalEditorState.h"
 #include "InternalViewer/MainWindowInternalViewerState.h"
-#include "../Viewer/InternalViewerWindowController.h"
 #include "../GeneralUI/RegistrationInfoWindow.h"
 #include <Utility/NativeFSManager.h>
-#include "MainWindowController.h"
 #include "MainWindow.h"
 #include "../Bootstrap/AppDelegate.h"
+#include "../Bootstrap/AppDelegate+ViewerCreation.h"
 #include "FilePanels/MainWindowFilePanelState.h"
 #include "FilePanels/PanelController.h"
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
@@ -22,10 +22,12 @@
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <Habanero/SerialQueue.h>
 #include <NimbleCommander/Core/GoogleAnalytics.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include <NimbleCommander/Core/UserNotificationsCenter.h>
 #include <Operations/Pool.h>
 #include <Utility/ObjCpp.h>
+#include <Viewer/ViewerViewController.h>
+#include <Viewer/InternalViewerWindowController.h>
 
 using namespace nc;
 
@@ -102,8 +104,8 @@ static __weak NCMainWindowController *g_LastFocusedNCMainWindowController = nil;
     return true;
 }
 
-+ (void)restoreWindowWithIdentifier:(NSString *)identifier
-                              state:(NSCoder *)state
++ (void)restoreWindowWithIdentifier:(NSString *)[[maybe_unused]]_identifier
+                              state:(NSCoder *)[[maybe_unused]]_state
                   completionHandler:(void (^)(NSWindow *, NSError *))completionHandler
 {
     // this is a legacy stub. it needs to be here for some time.
@@ -205,7 +207,7 @@ static int CountMainWindows()
     return count;
 }
 
-- (void)windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)[[maybe_unused]]_notification
 {
     // the are the last main window - need to save current state as "default" in state config
     if( CountMainWindows() == 1 ) {
@@ -233,7 +235,7 @@ static int CountMainWindows()
     m_Terminal = nil;
 }
 
-- (BOOL)windowShouldClose:(id)sender
+- (BOOL)windowShouldClose:(id)[[maybe_unused]]_sender
 {
     for( auto i = m_WindowState.rbegin(), e = m_WindowState.rend(); i != e; ++i )
         if( [*i respondsToSelector:@selector(windowStateShouldClose:)] )
@@ -252,7 +254,7 @@ static int CountMainWindows()
     g_LastFocusedNCMainWindowController = self;
 }
 
-- (IBAction)OnShowToolbar:(id)sender
+- (IBAction)OnShowToolbar:(id)[[maybe_unused]]_sender
 {
     GlobalConfig().Set( g_ConfigShowToolbar, !GlobalConfig().GetBool(g_ConfigShowToolbar) );
 }
@@ -330,7 +332,14 @@ static int CountMainWindows()
         if( GlobalConfig().GetBool(g_ConfigModalInternalViewer) ) { // as a state
             if( !m_Viewer )
             dispatch_sync(dispatch_get_main_queue(),[&]{
-                m_Viewer = [[MainWindowInternalViewerState alloc] init];
+                auto rc = NSMakeRect(0, 0, 100, 100);
+                auto viewer_factory = [](NSRect rc){
+                    return [NCAppDelegate.me makeViewerWithFrame:rc];
+                };
+                auto ctrl = [NCAppDelegate.me makeViewerController];
+                m_Viewer = [[MainWindowInternalViewerState alloc] initWithFrame:rc
+                                                                  viewerFactory:viewer_factory
+                                                                     controller:ctrl];
             });
             if( [m_Viewer openFile:_filepath atVFS:_host] ) {
                 dispatch_to_main_queue([=]{
@@ -339,34 +348,31 @@ static int CountMainWindows()
             }
         }
         else { // as a window
-            if( auto *window = [NCAppDelegate.me findInternalViewerWindowForPath:_filepath
-                                                                         onVFS:_host] ) {
+            if( auto *ex_window = [NCAppDelegate.me findInternalViewerWindowForPath:_filepath
+                                                                              onVFS:_host] ) {
                 // already has this one
                 dispatch_to_main_queue([=]{
-                    [window showWindow:self];
+                    [ex_window showWindow:self];
                 });
             }
             else {
-                // need to create a new one
+                InternalViewerWindowController *window = nil;
                 dispatch_sync(dispatch_get_main_queue(),[&]{
-                    window = [[InternalViewerWindowController alloc] initWithFilepath:_filepath
-                                                                                   at:_host];
+                    window = [NCAppDelegate.me retrieveInternalViewerWindowForPath:_filepath
+                                                                             onVFS:_host];
                 });
-                if( [window performBackgrounOpening] ) {
-                    dispatch_to_main_queue([=]{
+                const auto opening_result = [window performBackgrounOpening];
+                dispatch_to_main_queue([=]{
+                    if( opening_result ) {
                         [window showAsFloatingWindow];
-                    });
-                }
-                else
-                    dispatch_to_main_queue([=] () mutable {
-                        window = nil; // release this object in main thread
-                    });
+                    }
+                });
             }
         }
     });
 }
 
-- (void)requestTerminal:(const std::string&)_cwd;
+- (void)requestTerminal:(const std::string&)_cwd
 {
     if( m_Terminal == nil ) {
         const auto state = [[NCTermShellState alloc] initWithFrame:self.window.contentView.frame];
@@ -449,7 +455,7 @@ static const auto g_ShowToolbarTitle = NSLocalizedString(@"Show Toolbar", "Menu 
     return true;
 }
 
-- (IBAction)onMainMenuPerformShowRegistrationInfo:(id)sender
+- (IBAction)onMainMenuPerformShowRegistrationInfo:(id)[[maybe_unused]]sender
 {
     RegistrationInfoWindow *w = [[RegistrationInfoWindow alloc] init];
     [self.window beginSheet:w.window completionHandler:^(NSModalResponse){}];    
@@ -467,7 +473,7 @@ static const auto g_ShowToolbarTitle = NSLocalizedString(@"Show Toolbar", "Menu 
 
 - (void)beginSheet:(NSWindow *)sheetWindow completionHandler:(void (^)(NSModalResponse rc))handler
 {
-    CocoaAppearanceManager::Instance().ManageWindowApperance(sheetWindow);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(sheetWindow);
     __block NSWindow *wnd = sheetWindow;
     __block NSWindowController *ctrl = wnd.windowController;
     if( auto name = ctrl.className.UTF8String)
@@ -518,7 +524,9 @@ static const auto g_ShowToolbarTitle = NSLocalizedString(@"Show Toolbar", "Menu 
     m_OperationsPool->SetOperationCompletionCallback( std::move(completion_callback) );
 }
 
-- (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
+- (NSRect)window:(NSWindow*)[[maybe_unused]]_window
+    willPositionSheet:(NSWindow*)[[maybe_unused]] sheet
+            usingRect:(NSRect)rect
 {
     /**
      * At this moment the file panels state uses a horizontal separator line to place its content.

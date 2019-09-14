@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <libproc.h>
 #include <sys/resource.h>
 #include <sys/proc_info.h>
@@ -283,7 +283,9 @@ VFSMeta PSHost::Meta()
 {
     VFSMeta m;
     m.Tag = UniqueTag;
-    m.SpawnWithConfig = [](const VFSHostPtr &_parent, const VFSConfiguration& _config, VFSCancelChecker _cancel_checker) {
+    m.SpawnWithConfig = []([[maybe_unused]] const VFSHostPtr &_parent,
+                           [[maybe_unused]] const VFSConfiguration& _config,
+                           [[maybe_unused]] VFSCancelChecker _cancel_checker) {
         return GetSharedOrNew();
     };
     return m;
@@ -464,9 +466,9 @@ std::string PSHost::ProcInfoIntoFile(const ProcInfo& _info, std::shared_ptr<Snap
 }
 
 int PSHost::FetchDirectoryListing(const char *_path,
-                                     std::shared_ptr<VFSListing> &_target,
-                                     unsigned long _flags,
-                                     const VFSCancelChecker &_cancel_checker)
+                                  std::shared_ptr<VFSListing> &_target,
+                                  [[maybe_unused]] unsigned long _flags,
+                                  [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     EnsureUpdateRunning();
     
@@ -476,6 +478,7 @@ int PSHost::FetchDirectoryListing(const char *_path,
     auto data = m_Data;
     
     // set up or listing structure
+    using nc::base::variable_container;
     ListingInput listing_source;
     listing_source.hosts[0] = shared_from_this();
     listing_source.directories[0] = _path;
@@ -501,8 +504,8 @@ int PSHost::FetchDirectoryListing(const char *_path,
 }
 
 bool PSHost::IsDirectory(const char *_path,
-                            unsigned long _flags,
-                            const VFSCancelChecker &_cancel_checker)
+                         [[maybe_unused]] unsigned long _flags,
+                         [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if(_path == 0 ||
        strcmp(_path, "/") != 0)
@@ -531,12 +534,15 @@ int PSHost::CreateFile(const char* _path,
     return VFSError::Ok;
 }
 
-int PSHost::Stat(const char *_path, VFSStat &_st, unsigned long _flags, const VFSCancelChecker &_cancel_checker)
+int PSHost::Stat(const char *_path,
+                 VFSStat &_st,
+                 [[maybe_unused]] unsigned long _flags,
+                 [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     static VFSStat::meaningT m;
     static std::once_flag once;
     call_once(once, []{
-        memset(&m, sizeof(m), 0);
+        memset(&m, 0, sizeof(m));
         m.size = 1;
         m.mode = 1;
         m.mtime = 1;
@@ -586,16 +592,17 @@ int PSHost::ProcIndexFromFilepath_Unlocked(const char *_filepath)
     return int(it - begin(m_Data->plain_filenames));
 }
 
-bool PSHost::IsDirChangeObservingAvailable(const char *_path)
+bool PSHost::IsDirChangeObservingAvailable([[maybe_unused]] const char *_path)
 {
     return true;
 }
 
-HostDirObservationTicket PSHost::DirChangeObserve(const char *_path, std::function<void()> _handler)
+HostDirObservationTicket PSHost::DirChangeObserve([[maybe_unused]] const char *_path,
+                                                  std::function<void()> _handler)
 {
     // currently we don't care about _path, since this fs has only one directory - root
     auto ticket = m_LastTicket++;
-    m_UpdateHandlers.emplace_back(ticket, _handler);
+    m_UpdateHandlers.emplace_back(ticket, std::move(_handler) );
     return HostDirObservationTicket(ticket, shared_from_this());
 }
 
@@ -635,7 +642,9 @@ int PSHost::IterateDirectoryListing(const char *_path, const std::function<bool(
     return VFSError::Ok;
 }
 
-int PSHost::StatFS(const char *_path, VFSStatFS &_stat, const VFSCancelChecker &_cancel_checker)
+int PSHost::StatFS([[maybe_unused]] const char *_path,
+                   VFSStatFS &_stat,
+                   [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     _stat.volume_name = "Processes List";
     _stat.avail_bytes = _stat.free_bytes = 0;
@@ -676,7 +685,8 @@ static std::optional<bool> WaitForProcessToDie( int pid )
     return false;
 }
 
-int PSHost::Unlink(const char *_path, const VFSCancelChecker &_cancel_checker)
+int PSHost::Unlink(const char *_path,
+                   [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if(_path == nullptr)
         return VFSError::InvalidCall;
