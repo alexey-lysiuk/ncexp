@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/PathManip.h>
 #include "../ListingInput.h"
 #include "Aux.h"
@@ -146,9 +146,9 @@ VFSMeta DropboxHost::Meta()
 {
     VFSMeta m;
     m.Tag = UniqueTag;
-    m.SpawnWithConfig = [](const VFSHostPtr &_parent,
+    m.SpawnWithConfig = []([[maybe_unused]] const VFSHostPtr &_parent,
                            const VFSConfiguration& _config,
-                           VFSCancelChecker _cancel_checker) {
+                           [[maybe_unused]] VFSCancelChecker _cancel_checker) {
         return std::make_shared<DropboxHost>(_config);
     };
     return m;
@@ -174,9 +174,9 @@ void DropboxHost::FillAuth( NSMutableURLRequest *_request ) const
     [_request setValue:I->m_AuthString forHTTPHeaderField:@"Authorization"];
 }
 
-int DropboxHost::StatFS(const char *_path,
-                              VFSStatFS &_stat,
-                              const VFSCancelChecker &_cancel_checker)
+int DropboxHost::StatFS([[maybe_unused]] const char *_path,
+                        VFSStatFS &_stat,
+                        const VFSCancelChecker &_cancel_checker)
 {
     WarnAboutUsingInMainThread();
     
@@ -206,9 +206,9 @@ int DropboxHost::StatFS(const char *_path,
 }
 
 int DropboxHost::Stat(const char *_path,
-                            VFSStat &_st,
-                            unsigned long _flags,
-                            const VFSCancelChecker &_cancel_checker)
+                      VFSStat &_st,
+                      [[maybe_unused]] unsigned long _flags,
+                      const VFSCancelChecker &_cancel_checker)
 {
     WarnAboutUsingInMainThread();
 
@@ -337,6 +337,7 @@ int DropboxHost::FetchDirectoryListing(const char *_path,
         
         auto entries = ExtractMetadataEntries(json);
         
+        using nc::base::variable_container;
         ListingInput listing_source;
         listing_source.hosts[0] = shared_from_this();
         listing_source.directories[0] =  EnsureTrailingSlash(_path);
@@ -428,8 +429,8 @@ int DropboxHost::RemoveDirectory(const char *_path, const VFSCancelChecker &_can
 }
 
 int DropboxHost::CreateDirectory(const char* _path,
-                                       int _mode,
-                                       const VFSCancelChecker &_cancel_checker )
+                                 [[maybe_unused]] int _mode,
+                                 const VFSCancelChecker &_cancel_checker )
 {
     WarnAboutUsingInMainThread();
     
@@ -485,7 +486,7 @@ const std::string &DropboxHost::Account() const
     return I->m_Account;
 }
     
-bool DropboxHost::IsCaseSensitiveAtPath(const char *_dir) const
+bool DropboxHost::IsCaseSensitiveAtPath([[maybe_unused]] const char *_dir) const
 {
     return false;
 }

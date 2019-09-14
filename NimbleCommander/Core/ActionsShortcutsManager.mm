@@ -1,7 +1,8 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Bootstrap/Config.h>
 #include <Config/RapidJSON.h>
 #include "ActionsShortcutsManager.h"
+#include <assert.h>
 
 // this key should not exist in config defaults
 static const auto g_OverridesConfigPath = "hotkeyOverrides_v1";
@@ -122,6 +123,7 @@ static const std::vector<std::pair<const char*,int>> g_ActionsTags = {
     {"menu.command.open_xattr",                         15'230},
     {"menu.command.copy_file_name",                     15'030},
     {"menu.command.copy_file_path",                     15'040},
+    {"menu.command.copy_file_directory",                15'240},
     {"menu.command.select_with_mask",                   15'050},
     {"menu.command.select_with_extension",              15'051},
     {"menu.command.deselect_with_mask",                 15'060},
@@ -191,8 +193,13 @@ static const std::vector<std::pair<const char*,int>> g_ActionsTags = {
     {"panel.show_tab_no_8",                             100'167},
     {"panel.show_tab_no_9",                             100'168},
     {"panel.show_tab_no_10",                            100'169},
+        
+    {"viewer.toggle_text",                              101'000},
+    {"viewer.toggle_hex",                               101'001},
+    {"viewer.toggle_preview",                           101'002},
+    {"viewer.show_settings",                            101'003},
+    {"viewer.show_goto",                                101'004}        
 };
-
 
 static const std::vector<std::pair<const char*, const char*>> g_DefaultShortcuts = {
     {"menu.nimble_commander.about",                         u8""        },
@@ -312,6 +319,7 @@ static const std::vector<std::pair<const char*, const char*>> g_DefaultShortcuts
     {"menu.command.file_attributes",                        u8"^a"      }, // ctrl+a
     {"menu.command.copy_file_name",                         u8"⇧⌘c"     }, // shift+cmd+c
     {"menu.command.copy_file_path",                         u8"⌥⌘c"     }, // alt+cmd+c
+    {"menu.command.copy_file_directory",                    u8"⇧⌥⌘c"    }, // shift+alt+cmd+c    
     {"menu.command.select_with_mask",                       u8"⌘="      }, // cmd+=
     {"menu.command.select_with_extension",                  u8"⌥⌘="     }, // alt+cmd+=
     {"menu.command.deselect_with_mask",                     u8"⌘-"      }, // cmd+-
@@ -376,7 +384,11 @@ static const std::vector<std::pair<const char*, const char*>> g_DefaultShortcuts
     {"panel.show_tab_no_8",                                 u8""        },
     {"panel.show_tab_no_9",                                 u8""        },
     {"panel.show_tab_no_10",                                u8""        },
-    
+    {"viewer.toggle_text",                                  u8"⌘1"      }, // cmd+1
+    {"viewer.toggle_hex",                                   u8"⌘2"      }, // cmd+2
+    {"viewer.toggle_preview",                               u8"⌘3"      }, // cmd+3
+    {"viewer.show_settings",                                u8"⌘0"      }, // cmd+0
+    {"viewer.show_goto",                                    u8"⌘l"      }  // cmd+l
 };
 
 ActionsShortcutsManager::ShortCutsUpdater::
@@ -404,6 +416,10 @@ void ActionsShortcutsManager::ShortCutsUpdater::CheckAndUpdate() const
 ActionsShortcutsManager::ActionsShortcutsManager()
 {
     for( auto &p: g_ActionsTags) {
+        // safety checks against malformed g_ActionsTags
+        assert( m_TagToAction.count(p.second) == 0 );   
+        assert( m_ActionToTag.count(p.first) == 0 );
+        
         m_TagToAction[p.second] = p.first;
         m_ActionToTag[p.first] = p.second;
     }

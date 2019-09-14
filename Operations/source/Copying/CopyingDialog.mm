@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Habanero/CommonPaths.h>
 #include <Habanero/algo.h>
 #include "../Internal.h"
@@ -7,6 +7,7 @@
 #include "Copying.h"
 #include <Utility/StringExtras.h>
 #include <Utility/ObjCpp.h>
+#include <Operations/FilenameTextControl.h>
 
 using namespace nc::ops;
 
@@ -68,6 +69,9 @@ static std::string MakeCanonicPath(std::string _input)
     
     std::string                     m_ResultDestination;
     VFSHostPtr                      m_ResultHost;
+    
+    std::shared_ptr<nc::ops::DirectoryPathAutoCompetion> m_AutoCompletion;
+    NCFilepathAutoCompletionDelegate *m_AutoCompletionDelegate;    
 }
 
 @synthesize resultDestination = m_ResultDestination;
@@ -89,6 +93,12 @@ static std::string MakeCanonicPath(std::string _input)
         m_InitialDestination = _initial_destination;
         m_DestinationHost = _destination_host;
         m_Options = _options;
+        m_AutoCompletion = 
+            std::make_shared<nc::ops::DirectoryPathAutoCompletionImpl>(m_DestinationHost);
+        m_AutoCompletionDelegate = [[NCFilepathAutoCompletionDelegate alloc] init];
+        m_AutoCompletionDelegate.completion = m_AutoCompletion;
+        m_AutoCompletionDelegate.isNativeVFS = m_DestinationHost->IsNativeFS();
+        
         self.isValidInput = [self validateInput:_initial_destination];
     }
     return self;
@@ -136,14 +146,14 @@ static std::string MakeCanonicPath(std::string _input)
     [self.VerifySetting selectItemWithTag:(int)m_Options.verification];
 }
 
-- (IBAction)OnCopy:(id)sender
+- (IBAction)OnCopy:(id)[[maybe_unused]]_sender
 {
     [self validate];
     [self fillOptions];
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseOK];
 }
 
-- (IBAction)OnCancel:(id)sender
+- (IBAction)OnCancel:(id)[[maybe_unused]]_sender
 {
     [self.window.sheetParent endSheet:self.window returnCode:NSModalResponseCancel];
 }
@@ -215,5 +225,16 @@ static std::string MakeCanonicPath(std::string _input)
         [self validate];
 }
 
+- (BOOL)control:(NSControl *)_control
+       textView:(NSTextView *)_text_view
+doCommandBySelector:(SEL)_command_selector
+{
+    if( _control == self.TextField && _command_selector == @selector(complete:)) {
+        return [m_AutoCompletionDelegate control:_control
+                                        textView:_text_view
+                             doCommandBySelector:_command_selector];
+    }
+    return false;
+}
 
 @end

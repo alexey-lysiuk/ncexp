@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ShellState.h"
 #include <Habanero/CommonPaths.h>
 #include <Utility/NativeFSManager.h>
@@ -158,7 +158,7 @@ static const auto g_CustomPath = "terminal.customShellPath";
         }
     });
     
-    m_Task->SetOnPwdPrompt([=](const char *_cwd, bool _changed){
+    m_Task->SetOnPwdPrompt([=]([[maybe_unused]] const char *_cwd, [[maybe_unused]] bool _changed){
         if( auto strongself = weakself ) {
             strongself->m_TermScrollView.screen.SetTitle("");
             [strongself updateTitle];
@@ -176,6 +176,8 @@ static const auto g_CustomPath = "terminal.customShellPath";
     
     [self.window makeFirstResponder:m_TermScrollView.view];
     [self updateTitle];
+    [m_TermScrollView tile];
+    [m_TermScrollView.view scrollToBottom];
 }
 
 - (void)windowStateDidResign
@@ -271,7 +273,7 @@ static const auto g_CustomPath = "terminal.customShellPath";
     return m_Task->CWD();
 }
 
-- (IBAction)OnShowTerminal:(id)sender
+- (IBAction)OnShowTerminal:(id)[[maybe_unused]]_sender
 {
     [(NCMainWindowController*)self.window.delegate ResignAsWindowState:self];
 }

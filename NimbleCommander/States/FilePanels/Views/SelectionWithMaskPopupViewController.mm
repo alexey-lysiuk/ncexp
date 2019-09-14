@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/SimpleComboBoxPersistentDataSource.h>
 #include "SelectionWithMaskPopupViewController.h"
 #include <unordered_map>
@@ -24,7 +24,7 @@ static spinlock                         g_InitialMaskLock;
 
 @synthesize handler = m_Handler;
 
-- (instancetype) initForWindow:(NSWindow*)_wnd doesSelect:(bool)_select;
+- (instancetype) initForWindow:(NSWindow*)_wnd doesSelect:(bool)_select
 {
     self = [super init];
     if( self ) {
@@ -52,7 +52,7 @@ static spinlock                         g_InitialMaskLock;
     }
 }
 
-- (IBAction)OnComboBox:(id)sender
+- (IBAction)OnComboBox:(id)[[maybe_unused]]_sender
 {
     NSString *mask = self.comboBox.stringValue;
     if( mask == nil || mask.length == 0 )

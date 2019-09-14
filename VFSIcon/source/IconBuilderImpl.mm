@@ -1,4 +1,4 @@
-// Copyright (C) 2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2018-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <VFSIcon/IconBuilderImpl.h>
 
 namespace nc::vfsicon {
@@ -9,15 +9,17 @@ IconBuilderImpl::IconBuilderImpl
      const std::shared_ptr<WorkspaceExtensionIconsCache> &_extension_icons_cache,
      const std::shared_ptr<QLVFSThumbnailsCache> &_vfs_thumbnails_cache,     
      const std::shared_ptr<VFSBundleIconsCache> &_vfs_bundle_icons_cache,     
+     const std::shared_ptr<ExtensionsWhitelist> &_extensions_whitelist,
      long _max_filesize_for_thumbnails_on_native_fs, 
      long _max_filesize_for_thumbnails_on_vfs):
     m_QLThumbnailsCache(_ql_cache),
     m_WorkspaceIconsCache(_workspace_icons_cache),
     m_ExtensionIconsCache(_extension_icons_cache),
     m_VFSThumbnailsCache(_vfs_thumbnails_cache),
+    m_VFSBundleIconsCache(_vfs_bundle_icons_cache),
+    m_ExtensionsWhitelist(_extensions_whitelist),
     m_MaxFilesizeForThumbnailsOnNativeFS(_max_filesize_for_thumbnails_on_native_fs),
-    m_MaxFilesizeForThumbnailsOnVFS(_max_filesize_for_thumbnails_on_vfs),
-    m_VFSBundleIconsCache(_vfs_bundle_icons_cache)
+    m_MaxFilesizeForThumbnailsOnVFS(_max_filesize_for_thumbnails_on_vfs)
 {
 }
 
@@ -148,7 +150,9 @@ bool IconBuilderImpl::ShouldTryProducingQLThumbnailOnNativeFS(const VFSListingIt
 {
     return _item.IsDir() == false &&
         _item.Size() > 0 &&
-        long(_item.Size()) < m_MaxFilesizeForThumbnailsOnNativeFS;
+        long(_item.Size()) < m_MaxFilesizeForThumbnailsOnNativeFS &&
+        _item.HasExtension() &&
+        m_ExtensionsWhitelist->AllowExtension(_item.Extension());
 }
 
 bool IconBuilderImpl::ShouldTryProducingQLThumbnailOnVFS(const VFSListingItem &_item) const
@@ -156,7 +160,8 @@ bool IconBuilderImpl::ShouldTryProducingQLThumbnailOnVFS(const VFSListingItem &_
     return _item.IsDir() == false &&
         _item.Size() > 0 &&
         long(_item.Size()) < m_MaxFilesizeForThumbnailsOnVFS &&
-        _item.HasExtension();        
+        _item.HasExtension() &&
+        m_ExtensionsWhitelist->AllowExtension(_item.Extension());        
 }
  
 static bool MightBeBundle(const VFSListingItem &_item)

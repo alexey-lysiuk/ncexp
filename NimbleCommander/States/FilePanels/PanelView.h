@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include <VFS/VFS.h>
@@ -21,7 +21,7 @@ namespace nc::panel {
     struct PanelViewLayout;
     namespace data {
         struct ItemVolatileData;
-        struct Model;
+        class Model;
     }
 }
 
@@ -81,6 +81,7 @@ namespace nc::panel {
 - (int) sortedItemPosAtPoint:(NSPoint)_window_point hitTestOption:(nc::panel::PanelViewHitTest::Options)_options;
 
 - (void) startFieldEditorRenaming;
+- (void) discardFieldEditor;
 
 //PanelViewLayout
 - (std::any) presentationLayout;

@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PreferencesWindowToolsTab.h"
 #include "../States/FilePanels/ExternalToolsSupport.h"
 #include <Habanero/dispatch_cpp.h>
@@ -98,13 +98,13 @@ static bool AskUserToDeleteTool()
     [self.toolsTable registerForDraggedTypes:@[g_MyPrivateTableViewDataType]];
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)[[maybe_unused]]tableView
 {
     return m_Tools.size();
 }
 
-- (NSView *)tableView:(NSTableView *)tableView
-   viewForTableColumn:(NSTableColumn *)tableColumn
+- (NSView *)tableView:(NSTableView *)[[maybe_unused]]tableView
+   viewForTableColumn:(NSTableColumn *)[[maybe_unused]]tableColumn
                   row:(NSInteger)row
 {
     if( row >= (long)m_Tools.size() )
@@ -122,7 +122,7 @@ static bool AskUserToDeleteTool()
     return tf;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)notification
+- (void)tableViewSelectionDidChange:(NSNotification *)[[maybe_unused]]notification
 {
     NSInteger row = self.toolsTable.selectedRow;
     self.anySelected = row >= 0;
@@ -164,7 +164,7 @@ static bool AskUserToDeleteTool()
     m_ToolsStorage().ReplaceTool(_et, row);
 }
 
-- (IBAction)onToolTitleChanged:(id)sender
+- (IBAction)onToolTitleChanged:(id)[[maybe_unused]]sender
 {
     if( auto t = self.selectedTool ) {
         if( t->m_Title != self.toolTitle.stringValue.UTF8String ) {
@@ -175,7 +175,7 @@ static bool AskUserToDeleteTool()
     }
 }
 
-- (IBAction)onToolPathChanged:(id)sender
+- (IBAction)onToolPathChanged:(id)[[maybe_unused]]sender
 {
     if( auto t = self.selectedTool ) {
         if( t->m_ExecutablePath != self.toolPath.stringValue.UTF8String ) {
@@ -186,7 +186,7 @@ static bool AskUserToDeleteTool()
     }
 }
 
-- (IBAction)onToolParametersChanged:(id)sender
+- (IBAction)onToolParametersChanged:(id)[[maybe_unused]]sender
 {
     if( auto t = self.selectedTool ) {
         if( t->m_Parameters != self.toolParameters.stringValue.UTF8String ) {
@@ -209,7 +209,7 @@ static bool AskUserToDeleteTool()
     }
 }
 
-- (IBAction)onPlusMinusButton:(id)sender
+- (IBAction)onPlusMinusButton:(id)[[maybe_unused]]sender
 {
     const auto segment = self.toolsAddRemove.selectedSegment;
     if( segment == 0 ) {
@@ -231,12 +231,13 @@ static bool AskUserToDeleteTool()
     }
 }
 
-- (IBAction)onAddParameter:(id)sender
+- (IBAction)onAddParameter:(id)[[maybe_unused]]sender
 {
-    NSRect r = [self.view.window convertRectToScreen:self.addParameterButton.frame];
+    const auto rect = self.addParameterButton.bounds;
     [self.parametersMenu popUpMenuPositioningItem:nil
-                                       atLocation:NSMakePoint(NSMinX(r), NSMinY(r))
-                                           inView:nil];
+                                       atLocation:NSMakePoint(NSMinX(rect), NSMaxY(rect) + 4.0)
+                                           inView:self.addParameterButton];
+
 }
 
 - (IBAction)onAddParametersMenuItemClicked:(id)sender
@@ -246,7 +247,7 @@ static bool AskUserToDeleteTool()
             [self insertStringIntoParameters:s];
 }
 
-- (IBAction)onStartupModeChanged:(id)sender
+- (IBAction)onStartupModeChanged:(id)[[maybe_unused]]sender
 {
     if( auto t = self.selectedTool ) {
         if( t->m_StartupMode != (ExternalTool::StartupMode)self.toolStartupMode.selectedTag ) {
@@ -298,7 +299,7 @@ static bool AskUserToDeleteTool()
     [self onToolTitleChanged:self.toolTitle];
 }
 
-- (IBAction)onSetApplicationPathButtonClicked:(id)sender
+- (IBAction)onSetApplicationPathButtonClicked:(id)[[maybe_unused]]sender
 {
     if( !self.selectedTool )
         return;
@@ -328,12 +329,17 @@ static bool AskUserToDeleteTool()
         }
 }
 
-- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
+- (NSDragOperation)tableView:(NSTableView *)[[maybe_unused]]aTableView
+validateDrop:(id < NSDraggingInfo >)[[maybe_unused]]info
+proposedRow:(NSInteger)[[maybe_unused]]row 
+proposedDropOperation:(NSTableViewDropOperation)operation
 {
     return operation == NSTableViewDropOn ? NSDragOperationNone : NSDragOperationMove;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
+- (BOOL)tableView:(NSTableView *)[[maybe_unused]]aTableView 
+writeRowsWithIndexes:(NSIndexSet *)rowIndexes 
+toPasteboard:(NSPasteboard *)pboard
 {
     [pboard declareTypes:@[g_MyPrivateTableViewDataType]
                    owner:self];
@@ -342,10 +348,10 @@ static bool AskUserToDeleteTool()
     return true;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView
+- (BOOL)tableView:(NSTableView *)[[maybe_unused]]aTableView
        acceptDrop:(id<NSDraggingInfo>)info
               row:(NSInteger)drag_to
-    dropOperation:(NSTableViewDropOperation)operation
+    dropOperation:(NSTableViewDropOperation)[[maybe_unused]]operation
 {
     NSData* data = [info.draggingPasteboard dataForType:g_MyPrivateTableViewDataType];
     NSIndexSet* inds = [NSKeyedUnarchiver unarchiveObjectWithData:data];

@@ -1,6 +1,6 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "WebDAVConnectionSheetController.h"
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include <boost/algorithm/string.hpp>
 #include <Utility/StringExtras.h>
 
@@ -36,7 +36,7 @@
 - (void) windowDidLoad
 {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
 
     if( self.setupMode )
         self.connectButton.title = self.connectButton.alternateTitle;
@@ -91,7 +91,7 @@ static std::string TrimSlashes(std::string _str)
     return _str;
 }
 
-- (IBAction)onConnect:(id)sender
+- (IBAction)onConnect:(id)[[maybe_unused]]_sender
 {
     if( m_Original)
         m_Connection.uuid = m_Original->Uuid();
@@ -113,12 +113,12 @@ static std::string TrimSlashes(std::string _str)
     [self endSheet:NSModalResponseOK];
 }
 
-- (IBAction)onCancel:(id)sender
+- (IBAction)onCancel:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseCancel];
 }
 
-- (void)controlTextDidChange:(NSNotification *)obj
+- (void)controlTextDidChange:(NSNotification *)[[maybe_unused]]_obj
 {
     [self validate];
 }

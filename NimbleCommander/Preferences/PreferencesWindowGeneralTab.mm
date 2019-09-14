@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "../Bootstrap/AppDelegate.h"
 #include "PreferencesWindowGeneralTab.h"
 #include <Habanero/dispatch_cpp.h>
@@ -11,9 +11,10 @@ using namespace std::literals;
 
 @implementation PreferencesWindowGeneralTab
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString*)[[maybe_unused]] _nibNameOrNil
+               bundle:(NSBundle*)_nibBundleOrNil
 {
-    self = [super initWithNibName:NSStringFromClass(self.class) bundle:nibBundleOrNil];
+    self = [super initWithNibName:NSStringFromClass(self.class) bundle:_nibBundleOrNil];
     if (self) {
         // Initialization code here.
     }
@@ -39,7 +40,7 @@ using namespace std::literals;
                                       "General preferences tab title");
 }
 
-- (IBAction)ResetToDefaults:(id)sender
+- (IBAction)ResetToDefaults:(id)[[maybe_unused]]_sender
 {
     [(NCAppDelegate*)[NSApplication sharedApplication].delegate askToResetDefaults];
 }

@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <Utility/PathManip.h>
 #include "../Native/Host.h"
 #include "../ListingInput.h"
@@ -107,7 +107,9 @@ VFSMeta UnRARHost::Meta()
 {
     VFSMeta m;
     m.Tag = UniqueTag;
-    m.SpawnWithConfig = [](const VFSHostPtr &_parent, const VFSConfiguration& _config, VFSCancelChecker _cancel_checker) {
+    m.SpawnWithConfig = [](const VFSHostPtr &_parent,
+                           const VFSConfiguration& _config,
+                           [[maybe_unused]] VFSCancelChecker _cancel_checker) {
         return std::make_shared<UnRARHost>(_parent, _config);
     };
     return m;
@@ -285,12 +287,13 @@ Directory *UnRARHost::FindOrBuildDirectory(const std::string& _path_with_tr_sl)
 int UnRARHost::FetchDirectoryListing(const char *_path,
                                      std::shared_ptr<VFSListing> &_target,
                                      unsigned long _flags,
-                                     const VFSCancelChecker &_cancel_checker)
+                                     [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     auto dir = FindDirectory(_path);
     if(!dir)
         return VFSError::NotFound;
 
+    using nc::base::variable_container;
     ListingInput listing_source;
     listing_source.hosts[0] = shared_from_this();
     listing_source.directories[0] = EnsureTrailingSlash(_path);
@@ -365,12 +368,15 @@ const Directory *UnRARHost::FindDirectory(const std::string& _path) const
     return &i->second;
 }
 
-int UnRARHost::Stat(const char *_path, VFSStat &_st, unsigned long _flags, const VFSCancelChecker &_cancel_checker)
+int UnRARHost::Stat(const char *_path,
+                    VFSStat &_st,
+                    [[maybe_unused]] unsigned long _flags,
+                    [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     static VFSStat::meaningT m;
     static std::once_flag once;
     call_once(once, []{
-        memset(&m, sizeof(m), 0);
+        memset(&m, 0, sizeof(m));
         m.size = 1;
         m.mode = 1;
         m.mtime = 1;
@@ -529,7 +535,9 @@ uint32_t UnRARHost::LastItemUUID() const
     return m_LastItemUID;
 };
 
-int UnRARHost::StatFS(const char *_path, VFSStatFS &_stat, const VFSCancelChecker &_cancel_checker)
+int UnRARHost::StatFS([[maybe_unused]] const char *_path,
+                      VFSStatFS &_stat,
+                      [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     char vol_name[256];
     if(!GetFilenameFromPath(JunctionPath(), vol_name))

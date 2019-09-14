@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/xattr.h>
 #include "xattr.h"
 #include <VFS/VFSFile.h>
@@ -166,7 +166,9 @@ VFSMeta XAttrHost::Meta()
 {
     VFSMeta m;
     m.Tag = UniqueTag;
-    m.SpawnWithConfig = [](const VFSHostPtr &_parent, const VFSConfiguration& _config, VFSCancelChecker _cancel_checker) {
+    m.SpawnWithConfig = [](const VFSHostPtr &_parent,
+                           const VFSConfiguration& _config,
+                           [[maybe_unused]] VFSCancelChecker _cancel_checker) {
         return std::make_shared<XAttrHost>(_parent, _config);
     };
     return m;
@@ -192,10 +194,12 @@ int XAttrHost::Fetch()
 int XAttrHost::FetchDirectoryListing(const char *_path,
                                      std::shared_ptr<VFSListing> &_target,
                                      unsigned long _flags,
-                                     const VFSCancelChecker &_cancel_checker)
+                                     [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if( !_path || _path != std::string_view("/") )
         return VFSError::InvalidCall;
+    
+    using nc::base::variable_container;
     
     // set up or listing structure
     ListingInput listing_source;
@@ -233,12 +237,15 @@ int XAttrHost::FetchDirectoryListing(const char *_path,
     return VFSError::Ok;
 }
 
-int XAttrHost::Stat(const char *_path, VFSStat &_st, unsigned long _flags, const VFSCancelChecker &_cancel_checker)
+int XAttrHost::Stat(const char *_path,
+                    VFSStat &_st,
+                    [[maybe_unused]] unsigned long _flags,
+                    [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if( !is_absolute_path(_path) )
         return VFSError::NotFound;
 
-    memset(&_st, sizeof(_st), 0);
+    memset(&_st, 0, sizeof(_st));
     _st.meaning.size = true;
     _st.meaning.mode = true;
     _st.meaning.atime = true;
@@ -281,7 +288,8 @@ int XAttrHost::CreateFile(const char* _path,
     return VFSError::Ok;
 }
 
-int XAttrHost::Unlink(const char *_path, const VFSCancelChecker &_cancel_checker)
+int XAttrHost::Unlink(const char *_path,
+                      [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if( !_path || _path[0] != '/' )
         return VFSError::FromErrno(ENOENT);
@@ -294,7 +302,9 @@ int XAttrHost::Unlink(const char *_path, const VFSCancelChecker &_cancel_checker
     return VFSError::Ok;
 }
 
-int XAttrHost::Rename(const char *_old_path, const char *_new_path, const VFSCancelChecker &_cancel_checker)
+int XAttrHost::Rename(const char *_old_path,
+                      const char *_new_path,
+                      [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if( !_old_path || _old_path[0] != '/' ||
         !_new_path || _new_path[0] != '/' )
@@ -341,7 +351,8 @@ XAttrFile::XAttrFile(const std::string &_xattr_path,
 {
 }
 
-int XAttrFile::Open(unsigned long _open_flags, const VFSCancelChecker &_cancel_checker)
+int XAttrFile::Open(unsigned long _open_flags,
+                    [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if( IsOpened() )
         return VFSError::InvalidCall;

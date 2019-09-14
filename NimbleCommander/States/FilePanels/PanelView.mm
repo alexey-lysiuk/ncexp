@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PanelView.h"
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
 #include <Utility/NSEventModifierFlagsHolder.h>
@@ -104,7 +104,7 @@ struct StateStorage
     return self;
 }
 
-- (id)initWithFrame:(NSRect)frame
+- (id)initWithFrame:(NSRect)[[maybe_unused]]_frame
 {
     assert( "don't call [PanelView initWithFrame:(NSRect)frame]" == nullptr );
     return nil;
@@ -408,7 +408,7 @@ struct StateStorage
     [self OnCursorPositionChanged];
 }
 
-- (void) HandleFirstFile;
+- (void) HandleFirstFile
 {
     dispatch_assert_main_queue();
     
@@ -425,7 +425,7 @@ struct StateStorage
     [self OnCursorPositionChanged];
 }
 
-- (void) HandleLastFile;
+- (void) HandleLastFile
 {
     dispatch_assert_main_queue();
     
@@ -614,7 +614,7 @@ struct StateStorage
     [super flagsChanged:event];
 }
 
-- (NSMenu *)panelItem:(int)_sorted_index menuForForEvent:(NSEvent*)_event
+- (NSMenu *)panelItem:(int)_sorted_index menuForForEvent:(NSEvent*)[[maybe_unused]]_event
 {
     if( _sorted_index >= 0 )
         return [self.delegate panelView:self requestsContextMenuForItemNo:_sorted_index];    
@@ -831,6 +831,7 @@ struct StateStorage
   
     m_RenamingEditor = [[NCPanelViewFieldEditor alloc] initWithItem:item];
     __weak PanelView *weak_self = self;
+    __weak NSResponder *current_responder = self.window.firstResponder;
     m_RenamingEditor.onTextEntered = ^(const std::string &_new_filename){
         if( auto sself = weak_self ) {
             if( !sself->m_RenamingEditor )
@@ -842,16 +843,13 @@ struct StateStorage
     };
     m_RenamingEditor.onEditingFinished = ^{
         if( auto sself = weak_self ) {
+            [sself.window makeFirstResponder:current_responder];            
             [sself->m_RenamingEditor removeFromSuperview];
             sself->m_RenamingEditor = nil;
-            
-            if( sself.window.firstResponder == nil || sself.window.firstResponder == sself.window )
-                dispatch_to_main_queue([=]{
-                    [sself.window makeFirstResponder:sself];
-                });
         }
     };
-
+    m_RenamingEditor.editor.nextKeyView = self;
+    
     [m_ItemsView setupFieldEditor:m_RenamingEditor forItemAtIndex:cursor_pos];
     [self.window makeFirstResponder:m_RenamingEditor];
 }
@@ -878,9 +876,12 @@ struct StateStorage
 - (void) dataUpdated
 {
     assert( dispatch_is_main_queue() );
-    if( m_RenamingEditor )
-        if( !self.item || m_RenamingEditor.originalItem.Filename() != self.item.Filename() )
+    if( m_RenamingEditor ) {
+        auto focused = self.item; 
+        if( !focused || m_RenamingEditor.originalItem.Filename() != focused.Filename() ) {
             [self discardFieldEditor];
+        }
+    }
     
     [m_ItemsView dataChanged];
     [m_ItemsView setCursorPosition:m_CursorPos];
@@ -896,7 +897,8 @@ struct StateStorage
     [m_FooterView updateStatistics:m_Data->Stats()];
 }
 
-- (int) sortedItemPosAtPoint:(NSPoint)_window_point hitTestOption:(PanelViewHitTest::Options)_options;
+- (int) sortedItemPosAtPoint:(NSPoint)_window_point
+hitTestOption:(PanelViewHitTest::Options)_options
 {
     
     assert(dispatch_is_main_queue());
@@ -969,13 +971,13 @@ struct StateStorage
     }
 }
 
-- (void)panelItem:(int)_sorted_index fieldEditor:(NSEvent*)_event
+- (void)panelItem:(int)_sorted_index fieldEditor:(NSEvent*)[[maybe_unused]]_event
 {
     if( _sorted_index >= 0 && _sorted_index == m_CursorPos )
         [self startFieldEditorRenaming];
 }
 
-- (void)panelItem:(int)_sorted_index dblClick:(NSEvent*)_event
+- (void)panelItem:(int)_sorted_index dblClick:(NSEvent*)[[maybe_unused]]_event
 {
     if( _sorted_index >= 0 && _sorted_index == m_CursorPos ) {
         if( auto action_dispatcher = self.actionsDispatcher )

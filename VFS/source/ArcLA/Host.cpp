@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <sys/dirent.h>
 #include <Habanero/CFStackAllocator.h>
 #include <Utility/PathManip.h>
@@ -475,7 +475,7 @@ int ArchiveHost::CreateFile(const char* _path,
 int ArchiveHost::FetchDirectoryListing(const char *_path,
                                        std::shared_ptr<VFSListing> &_target,
                                        unsigned long _flags,
-                                       const VFSCancelChecker &_cancel_checker)
+                                       [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     char path[MAXPATHLEN*2];
     int res = ResolvePathIfNeeded(_path, path, _flags);
@@ -491,6 +491,7 @@ int ArchiveHost::FetchDirectoryListing(const char *_path,
     
     const auto &directory = i->second;
     
+    using nc::base::variable_container;
     ListingInput listing_source;
     listing_source.hosts[0] = shared_from_this();
     listing_source.directories[0] = EnsureTrailingSlash(_path);
@@ -562,7 +563,10 @@ bool ArchiveHost::IsDirectory(const char *_path,
     return Host::IsDirectory(_path, _flags, _cancel_checker);
 }
 
-int ArchiveHost::Stat(const char *_path, VFSStat &_st, unsigned long _flags, const VFSCancelChecker &_cancel_checker)
+int ArchiveHost::Stat(const char *_path,
+                      VFSStat &_st,
+                      unsigned long _flags,
+                      [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     if( !_path )
         return VFSError::InvalidCall;
@@ -747,7 +751,9 @@ int ArchiveHost::ResolvePath(const char *_path, char *_resolved_path)
     return result_uid;
 }
 
-int ArchiveHost::StatFS(const char *_path, VFSStatFS &_stat, const VFSCancelChecker &_cancel_checker)
+int ArchiveHost::StatFS([[maybe_unused]] const char *_path,
+                        VFSStatFS &_stat,
+                        [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     char vol_name[256];
     if(!GetFilenameFromPath(JunctionPath(), vol_name))
@@ -989,7 +995,7 @@ const ArchiveHost::Symlink *ArchiveHost::ResolvedSymlink(uint32_t _uid)
 int ArchiveHost::ReadSymlink(const char *_symlink_path,
                              char *_buffer,
                              size_t _buffer_size,
-                             const VFSCancelChecker &_cancel_checker)
+                             [[maybe_unused]] const VFSCancelChecker &_cancel_checker)
 {
     auto entry = FindEntry(_symlink_path);
     if(!entry)

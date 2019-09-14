@@ -1,4 +1,4 @@
-// Copyright (C) 2014-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2014-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #import "TabBarStyle.h"
 #import <MMTabBarView/MMTabStyle.h>
 #import <MMTabBarView/MMAttachedTabBarButton.h>
@@ -17,7 +17,7 @@ using namespace std::literals;
 
 static NSImage *MakeTabCloseFreeImage()
 {
-    auto handler = [](NSRect rc)->BOOL {
+    auto handler = []([[maybe_unused]] NSRect rc)->BOOL {
         [CurrentTheme().FilePanelsTabsPictogramColor() set];
         NSBezierPath *bezier = [NSBezierPath bezierPath];
         [bezier moveToPoint:NSMakePoint(2.5,2.5)];
@@ -94,7 +94,7 @@ static NSBezierPath *MakePlusShape()
 
 static NSImage *MakeTabAddFreeImage()
 {
-    auto handler = [](NSRect rc)->BOOL {
+    auto handler = []([[maybe_unused]] NSRect rc)->BOOL {
         [CurrentTheme().FilePanelsTabsPictogramColor() set];
         [MakePlusShape() stroke];
         return true;
@@ -177,15 +177,16 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
                 g_TabCloseHoverImage = MakeTabCloseHoverImage();
                 g_TabClosePressedImage = MakeTabClosePressedImage();
                 g_TabAddFreeImage = MakeTabAddFreeImage();
+                g_TabAddHoverImage = MakeTabAddHoverImage();
                 g_TabAddPressedImage = MakeTabAddPressedImage();
                 g_LastImagesRebuildTime = machtime();
             }
             
             if( MMTabBarView *sv = v ) {
+                [sv updateImages];
                 [sv windowStatusDidChange:[[NSNotification alloc] initWithName:@""
                                                                         object:nil
                                                                       userInfo:nil]];
-            
                 for( NSView *b in sv.subviews )
                     [b setNeedsDisplay:true];
             }
@@ -195,19 +196,19 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
     return NSMakeSize(NSViewNoInstrinsicMetric, 24);
 }
 
-- (CGFloat)leftMarginForTabBarView:(MMTabBarView *)tabBarView {
+- (CGFloat)leftMarginForTabBarView:(MMTabBarView *)[[maybe_unused]]tabBarView {
         return 0.f;
 }
 
-- (CGFloat)rightMarginForTabBarView:(MMTabBarView *)tabBarView {
+- (CGFloat)rightMarginForTabBarView:(MMTabBarView *)[[maybe_unused]]tabBarView {
         return 0.f;
 }
 
-- (CGFloat)topMarginForTabBarView:(MMTabBarView *)tabBarView {
+- (CGFloat)topMarginForTabBarView:(MMTabBarView *)[[maybe_unused]]tabBarView {
         return 0.0f;
 }
 
-- (CGFloat)heightOfTabBarButtonsForTabBarView:(MMTabBarView *)tabBarView {
+- (CGFloat)heightOfTabBarButtonsForTabBarView:(MMTabBarView *)[[maybe_unused]]tabBarView {
     return 24;
 }
 
@@ -215,7 +216,7 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
     return NSMakeSize(14, [self heightOfTabBarButtonsForTabBarView:tabBarView]);
 }
 
-- (NSSize)addTabButtonSizeForTabBarView:(MMTabBarView *)tabBarView {
+- (NSSize)addTabButtonSizeForTabBarView:(MMTabBarView *)[[maybe_unused]]tabBarView {
     return NSMakeSize(23, 23);
 }
 
@@ -234,7 +235,9 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
     return theRect;
 }
 
-- (BOOL)supportsOrientation:(MMTabBarOrientation)orientation forTabBarView:(MMTabBarView *)tabBarView {
+- (BOOL)supportsOrientation:(MMTabBarOrientation)orientation
+              forTabBarView:(MMTabBarView*)[[maybe_unused]] tabBarView
+{
 
     if (orientation != MMTabBarHorizontalOrientation)
         return NO;
@@ -242,14 +245,18 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
     return YES;
 }
 
-- (NSRect)draggingRectForTabButton:(MMAttachedTabBarButton *)aButton ofTabBarView:(MMTabBarView *)tabBarView {
+- (NSRect)draggingRectForTabButton:(MMAttachedTabBarButton*)aButton
+                      ofTabBarView:(MMTabBarView*)[[maybe_unused]] tabBarView
+{
 
 	NSRect dragRect = [aButton stackingFrame];
 	dragRect.size.width++;
 	return dragRect;
 }
 
-- (void)updateAddButton:(MMRolloverButton *)aButton ofTabBarView:(MMTabBarView *)tabBarView {
+- (void)updateAddButton:(MMRolloverButton*)aButton
+           ofTabBarView:(MMTabBarView*)[[maybe_unused]] tabBarView
+{
     
     [aButton setImage:g_TabAddFreeImage];
     [aButton setImagePosition:NSImageOnly];
@@ -257,7 +264,8 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
     [aButton setRolloverImage:g_TabAddHoverImage];
 }
 
-- (NSImage *)closeButtonImageOfType:(MMCloseButtonImageType)type forTabCell:(MMTabBarButtonCell *)cell
+- (NSImage*)closeButtonImageOfType:(MMCloseButtonImageType)type
+                        forTabCell:(MMTabBarButtonCell*)[[maybe_unused]] cell
 {
     switch (type) {
         case MMCloseButtonImageTypeStandard:
@@ -336,7 +344,7 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
     [bezier stroke];
 }
 
--(void)drawBezelOfTabCell:(MMTabBarButtonCell *)cell
+-(void)drawBezelOfTabCell:(MMTabBarButtonCell *)[[maybe_unused]]cell
                 withFrame:(NSRect)frame
                    inView:(NSView *)controlView
 {
@@ -392,9 +400,10 @@ static std::chrono::nanoseconds g_LastImagesRebuildTime{0};
     [bezier stroke];
 }
 
--(void)drawBezelOfOverflowButton:(MMOverflowPopUpButton *)overflowButton
-                    ofTabBarView:(MMTabBarView *)tabBarView
-                          inRect:(NSRect)rect {
+- (void)drawBezelOfOverflowButton:(MMOverflowPopUpButton*)[[maybe_unused]] overflowButton
+                     ofTabBarView:(MMTabBarView*)[[maybe_unused]] tabBarView
+                           inRect:(NSRect) [[maybe_unused]] rect
+{
 }
 
 @end

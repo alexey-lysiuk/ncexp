@@ -1,4 +1,4 @@
-// Copyright (C) 2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2018-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PanelControllerActionsDispatcher.h"
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
 #include <NimbleCommander/Core/Alert.h>
@@ -46,7 +46,7 @@ static void Perform(SEL _sel, const PanelActionsMap &_map, PanelController *_tar
 }
 
 - (int)bidForHandlingKeyDown:(NSEvent *)_event
-                forPanelView:(PanelView*)_panel_view
+                forPanelView:(PanelView*)[[maybe_unused]]_panel_view
                    andHandle:(bool)_handle
 {
     
@@ -118,8 +118,7 @@ static void Perform(SEL _sel, const PanelActionsMap &_map, PanelController *_tar
     }
     if( hk_file_open_native.IsKeyDown(unicode, modif) ) {
         if( _handle ) {
-            // we keep it here to avoid blinking on menu item
-            actions::OpenFilesWithDefaultHandler{}.Perform(m_PC, m_PC); // ???????????????????????????????????????????
+            [self executeBySelectorIfValidOrBeep:@selector(OnOpenNatively:) withSender:self];
         }
         return view::BiddingPriority::Default;
     }
@@ -167,6 +166,15 @@ static void Perform(SEL _sel, const PanelActionsMap &_map, PanelController *_tar
         return false;
     }
     return false;
+}
+
+- (void)executeBySelectorIfValidOrBeep:(SEL)_selector withSender:(id)_sender
+{
+    const auto is_valid = [self validateActionBySelector:_selector];
+    if( is_valid )
+        Perform(_selector, *m_AM, m_PC, _sender);
+    else
+        NSBeep();
 }
 
 - (id)validRequestorForSendType:(NSString *)sendType
@@ -251,6 +259,7 @@ static void Perform(SEL _sel, const PanelActionsMap &_map, PanelController *_tar
 - (IBAction)OnEjectVolume:(id)sender { PERFORM; }
 - (IBAction)OnCopyCurrentFileName:(id)sender { PERFORM; }
 - (IBAction)OnCopyCurrentFilePath:(id)sender { PERFORM; }
+- (IBAction)OnCopyCurrentFileDirectory:(id)sender { PERFORM; }
 - (IBAction)OnCalculateSizes:(id)sender { PERFORM; }
 - (IBAction)OnCalculateAllSizes:(id)sender { PERFORM; }
 - (IBAction)ToggleViewHiddenFiles:(id)sender { PERFORM; }

@@ -1,4 +1,4 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include <NimbleCommander/Core/SimpleComboBoxPersistentDataSource.h>
 #include "SpotlightSearchPopupViewController.h"
 
@@ -27,7 +27,7 @@ static const auto g_ConfigHistoryPath = "filePanel.findWithSpotlightPopup.querie
     self.queryComboBox.dataSource = m_QueryHistory;
 }
 
-- (IBAction)onQueryComboBox:(id)sender
+- (IBAction)onQueryComboBox:(id)[[maybe_unused]]_sender
 {
     NSString *query = self.queryComboBox.stringValue;
     

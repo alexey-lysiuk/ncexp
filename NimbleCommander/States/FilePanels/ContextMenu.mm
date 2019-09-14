@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ContextMenu.h"
 #include "PanelController.h"
 #include "Actions/CopyToPasteboard.h"
@@ -11,6 +11,10 @@
 #include <Utility/StringExtras.h>
 
 using namespace nc::panel;
+
+@interface NCPanelContextMenuSharingDelegate :NSObject<NSSharingServiceDelegate>
+@property (nonatomic, weak) NSWindow *sourceWindow;
+@end
 
 @implementation NCPanelContextMenu
 {
@@ -29,6 +33,8 @@ using namespace nc::panel;
 
 - (instancetype) initWithItems:(std::vector<VFSListingItem>)_items
                        ofPanel:(PanelController*)_panel
+                withFileOpener:(nc::panel::FileOpener&)_file_opener
+                withUTIDB:(const nc::utility::UTIDB&)_uti_db
 {
     if( _items.empty() )
         throw std::invalid_argument("NCPanelContextMenu.initWithData - there's no items");
@@ -46,9 +52,10 @@ using namespace nc::panel;
         m_DuplicateAction.reset( new actions::context::Duplicate{m_Items} );
         m_CompressHereAction.reset( new actions::context::CompressHere{m_Items} );
         m_CompressToOppositeAction.reset( new actions::context::CompressToOpposite{m_Items} );
-        m_OpenFileAction.reset( new actions::context::OpenFileWithDefaultHandler{m_Items} );
-        
-        m_OpenWithDelegate = [[NCPanelOpenWithMenuDelegate alloc] init];
+        m_OpenFileAction.reset
+            ( new actions::context::OpenFileWithDefaultHandler{m_Items, _file_opener} );
+        m_OpenWithDelegate = [[NCPanelOpenWithMenuDelegate alloc] initWithFileOpener:_file_opener
+            utiDB:_uti_db];
         [m_OpenWithDelegate setContextSource:m_Items];
         m_OpenWithDelegate.target = m_Panel;
         
@@ -249,13 +256,52 @@ using namespace nc::panel;
 
 - (void)OnShareWithService:(id)sender
 {
+    auto delegate = [[NCPanelContextMenuSharingDelegate alloc] init];
+    delegate.sourceWindow = m_Panel.window;
+    
     NSSharingService *service = ((NSMenuItem*)sender).representedObject;
+    service.delegate = delegate;
     [service performWithItems:m_ShareItemsURLs];
 }
 
 - (void)OnDuplicateItem:(id)sender
 {
     m_DuplicateAction->Perform(m_Panel, sender);
+}
+
+@end
+
+@implementation NCPanelContextMenuSharingDelegate
+{
+    NCPanelContextMenuSharingDelegate *m_Self;
+}
+
+- (instancetype)init
+{
+    if( self = [super init] ) {
+        m_Self = self;
+    }
+    return self;
+}
+
+- (void)sharingService:(NSSharingService *)[[maybe_unused]]sharingService
+   didFailToShareItems:(NSArray *)[[maybe_unused]]items
+                 error:(NSError *)[[maybe_unused]]error
+{
+    m_Self = nil;
+}
+
+- (void)sharingService:(NSSharingService *)[[maybe_unused]]sharingService
+         didShareItems:(NSArray *)[[maybe_unused]]items
+{
+    m_Self = nil;
+}
+
+- (nullable NSWindow *)sharingService:(NSSharingService *)[[maybe_unused]]sharingService
+            sourceWindowForShareItems:(NSArray *)[[maybe_unused]]items
+                  sharingContentScope:(NSSharingContentScope *)[[maybe_unused]]sharingContentScope
+{
+    return self.sourceWindow;
 }
 
 @end

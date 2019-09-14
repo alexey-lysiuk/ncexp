@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "ConnectToServer.h"
 #include "FTPConnectionSheetController.h"
 #include "SFTPConnectionSheetController.h"
@@ -9,7 +9,7 @@
 #include <Utility/ObjCpp.h>
 #include <Utility/StringExtras.h>
 #include <NimbleCommander/Core/Alert.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include <Carbon/Carbon.h>
 
 namespace {
@@ -30,27 +30,27 @@ public:
     }
 
 private:
-    virtual void Visit( const NetworkConnectionsManager::FTP &_ftp )
+    virtual void Visit( const NetworkConnectionsManager::FTP & )
     {
         m_Sheet = [[FTPConnectionSheetController alloc] init];
     }
     
-    virtual void Visit( const NetworkConnectionsManager::SFTP &_sftp )
+    virtual void Visit( const NetworkConnectionsManager::SFTP & )
     {
         m_Sheet = [[SFTPConnectionSheetController alloc] init];
     }
 
-    virtual void Visit( const NetworkConnectionsManager::LANShare &_share )
+    virtual void Visit( const NetworkConnectionsManager::LANShare & )
     {
         m_Sheet = [[NetworkShareSheetController alloc] init];
     }
 
-    virtual void Visit( const NetworkConnectionsManager::Dropbox &_share )
+    virtual void Visit( const NetworkConnectionsManager::Dropbox & )
     {
         m_Sheet = [[DropboxAccountSheetController alloc] init];
     }
 
-    virtual void Visit( const NetworkConnectionsManager::WebDAV &_share )
+    virtual void Visit( const NetworkConnectionsManager::WebDAV & )
     {
         m_Sheet = [[WebDAVConnectionSheetController alloc] init];
     }
@@ -101,7 +101,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
 {
     [super windowDidLoad];
     
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
     auto sheet = objc_cast<SheetWithHotkeys>(self.window);
     sheet.onCtrlA = ^{ PeformClickIfEnabled(self.controlButtons, 0); };
@@ -137,7 +137,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
    [self validateButtons];
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)[[maybe_unused]]_tableView
 {
     return m_Connections.size();
 }
@@ -169,7 +169,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
     return tf;
 }
 
-- (nullable NSView *)tableView:(NSTableView *)tableView
+- (nullable NSView *)tableView:(NSTableView *)[[maybe_unused]]_tableView
             viewForTableColumn:(nullable NSTableColumn *)tableColumn
                            row:(NSInteger)row
 {
@@ -187,12 +187,12 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
     return nil;
 }
 
-- (IBAction)onClose:(id)sender
+- (IBAction)onClose:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseCancel];
 }
 
-- (IBAction)onConnect:(id)sender
+- (IBAction)onConnect:(id)[[maybe_unused]]_sender
 {
     const auto row = self.connectionsTable.selectedRow;
     if( row >= 0 )
@@ -201,7 +201,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
     [self endSheet:NSModalResponseOK];
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)notification
+- (void)tableViewSelectionDidChange:(NSNotification *)[[maybe_unused]]_notification
 {
     [self validateButtons];
 }
@@ -215,7 +215,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
     self.connectButton.enabled = has_selection;
 }
 
-- (IBAction)onEdit:(id)sender
+- (IBAction)onEdit:(id)[[maybe_unused]]_sender
 {
     const auto row = self.connectionsTable.selectedRow;
     if( row < 0 )
@@ -277,27 +277,27 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
     }];
 }
 
-- (IBAction)onAddFTPServer:(id)sender
+- (IBAction)onAddFTPServer:(id)[[maybe_unused]]_sender
 {
     [self runNewConnectionSheet:[[FTPConnectionSheetController alloc] init]];
 }
 
-- (IBAction)onAddSFTPServer:(id)sender
+- (IBAction)onAddSFTPServer:(id)[[maybe_unused]]_sender
 {
     [self runNewConnectionSheet:[[SFTPConnectionSheetController alloc] init]];
 }
 
-- (IBAction)onAddWebDAVServer:(id)sender
+- (IBAction)onAddWebDAVServer:(id)[[maybe_unused]]_sender
 {
     [self runNewConnectionSheet:[[WebDAVConnectionSheetController alloc] init]];
 }
 
-- (IBAction)onAddNetworkShare:(id)sender
+- (IBAction)onAddNetworkShare:(id)[[maybe_unused]]_sender
 {
     [self runNewConnectionSheet:[[NetworkShareSheetController alloc] init]];
 }
 
-- (IBAction)onAddDropboxAccount:(id)sender
+- (IBAction)onAddDropboxAccount:(id)[[maybe_unused]]_sender
 {
     [self runNewConnectionSheet:[[DropboxAccountSheetController alloc] init]];
 }
@@ -313,7 +313,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
         [self onEdit:sender];
 }
 
-- (void) showNewConnectionMenu:(id)sender
+- (void) showNewConnectionMenu:(id)[[maybe_unused]]_sender
 {
     const auto origin = NSMakePoint(2, self.controlButtons.bounds.size.height + 3);
     [self.addNewConnectionMenu popUpMenuPositioningItem:nil
@@ -321,7 +321,7 @@ static void PeformClickIfEnabled( NSSegmentedControl* _control, int _segment )
                                                  inView:self.controlButtons];
 }
 
-- (void)onRemoveConnection:(id)sender
+- (void)onRemoveConnection:(id)[[maybe_unused]]_sender
 {
     const auto row = self.connectionsTable.selectedRow;
     if( row < 0 )

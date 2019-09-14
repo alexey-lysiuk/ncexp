@@ -1,22 +1,30 @@
 // Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+#include <Sparkle/Sparkle.h>
+#include <LetsMove/PFMoveApplication.h>
 #include <Habanero/CommonPaths.h>
 #include <Habanero/CFDefaultsCPP.h>
 #include <Habanero/algo.h>
+
 #include <Utility/NSMenu+Hierarchical.h>
 #include <Utility/NativeFSManager.h>
+#include <Utility/TemporaryFileStorageImpl.h>
 #include <Utility/PathManip.h>
 #include <Utility/FunctionKeysPass.h>
 #include <Utility/StringExtras.h>
+#include <Utility/ObjCpp.h>
+#include <Utility/UTIImpl.h>
+
 #include <RoutedIO/RoutedIO.h>
-#include "ThirdParty/NSFileManagerDirectoryLocations/NSFileManager+DirectoryLocations.h"
-#include <NimbleCommander/Core/TemporaryNativeFileStorage.h>
+
 #include <NimbleCommander/Core/ActionsShortcutsManager.h>
 #include <NimbleCommander/Core/Dock.h>
 #include <NimbleCommander/Core/ServicesHandler.h>
 #include <NimbleCommander/Core/ConfigBackedNetworkConnectionsManager.h>
 #include <NimbleCommander/Core/ConnectionsMenuDelegate.h>
 #include <NimbleCommander/Core/Theming/ThemesManager.h>
+#include <NimbleCommander/Core/VFSInstanceManagerImpl.h>
 #include <NimbleCommander/States/Terminal/ShellState.h>
+#include <NimbleCommander/States/MainWindow.h>
 #include <NimbleCommander/States/MainWindowController.h>
 #include <NimbleCommander/States/FilePanels/MainWindowFilePanelState.h>
 #include <NimbleCommander/States/FilePanels/ExternalToolsSupport.h>
@@ -25,26 +33,22 @@
 #include <NimbleCommander/States/FilePanels/FavoritesImpl.h>
 #include <NimbleCommander/States/FilePanels/FavoritesWindowController.h>
 #include <NimbleCommander/States/FilePanels/FavoritesMenuDelegate.h>
-#include <NimbleCommander/Preferences/Preferences.h>
-#include <NimbleCommander/Viewer/InternalViewerController.h>
-#include <NimbleCommander/Viewer/InternalViewerWindowController.h>
-#include <NimbleCommander/GeneralUI/VFSListWindowController.h>
-#include <Operations/Pool.h>
-#include <Operations/AggregateProgressTracker.h>
-#include "AppDelegate.h"
-#include <Config/ConfigImpl.h>
-#include <Config/FileOverwritesStorage.h>
-#include <Config/Executor.h>
-#include "AppDelegate+Migration.h"
-#include "ConfigWiring.h"
-#include "VFSInit.h"
-#include "Interactions.h"
-#include <NimbleCommander/States/MainWindow.h>
-#include "AppDelegate+MainWindowCreation.h"
 #include <NimbleCommander/States/FilePanels/Helpers/ClosedPanelsHistoryImpl.h>
 #include <NimbleCommander/States/FilePanels/Helpers/RecentlyClosedMenuDelegate.h>
-#include <NimbleCommander/Core/VFSInstanceManagerImpl.h>
-#include <Utility/ObjCpp.h>
+#include <NimbleCommander/Preferences/Preferences.h>
+#include <NimbleCommander/GeneralUI/VFSListWindowController.h>
+
+#include <Operations/Pool.h>
+#include <Operations/AggregateProgressTracker.h>
+
+#include <Config/ConfigImpl.h>
+#include <Config/ObjCBridge.h>
+#include <Config/FileOverwritesStorage.h>
+#include <Config/Executor.h>
+
+#include <Viewer/History.h>
+#include <Viewer/ViewerViewController.h>
+#include <Viewer/InternalViewerWindowController.h>
 
 using namespace std::literals;
 using namespace nc::bootstrap;
@@ -57,6 +61,7 @@ static auto g_StateDirPostfix = @"/State/";
 static nc::config::ConfigImpl *g_Config = nullptr;
 static nc::config::ConfigImpl *g_State = nullptr;
 static nc::config::ConfigImpl *g_NetworkConnectionsConfig = nullptr;
+static nc::utility::TemporaryFileStorageImpl *g_TemporaryFileStorage = nullptr;
 
 static const auto g_ConfigForceFn = "general.alwaysUseFnKeysAsFunctional";
 static const auto g_ConfigExternalToolsList = "externalTools.tools_v1";
@@ -126,6 +131,13 @@ static NCAppDelegate *g_Me = nil;
 
 @end
 
+@interface NCViewerWindowDelegateBridge: NSObject<NCViewerWindowDelegate>
+
+- (void)viewerWindowWillShow:(InternalViewerWindowController*)_window;
+- (void)viewerWindowWillClose:(InternalViewerWindowController*)_window;
+
+@end
+
 @implementation NCAppDelegate
 {
     std::vector<NCMainWindowController *>       m_MainWindows;
@@ -138,6 +150,7 @@ static NCAppDelegate *g_Me = nil;
     upward_flag         m_FinishedLaunching;
     std::shared_ptr<nc::panel::FavoriteLocationsStorageImpl> m_Favorites;
     NSMutableArray      *m_FilesToOpen;
+    NCViewerWindowDelegateBridge *m_ViewerWindowDelegateBridge;
 }
 
 @synthesize mainWindowControllers = m_MainWindows;
@@ -151,6 +164,7 @@ static NCAppDelegate *g_Me = nil;
     if(self) {
         g_Me = self;
         m_FilesToOpen = [[NSMutableArray alloc] init];
+        m_ViewerWindowDelegateBridge = [[NCViewerWindowDelegateBridge alloc] init];
         CheckDefaultsReset();
         m_SupportDirectory =
             EnsureTrailingSlash(NSFileManager.defaultManager.
@@ -165,7 +179,7 @@ static NCAppDelegate *g_Me = nil;
     return g_Me;
 }
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
+- (void)applicationWillFinishLaunching:(NSNotification *)[[maybe_unused]]_notification
 {
     RegisterAvailableVFS();
     
@@ -249,7 +263,7 @@ static NCAppDelegate *g_Me = nil;
     };
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)[[maybe_unused]]_notification
 {
     m_FinishedLaunching.toggle();
     
@@ -268,9 +282,8 @@ static NCAppDelegate *g_Me = nil;
     UpdateMenuItemsPlaceholders( "menu.nimble_commander.quit" );
     UpdateMenuItemsPlaceholders( 17000 ); // Menu->Help
     
-    // calling modules running in background
-    TemporaryNativeFileStorage::Instance(); // starting background purging implicitly
-    
+    [self temporaryFileStorage]; // implicitly runs the background temp storage purging
+
     ConfigWiring{GlobalConfig()}.Wire();
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -341,13 +354,13 @@ static NCAppDelegate *g_Me = nil;
     });
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)[[maybe_unused]]_app
 {
     return NO;
 }
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier
-                              state:(NSCoder *)state
+                              state:(NSCoder *)[[maybe_unused]]_state
                   completionHandler:(void (^)(NSWindow *, NSError *))completionHandler
 {
     NSWindow *window = nil;
@@ -356,7 +369,7 @@ static NCAppDelegate *g_Me = nil;
     completionHandler(window, nil);
 }
 
-- (IBAction)onMainMenuNewWindow:(id)sender
+- (IBAction)onMainMenuNewWindow:(id)[[maybe_unused]]_sender
 {
     auto ctrl = [self allocateMainWindowRestoredManually];
     [ctrl showWindow:self];
@@ -384,7 +397,7 @@ static NCAppDelegate *g_Me = nil;
         }
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)[[maybe_unused]]_sender
 {
     bool has_running_ops = false;
     auto controllers = self.mainWindowControllers;
@@ -415,7 +428,7 @@ static NCAppDelegate *g_Me = nil;
     return NSTerminateNow;
 }
 
-- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)[[maybe_unused]]_sender
 {
     return true;
 }
@@ -444,14 +457,14 @@ static NCAppDelegate *g_Me = nil;
     [m_FilesToOpen removeAllObjects];
 }
 
-- (BOOL)application:(NSApplication *)sender openFile:(NSString *)filename
+- (BOOL)application:(NSApplication *)[[maybe_unused]]_sender openFile:(NSString *)filename
 {
     [m_FilesToOpen addObjectsFromArray:@[filename]];
     dispatch_to_main_queue_after(250ms, []{ [g_Me drainFilesToOpen]; });
     return true;
 }
 
-- (void)application:(NSApplication *)sender openFiles:(NSArray<NSString *> *)filenames
+- (void)application:(NSApplication *)[[maybe_unused]]_sender openFiles:(NSArray<NSString *> *)filenames
 {
     [m_FilesToOpen addObjectsFromArray:filenames];
     dispatch_to_main_queue_after(250ms, []{ [g_Me drainFilesToOpen]; });
@@ -468,18 +481,18 @@ static NCAppDelegate *g_Me = nil;
     self.servicesHandler.RevealItem(pboard, data, error);
 }
 
-- (void)OnPreferencesCommand:(id)sender
+- (void)OnPreferencesCommand:(id)[[maybe_unused]]_sender
 {
     ShowPreferencesWindow();
 }
 
-- (IBAction)OnShowHelp:(id)sender
+- (IBAction)OnShowHelp:(id)[[maybe_unused]]_sender
 {
     const auto url = [NSBundle.mainBundle URLForResource:@"Help" withExtension:@"pdf"];
     [NSWorkspace.sharedWorkspace openURL:url];
 }
 
-- (IBAction)OnMenuToggleAdminMode:(id)sender
+- (IBAction)OnMenuToggleAdminMode:(id)[[maybe_unused]]_sender
 {
     if( RoutedIO::Instance().Enabled() )
         RoutedIO::Instance().TurnOff();
@@ -511,6 +524,18 @@ static NCAppDelegate *g_Me = nil;
 {
     static auto global_config_bridge = [[NCConfigObjCBridge alloc] initWithConfig:*g_Config];
     return global_config_bridge;
+}
+
+- (nc::config::Config&) globalConfig
+{
+    assert(g_Config);
+    return *g_Config;
+}
+
+- (nc::config::Config&) stateConfig
+{
+    assert(g_State);
+    return *g_State;
 }
 
 - (ExternalToolsStorage&) externalTools
@@ -587,7 +612,28 @@ static NCAppDelegate *g_Me = nil;
     return nil;
 }
 
-- (IBAction)onMainMenuPerformShowVFSListAction:(id)sender
+- (InternalViewerWindowController*)
+retrieveInternalViewerWindowForPath:(const std::string&)_path
+onVFS:(const std::shared_ptr<VFSHost>&)_vfs
+{
+    dispatch_assert_main_queue();
+    if( auto window = [self findInternalViewerWindowForPath:_path onVFS:_vfs] )
+        return window;
+    auto viewer_factory = [](NSRect rc){
+        return [NCAppDelegate.me makeViewerWithFrame:rc];
+    };
+    auto ctrl = [self makeViewerController];
+    auto window = [[InternalViewerWindowController alloc]
+                   initWithFilepath:_path
+                   at:_vfs
+                   viewerFactory:viewer_factory
+                   controller:ctrl];
+    window.delegate = m_ViewerWindowDelegateBridge;
+    
+    return window;
+}
+
+- (IBAction)onMainMenuPerformShowVFSListAction:(id)[[maybe_unused]]_sender
 {
     static __weak VFSListWindowController *existing_window = nil;
     if( auto w = (VFSListWindowController*)existing_window  )
@@ -599,7 +645,7 @@ static NCAppDelegate *g_Me = nil;
     }
 }
 
-- (IBAction)onMainMenuPerformShowFavorites:(id)sender
+- (IBAction)onMainMenuPerformShowFavorites:(id)[[maybe_unused]]_sender
 {
     static __weak FavoritesWindowController *existing_window = nil;
     if( auto w = (FavoritesWindowController*)existing_window  ) {
@@ -637,7 +683,7 @@ static NCAppDelegate *g_Me = nil;
 
 - (nc::ops::AggregateProgressTracker&) operationsProgressTracker
 {
-    static const auto apt = [self]{
+    static const auto apt = []{
         const auto apt = std::make_shared<nc::ops::AggregateProgressTracker>();
         apt->SetProgressCallback([](double _progress){
             g_Me.dock.SetProgress( _progress );
@@ -700,6 +746,54 @@ static NCAppDelegate *g_Me = nil;
     return nc::utility::NativeFSManager::Instance();
 }
 
+static void DoTemporaryFileStoragePurge()
+{
+    assert( g_TemporaryFileStorage != nullptr );
+    const auto deadline = time(nullptr) - 60 * 60 * 24; // 24 hours back
+    g_TemporaryFileStorage->Purge(deadline);
+    
+    dispatch_after(6h,
+                   dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0),
+                   DoTemporaryFileStoragePurge);
+}
+
+- (nc::utility::TemporaryFileStorage &)temporaryFileStorage
+{
+    const auto instance = []{
+        const auto base_dir = CommonPaths::AppTemporaryDirectory();
+        const auto prefix = ActivationManager::BundleID() + ".tmp.";
+        g_TemporaryFileStorage = new nc::utility::TemporaryFileStorageImpl(base_dir, prefix);
+        dispatch_to_background(DoTemporaryFileStoragePurge);
+        return g_TemporaryFileStorage;
+    }();
+    
+    return *instance;
+}
+
+- (nc::viewer::History&) internalViewerHistory
+{
+    static const auto history_state_path = "viewer.history";
+    static const auto instance = []{
+        auto inst = new nc::viewer::History (*g_Config, *g_State, history_state_path);
+        auto center = NSNotificationCenter.defaultCenter;
+        // Save the history upon application shutdown
+        [center addObserverForName:NSApplicationWillTerminateNotification
+                            object:nil
+                             queue:nil
+                        usingBlock:^([[maybe_unused]] NSNotification * _Nonnull note) {
+                            inst->SaveToStateConfig();
+                        }];
+        return inst;
+    }();
+    return *instance;
+}
+
+- (nc::utility::UTIDB &)utiDB
+{
+    static nc::utility::UTIDBImpl uti_db;
+    return uti_db;
+}
+
 @end
 
 static std::optional<std::string> Load(const std::string &_filepath)
@@ -716,3 +810,17 @@ static std::optional<std::string> Load(const std::string &_filepath)
     in.close();
     return contents;
 }
+
+@implementation NCViewerWindowDelegateBridge
+
+- (void)viewerWindowWillShow:(InternalViewerWindowController*)_window
+{
+    [NCAppDelegate.me addInternalViewerWindow:_window];
+}
+
+- (void)viewerWindowWillClose:(InternalViewerWindowController*)_window
+{
+    [NCAppDelegate.me removeInternalViewerWindow:_window];
+}
+
+@end

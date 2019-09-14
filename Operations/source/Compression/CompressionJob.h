@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #pragma once
 
 #include "../Job.h"
@@ -19,21 +19,21 @@ struct CompressionJobCallbacks
     enum class SourceScanErrorResolution { Stop, Skip, Retry };
     std::function< SourceScanErrorResolution(int _err, const std::string &_path, VFSHost &_vfs) >
     m_SourceScanError =
-    [](int _err, const std::string &_path,VFSHost &_vfs){ return SourceScanErrorResolution::Stop; };
+    [](int, const std::string &, VFSHost &){ return SourceScanErrorResolution::Stop; };
     
     enum class SourceAccessErrorResolution { Stop, Skip, Retry };
     std::function< SourceAccessErrorResolution(int _err, const std::string &_path, VFSHost &_vfs) >
     m_SourceAccessError =
-    [](int _err, const std::string &_path, VFSHost &_vfs){ return SourceAccessErrorResolution::Stop; };
+    [](int, const std::string &, VFSHost &){ return SourceAccessErrorResolution::Stop; };
 
     enum class SourceReadErrorResolution { Stop, Skip };
     std::function< SourceReadErrorResolution(int _err, const std::string &_path, VFSHost &_vfs) >
     m_SourceReadError =
-    [](int _err, const std::string &_path, VFSHost &_vfs){ return  SourceReadErrorResolution::Stop; };
+    [](int, const std::string &, VFSHost &){ return  SourceReadErrorResolution::Stop; };
 
     std::function< void(int _err, const std::string &_path, VFSHost &_vfs) >
     m_TargetWriteError =
-    [](int _err, const std::string &_path, VFSHost &_vfs){};
+    [](int, const std::string &, VFSHost &){};
 };
 
 class CompressionJob final: public Job, public CompressionJobCallbacks
@@ -41,7 +41,8 @@ class CompressionJob final: public Job, public CompressionJobCallbacks
 public:
     CompressionJob(std::vector<VFSListingItem> _src_files,
                    std::string _dst_root,
-                   VFSHostPtr _dst_vfs);
+                   VFSHostPtr _dst_vfs,
+                   std::string _password);
     ~CompressionJob();
 
     const std::string &TargetArchivePath() const;
@@ -56,16 +57,17 @@ private:
                   const std::string &_filename,
                   unsigned _vfs_no,
                   unsigned _basepath_no,
-                  const chained_strings::node *_prefix,
+                  const base::chained_strings::node *_prefix,
                   Source &_ctx);
     bool BuildArchive();
     void ProcessItems();
-    void ProcessItem(const chained_strings::node &_node, int _index);
-    void ProcessDirectoryItem(const chained_strings::node &_node, int _index);
-    void ProcessRegularItem(const chained_strings::node &_node, int _index);
-    void ProcessSymlinkItem(const chained_strings::node &_node, int _index);
+    void ProcessItem(const base::chained_strings::node &_node, int _index);
+    void ProcessDirectoryItem(const base::chained_strings::node &_node, int _index);
+    void ProcessRegularItem(const base::chained_strings::node &_node, int _index);
+    void ProcessSymlinkItem(const base::chained_strings::node &_node, int _index);
 
     std::string FindSuitableFilename(const std::string& _proposed_arcname) const;
+    bool IsEncrypted() const noexcept;
 
     static ssize_t WriteCallback(struct archive *,
                                  void *_client_data,
@@ -73,15 +75,16 @@ private:
                                  size_t _length);
 
 
-    std::vector<VFSListingItem>  m_InitialListingItems;
-    std::string                  m_DstRoot;
-    VFSHostPtr              m_DstVFS;
-    std::string                  m_TargetArchivePath;
+    std::vector<VFSListingItem>     m_InitialListingItems;
+    std::string                     m_DstRoot;
+    VFSHostPtr                      m_DstVFS;
+    std::string                     m_TargetArchivePath;
+    std::string                     m_Password;
     
-    struct ::archive          *m_Archive = nullptr;
-    std::shared_ptr<VFSFile>     m_TargetFile;
+    struct ::archive               *m_Archive = nullptr;
+    std::shared_ptr<VFSFile>        m_TargetFile;
     
-    std::unique_ptr<const Source>m_Source;
+    std::unique_ptr<const Source>   m_Source;
 };
 
 }

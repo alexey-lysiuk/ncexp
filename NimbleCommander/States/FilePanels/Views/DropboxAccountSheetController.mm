@@ -1,9 +1,9 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "DropboxAccountSheetController.h"
 #import <AppAuth.h>
 #include "OIDRedirectHTTPHandler+FixedPort.h"
 #include <VFS/NetDropbox.h>
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+#include <Utility/CocoaAppearanceManager.h>
 #include <NimbleCommander/Bootstrap/NCE.h>
 #include <Utility/StringExtras.h>
 #include <Habanero/dispatch_cpp.h>
@@ -70,7 +70,8 @@ enum class State
 {
     [super windowDidLoad];
     
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+
     
     if( m_Original ) {
         auto &original = m_Original->Get<NetworkConnectionsManager::Dropbox>();
@@ -86,19 +87,19 @@ enum class State
     [self validate];
 }
 
-- (IBAction)onConnect:(id)sender
+- (IBAction)onConnect:(id)[[maybe_unused]]_sender
 {
     m_Connection.title = self.titleField.stringValue.UTF8String;
 
     [self endSheet:NSModalResponseOK];
 }
 
-- (IBAction)onClose:(id)sender
+- (IBAction)onClose:(id)[[maybe_unused]]_sender
 {
     [self endSheet:NSModalResponseCancel];
 }
 
-- (IBAction)onRequestAccess:(id)sender
+- (IBAction)onRequestAccess:(id)[[maybe_unused]]_sender
 {
     m_RedirectHTTPHandler = [[OIDRedirectHTTPHandler alloc] initWithSuccessURL:g_SuccessURL];
     const auto redirectURI = [m_RedirectHTTPHandler startHTTPListenerForPort:g_LoopbackPort

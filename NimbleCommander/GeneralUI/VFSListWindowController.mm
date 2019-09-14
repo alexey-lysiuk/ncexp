@@ -1,5 +1,5 @@
-// Copyright (C) 2016-2018 Michael Kazakov. Subject to GNU General Public License version 3.
-#include <NimbleCommander/Core/Theming/CocoaAppearanceManager.h>
+// Copyright (C) 2016-2019 Michael Kazakov. Subject to GNU General Public License version 3.
+#include <Utility/CocoaAppearanceManager.h>
 #include "../Core/VFSInstanceManager.h"
 #include "../Core/VFSInstancePromise.h"
 #include "VFSListWindowController.h"
@@ -33,7 +33,7 @@ using namespace std::literals;
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
+    nc::utility::CocoaAppearanceManager::Instance().ManageWindowApperance(self.window);
     
     __weak VFSListWindowController *weak_self = self;
     auto cb = [=]{
@@ -59,7 +59,7 @@ using namespace std::literals;
     [self.vfsTable reloadData];
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)[[maybe_unused]]tableView
 {
     if( self.listType.selectedSegment == 0 )
         return m_Manager->AliveHosts().size();
@@ -67,7 +67,7 @@ using namespace std::literals;
         return m_Manager->KnownVFSCount();
 }
 
-- (nullable NSView *)tableView:(NSTableView *)tableView
+- (nullable NSView *)tableView:(NSTableView *)[[maybe_unused]]tableView
             viewForTableColumn:(nullable NSTableColumn *)tableColumn
                            row:(NSInteger)row
 {
@@ -123,14 +123,14 @@ using namespace std::literals;
     return nil;
 }
 
-- (void)windowWillClose:(NSNotification *)notification
+- (void)windowWillClose:(NSNotification *)[[maybe_unused]]_notification
 {
     dispatch_to_main_queue_after(10ms, [=]{
         m_Self = nil;
     });
 }
 
-- (IBAction)onTypeChanged:(id)sender
+- (IBAction)onTypeChanged:(id)[[maybe_unused]]_sender
 {
     [self updateData];
 }

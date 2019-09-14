@@ -1,4 +1,4 @@
-// Copyright (C) 2013-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2013-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "PreferencesWindowPanelsTab.h"
 #include <Utility/HexadecimalColor.h>
 #include <Utility/FontExtras.h>
@@ -104,14 +104,14 @@ static const auto g_LayoutColumnsDDType = @"PreferencesWindowPanelsTabPrivateTab
 
 @implementation PreferencesWindowPanelsTab
 {
-    shared_ptr<PanelViewLayoutsStorage> m_LayoutsStorage;
-    vector< pair<PanelListViewColumnsLayout::Column, bool> > m_LayoutListColumns;
+    std::shared_ptr<PanelViewLayoutsStorage> m_LayoutsStorage;
+    std::vector< std::pair<PanelListViewColumnsLayout::Column, bool> > m_LayoutListColumns;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)[[maybe_unused]]nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    static once_flag once;
-    call_once(once, []{
+    static std::once_flag once;
+    std::call_once(once, []{
         NSImage *image = [[NSImage alloc] initWithContentsOfFile:
 @"/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/GenericApplicationIcon.icns"];
         if( image )
@@ -222,7 +222,10 @@ static NSString* PanelListColumnTypeToString( PanelListViewColumns _c )
     return nil;
 }
 
-- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
+- (NSDragOperation)tableView:(NSTableView *)aTableView
+validateDrop:(id < NSDraggingInfo >)[[maybe_unused]]info
+proposedRow:(NSInteger)[[maybe_unused]]row
+proposedDropOperation:(NSTableViewDropOperation)operation
 {
     if( aTableView == self.layoutsListColumnsTable )
         return operation == NSTableViewDropOn ? NSDragOperationNone : NSDragOperationMove;
@@ -244,7 +247,7 @@ static NSString* PanelListColumnTypeToString( PanelListViewColumns _c )
 - (BOOL)tableView:(NSTableView *)aTableView
        acceptDrop:(id<NSDraggingInfo>)info
               row:(NSInteger)drag_to
-    dropOperation:(NSTableViewDropOperation)operation
+    dropOperation:(NSTableViewDropOperation)[[maybe_unused]]operation
 {
     if( aTableView == self.layoutsListColumnsTable ) {
         NSIndexSet* inds = [NSKeyedUnarchiver unarchiveObjectWithData:[info.draggingPasteboard dataForType:g_LayoutColumnsDDType]];
@@ -268,7 +271,7 @@ static NSString* PanelListColumnTypeToString( PanelListViewColumns _c )
     return false;
 }
 
-- (shared_ptr<const PanelViewLayout>) selectedLayout
+- (std::shared_ptr<const PanelViewLayout>) selectedLayout
 {
     const auto row = self.layoutsTable.selectedRow;
     return m_LayoutsStorage->GetLayout((int)row);
@@ -288,7 +291,7 @@ static NSString* PanelListColumnTypeToString( PanelListViewColumns _c )
 //    NSInteger row = self.toolsTable.selectedRow;
 }
 
-- (IBAction)onLayoutTypeChanged:(id)sender
+- (IBAction)onLayoutTypeChanged:(id)[[maybe_unused]]sender
 {
     if( auto l = self.selectedLayout ) {
         auto new_layout = *l;
@@ -314,7 +317,7 @@ static NSString* PanelListColumnTypeToString( PanelListViewColumns _c )
 
         if( new_layout != *l ) {
             const auto row = (int)self.layoutsTable.selectedRow;
-            m_LayoutsStorage->ReplaceLayoutWithMandatoryNotification( move(new_layout), row );
+            m_LayoutsStorage->ReplaceLayoutWithMandatoryNotification( std::move(new_layout), row );
             [self fillLayoutFields];
         }
     }
@@ -418,7 +421,7 @@ static NSString *LayoutTypeToTabIdentifier( PanelViewLayout::Type _t )
     [self commitLayoutChanges];
 }
 
-- (IBAction)onLayoutTitleChanged:(id)sender
+- (IBAction)onLayoutTitleChanged:(id)[[maybe_unused]]sender
 {
     [self commitLayoutChanges];
     [self.layoutsTable reloadDataForRowIndexes:
@@ -426,7 +429,7 @@ static NSString *LayoutTypeToTabIdentifier( PanelViewLayout::Type _t )
                                  columnIndexes:[NSIndexSet indexSetWithIndex:0]];
 }
 
-- (IBAction)onLayoutBriefIcon0xClicked:(id)sender
+- (IBAction)onLayoutBriefIcon0xClicked:(id)[[maybe_unused]]sender
 {
     self.layoutsBriefIcon0x.state = true;
     self.layoutsBriefIcon1x.state = false;
@@ -434,7 +437,7 @@ static NSString *LayoutTypeToTabIdentifier( PanelViewLayout::Type _t )
     [self commitLayoutChanges];
 }
 
-- (IBAction)onLayoutBriefIcon1xClicked:(id)sender
+- (IBAction)onLayoutBriefIcon1xClicked:(id)[[maybe_unused]]sender
 {
     self.layoutsBriefIcon0x.state = false;
     self.layoutsBriefIcon1x.state = true;
@@ -442,7 +445,7 @@ static NSString *LayoutTypeToTabIdentifier( PanelViewLayout::Type _t )
     [self commitLayoutChanges];
 }
 
-- (IBAction)onLayoutBriefIcon2xClicked:(id)sender
+- (IBAction)onLayoutBriefIcon2xClicked:(id)[[maybe_unused]]sender
 {
     self.layoutsBriefIcon0x.state = false;
     self.layoutsBriefIcon1x.state = false;
@@ -450,7 +453,7 @@ static NSString *LayoutTypeToTabIdentifier( PanelViewLayout::Type _t )
     [self commitLayoutChanges];
 }
 
-- (IBAction)onLayoutBriefParamChanged:(id)sender
+- (IBAction)onLayoutBriefParamChanged:(id)[[maybe_unused]]sender
 {
     [self commitLayoutChanges];
 }
@@ -470,7 +473,7 @@ static NSString *LayoutTypeToTabIdentifier( PanelViewLayout::Type _t )
         
         if( new_layout != *l ) {
             const auto row = (int)self.layoutsTable.selectedRow;
-            m_LayoutsStorage->ReplaceLayoutWithMandatoryNotification( move(new_layout), row );
+            m_LayoutsStorage->ReplaceLayoutWithMandatoryNotification( std::move(new_layout), row );
         }
     }
 }

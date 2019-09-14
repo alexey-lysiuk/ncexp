@@ -1,4 +1,4 @@
-// Copyright (C) 2017-2018 Michael Kazakov. Subject to GNU General Public License version 3.
+// Copyright (C) 2017-2019 Michael Kazakov. Subject to GNU General Public License version 3.
 #include "Compress.h"
 #include "../PanelController.h"
 #include "../PanelView.h"
@@ -8,6 +8,7 @@
 #include <VFS/VFS.h>
 #include <Utility/PathManip.h>
 #include <Operations/Compression.h>
+#include <Operations/CompressDialog.h>
 #include <Habanero/dispatch_cpp.h>
 
 namespace nc::panel::actions {
@@ -31,23 +32,34 @@ bool CompressHere::Predicate( PanelController *_target ) const
     return !i.IsDotDot() || _target.data.Stats().selected_entries_amount > 0;
 }
 
-void CompressHere::Perform( PanelController *_target, id _sender ) const
+void CompressHere::Perform( PanelController *_target, id ) const
 {
     auto entries = _target.selectedEntriesOrFocusedEntry;
     if( entries.empty() )
         return;
+
+    auto dialog = [[NCOpsCompressDialog alloc] initWithItems:entries
+                                              destinationVFS:_target.vfs 
+                                          initialDestination:_target.currentDirectoryPath];
     
-
-    auto op = std::make_shared<nc::ops::Compression>(std::move(entries),
-                                                     _target.currentDirectoryPath,
-                                                     _target.vfs);
-    const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
-    __weak PanelController *weak_target = _target;
-    op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
-        FocusResult((PanelController*)weak_target, weak_op.lock());
-    });
-
-    [_target.mainWindowController enqueueOperation:op];
+    const auto handler = ^(NSModalResponse returnCode){
+        if( returnCode != NSModalResponseOK )
+            return;
+        
+        auto op = std::make_shared<nc::ops::Compression>(entries,
+                                                         dialog.destination,
+                                                         _target.vfs,
+                                                         dialog.password);
+        const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
+        __weak PanelController *weak_target = _target;
+        op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
+            FocusResult((PanelController*)weak_target, weak_op.lock());
+        });
+        
+        [_target.mainWindowController enqueueOperation:op];
+    };
+    
+    [_target.mainWindowController beginSheet:dialog.window completionHandler:handler];
 }
 
 bool CompressToOpposite::Predicate( PanelController *_target ) const
@@ -65,7 +77,7 @@ bool CompressToOpposite::Predicate( PanelController *_target ) const
     return opposite.isUniform && opposite.vfs->IsWritable();
 }
 
-void CompressToOpposite::Perform( PanelController *_target, id _sender ) const
+void CompressToOpposite::Perform( PanelController *_target, id ) const
 {
     const auto opposite_panel = FindVisibleOppositeController(_target);
     if( !opposite_panel.isUniform || !opposite_panel.vfs->IsWritable() )
@@ -74,17 +86,29 @@ void CompressToOpposite::Perform( PanelController *_target, id _sender ) const
     auto entries = _target.selectedEntriesOrFocusedEntry;
     if(entries.empty())
         return;
-
-    auto op = std::make_shared<nc::ops::Compression>(std::move(entries),
-                                                     opposite_panel.currentDirectoryPath,
-                                                     opposite_panel.vfs);
-    const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
-    __weak PanelController *weak_target = opposite_panel;
-    op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
-        FocusResult((PanelController*)weak_target, weak_op.lock());
-    });
-
-    [_target.mainWindowController enqueueOperation:op];
+    
+    auto dialog = [[NCOpsCompressDialog alloc] initWithItems:entries
+                                              destinationVFS:opposite_panel.vfs 
+                                          initialDestination:opposite_panel.currentDirectoryPath];
+    
+    const auto handler = ^(NSModalResponse returnCode){
+        if( returnCode != NSModalResponseOK )
+            return;
+                
+        auto op = std::make_shared<nc::ops::Compression>(entries,
+                                                         dialog.destination,
+                                                         opposite_panel.vfs,
+                                                         dialog.password);
+        const auto weak_op = std::weak_ptr<nc::ops::Compression>{op};
+        __weak PanelController *weak_target = opposite_panel;
+        op->ObserveUnticketed(nc::ops::Operation::NotifyAboutCompletion, [weak_target, weak_op] {
+            FocusResult((PanelController*)weak_target, weak_op.lock());
+        });
+        
+        [_target.mainWindowController enqueueOperation:op];
+    };
+    
+    [_target.mainWindowController beginSheet:dialog.window completionHandler:handler];
 }
 
 context::CompressHere::CompressHere(const std::vector<VFSListingItem>&_items):
@@ -115,7 +139,7 @@ bool context::CompressHere::ValidateMenuItem( PanelController *_target, NSMenuIt
     return Predicate(_target);
 }
 
-void context::CompressHere::Perform( PanelController *_target, id _sender ) const
+void context::CompressHere::Perform( PanelController *_target, id ) const
 {
     auto entries = m_Items;
     auto op = std::make_shared<nc::ops::Compression>(std::move(entries),
@@ -165,7 +189,7 @@ bool context::CompressToOpposite::ValidateMenuItem( PanelController *_target, NS
     return Predicate(_target);
 }
 
-void context::CompressToOpposite::Perform( PanelController *_target, id _sender ) const
+void context::CompressToOpposite::Perform( PanelController *_target, id ) const
 {
     const auto opposite_panel = FindVisibleOppositeController(_target);
     if( !opposite_panel.isUniform || !opposite_panel.vfs->IsWritable() )
